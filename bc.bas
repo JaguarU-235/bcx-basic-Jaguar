@@ -1533,6 +1533,7 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"pellespath$",""                 ,0,comvt_BAD}, ',FilMan024    ,0},
   {"pixels","pixels"                ,0,comvt_BAD}, ',NULL         ,83886083},
   {"playwav",""                     ,0,comvt_BAD}, ',SUB_329      ,83886081},
+  {"plot",""                        ,0,comvt_BAD}, ',NULL         ,83886083},
   {"poke","memmove"                 ,0,comvt_BAD}, ',NULL         ,83886081},
   {"pos",""                         ,0,comvt_R4 }, ',DOSPro007    ,83886081},
   {"pow","pow"                      ,0,comvt_R8 }, ',NULL         ,83886081},
@@ -10986,6 +10987,30 @@ SUB Emit
   SELECT CASE Lookup$
 
     '********************************************************************
+    CASE "plot"
+    '********************************************************************
+
+    lszTmp$ = ""
+
+    FOR i = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,"plot_px=";lszTmp$;";"
+
+    i++
+
+    lszTmp$ = ""
+
+    FOR j = i TO Ndx                 ' Allow size to be an expression
+      CONCAT(lszTmp$, Clean$(Stk$[j]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,"plot_py=";lszTmp$;";"
+    FPRINT Outfile,Scoot$,"plot();"
+
+    '********************************************************************
     CASE "fprint", "lprint", "sprint"  'LPRINT & FPRINT  handle,{list}
     '********************************************************************
     DIM RAW IsLprint = FALSE
@@ -14879,26 +14904,26 @@ SUB EmitProlog
     FPRINT Outfile,"//                 BCX (c) 1999 - 2009 by Kevin Diggins"
     FPRINT Outfile,"// *********************************************************************"
   END IF
-  FPRINT Outfile,"#include <windows.h>    // Win32 Header File "
-  FPRINT Outfile,"#include <windowsx.h>   // Win32 Header File "
-  FPRINT Outfile,"#include <commctrl.h>   // Win32 Header File "
-  FPRINT Outfile,"#include <commdlg.h>    // Win32 Header File "
-  FPRINT Outfile,"#include <mmsystem.h>   // Win32 Header File "
-  FPRINT Outfile,"#include <shellapi.h>   // Win32 Header File "
-  FPRINT Outfile,"#include <shlobj.h>     // Win32 Header File "
-  FPRINT Outfile,"#include <richedit.h>   // Win32 Header File "
-  FPRINT Outfile,"#include <wchar.h>      // Win32 Header File "
-  FPRINT Outfile,"#include <objbase.h>    // Win32 Header File "
-  FPRINT Outfile,"#include <ocidl.h>      // Win32 Header File "
-  FPRINT Outfile,"#include <winuser.h>    // Win32 Header File "
-  FPRINT Outfile,"#include <olectl.h>     // Win32 Header File "
-  FPRINT Outfile,"#include <oaidl.h>      // Win32 Header File "
-  FPRINT Outfile,"#include <ole2.h>       // Win32 Header File "
-  FPRINT Outfile,"#include <oleauto.h>    // Win32 Header File "
-  FPRINT Outfile,"#include <conio.h>"
-  FPRINT Outfile,"#include <direct.h>"
+  FPRINT Outfile,"//#include <windows.h>    // Win32 Header File "
+  FPRINT Outfile,"//#include <windowsx.h>   // Win32 Header File "
+  FPRINT Outfile,"//#include <commctrl.h>   // Win32 Header File "
+  FPRINT Outfile,"//#include <commdlg.h>    // Win32 Header File "
+  FPRINT Outfile,"//#include <mmsystem.h>   // Win32 Header File "
+  FPRINT Outfile,"//#include <shellapi.h>   // Win32 Header File "
+  FPRINT Outfile,"//#include <shlobj.h>     // Win32 Header File "
+  FPRINT Outfile,"//#include <richedit.h>   // Win32 Header File "
+  FPRINT Outfile,"//#include <wchar.h>      // Win32 Header File "
+  FPRINT Outfile,"//#include <objbase.h>    // Win32 Header File "
+  FPRINT Outfile,"//#include <ocidl.h>      // Win32 Header File "
+  FPRINT Outfile,"//#include <winuser.h>    // Win32 Header File "
+  FPRINT Outfile,"//#include <olectl.h>     // Win32 Header File "
+  FPRINT Outfile,"//#include <oaidl.h>      // Win32 Header File "
+  FPRINT Outfile,"//#include <ole2.h>       // Win32 Header File "
+  FPRINT Outfile,"//#include <oleauto.h>    // Win32 Header File "
+  FPRINT Outfile,"//#include <conio.h>"
+  FPRINT Outfile,"//#include <direct.h>"
   FPRINT Outfile,"#include <ctype.h>"
-  FPRINT Outfile,"#include <io.h>"
+  FPRINT Outfile,"//#include <io.h>"
   FPRINT Outfile,"#include <math.h>"
   FPRINT Outfile,"#include <stdio.h>"
   FPRINT Outfile,"#include <string.h>"
@@ -14909,6 +14934,7 @@ SUB EmitProlog
   FPRINT Outfile,"#include <stdarg.h>"
   FPRINT Outfile,"#include <process.h>"
   FPRINT Outfile,""
+
   IF Use_Library THEN
     FPRINT Outfile,"// END BCXRTHEADER\n\n"
     FPRINT Outfile,""
@@ -15276,6 +15302,9 @@ SUB DeclareVariables
   '*************************************
   'First we declare the simple Variables
   '*************************************
+
+  FPRINT Outfile, "short plot_px, plot_py, plot_colour;"
+  FPRINT Outfile, "void plot();"
 
   FOR i = 1 TO GlobalVarCnt
     IF GlobalVars[i].VarEmitFlag THEN ITERATE
@@ -17400,11 +17429,37 @@ END SUB ' AddProtos
 
 
 SUB RunTimeFunctions
+  DIM crtab$
+  crtab$="\"+"n"+"\"+"t"
   FPRINT Outfile,""
   FPRINT Outfile,"// *************************************************"
   FPRINT Outfile,"//                 " + $BCX_STR_RUNTIME
   FPRINT Outfile,"// *************************************************"
   FPRINT Outfile,""
+
+  FPRINT Outfile,"void plot()"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm__ ("+DQ$+"movem.l	d0-d3/a0,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			move.w	_plot_px,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			move.w	_plot_py,d1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			move.b	_plot_colour,d2"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			btst	#0,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			beq.s	plot_even"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			ror.w	#4,d2"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"plot_even:		asr.w	#1,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			lea		RAPTOR_particle_gfx,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			add.w	d0,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			move.w	d1,d3"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			asl.w	#5,d3"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			asl.w	#7,d1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			add.w	d1,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			add.w	d3,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			or.b	d2,(a0)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+DQ$
+  FPRINT Outfile,DQ$+"                rts"+crtab$+DQ$+");"
+  FPRINT Outfile,"}"
+
 
   IF UseFlag THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: BCX_TmpStr"
