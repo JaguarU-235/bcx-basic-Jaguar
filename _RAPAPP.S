@@ -8,6 +8,7 @@
 ;;
 
 			extern RAPTOR_particle_gfx
+			extern _plot_px,_plot_py,_plot_colour
 
 ;; DO NOT MODIFY THE FOLLOWING LINES
 
@@ -131,7 +132,40 @@ LIST_display					equ				0										; the first display list
 			;lea		basic_ram,a0
 			;move.l	#32000,d0
 			;jmp		LAB_COLD
-			jmp _main
+
+;			move.w	#0,_plot_px
+;			move.w	#0,_plot_py
+;			move.b	#1,_plot_colour
+;	
+;			move.w #100,d7
+;plotloop:	move.w d7,_plot_px
+;			move.w d7,_plot_py
+;			move.b d7,_plot_colour
+;
+;			movem.l	d0-d3/a0,-(a7)
+;			move.w	_plot_px,d0
+;			move.w	_plot_py,d1
+;			move.b	_plot_colour,d2
+;			btst	#0,d0
+;			beq.s	plot_even
+;			ror.w	#4,d2
+;plot_even:		asr.w	#1,d0
+;			lea		RAPTOR_particle_gfx,a0
+;			add.w	d0,a0
+;			move.w	d1,d3
+;			asl.w	#5,d3
+;			asl.w	#7,d1
+;			add.w	d1,a0
+;			add.w	d3,a0
+;			or.b	d2,(a0)
+;			movem.l	(a7)+,d0-d3/a0
+;
+;dbra d7,plotloop
+;;			jsr RAPTOR_wait_frame_UPDATE_ALL
+;
+;a: jmp a
+
+			jmp __Z9basicmainv
 			
 			;		"0123456789012345678901234567890123456789"
 init_txt:	dc.b	"       RAPTOR BASIC v0.1 - REBOOT       ",raptor_t_lf

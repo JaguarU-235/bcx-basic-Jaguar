@@ -1305,6 +1305,7 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"color_bg",""                    ,0,comvt_BAD}, ',DOSPro002    ,0},
   {"color_fg",""                    ,0,comvt_BAD}, ',DOSPro002    ,0},
   {"colorref","COLORREF"            ,0,comvt_BAD}, ',NULL         ,0},
+  {"colour",""                      ,0,comvt_BAD}, ',NULL         ,83886083},
   {"comboboxloadfile",""            ,0,comvt_BAD}, ',FilMan007    ,67108865},
   {"command$",""                    ,0,comvt_BAD}, ',OthPro008    ,67108865},
   {"concat","strcat"                ,0,comvt_BAD}, ',NULL         ,83886081},
@@ -2339,7 +2340,7 @@ FUNCTION main(ARGC AS INTEGER, ARGV AS PCHAR PTR)
     IF bMainOut THEN ITERATE
 
     IF _
-      LEFT$(LTRIM$(Z$),8)  = "int main"          OR _
+      LEFT$(LTRIM$(Z$),8)  = "void basicmain"          OR _
       LEFT$(LTRIM$(Z$),18) = "int WINAPI WinMain" OR _
       LEFT$(LTRIM$(Z$),41) = "__declspec(dllexport) BOOL WINAPI DllMain" THEN
 
@@ -11011,6 +11012,19 @@ SUB Emit
     FPRINT Outfile,Scoot$,"plot();"
 
     '********************************************************************
+    CASE "colour"
+    '********************************************************************
+
+    lszTmp$ = ""
+
+    FOR i = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,"plot_colour=";lszTmp$;"<<4;"
+
+    '********************************************************************
     CASE "fprint", "lprint", "sprint"  'LPRINT & FPRINT  handle,{list}
     '********************************************************************
     DIM RAW IsLprint = FALSE
@@ -11747,7 +11761,8 @@ SUB Emit
     CASE "endprogram"    'Force END of main- allow inclusions outside of main
     '***********************
 
-    FPRINT Outfile,"return 0;         //  End of main program"
+    FPRINT Outfile,"  while(1) {};   //  End of main program"
+    'FPRINT Outfile,"return 0;         //  End of main program"
     FPRINT Outfile,"}\n\n"
     EndOfProgram = 1
 
@@ -13141,8 +13156,10 @@ SUB Emit
     FuncSubDecs3(&VarCode)
 
     IF iMatchLft(VarCode.Header$,"main(")  THEN
-      VarCode.Header$ = "int main(int argc, char *argv[])"
-      VarCode.Proto$  = "int main(int argc, char *argv[]);"
+      'VarCode.Header$ = "int main(int argc, char *argv[])"
+      'VarCode.Proto$  = "int main(int argc, char *argv[]);"
+      VarCode.Header$ = "void basicmain()"
+      VarCode.Proto$  = "void basicmain();"
       CurrentFuncType = vt_INTEGER
     END IF
 
@@ -14885,7 +14902,8 @@ END SUB ' Pop
 
 SUB EmitEpilog
   IF Use_Wingui + MakeDLL + NoMain + EndOfProgram = 0 THEN
-    FPRINT Outfile,"  return 0;   //  End of main program"
+    FPRINT Outfile,"  while(1) {};   //  End of main program"
+    'FPRINT Outfile,"  return 0;   //  End of main program"
     FPRINT Outfile,"}"
     FLUSH(Outfile)
     CALL BumpDown
@@ -14939,7 +14957,8 @@ SUB EmitProlog
     FPRINT Outfile,"// END BCXRTHEADER\n\n"
     FPRINT Outfile,""
   ELSE
-    FPRINT Outfile,"int main(int argc, char *argv[])"
+    'FPRINT Outfile,"int main(int argc, char *argv[])"
+    FPRINT Outfile,"void basicmain()"
     '*****************************************************************************
     '         int main is conditionally removed later IN SUB AddProtos
     '*****************************************************************************
@@ -15303,8 +15322,22 @@ SUB DeclareVariables
   'First we declare the simple Variables
   '*************************************
 
-  FPRINT Outfile, "short plot_px, plot_py, plot_colour;"
+  FPRINT Outfile, "short plot_px, plot_py;"
+  FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "void plot();"
+  FPRINT Outfile, "void colour();"
+  FPRINT Outfile, "int errno; //needed by some libc/libm functions"
+  FPRINT Outfile, "void basicmain(); //main function declaration"
+  FPRINT Outfile, "double y; //needed by some libc/libm functions"
+  FPRINT Outfile, "double yt2; //needed by some libc/libm functions"
+  FPRINT Outfile, "struct exception {"
+  FPRINT Outfile, "	exception_type	type;	/* exception type */"
+  FPRINT Outfile, "	const char	*name;	/* function in which it occured */"
+  FPRINT Outfile, "	double		arg1;	/* an arg */"
+  FPRINT Outfile, "	double		arg2;	/* another arg */"
+  FPRINT Outfile, "	double		retval; /* val to return */"
+  FPRINT Outfile, "};"
+  FPRINT Outfile, "struct exception xcpt; //needed by some libc/libm functions"
 
   FOR i = 1 TO GlobalVarCnt
     IF GlobalVars[i].VarEmitFlag THEN ITERATE
@@ -15789,7 +15822,8 @@ SUB AddProtos
 
   WHILE NOT EOF(FP1)
     LINE INPUT FP1,ZZ$
-    IF INSTR(ZZ$,"int main") THEN
+    'IF INSTR(ZZ$,"int main") THEN
+    IF INSTR(ZZ$,"void basicmain") THEN
       SaveMain$ = ZZ$
       EXIT LOOP
     END IF
@@ -17455,9 +17489,7 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+"			add.w	d1,a0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			add.w	d3,a0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			or.b	d2,(a0)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+DQ$
-  FPRINT Outfile,DQ$+"                rts"+crtab$+DQ$+");"
+  FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+DQ$+");"
   FPRINT Outfile,"}"
 
 
