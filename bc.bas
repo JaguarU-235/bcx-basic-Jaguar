@@ -8875,6 +8875,9 @@ SUB TokenSubstitutions
 
       CASE  21
       SELECT CASE Keyword$
+        CASE "u235pad"
+		Stk$[Tmp]= "U235PAD"
+
         CASE "uint"
         Stk$[Tmp]= "UINT"
 
@@ -15325,6 +15328,7 @@ SUB DeclareVariables
   FPRINT Outfile, "short plot_px, plot_py;"
   FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "void plot();"
+  FPRINT Outfile, "short U235PAD(short pad);"
   FPRINT Outfile, "void colour();"
   FPRINT Outfile, "int errno; //needed by some libc/libm functions"
   FPRINT Outfile, "void basicmain(); //main function declaration"
@@ -17490,6 +17494,23 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+"			add.w	d3,a0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			or.b	d2,(a0)"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+DQ$+");"
+  FPRINT Outfile,"}"
+  FPRINT Outfile,"short U235PAD(short pad)"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm ("+DQ$+"    			cmp.l	#1,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			beq		2f"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			cmp.l	#2,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			beq		3f"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			"+DQ$
+  FPRINT Outfile,DQ$+"1:			moveq	#0,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			bra		4f"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			"+DQ$
+  FPRINT Outfile,DQ$+"2:			move.l	U235SE_pad1,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			bra		4f"+crtab$+DQ$
+  FPRINT Outfile,DQ$+""+DQ$
+  FPRINT Outfile,DQ$+"3:			move.l	U235SE_pad2,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"4: "+DQ$+");"
   FPRINT Outfile,"}"
 
 
