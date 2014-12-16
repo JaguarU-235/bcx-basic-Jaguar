@@ -8453,6 +8453,21 @@ SUB TokenSubstitutions
       CASE  18
       SELECT CASE Keyword$
 
+        CASE "rsetlist"
+		Stk$[Tmp]= "RSETLIST"
+
+        CASE "rsetobj"
+        Stk$[Tmp]= "RSETOBJ"
+
+        CASE "rgetobj"
+        Stk$[Tmp]= "RGETOBJ"
+
+        CASE "rupdall"
+		Stk$[Tmp]= "RUPDALL"
+
+        CASE "rhit"
+        Stk$[Tmp]= "RHIT"
+
         CASE "rewind"
         Stk$[Tmp]= "rewind"
         IF DataType(Stk$[Tmp + 2]) = vt_NUMBER THEN
@@ -15327,8 +15342,14 @@ SUB DeclareVariables
 
   FPRINT Outfile, "short plot_px, plot_py;"
   FPRINT Outfile, "char plot_colour;"
+  FPRINT Outfile, "int r_index,r_offset,r_value;"
   FPRINT Outfile, "void plot();"
   FPRINT Outfile, "short U235PAD(short pad);"
+  FPRINT Outfile, "void RSETLIST(int list_index);"
+  FPRINT Outfile, "void RSETOBJ(int spr_index, int offset, int value);"
+  FPRINT Outfile, "int RGETOBJ(int spr_index, int offset);"
+  FPRINT Outfile, "int RHIT(int r_sl, int r_sh, int r_tl, int r_th);"
+  FPRINT Outfile, "void RUPDALL();"
   FPRINT Outfile, "void colour();"
   FPRINT Outfile, "int errno; //needed by some libc/libm functions"
   FPRINT Outfile, "void basicmain(); //main function declaration"
@@ -17511,6 +17532,54 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+""+DQ$
   FPRINT Outfile,DQ$+"3:			move.l	U235SE_pad2,d0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"4: "+DQ$+");"
+  FPRINT Outfile,"}"
+  FPRINT Outfile,"void RSETLIST(int list_index)"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm__ ("+DQ$+"movem.l	d0-d3/a0,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			move.l	d0,_r_index"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"    			jsr		RAPTOR_setlist"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+DQ$+");"
+  FPRINT Outfile,"}"
+  FPRINT Outfile, "int RHIT(int r_sl, int r_sh, int r_tl, int r_th)"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tmovem.l	d1-d7/a0-a6,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"clr.l	raptor_result"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	d0,raptor_sourcel"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	d1,raptor_sourceh"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	d2,raptor_targetl"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	d3,raptor_targeth"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"lea		RAPTOR_GPU_COLLISION,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr 	RAPTOR_call_GPU_code"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"movem.l	(a7)+,d1-d7/a0-a6"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	raptor_result,d0"+DQ$+");"
+  FPRINT Outfile,"}"
+  FPRINT Outfile, "void RSETOBJ(int spr_index, int offset, int value)"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l	a0,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"lea		RAPTOR_sprite_table,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	d0,_r_index"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"mulu	#188,d0 |sprite_tabwidth - update this if the equ is ever changed!"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"add.l	d0,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"add.l	d1,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l 	d2,(a0)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	(a7)+,a0"+DQ$+");"
+  FPRINT Outfile,"}"
+  FPRINT Outfile, "int RGETOBJ(int spr_index, int offset)"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l	a0,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"lea		RAPTOR_sprite_table,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	d0,_r_index"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"mulu	#188,d0 |sprite_tabwidth - update this if the equ is ever changed!"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"add.l	d0,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"add.l	d1,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	(a0),d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	(a7)+,a0"+DQ$+");"
+  FPRINT Outfile,"}"
+  FPRINT Outfile, "void RUPDALL()"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tmovem.l	d0-d7/a0-a6,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr		RAPTOR_wait_frame_UPDATE_ALL"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"movem.l	(a7)+,d0-d7/a0-a6"+DQ$+");"
   FPRINT Outfile,"}"
 
 
