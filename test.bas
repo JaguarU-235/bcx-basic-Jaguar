@@ -15,13 +15,13 @@ local py[360] as short
 colour 1
 plot 0,0
 
-'for i%=0 to 359
-'	px[i]=100+30*sin(i%*PI/180)
-'	py[i]=150+40*cos(i%*PI/180)
-'next i%
+for i%=0 to 359
+	px[i]=100+30*sin(i%*PI/180)
+	py[i]=150+40*cos(i%*PI/180)
+next i%
 j=1
-cx=160
-cy=100
+cx=0
+cy=0
 a:
 pad=u235pad(1)
 if pad=8 then
@@ -34,11 +34,9 @@ elseif pad=1 then
 	cy=cy-1
 end if
 colour j
-'for i%=0 to 359
-'	'plot px[i]+j+cx,py[i]+j+cy
-'	plot px[i]+j,py[i]+j
-'next i%
-plot cx,cy
+for i%=0 to 359
+	plot px[i]+j+cx,py[i]+j+cy
+next i%
 j=(j+1) band 15
 goto a
 end sub

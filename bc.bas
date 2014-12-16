@@ -15339,11 +15339,13 @@ SUB DeclareVariables
   'First we declare the simple Variables
   '*************************************
 
+  FPRINT Outfile, "extern int U235SE_pad1 asm ("+DQ$+"U235SE_pad1"+DQ$+");"
+  FPRINT Outfile, "extern int U235SE_pad2 asm ("+DQ$+"U235SE_pad2"+DQ$+");"
   FPRINT Outfile, "short plot_px, plot_py;"
   FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "int r_index,r_offset,r_value;"
   FPRINT Outfile, "void plot(short plot_px, short plot_py, char plot_colour);"
-  FPRINT Outfile, "short U235PAD(short pad);"
+  FPRINT Outfile, "int U235PAD(int pad);"
   FPRINT Outfile, "void RSETLIST(int list_index);"
   FPRINT Outfile, "void RSETOBJ(int spr_index, int offset, int value);"
   FPRINT Outfile, "int RGETOBJ(int spr_index, int offset);"
@@ -17518,23 +17520,14 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+"			or.b	d2,(a0)"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			movem.l	(a6)+,d0-d3/a0"+DQ$+");"
   FPRINT Outfile,"}"
-  FPRINT Outfile,"short U235PAD(short pad)"
+  FPRINT Outfile,"int U235PAD(register int pad)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm ("+DQ$+"	move.l 8(sp),d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"				cmp.l	#1,d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			beq		2f"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			cmp.l	#2,d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			beq		3f"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			"+DQ$
-  FPRINT Outfile,DQ$+"1:			moveq	#0,d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			bra		4f"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			"+DQ$
-  FPRINT Outfile,DQ$+"2:			move.l	U235SE_pad1,d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			bra		4f"+crtab$+DQ$
-  FPRINT Outfile,DQ$+""+DQ$
-  FPRINT Outfile,DQ$+"3:			move.l	U235SE_pad2,d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"4: "+DQ$+");"
+  FPRINT Outfile,"	if (pad==1)"
+  FPRINT Outfile,"		return U235SE_pad1;"
+  FPRINT Outfile,"	else if (pad==2)"
+  FPRINT Outfile,"		return U235SE_pad2;"
+  FPRINT Outfile,"	else"
+  FPRINT Outfile,"		return 0;"
   FPRINT Outfile,"}"
   FPRINT Outfile,"void RSETLIST(int list_index)"
   FPRINT Outfile,"{"
