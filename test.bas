@@ -7,17 +7,21 @@ LOCAL i%
 local j as short
 local cx as short
 local cy as short
-local pad as short
+local pad as int
 
 local px[360] as short
 local py[360] as short
-for i%=0 to 359
-	px[i]=100+30*sin(i%*PI/180)
-	py[i]=150+40*cos(i%*PI/180)
-next i%
+
+colour 1
+plot 0,0
+
+'for i%=0 to 359
+'	px[i]=100+30*sin(i%*PI/180)
+'	py[i]=150+40*cos(i%*PI/180)
+'next i%
 j=1
-cx=0
-cy=0
+cx=160
+cy=100
 a:
 pad=u235pad(1)
 if pad=8 then
@@ -30,11 +34,11 @@ elseif pad=1 then
 	cy=cy-1
 end if
 colour j
-for i%=0 to 359
-	'plot_px=px[i]
-	'plot_py=py[i]
-	plot px[i]+j+cx,py[i]+j+cy
-next i%
+'for i%=0 to 359
+'	'plot px[i]+j+cx,py[i]+j+cy
+'	plot px[i]+j,py[i]+j
+'next i%
+plot cx,cy
 j=(j+1) band 15
 goto a
 end sub

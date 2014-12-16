@@ -11016,7 +11016,7 @@ SUB Emit
       CONCAT(lszTmp$, Clean$(Stk$[i]))
     NEXT
 
-    FPRINT Outfile,Scoot$,"plot_px=";lszTmp$;";"
+    FPRINT Outfile,Scoot$,"plot(";lszTmp$;",";
 
     i++
 
@@ -11026,8 +11026,7 @@ SUB Emit
       CONCAT(lszTmp$, Clean$(Stk$[j]))
     NEXT
 
-    FPRINT Outfile,Scoot$,"plot_py=";lszTmp$;";"
-    FPRINT Outfile,Scoot$,"plot();"
+    FPRINT Outfile,lszTmp$;");"
 
     '********************************************************************
     CASE "colour"
@@ -15343,7 +15342,7 @@ SUB DeclareVariables
   FPRINT Outfile, "short plot_px, plot_py;"
   FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "int r_index,r_offset,r_value;"
-  FPRINT Outfile, "void plot();"
+  FPRINT Outfile, "void plot(short plot_px, short plot_py, char plot_colour);"
   FPRINT Outfile, "short U235PAD(short pad);"
   FPRINT Outfile, "void RSETLIST(int list_index);"
   FPRINT Outfile, "void RSETOBJ(int spr_index, int offset, int value);"
@@ -17496,11 +17495,14 @@ SUB RunTimeFunctions
   FPRINT Outfile,"// *************************************************"
   FPRINT Outfile,""
 
-  FPRINT Outfile,"void plot()"
+  FPRINT Outfile,"void plot(short plot_px, short plot_py)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm__ ("+DQ$+"movem.l	d0-d3/a0,-(a7)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"			move.w	_plot_px,d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"			move.w	_plot_py,d1"+crtab$+DQ$
+  FPRINT Outfile,"__asm__ ("+DQ$+"movem.l	d0-d3/a0,-(a6)"+crtab$+DQ$
+'  FPRINT Outfile,DQ$+"			move.w	_plot_px,d0"+crtab$+DQ$
+'  FPRINT Outfile,DQ$+"			move.w	_plot_py,d1"+crtab$+DQ$
+'  FPRINT Outfile,DQ$+"			move.b	_plot_colour,d2"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			move.l	8(sp),d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"			move.l	12(sp),d1"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			move.b	_plot_colour,d2"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			btst	#0,d0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			beq.s	plot_even"+crtab$+DQ$
@@ -17514,11 +17516,12 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+"			add.w	d1,a0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			add.w	d3,a0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			or.b	d2,(a0)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+DQ$+");"
+  FPRINT Outfile,DQ$+"			movem.l	(a6)+,d0-d3/a0"+DQ$+");"
   FPRINT Outfile,"}"
   FPRINT Outfile,"short U235PAD(short pad)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm ("+DQ$+"    			cmp.l	#1,d0"+crtab$+DQ$
+  FPRINT Outfile,"__asm ("+DQ$+"	move.l 8(sp),d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"				cmp.l	#1,d0"+crtab$+DQ$
   FPRINT Outfile,DQ$+"    			beq		2f"+crtab$+DQ$
   FPRINT Outfile,DQ$+"    			"+crtab$+DQ$
   FPRINT Outfile,DQ$+"    			cmp.l	#2,d0"+crtab$+DQ$
