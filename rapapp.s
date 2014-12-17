@@ -9,7 +9,7 @@
 
 			extern RAPTOR_particle_gfx
 			extern RAPTOR_sprite_table
-			extern _plot_px,_plot_py,_plot_colour
+			extern RAPTOR_module_list
 
 ;; DO NOT MODIFY THE FOLLOWING LINES
 
@@ -139,9 +139,6 @@ init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
 			dc.b	raptor_t_quit
 			.even
 			
-;			include	"RBASIC/basic68k.s"
-			
-			.even
 																						; Loop around!
 						
 ;;
@@ -161,9 +158,9 @@ RAPTOR_PRE_Object_List:																	; No unmanaged objects before the list
 RAPTOR_POST_Object_List:																; No unmanaged Objects after the list									
 			rts
 						
-							include		"_RAPPIXL.S"									; RAPTOR particle module user data
-							include 	"_RAPINIT.S"									; RAPTOR object user data
-							include 	"_RAPU235.S"									; RAPTOR u235se user data
+							include		"RAPPIXL.S"									; RAPTOR particle module user data
+							include 	"RAPINIT.S"									; RAPTOR object user data
+							include 	"RAPU235.S"									; RAPTOR u235se user data
 	
 ;; 
 ;; Convert List

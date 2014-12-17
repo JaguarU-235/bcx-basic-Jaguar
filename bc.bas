@@ -15342,8 +15342,8 @@ SUB DeclareVariables
   FPRINT Outfile, "extern int U235SE_pad1 asm ("+DQ$+"U235SE_pad1"+DQ$+");"
   FPRINT Outfile, "extern int U235SE_pad2 asm ("+DQ$+"U235SE_pad2"+DQ$+");"
   FPRINT Outfile, "extern void *RAPTOR_sprite_table asm ("+DQ$+"RAPTOR_sprite_table"+DQ$+");"
-  FPRINT Outfile, "extern void *RAPTOR_GPU_COLLISION asm ("+DQ$+"RAPTOR_GPU_COLLISION"+DQ$+");"
-  FPRINT Outfile, "extern int raptor_result asm ("+DQ$+"raptor_result"+DQ$+");"
+  FPRINT Outfile, "extern void RAPTOR_GPU_COLLISION() asm ("+DQ$+"RAPTOR_GPU_COLLISION"+DQ$+");"
+  FPRINT Outfile, "extern volatile int raptor_result asm ("+DQ$+"raptor_result"+DQ$+");"
   FPRINT Outfile, "extern int raptor_sourcel asm ("+DQ$+"raptor_sourcel"+DQ$+");"
   FPRINT Outfile, "extern int raptor_sourceh asm ("+DQ$+"raptor_sourceh"+DQ$+");"
   FPRINT Outfile, "extern int raptor_targetl asm ("+DQ$+"raptor_targetl"+DQ$+");"
@@ -15352,6 +15352,7 @@ SUB DeclareVariables
   FPRINT Outfile, "extern void *RAPTOR_U235setmodule() asm ("+DQ$+"RAPTOR_U235setmodule"+DQ$+");"
   FPRINT Outfile, "extern void *RAPTOR_U235gomodule_stereo() asm ("+DQ$+"RAPTOR_U235gomodule_stereo"+DQ$+");"
   FPRINT Outfile, "extern void *RAPTOR_U235playsample() asm ("+DQ$+"RAPTOR_U235playsample"+DQ$+");"
+  FPRINT Outfile, "extern void *RAPTOR_U235stopmodule() asm ("+DQ$+"RAPTOR_U235stopmodule"+DQ$+");"
   FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "int U235PAD(int pad);"
   FPRINT Outfile, "void RSETLIST(int list_index);"
@@ -17541,7 +17542,7 @@ SUB RunTimeFunctions
   '***********************************************************************************
   FPRINT Outfile,"void RSETLIST(int list_index)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"	register int d0 asm ("+DQ$+"d0"+DQ$+")=list_index;"
+  FPRINT Outfile,"	int d0 asm ("+DQ$+"d0"+DQ$+")=list_index;"
   FPRINT Outfile,"__asm__ ("+DQ$+"movem.l	d0-d3/a0,-(a7)"+crtab$+DQ$
   FPRINT Outfile,DQ$+"    			jsr		RAPTOR_setlist"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+DQ$+");"
@@ -17549,14 +17550,14 @@ SUB RunTimeFunctions
   '***********************************************************************************
   FPRINT Outfile, "int RHIT(int r_sl, int r_sh, int r_tl, int r_th)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"	void (*jump) ()=(void (*)())RAPTOR_GPU_COLLISION;"
   FPRINT Outfile,"	__asm__ ("+DQ$+"	movem.l	d1-d7/a0-a6,-(a7)"+DQ$+");"
   FPRINT Outfile,"	raptor_result=0;"
   FPRINT Outfile,"	raptor_sourcel=r_sl;"
   FPRINT Outfile,"	raptor_sourceh=r_sh;"
   FPRINT Outfile,"	raptor_targetl=r_tl;"
   FPRINT Outfile,"	raptor_targeth=r_th;"
-  FPRINT Outfile,"	jump();"
+  FPRINT Outfile,"	__asm__ ("+DQ$+"	lea		RAPTOR_GPU_COLLISION,a0"+DQ$+");"
+  FPRINT Outfile,"	__asm__ ("+DQ$+"	jsr 	RAPTOR_call_GPU_code"+DQ$+");"
   FPRINT Outfile,"	__asm__ ("+DQ$+"	movem.l	(a7)+,d1-d7/a0-a6"+DQ$+");"
   FPRINT Outfile,"	return raptor_result;"
   FPRINT Outfile,"}"
@@ -17586,25 +17587,29 @@ SUB RunTimeFunctions
   '***********************************************************************************
   FPRINT Outfile,"void U235MOD(int module)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"	if (module>0)"
+  FPRINT Outfile,"	if (module>=0)"
   FPRINT Outfile,"	{"
-  FPRINT Outfile,"		static int *a0 asm ("+DQ$+"%a0"+DQ$+") __attribute__ ((used));"
-  FPRINT Outfile,"		a0=(int *)&RAPTOR_module_list;"
-  FPRINT Outfile,"		a0=(int *)(a0[module]);"
-  FPRINT Outfile,"		RAPTOR_U235setmodule(); // U235 module Init"
-  FPRINT Outfile,"		RAPTOR_U235gomodule_stereo(); // and start it playing"
+  FPRINT Outfile,"__asm__("+DQ$+"move.l 8(a6),d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l %d0,%a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"add.l %d0,%a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l %a0,%a1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"add.l #RAPTOR_module_list,%a1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l (%a1,%a0.l),%a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr RAPTOR_U235setmodule"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr RAPTOR_U235gomodule_stereo"+DQ$+");"
   FPRINT Outfile,"	}"
   FPRINT Outfile,"	else"
   FPRINT Outfile,"	{"
   FPRINT Outfile,"		//add code to stop module"
+  FPRINT Outfile,"		RAPTOR_U235stopmodule();"
   FPRINT Outfile,"	}"
   FPRINT Outfile,"}"
   '***********************************************************************************
   FPRINT Outfile,"void U235SND(int sampleno,int channel)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"	register int d0 asm ("+DQ$+"d0"+DQ$+")=sampleno;"
-  FPRINT Outfile,"	register int d1 asm ("+DQ$+"d1"+DQ$+")=channel;"
-  FPRINT Outfile,"	RAPTOR_U235playsample();"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l 8(a6),d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l 12(a6),d1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr RAPTOR_U235playsample"+DQ$+");"
   FPRINT Outfile,"}"
 
 
