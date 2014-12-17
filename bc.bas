@@ -15341,6 +15341,13 @@ SUB DeclareVariables
 
   FPRINT Outfile, "extern int U235SE_pad1 asm ("+DQ$+"U235SE_pad1"+DQ$+");"
   FPRINT Outfile, "extern int U235SE_pad2 asm ("+DQ$+"U235SE_pad2"+DQ$+");"
+  FPRINT Outfile, "extern void *RAPTOR_sprite_table asm ("+DQ$+"RAPTOR_sprite_table"+DQ$+");"
+  FPRINT Outfile, "extern void *RAPTOR_GPU_COLLISION asm ("+DQ$+"RAPTOR_GPU_COLLISION"+DQ$+");"
+  FPRINT Outfile, "extern int raptor_result asm ("+DQ$+"raptor_result"+DQ$+");"
+  FPRINT Outfile, "extern int raptor_sourcel asm ("+DQ$+"raptor_sourcel"+DQ$+");"
+  FPRINT Outfile, "extern int raptor_sourceh asm ("+DQ$+"raptor_sourceh"+DQ$+");"
+  FPRINT Outfile, "extern int raptor_targetl asm ("+DQ$+"raptor_targetl"+DQ$+");"
+  FPRINT Outfile, "extern int raptor_targeth asm ("+DQ$+"raptor_targeth"+DQ$+");"
   FPRINT Outfile, "short plot_px, plot_py;"
   FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "int r_index,r_offset,r_value;"
@@ -17520,7 +17527,7 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+"			or.b	d2,(a0)"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			movem.l	(a6)+,d0-d3/a0"+DQ$+");"
   FPRINT Outfile,"}"
-  FPRINT Outfile,"int U235PAD(register int pad)"
+  FPRINT Outfile,"int U235PAD(int pad)"
   FPRINT Outfile,"{"
   FPRINT Outfile,"	if (pad==1)"
   FPRINT Outfile,"		return U235SE_pad1;"
@@ -17529,48 +17536,37 @@ SUB RunTimeFunctions
   FPRINT Outfile,"	else"
   FPRINT Outfile,"		return 0;"
   FPRINT Outfile,"}"
-  FPRINT Outfile,"void RSETLIST(int list_index)"
+  FPRINT Outfile,"void RSETLIST(register int list_index asm ("d0"))"
   FPRINT Outfile,"{"
   FPRINT Outfile,"__asm__ ("+DQ$+"movem.l	d0-d3/a0,-(a7)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"    			move.l	d0,_r_index"+crtab$+DQ$
   FPRINT Outfile,DQ$+"    			jsr		RAPTOR_setlist"+crtab$+DQ$
   FPRINT Outfile,DQ$+"			movem.l	(a7)+,d0-d3/a0"+DQ$+");"
   FPRINT Outfile,"}"
   FPRINT Outfile, "int RHIT(int r_sl, int r_sh, int r_tl, int r_th)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm__ ("+DQ$+"\tmovem.l	d1-d7/a0-a6,-(a7)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"clr.l	raptor_result"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	d0,raptor_sourcel"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	d1,raptor_sourceh"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	d2,raptor_targetl"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	d3,raptor_targeth"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"lea		RAPTOR_GPU_COLLISION,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"jsr 	RAPTOR_call_GPU_code"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"movem.l	(a7)+,d1-d7/a0-a6"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	raptor_result,d0"+DQ$+");"
+  FPRINT Outfile,"	void (*jump) ()=(void (*)())RAPTOR_GPU_COLLISION;"
+  FPRINT Outfile,"	__asm__ ("+DQ$+"	movem.l	d1-d7/a0-a6,-(a7)"+DQ$+");"
+  FPRINT Outfile,"	raptor_result=0;"
+  FPRINT Outfile,"	raptor_sourcel=r_sl;"
+  FPRINT Outfile,"    raptor_sourceh=r_sh;"
+  FPRINT Outfile,"    raptor_targetl=r_tl;"
+  FPRINT Outfile,"    raptor_targeth=r_th;"
+  FPRINT Outfile,"	jump();"
+  FPRINT Outfile,"	__asm__ ("+DQ$+"	movem.l	(a7)+,d1-d7/a0-a6"+DQ$+");"
+  FPRINT Outfile,"	return raptor_result;"
   FPRINT Outfile,"}"
-  FPRINT Outfile, "void RSETOBJ(int spr_index, int offset, int value)"
+  FPRINT Outfile,"void RSETOBJ(int spr_index, int offset, int value)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l	a0,-(a7)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"lea		RAPTOR_sprite_table,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	d0,_r_index"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"mulu	#188,d0 |sprite_tabwidth - update this if the equ is ever changed!"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"add.l	d0,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"add.l	d1,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l 	d2,(a0)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	(a7)+,a0"+DQ$+");"
+  FPRINT Outfile,"	void *a0;"
+  FPRINT Outfile,"	a0=(void *)(&RAPTOR_sprite_table+spr_index*188+r_offset); //sprite_tabwidth - NOTE: This needs to be changed if the vale in raptor.inc changes!"
+  FPRINT Outfile,"	*(int *)a0=value;"
   FPRINT Outfile,"}"
   FPRINT Outfile, "int RGETOBJ(int spr_index, int offset)"
-  FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l	a0,-(a7)"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"lea		RAPTOR_sprite_table,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	d0,_r_index"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"mulu	#188,d0 |sprite_tabwidth - update this if the equ is ever changed!"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"add.l	d0,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"add.l	d1,a0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	(a0),d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l	(a7)+,a0"+DQ$+");"
-  FPRINT Outfile,"}"
+  FPRINT Outfile, "{";
+  FPRINT Outfile, "	void *a0;";
+  FPRINT Outfile, "	a0=(void *)(&RAPTOR_sprite_table+spr_index*188+r_offset);";
+  FPRINT Outfile, "	return *(int *)a0;";
+  FPRINT Outfile, "}";
   FPRINT Outfile, "void RUPDALL()"
   FPRINT Outfile,"{"
   FPRINT Outfile,"__asm__ ("+DQ$+"\tmovem.l	d0-d7/a0-a6,-(a7)"+crtab$+DQ$
