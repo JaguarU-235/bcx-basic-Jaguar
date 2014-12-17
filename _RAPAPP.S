@@ -180,14 +180,14 @@ RAPTOR_module_list:			dc.l	module0
 ;; MOD files
 ;;
 							.dphrase
-module0:					;incbin	"ASSETS/SFX/MOD/XXXXXXX.MOD"
+module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
 						
 ;;
 ;; Effects
 ;;
 
 							.dphrase
-explode_sam:				;incbin	"ASSETS/SFX/SND/XXXXXXX.RAW"
+explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
 explode_end:
 							
 ;;
