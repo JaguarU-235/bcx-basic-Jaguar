@@ -129,11 +129,11 @@ LIST_display					equ				0										; the first display list
 			moveq	#1,d2
 			moveq	#0,d3
 			jsr		RAPTOR_print
-			
+
 			jmp __Z9basicmainv
 			
 			;		"0123456789012345678901234567890123456789"
-init_txt:	dc.b	"       RAPTOR BASIC v0.1 - REBOOT       ",raptor_t_lf
+init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
 			dc.b	raptor_t_font_siz,0
 			dc.b	"        Derived from BCX BASIC v6       "
 			dc.b	raptor_t_quit
@@ -169,7 +169,9 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
 ;; Convert List
 ;;
 
-RAPTOR_autoconvert_list:	dc.l	-1,-1
+RAPTOR_autoconvert_list:	dc.l	BMP_PLAYER,1
+							dc.l	BMP_ENEMY,2
+							dc.l	-1,-1
 
 RAPTOR_module_list:			dc.l	module0
 							dc.l	-1
@@ -203,6 +205,10 @@ RAPTOR_font16x16:			incbin	"RAPTOR/FONTS/F_16x16.BMP"					; User defined 16x16 f
 RAPTOR_particle_palette:	incbin	"RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
 							.dphrase
 
+BMP_PLAYER:					incbin	"ASSETS/GFX/_nyancat.bmp"
+							.dphrase
+BMP_ENEMY:					incbin	"ASSETS/GFX/_ufo.bmp"
+							.dphrase
 							
 ;;
 ;; BSS SECTION
