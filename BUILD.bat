@@ -1,16 +1,24 @@
 @echo off
 echo ------------------------------------------------------------
-REM echo Building Reboot BASIC Application
+echo Building RAPTOR Basic Application
 echo.
 
-bin\rmac -fb -u -o RBASIC.O RAPAPP.s 
-bin\rln -z -rq -o RBASIC.ABS -a 4000 x x RBASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ test.o
+set PATH=.;bin;..\..\bin;%PATH%
 
-REM del rbasic.o
-REM 
-REM taskkill /IM virtualjaguar.exe > null.o
-REM del null.o
-REM start bin\virtualjaguar RBASIC.ABS --alpine
+cd projects\%1
+rmac -fb -u -o ..\..\build\BASIC.O RAPAPP.s 
+cd ..\..
+
+bc PROJECTS\%1\%1.bas
+move PROJECTS\%1\%1.C build >NUL
+m68k-atari-mint-gcc -Iinclude -O2 -c build\%1.C -o build\%1.o
+rln -z -rq -o RBASIC.ABS -a 4000 x x build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ obj\libm.a obj\libc.a obj\libgcc.a build\%1.o
+
+rem del basic.o
+
+rem taskkill /IM virtualjaguar.exe > NUL
+rem start bin\virtualjaguar RBASIC.ABS --alpine
+
 
 
 

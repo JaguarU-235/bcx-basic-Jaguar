@@ -1,4 +1,3 @@
-;; EXAMPLE 01a - Hello World!
 ;;
 ;; RAPTOR USER FILE
 ;;
@@ -13,9 +12,9 @@
 
 ;; DO NOT MODIFY THE FOLLOWING LINES
 
-			include				"RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
-			include				"RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
-			include				"U235SE.021/U235SE.INC"									; Include U235SE library labels
+			include				"../../RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
+			include				"../../RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
+			include				"../../U235SE.021/U235SE.INC"									; Include U235SE library labels
 
 			.text							
 
@@ -177,14 +176,14 @@ RAPTOR_module_list:			dc.l	module0
 ;; MOD files
 ;;
 							.dphrase
-module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
+module0:					incbin	"../../ASSETS/SFX/MOD/MODULE1.MOD"
 						
 ;;
 ;; Effects
 ;;
 
 							.dphrase
-explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
+explode_sam:				incbin	"../../ASSETS/SFX/SND/EXPLODE.RAW"
 explode_end:
 							
 ;;
@@ -193,18 +192,18 @@ explode_end:
 							.dphrase
 							dc.l	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				
-RAPTOR_font8x8:				incbin	"RAPTOR/FONTS/F_8x8.BMP"						; User defined 8x8 fonts
+RAPTOR_font8x8:				incbin	"../../RAPTOR/FONTS/F_8x8.BMP"						; User defined 8x8 fonts
 							.dphrase
-RAPTOR_font8x16:			incbin	"RAPTOR/FONTS/F_8x16.BMP"						; User defined 8x16 fonts
+RAPTOR_font8x16:			incbin	"../../RAPTOR/FONTS/F_8x16.BMP"						; User defined 8x16 fonts
 							.dphrase
-RAPTOR_font16x16:			incbin	"RAPTOR/FONTS/F_16x16.BMP"					; User defined 16x16 fonts
+RAPTOR_font16x16:			incbin	"../../RAPTOR/FONTS/F_16x16.BMP"					; User defined 16x16 fonts
 							.dphrase
-RAPTOR_particle_palette:	incbin	"RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
+RAPTOR_particle_palette:	incbin	"../../RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
 							.dphrase
 
-BMP_PLAYER:					incbin	"ASSETS/GFX/_nyancat.bmp"
+BMP_PLAYER:					incbin	"../../ASSETS/GFX/_nyancat.bmp"
 							.dphrase
-BMP_ENEMY:					incbin	"ASSETS/GFX/_ufo.bmp"
+BMP_ENEMY:					incbin	"../../ASSETS/GFX/_ufo.bmp"
 							.dphrase
 							
 ;;
