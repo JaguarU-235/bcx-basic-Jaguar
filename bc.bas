@@ -17631,7 +17631,84 @@ SUB RunTimeFunctions
   FPRINT Outfile,"	volatile int c=channel; //s into d0 and c in d1. YMMV for anything other"
   FPRINT Outfile,"__asm__ ("+DQ$+"\tjsr RAPTOR_U235playsample"+DQ$+");"
   FPRINT Outfile,"}"
+  '***********************************************************************************
+/*
+LAB_RPARTI:		bsr     LAB_EVNM        ; evaluate expression & check is numeric
+				bsr		LAB_EVIR
+				move.l	d0,.p_index
 
+                bsr     LAB_1C01        ; scan for ",", else do syntax error/warm start
+                bsr     LAB_EVNM        ; evaluate expression & check is numeric
+				bsr		LAB_EVIR
+				move.l	d0,.p_x
+
+                bsr     LAB_1C01        ; scan for ",", else do syntax error/warm start
+                bsr     LAB_EVNM        ; evaluate expression & check is numeric
+				bsr		LAB_EVIR
+				move.l	d0,.p_y
+
+				bsr     LAB_1BFB        ; scan for ")", else do syntax error/warm start
+
+				movem.l	d0-a6,-(a7)
+				lea		pixel_list,a0
+				move.l	.p_index,d0
+				asl.w	#2,d0
+				move.l	(a0,d0.w),a0
+				move.l	a0,raptor_part_inject_addr
+				move.l	.p_x,(a0)
+				move.l	.p_y,4(a0)
+				lea		RAPTOR_particle_injection_GPU,a0
+				jsr 	RAPTOR_call_GPU_code
+				movem.l	(a7)+,d0-a6
+			
+                rts
+*/
+void RPARTI(int fx,int x,int y)
+{
+	int *a0=(int *)&pixel_list;
+	a0=(int *)a0[fx];
+	*(int *)raptor_part_inject_addr=(int)a0;
+	*a0=x;
+	*(a0+1)=y;
+	__asm__ ("movem.l	d0-a6,-(a7)\n\t"
+	"lea		RAPTOR_particle_injection_GPU,a0\n\t"
+	"jsr 	RAPTOR_call_GPU_code\n\t"
+	"movem.l	(a7)+,d0-a6\n\t");
+}
+
+/*.p_index:		dc.l	0
+.p_x:			dc.l	0
+.p_y:			dc.l	0
+*/
+
+/*
+  '***********************************************************************************
+/*
+LAB_RSETMAP:	bsr     LAB_EVNM        ; evaluate expression & check is numeric
+				bsr		LAB_EVIR
+				move.l	d0,raptor_map_position_x
+
+                bsr     LAB_1C01        ; scan for ",", else do syntax error/warm start
+                bsr     LAB_EVNM        ; evaluate expression & check is numeric
+				bsr		LAB_EVIR
+				move.l	d0,raptor_map_position_y
+
+				bsr     LAB_1BFB        ; scan for ")", else do syntax error/warm start
+
+				movem.l	d0-a6,-(a7)
+				jsr		RAPTOR_map_set_position
+				movem.l	(a7)+,d0-a6
+			
+                rts
+*/
+void RSETMAP(int x,int y) 
+{
+	raptor_map_position_x=x;
+	raptor_map_position_y=y;
+	__asm__ ("	movem.l	d0-d7/a0-a6,-(a7)\n\t"
+	"jsr		RAPTOR_wait_frame_UPDATE_ALL\n\t"
+	"movem.l	(a7)+,d0-d7/a0-a6");
+}
 
 
   IF UseFlag THEN
