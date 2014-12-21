@@ -6,12 +6,20 @@
 ;;			use Notepad++ for maximum readability. 
 ;;
 
+
+
+;; DO NOT MODIFY THE FOLLOWING LINES
+			.extern RAPTOR_particle_gfx
+			.extern RAPTOR_sprite_table
+			.extern	RAPTOR_module_list
+			.extern	listing
+			.extern	RUPDALL_FLAG
+			.extern	pixel_list
+
 			extern RAPTOR_particle_gfx
 			extern RAPTOR_sprite_table
 			extern RAPTOR_module_list
-
-;; DO NOT MODIFY THE FOLLOWING LINES
-
+	
 			include				"../../RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
 			include				"../../RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
 			include				"../../U235SE.021/U235SE.INC"									; Include U235SE library labels
@@ -145,7 +153,13 @@ init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
 ;;
 
 RAPTOR_user_vbi:	
-			rts																			; we're not using this, nothing tied to the vblank
+			tst.l	RUPDALL_FLAG
+			beq.s	.uvbi_out
+			movem.l	d0-d7/a0-a6,-(a7)
+			jsr		RAPTOR_UPDATE_ALL
+			movem.l	(a7)+,d0-d7/a0-a6		
+.uvbi_out:	rts	
+RUPDALL_FLAG: dc.l 0
 
 ;;
 ;; Creating Non-RAPTOR objects around the list

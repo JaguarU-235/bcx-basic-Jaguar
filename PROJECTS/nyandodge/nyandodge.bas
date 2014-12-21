@@ -26,7 +26,7 @@ do
 	IF RHIT(1,1,2,22)<>-1 THEN
 		U235SND(0,4)
 	endif
-	RUPDALL()
+	RUPDALL(0)
 loop
 
 REM NEW ENEMY
