@@ -15343,7 +15343,7 @@ SUB DeclareVariables
   FPRINT Outfile, "extern int U235SE_pad2 asm ("+DQ$+"U235SE_pad2"+DQ$+");"
   FPRINT Outfile, "extern void *RAPTOR_sprite_table asm ("+DQ$+"RAPTOR_sprite_table"+DQ$+");"
   FPRINT Outfile, "extern void RAPTOR_GPU_COLLISION() asm ("+DQ$+"RAPTOR_GPU_COLLISION"+DQ$+");"
-  FPRINT Outfile, "extern volatile int raptor_result asm ("+DQ$+"raptor_result"+DQ$+");"
+  FPRINT Outfile, "volatile extern int raptor_result asm ("+DQ$+"raptor_result"+DQ$+");"
   FPRINT Outfile, "extern int raptor_sourcel asm ("+DQ$+"raptor_sourcel"+DQ$+");"
   FPRINT Outfile, "extern int raptor_sourceh asm ("+DQ$+"raptor_sourceh"+DQ$+");"
   FPRINT Outfile, "extern int raptor_targetl asm ("+DQ$+"raptor_targetl"+DQ$+");"
@@ -17607,9 +17607,9 @@ SUB RunTimeFunctions
   '***********************************************************************************
   FPRINT Outfile,"void U235SND(int sampleno,int channel)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l 8(a6),d0"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"move.l 12(a6),d1"+crtab$+DQ$
-  FPRINT Outfile,DQ$+"jsr RAPTOR_U235playsample"+DQ$+");"
+  FPRINT Outfile,"	volatile int s=sampleno; //tests show that gcc 4.6.4 -O2 puts"
+  FPRINT Outfile,"	volatile int c=channel; //s into d0 and c in d1. YMMV for anything other"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tjsr RAPTOR_U235playsample"+DQ$+");"
   FPRINT Outfile,"}"
 
 
