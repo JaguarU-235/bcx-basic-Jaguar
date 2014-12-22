@@ -1,4 +1,3 @@
-;; SIMPLE RBASIC GAME
 ;;
 ;; RAPTOR USER FILE
 ;;
@@ -6,6 +5,7 @@
 ;;			Tabulation might be incorrect in other editors.
 ;;			use Notepad++ for maximum readability. 
 ;;
+
 
 
 ;; DO NOT MODIFY THE FOLLOWING LINES
@@ -16,9 +16,13 @@
 			.extern	RUPDALL_FLAG
 			.extern	pixel_list
 	
-			include				"RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
-			include				"RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
-			include				"U235SE.021/U235SE.INC"									; Include U235SE library labels
+			extern RAPTOR_particle_gfx
+			extern RAPTOR_sprite_table
+			extern RAPTOR_module_list
+	
+			include				"../../RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
+			include				"../../RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
+			include				"../../U235SE.021/U235SE.INC"									; Include U235SE library labels
 
 			.text							
 
@@ -133,16 +137,17 @@ LIST_display					equ				0										; the first display list
 			moveq	#0,d3
 			jsr		RAPTOR_print
 			
-			jmp		RBASIC_START
+			jmp __Z9basicmainv
 			
 			;		"0123456789012345678901234567890123456789"
-init_txt:	dc.b	"       RAPTOR BASIC v0.1 - REBOOT       ",raptor_t_lf
+init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
 			dc.b	raptor_t_font_siz,0
-			dc.b	"  Derived from Enhanced 68k BASIC 3.52  "
+			dc.b	"        Derived from BCX BASIC v6       "
 			dc.b	raptor_t_quit
 			.even
 			
-																						; Loop around					
+																						; Loop around!
+						
 ;;
 ;; RAPTOR user VBI vector
 ;;
@@ -154,6 +159,7 @@ RAPTOR_user_vbi:
 			jsr		RAPTOR_UPDATE_ALL
 			movem.l	(a7)+,d0-d7/a0-a6		
 .uvbi_out:	rts																			; we're not using this, nothing tied to the vblank
+RUPDALL_FLAG: dc.l 0
 
 ;;
 ;; Creating Non-RAPTOR objects around the list
@@ -165,17 +171,9 @@ RAPTOR_PRE_Object_List:																	; No unmanaged objects before the list
 RAPTOR_POST_Object_List:																; No unmanaged Objects after the list									
 			rts
 						
-			include "rbasic/include1.s"
-			include "rbasic/include2.s"
-			include "rbasic/include3.s"
-;;
-;; Basic Listing
-;;
-				
-							.even
-							include	"RBASIC/basname.s"
-							dc.b	0,0,0,0
-							.even
+							include		"RAPPIXL.S"									; RAPTOR particle module user data
+							include 	"RAPINIT.S"									; RAPTOR object user data
+							include 	"RAPU235.S"									; RAPTOR u235se user data
 							
 ;; 
 ;; Convert List
@@ -198,7 +196,7 @@ module0:					;incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
 ;;
 
 							.dphrase
-explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
+explode_sam:				incbin	"../../ASSETS/SFX/SND/EXPLODE.RAW"
 explode_end:
 							
 ;;
@@ -207,13 +205,13 @@ explode_end:
 							.dphrase
 							dc.l	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				
-RAPTOR_font8x8:				incbin	"RAPTOR/FONTS/F_8x8.BMP"						; User defined 8x8 fonts
+RAPTOR_font8x8:				incbin	"../../RAPTOR/FONTS/F_8x8.BMP"						; User defined 8x8 fonts
 							.dphrase
-RAPTOR_font8x16:			incbin	"RAPTOR/FONTS/F_8x16.BMP"						; User defined 8x16 fonts
+RAPTOR_font8x16:			incbin	"../../RAPTOR/FONTS/F_8x16.BMP"						; User defined 8x16 fonts
 							.dphrase
-RAPTOR_font16x16:			incbin	"RAPTOR/FONTS/F_16x16.BMP"					; User defined 16x16 fonts
+RAPTOR_font16x16:			incbin	"../../RAPTOR/FONTS/F_16x16.BMP"					; User defined 16x16 fonts
 							.dphrase
-RAPTOR_particle_palette:	incbin	"RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
+RAPTOR_particle_palette:	incbin	"../../RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
 							.dphrase
 				
 ;;
