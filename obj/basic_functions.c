@@ -288,9 +288,14 @@ __asm__("move.l 8(a6),d0\n\t"
 // -----------------------------------------------------------------------------
 void U235SND(int sampleno,int channel)
 {
-	volatile int s=sampleno; //tests show that gcc 4.6.4 -O2 puts
-	volatile int c=channel; //s into d0 and c in d1. YMMV for anything other
-__asm__ ("	jsr RAPTOR_U235playsample");
+  	volatile int s=sampleno;
+  	volatile int c=channel;
+  __asm__ ("\tmove.l 8(a6),d0\n\t"
+  "move.l 12(a6),d1\n\t"
+  "jsr RAPTOR_U235playsample");
+  //volatile int s=sampleno; //tests show that gcc 4.6.4 -O2 puts
+  //volatile int c=channel; //s into d0 and c in d1. YMMV for anything other
+  //__asm__ ("	jsr RAPTOR_U235playsample");
 }
 // -----------------------------------------------------------------------------
 void RPARTI(int fx,int x,int y)
@@ -315,7 +320,7 @@ void RSETMAP(int x,int y)
 "movem.l	(a7)+,d0-d7/a0-a6");
 }
 // -----------------------------------------------------------------------------
-void LOCATE(int x, int y)
+void RLOCATE(int x, int y)
 {
 	basic_r_xpos=x;
 	basic_r_ypos=y;
