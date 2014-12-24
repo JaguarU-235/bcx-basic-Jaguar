@@ -11042,6 +11042,41 @@ SUB Emit
     FPRINT Outfile,Scoot$,"plot_colour=";lszTmp$;"<<4;"
 
     '********************************************************************
+    CASE "rprint"
+    '********************************************************************
+    lszTmp$ = ""
+
+    FOR i = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,"basic_r_buffer=(char *)";lszTmp$;";"
+    FPRINT Outfile,Scoot$,"RPRINT();"
+
+    '********************************************************************
+    CASE "rlocate"
+    '********************************************************************
+    lszTmp$ = ""
+
+    FOR i = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,"RLOCATE(";lszTmp$;",";
+
+    i++
+
+    lszTmp$ = ""
+
+    FOR j = i TO Ndx                 ' Allow size to be an expression
+      CONCAT(lszTmp$, Clean$(Stk$[j]))
+    NEXT
+
+    FPRINT Outfile,lszTmp$;");"
+
+    '********************************************************************
     CASE "fprint", "lprint", "sprint"  'LPRINT & FPRINT  handle,{list}
     '********************************************************************
     DIM RAW IsLprint = FALSE
@@ -15358,31 +15393,39 @@ SUB DeclareVariables
   FPRINT Outfile, "extern void *RAPTOR_U235playsample() asm ("+DQ$+"RAPTOR_U235playsample"+DQ$+");"
   FPRINT Outfile, "extern void *RAPTOR_U235stopmodule() asm ("+DQ$+"RAPTOR_U235stopmodule"+DQ$+");"
   FPRINT Outfile, "extern void RAPTOR_wait_frame() asm ("+DQ$+"RAPTOR_wait_frame"+DQ$+");"
-  FPRINT Outfile, "extern char plot_colour;"
+  FPRINT Outfile, "char plot_colour;"
   FPRINT Outfile, "extern int RUPDALL_FLAG asm ("+DQ$+"RUPDALL_FLAG"+DQ$+");"
-  FPRINT Outfile, "extern int U235PAD(int pad);"
-  FPRINT Outfile, "extern void RSETLIST(int list_index);"
-  FPRINT Outfile, "extern void RSETOBJ(int spr_index, int offset, int value);"
-  FPRINT Outfile, "extern int RGETOBJ(int spr_index, int offset);"
-  FPRINT Outfile, "extern int RHIT(int r_sl, int r_sh, int r_tl, int r_th);"
-  FPRINT Outfile, "extern void RUPDALL(volatile int update);"
-  FPRINT Outfile, "extern void U235MOD(int module);"
-  FPRINT Outfile, "extern void U235SND(int sampleno, int channel);"
-  FPRINT Outfile, "extern void RPARTI(int fx,int x,int y);"
-  FPRINT Outfile, "extern void RSETMAP(int x,int y);"
-  FPRINT Outfile, "extern void colour();"
-  FPRINT Outfile, "//int errno; //needed by some libc/libm functions"
+  FPRINT Outfile, "int U235PAD(int pad);"
+  FPRINT Outfile, "void RSETLIST(int list_index);"
+  FPRINT Outfile, "void RSETOBJ(int spr_index, int offset, int value);"
+  FPRINT Outfile, "int RGETOBJ(int spr_index, int offset);"
+  FPRINT Outfile, "int RHIT(int r_sl, int r_sh, int r_tl, int r_th);"
+  FPRINT Outfile, "void RUPDALL(volatile int update);"
+  FPRINT Outfile, "void U235MOD(int module);"
+  FPRINT Outfile, "void U235SND(int sampleno, int channel);"
+  FPRINT Outfile,"void RPARTI(int fx,int x,int y);"
+  FPRINT Outfile,"void RSETMAP(int x,int y);"
+  FPRINT Outfile, "void colour();"
+  FPRINT Outfile, "int errno; //needed by some libc/libm functions"
   FPRINT Outfile, "void basicmain(); //main function declaration"
-  FPRINT Outfile, "//double y; //needed by some libc/libm functions"
-  FPRINT Outfile, "//double yt2; //needed by some libc/libm functions"
-  FPRINT Outfile, "//struct exception {"
-  FPRINT Outfile, "//	exception_type	type;	/* exception type */"
-  FPRINT Outfile, "//	const char	*name;	/* function in which it occured */"
-  FPRINT Outfile, "//	double		arg1;	/* an arg */"
-  FPRINT Outfile, "//	double		arg2;	/* another arg */"
-  FPRINT Outfile, "//	double		retval; /* val to return */"
-  FPRINT Outfile, "//};"
-  FPRINT Outfile, "//struct exception xcpt; //needed by some libc/libm functions"
+  FPRINT Outfile, "double y; //needed by some libc/libm functions"
+  FPRINT Outfile, "double yt2; //needed by some libc/libm functions"
+  FPRINT Outfile, "struct exception {"
+  FPRINT Outfile, "	exception_type	type;	/* exception type */"
+  FPRINT Outfile, "	const char	*name;	/* function in which it occured */"
+  FPRINT Outfile, "	double		arg1;	/* an arg */"
+  FPRINT Outfile, "	double		arg2;	/* another arg */"
+  FPRINT Outfile, "	double		retval; /* val to return */"
+  FPRINT Outfile, "};"
+  FPRINT Outfile, "struct exception xcpt; //needed by some libc/libm functions"
+  FPRINT Outfile, "volatile void RPRINT();"
+  FPRINT Outfile, "volatile void RLOCATE(int x, int y);"
+  FPRINT Outfile, "int basic_r_xpos=0;"
+  FPRINT Outfile, "int basic_r_ypos=0;"
+  FPRINT Outfile, "int basic_r_indx=0;"
+  FPRINT Outfile, "int basic_r_size=0;"
+  FPRINT Outfile, "char *basic_r_buffer;"
+
 
   FOR i = 1 TO GlobalVarCnt
     IF GlobalVars[i].VarEmitFlag THEN ITERATE
@@ -17633,9 +17676,11 @@ SUB RunTimeFunctions
   '***********************************************************************************
   FPRINT Outfile,"void U235SND(int sampleno,int channel)"
   FPRINT Outfile,"{"
-  FPRINT Outfile,"	volatile int s=sampleno; //tests show that gcc 4.6.4 -O2 puts"
-  FPRINT Outfile,"	volatile int c=channel; //s into d0 and c in d1. YMMV for anything other"
-  FPRINT Outfile,"__asm__ ("+DQ$+"\tjsr RAPTOR_U235playsample"+DQ$+");"
+  FPRINT Outfile,"	volatile int s=sampleno;"
+  FPRINT Outfile,"	volatile int c=channel;"
+  FPRINT Outfile,"__asm__ ("+DQ$+"\tmove.l 8(a6),d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l 12(a6),d1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr RAPTOR_U235playsample"+DQ$+");"
   FPRINT Outfile,"}"
   '***********************************************************************************
   FPRINT Outfile,"void RPARTI(int fx,int x,int y)"
@@ -17660,6 +17705,25 @@ SUB RunTimeFunctions
   FPRINT Outfile,DQ$+"movem.l	(a7)+,d0-d7/a0-a6"+DQ$+");"
   FPRINT Outfile,"}"
   '***********************************************************************************
+  FPRINT Outfile,"volatile void RLOCATE(int x, int y)"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"	basic_r_xpos=x;"
+  FPRINT Outfile,"	basic_r_ypos=y;"
+  FPRINT Outfile,"}"
+  '***********************************************************************************
+  FPRINT Outfile,"volatile void RPRINT()"
+  FPRINT Outfile,"{"
+  FPRINT Outfile,"  	__asm__ ("+DQ$+"movem.l	d0-d7/a0-a6,-(a7)"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	_basic_r_xpos,d0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	_basic_r_ypos,d1"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	_basic_r_indx,d2"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	_basic_r_size,d3"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"move.l	_basic_r_buffer,a0"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"jsr		RAPTOR_print"+crtab$+DQ$
+  FPRINT Outfile,DQ$+"movem.l	(a7)+,d0-d7/a0-a6"+DQ$+");"
+  FPRINT Outfile,"}"
+  '***********************************************************************************
+	
 
 
   IF UseFlag THEN
