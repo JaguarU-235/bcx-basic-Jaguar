@@ -174,8 +174,9 @@ int basic_r_size=0;
 void plot(short plot_px, short plot_py)
 {
 __asm__ ("movem.l	d0-d3/a0,-(a6)\n\t"
-"			move.l	8(sp),d0\n\t"
-"			move.l	12(sp),d1\n\t"
+"			|move.w	-2(a6),d0\n\t"
+"			|move.w	-4(a6),d1\n\t"
+"			exg d0,d1\n\t"
 "			move.b	_plot_colour,d2\n\t"
 "			btst	#0,d0\n\t"
 "			beq.s	plot_even\n\t"

@@ -15425,6 +15425,7 @@ SUB DeclareVariables
   FPRINT Outfile, "extern int basic_r_indx asm ("+DQ$+"_basic_r_indx"+DQ$+");"
   FPRINT Outfile, "extern int basic_r_size asm ("+DQ$+"_basic_r_size"+DQ$+");"
   FPRINT Outfile, "extern char *basic_r_buffer asm ("+DQ$+"_basic_r_buffer"+DQ$+");"
+  FPRINT Outfile, "extern void plot(short plot_px, short plot_py) asm ("+DQ$+"_plot"+DQ$+");"
 
 
   FOR i = 1 TO GlobalVarCnt
