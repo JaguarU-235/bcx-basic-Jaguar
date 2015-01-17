@@ -340,4 +340,15 @@ void RPRINT()
 		  "movem.l	(a7)+,d0-d7/a0-a6\n\t");
 	
 }
-
+// -----------------------------------------------------------------------------
+void cls(void)
+{
+    __asm__ ("movem.l d0/d1/a0,-(a7)\n\t"
+"			  lea		RAPTOR_particle_gfx,a0\n\t"
+"              move.w #(320*240)/2/4-1,d0\n\t"
+"              moveq #0,d1\n\t"
+"clr_loop:     move.l d1,(a0)+\n\t"
+"              dbra d0,clr_loop\n\t"
+"              movem.l (a7)+,d0/d1/a0\n\t");      
+              
+}

@@ -772,7 +772,6 @@ GLOBAL  Use_Chr
 GLOBAL  Use_Cbool
 GLOBAL  Use_Cint
 GLOBAL  Use_Clng
-GLOBAL  Use_Cls
 GLOBAL  Use_Color
 GLOBAL  Use_Command
 GLOBAL  Use_ComboBoxLoadFile
@@ -7345,11 +7344,6 @@ SUB TokenSubstitutions
         Stk$[Tmp]= "CLNG"
         Use_Clng = Use_Proto = TRUE
 
-        CASE "cls"
-        Stk$[Tmp]= "cls"
-        Use_Cls = TRUE
-        Use_Locate = Use_Console = Use_Proto = TRUE
-
         CASE "color", "color_fg", "color_bg"
         Stk$[Tmp] = LCASE$(Stk$[Tmp])
         Use_Color = Use_Console = Use_Proto = TRUE
@@ -8366,6 +8360,9 @@ SUB TokenSubstitutions
         Use_Extract = Use_Str = UseFlag = TRUE
 
         '********************************************************************
+
+        CASE "cls"
+        Stk$[Tmp] = "cls"
 
         CASE "plot"
         Stk$[Tmp] = "plot"
@@ -15405,6 +15402,7 @@ SUB DeclareVariables
   FPRINT Outfile, "extern int basic_r_size asm ("+DQ$+"_basic_r_size"+DQ$+");"
   FPRINT Outfile, "extern char *basic_r_buffer asm ("+DQ$+"_basic_r_buffer"+DQ$+");"
   FPRINT Outfile, "extern void plot(short plot_px, short plot_py) asm ("+DQ$+"_plot"+DQ$+");"
+  FPRINT Outfile, "extern void cls(void) asm ("+DQ$+"_cls"+DQ$+");"
 
 
   FOR i = 1 TO GlobalVarCnt
@@ -16555,10 +16553,6 @@ SUB AddProtos
 
     IF Use_Center THEN
       FPRINT Outfile,"void    Center (HWND,HWND=0,HWND=0);"
-    END IF
-
-    IF Use_Cls THEN
-      FPRINT Outfile,"void    cls(void);"
     END IF
 
     IF Use_Color THEN
@@ -19093,27 +19087,6 @@ SUB RunTimeFunctions
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
 
-
-  IF Use_Cls THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: cls"
-    FPRINT Outfile,"void cls (void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  COORD coordScreen = {0,0};"
-    FPRINT Outfile,"  DWORD cCharsWritten;"
-    FPRINT Outfile,"  CONSOLE_SCREEN_BUFFER_INFO csbi = {0};"
-    FPRINT Outfile,"  DWORD dwConSize;"
-    FPRINT Outfile,"  register int attr;"
-    FPRINT Outfile,"  cursor.X = 0;"
-    FPRINT Outfile,"  cursor.Y = 0;"
-    FPRINT Outfile,"  GetConsoleScreenBufferInfo( hConsole, &csbi );"
-    FPRINT Outfile,"  dwConSize = csbi.dwSize.X * csbi.dwSize.Y;"
-    FPRINT Outfile,"  FillConsoleOutputCharacter (hConsole, 32, dwConSize,coordScreen, &cCharsWritten);"
-    FPRINT Outfile,"  attr = color_fg + color_bg * 16;"
-    FPRINT Outfile,"  FillConsoleOutputAttribute (hConsole, attr, dwConSize,coordScreen, &cCharsWritten);"
-    FPRINT Outfile,"  locate(1,1,1);"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
 
 
   IF Use_Color THEN
@@ -24723,7 +24696,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Checkbox               = TRUE
   Use_Chr                    = TRUE
   Use_Cint                   = TRUE
-  Use_Cls                    = TRUE
   Use_Color                  = TRUE
   Use_ComboBoxLoadFile       = TRUE
   Use_Combobox               = TRUE
@@ -25078,7 +25050,6 @@ SUB SetUsed
         IF Src$ = "Use_Chr" THEN Use_Chr = TRUE
         IF Src$ = "Use_Cint" THEN Use_Cint = TRUE
         IF Src$ = "Use_Clng" THEN Use_Clng = TRUE
-        IF Src$ = "Use_Cls" THEN Use_Cls = TRUE
         IF Src$ = "Use_Color" THEN Use_Color = TRUE
         IF Src$ = "Use_COM" THEN Use_COM = TRUE
         IF Src$ = "Use_Combobox" THEN Use_Combobox = TRUE
@@ -25350,7 +25321,6 @@ SUB SetFlags ' SetFlags
   IF Use_Chr THEN FPRINT fpFlags, "Use_Chr"
   IF Use_Cint THEN FPRINT fpFlags, "Use_Cint"
   IF Use_Clng THEN FPRINT fpFlags, "Use_Clng"
-  IF Use_Cls THEN FPRINT fpFlags, "Use_Cls"
   IF Use_Color THEN FPRINT fpFlags, "Use_Color"
   IF Use_COM THEN FPRINT fpFlags, "Use_COM"
   IF Use_Combobox THEN FPRINT fpFlags, "Use_Combobox"
