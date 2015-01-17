@@ -206,21 +206,21 @@ maplist:					dc.l	map1
 							dc.l	-1
 
 							.dphrase
-map1:						include	"../../ASSETS/maps/mapindex.s"						; list of tile values
+map1:						include	"ASSETS/maps/mapindex.s"						; list of tile values
 							.dphrase
 							
 ;;
 ;; MOD files
 ;;
 							.dphrase
-module0:					incbin	"../../ASSETS/SFX/MOD/MODULE1.MOD"
+module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
 						
 ;;
 ;; Effects
 ;;
 
 							.dphrase
-explode_sam:				incbin	"../../ASSETS/SFX/SND/EXPLODE.RAW"
+explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
 explode_end:
 							
 ;;
@@ -238,7 +238,7 @@ RAPTOR_font16x16:			incbin	"../../RAPTOR/FONTS/F_16x16.BMP"					; User defined 1
 RAPTOR_particle_palette:	incbin	"../../RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
 							.dphrase
 
-RAPTOR_bmp_tileset:			incbin	"../../ASSETS/MAPS/tiles.bmp"						; Windows BMP with map tiles
+RAPTOR_bmp_tileset:			incbin	"ASSETS/MAPS/tiles.bmp"						; Windows BMP with map tiles
 							.dphrase
 							
 ;;

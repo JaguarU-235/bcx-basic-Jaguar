@@ -196,7 +196,7 @@ module0:					;incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
 ;;
 
 							.dphrase
-explode_sam:				incbin	"../../ASSETS/SFX/SND/EXPLODE.RAW"
+explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
 explode_end:
 							
 ;;

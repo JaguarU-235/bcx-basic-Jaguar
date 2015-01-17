@@ -190,14 +190,14 @@ RAPTOR_module_list:			dc.l	module0
 ;; MOD files
 ;;
 							.dphrase
-module0:					incbin	"../../ASSETS/SFX/MOD/MODULE1.MOD"
+module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
 						
 ;;
 ;; Effects
 ;;
 
 							.dphrase
-explode_sam:				incbin	"../../ASSETS/SFX/SND/EXPLODE.RAW"
+explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
 explode_end:
 							
 ;;
@@ -215,9 +215,9 @@ RAPTOR_font16x16:			incbin	"../../RAPTOR/FONTS/F_16x16.BMP"					; User defined 1
 RAPTOR_particle_palette:	incbin	"../../RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
 							.dphrase
 
-BMP_PLAYER:					incbin	"../../ASSETS/GFX/_nyancat.bmp"
+BMP_PLAYER:					incbin	"ASSETS/GFX/_nyancat.bmp"
 							.dphrase
-BMP_ENEMY:					incbin	"../../ASSETS/GFX/_ufo.bmp"
+BMP_ENEMY:					incbin	"ASSETS/GFX/_ufo.bmp"
 							.dphrase
 							
 ;;

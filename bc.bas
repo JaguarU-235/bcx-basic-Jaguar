@@ -15393,7 +15393,7 @@ SUB DeclareVariables
   FPRINT Outfile, "extern void *RAPTOR_U235playsample() asm ("+DQ$+"RAPTOR_U235playsample"+DQ$+");"
   FPRINT Outfile, "extern void *RAPTOR_U235stopmodule() asm ("+DQ$+"RAPTOR_U235stopmodule"+DQ$+");"
   FPRINT Outfile, "extern void RAPTOR_wait_frame() asm ("+DQ$+"_RAPTOR_wait_frame"+DQ$+");"
-  FPRINT Outfile, "extern char plot_colour asm ("+DQ$+"_plot_colour"+DQ$+");"
+  FPRINT Outfile, "extern unsigned char plot_colour asm ("+DQ$+"_plot_colour"+DQ$+");"
   FPRINT Outfile, "extern int RUPDALL_FLAG asm ("+DQ$+"_RUPDALL_FLAG"+DQ$+");"
   FPRINT Outfile, "extern int U235PAD(int pad) asm ("+DQ$+"_U235PAD"+DQ$+");"
   FPRINT Outfile, "extern void RSETLIST(int list_index) asm ("+DQ$+"_RSETLIST"+DQ$+");"

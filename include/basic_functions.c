@@ -139,7 +139,7 @@ extern void *RAPTOR_U235gomodule_stereo() asm ("RAPTOR_U235gomodule_stereo");
 extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
-char plot_colour=0;
+unsigned char plot_colour=0;
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
 int U235PAD(int pad);
 void RSETLIST(int list_index);
