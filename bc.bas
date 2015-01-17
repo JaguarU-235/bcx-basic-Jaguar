@@ -1534,7 +1534,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"pellespath$",""                 ,0,comvt_BAD}, ',FilMan024    ,0},
   {"pixels","pixels"                ,0,comvt_BAD}, ',NULL         ,83886083},
   {"playwav",""                     ,0,comvt_BAD}, ',SUB_329      ,83886081},
-  {"plot",""                        ,0,comvt_BAD}, ',NULL         ,83886083},
   {"poke","memmove"                 ,0,comvt_BAD}, ',NULL         ,83886081},
   {"pos",""                         ,0,comvt_R4 }, ',DOSPro007    ,83886081},
   {"pow","pow"                      ,0,comvt_R8 }, ',NULL         ,83886081},
@@ -8368,6 +8367,9 @@ SUB TokenSubstitutions
 
         '********************************************************************
 
+        CASE "plot"
+        Stk$[Tmp] = "plot"
+
         CASE "preserve"
         Stk$[Tmp] = "PRESERVE"
 
@@ -11004,29 +11006,6 @@ SUB Emit
   Lookup$ = LCASE$(Stk$[1])
 
   SELECT CASE Lookup$
-
-    '********************************************************************
-    CASE "plot"
-    '********************************************************************
-
-    lszTmp$ = ""
-
-    FOR i = 2 TO Ndx                 ' Allow size to be an expression
-      IF Stk$[i]= "," THEN EXIT FOR
-      CONCAT(lszTmp$, Clean$(Stk$[i]))
-    NEXT
-
-    FPRINT Outfile,Scoot$,"plot(";lszTmp$;",";
-
-    i++
-
-    lszTmp$ = ""
-
-    FOR j = i TO Ndx                 ' Allow size to be an expression
-      CONCAT(lszTmp$, Clean$(Stk$[j]))
-    NEXT
-
-    FPRINT Outfile,lszTmp$;");"
 
     '********************************************************************
     CASE "colour"
