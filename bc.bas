@@ -18868,7 +18868,9 @@ SUB RunTimeFunctions
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: Round"
     FPRINT Outfile,"double Round (double n, int d)"
     FPRINT Outfile,"{"
-    FPRINT Outfile,"  return (floor((n)*pow(10.0,(d))+0.5)/pow(10.0,(d)));"
+    FPRINT Outfile,"  //What maniac would need to round to more than 7 digits?"
+    FPRINT Outfile,"  float powa[8]={1,10,100,1000,10000,100000,1000000,10000000};"
+    FPRINT Outfile,"  return (floor((n)*powa[d]+0.5)/powa[d]);"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
