@@ -173,13 +173,15 @@ int basic_r_size=0;
 // -----------------------------------------------------------------------------
 void plot(short plot_px, short plot_py)
 {
-__asm__ ("movem.l	d0-d3/a0,-(a6)\n\t"
+__asm__ ("movem.l	d0-d4/a0,-(a6)\n\t"
 "			|move.w	-2(a6),d0\n\t"
 "			|move.w	-4(a6),d1\n\t"
 "			exg d0,d1\n\t"
 "			move.b	_plot_colour,d2\n\t"
+"			moveq	#0xf,d4\n\t"
 "			btst	#0,d0\n\t"
 "			beq.s	plot_even\n\t"
+"			moveq	#-128,d4\n\t"
 "			lsr.b	#4,d2\n\t"
 "plot_even:		asr.w	#1,d0\n\t"
 "			lea		RAPTOR_particle_gfx,a0\n\t"
@@ -189,8 +191,9 @@ __asm__ ("movem.l	d0-d3/a0,-(a6)\n\t"
 "			asl.w	#7,d1\n\t"
 "			add.w	d1,a0\n\t"
 "			add.w	d3,a0\n\t"
+"			and.b	d4,(a0)\n\t"
 "			or.b	d2,(a0)\n\t"
-"			movem.l	(a6)+,d0-d3/a0");
+"			movem.l	(a6)+,d0-d4/a0");
 }
 // -----------------------------------------------------------------------------
 int U235PAD(int pad)
