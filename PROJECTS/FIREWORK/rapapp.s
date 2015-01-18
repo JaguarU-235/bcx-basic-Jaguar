@@ -205,13 +205,14 @@ explode_end:
 							.dphrase
 							dc.l	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				
-RAPTOR_font8x8:				incbin	"../../RAPTOR/FONTS/F_8x8.BMP"						; User defined 8x8 fonts
-							.dphrase
-RAPTOR_font8x16:			incbin	"../../RAPTOR/FONTS/F_8x16.BMP"						; User defined 8x16 fonts
-							.dphrase
-RAPTOR_font16x16:			incbin	"../../RAPTOR/FONTS/F_16x16.BMP"					; User defined 16x16 fonts
-							.dphrase
-RAPTOR_particle_palette:	incbin	"../../RAPTOR/FONTS/PARTIPAL.BMP"					; User defined palette for fonts and particles
+RAPTOR_font8x8:             incbin  "ASSETS/FONTS/F_8x8.BMP"   ; User defined 8x8 fonts                      
+.dphrase                                                       
+RAPTOR_font8x16:            incbin  "ASSETS/FONTS/F_8x16.BMP"  ; User defined 8x16 fonts                     
+.dphrase                                                       
+RAPTOR_font16x16:           incbin  "ASSETS/FONTS/F_16x16.BMP" ; User defined 16x16 fonts                    
+.dphrase                                                       
+RAPTOR_particle_palette:    incbin  "ASSETS/PARTIPAL.BMP"      ; User defined palette for fonts and particles
+
 							.dphrase
 				
 ;;
