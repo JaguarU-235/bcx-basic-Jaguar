@@ -6541,6 +6541,9 @@ SUB TokenSubstitutions
       CASE 3
       SELECT CASE Keyword$
 
+        CASE "cls"
+        Stk$[Tmp] = "cls"
+
         CASE "containedin"
         Stk$[Tmp] = "containedin"
         Use_ContainedIn = TRUE
@@ -6744,6 +6747,9 @@ SUB TokenSubstitutions
 
       CASE 4
       SELECT CASE Keyword$
+
+        CASE "dpeek"
+        Stk$[Tmp] = "*(short *)"
 
         CASE "declare"
         CallType$ = "__stdcall "
@@ -7243,6 +7249,9 @@ SUB TokenSubstitutions
       CASE  12
       SELECT CASE Keyword$
 
+        CASE "lpeek"
+        Stk$[Tmp] = "*(int *)"
+          
         CASE "lccpath$"
         Stk$[Tmp] = "LccPath$()"
         IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
@@ -7571,8 +7580,8 @@ SUB TokenSubstitutions
 
         '********************************************************************
 
-        CASE "cls"
-        Stk$[Tmp] = "cls"
+        CASE "peek"
+        Stk$[Tmp] = "*(char *)"
 
         CASE "plot"
         Stk$[Tmp] = "plot"
@@ -7629,9 +7638,6 @@ SUB TokenSubstitutions
         CASE "playwav"
         Stk$[Tmp] = "PlayWav"
         Use_PlayWav = Use_GetResource = Use_Proto = TRUE
-
-        CASE "poke"
-        Stk$[Tmp]= "memmove"
 
         CASE "pos"
         Stk$[Tmp] = "Pos()"
@@ -10162,6 +10168,35 @@ SUB Emit
   Lookup$ = LCASE$(Stk$[1])
 
   SELECT CASE Lookup$
+
+    '********************************************************************
+    CASE "lpoke", "dpoke", "poke"
+    '********************************************************************
+
+    lszTmp$ = ""
+
+    FOR i = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+    
+    if left$(Lookup$,1)="l" then
+      FPRINT Outfile,Scoot$,"*(unsigned int*)(";lszTmp$;")=(unsigned int)";
+    elseif left$(Lookup$,1)="d" then
+      FPRINT Outfile,Scoot$,"*(unsigned short*)(";lszTmp$;")=(unsigned short)";
+    elseif left$(Lookup$,1)="p" then
+      FPRINT Outfile,Scoot$,"*(unsigned char*)(";lszTmp$;")=(unsigned char)";
+    endif
+
+    i++
+    lszTmp$ = ""
+
+    FOR j = i TO Ndx                 ' Allow size to be an expression
+      IF Stk$[j]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[j]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,lszTmp$;";"
 
     '********************************************************************
     CASE "colour"

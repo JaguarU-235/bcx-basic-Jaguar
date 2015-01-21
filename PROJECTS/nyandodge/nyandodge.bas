@@ -25,6 +25,9 @@ do
 		U235SND(0,4)
 	endif
 	RUPDALL(0)
+'    lpoke 0xF00058,0xffffffff
+    dpoke 0xf00058,PY
+    PY=dpeek(0xf00058)
 loop
 
 REM NEW ENEMY
