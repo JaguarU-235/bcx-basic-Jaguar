@@ -22,7 +22,7 @@ if not exist PROJECTS\%1\%1.bas goto :builderror
 
 rem -------------------------------------------------------------
 rem assemble raptor skeleton
-cd projects\%1
+cd PROJECTS\%1
 rmac -fb -u -o ..\..\build\BASIC.O RAPAPP.s 
 cd ..\..
 
