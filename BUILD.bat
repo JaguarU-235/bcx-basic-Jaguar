@@ -11,6 +11,16 @@ set RBASIC+=64
 :pathset
 
 rem -------------------------------------------------------------
+if [%1] neq [] goto :dobuild
+echo Usage: BUILD.bat projectname
+echo Folder "projectname" must exist inside folder "projects"
+echo and have a file called "projectname.bas" inside.
+echo Current projects:
+dir /AD /B PROJECTS
+goto :veryend
+:dobuild
+
+rem -------------------------------------------------------------
 rem delete residual files from previous builds
 if exist rbasic.abs del rbasic.abs
 if exist build\basic.o del build\basic.o
