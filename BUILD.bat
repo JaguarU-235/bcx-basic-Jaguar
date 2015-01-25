@@ -14,6 +14,7 @@ rem -------------------------------------------------------------
 rem delete residual files from previous builds
 if exist rbasic.abs del rbasic.abs
 if exist build\basic.o del build\basic.o
+if exist build\%1.C del build\%1.C
 
 rem -------------------------------------------------------------
 rem abort build if bas file doesn't exist
@@ -29,7 +30,7 @@ cd ..\..
 rem -------------------------------------------------------------
 rem translate .bas file to C
 bc  PROJECTS\%1\%1.bas -q
-move PROJECTS\%1\%1.C build >NUL
+move PROJECTS\%1\%1.C build /Y >NUL
 
 rem -------------------------------------------------------------
 rem Compile C code
@@ -46,7 +47,7 @@ if not exist rbasic.abs goto :builderror
 
 rem -------------------------------------------------------------
 rem Run vj
-rem taskkill /IM virtualjaguar.exe > NUL
+rem taskkill /IM virtualjaguar.exe >NUL
 virtualjaguar RBASIC.ABS --alpine
 goto :veryend
 
