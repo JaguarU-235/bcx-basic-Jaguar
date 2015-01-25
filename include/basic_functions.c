@@ -20,38 +20,6 @@
   #define C_IMPORT __declspec(dllimport)
 #endif
 
-// Open Watcom defs
-#if defined( __WATCOM_CPLUSPLUS__ ) || defined( __TINYC__ )
-  #define atanl atan
-  #define sinl  sin
-  #define cosl  cos
-  #define tanl  tan
-  #define asinl asin
-  #define acosl acos
-  #define log10l log10
-  #define logl   log
-  #define _fcloseall fcloseall
-#endif
-
-// Borland C++ 5.5.1 defs - bcc32.exe
-#if defined( __BCPLUSPLUS__ )
-  // ===== Borland Libraries ==========
-  #include <dos.h>
-  #pragma comment(lib,"import32.lib")
-  #pragma comment(lib,"cw32.lib")
-  // ==================================
-#endif
-
-// Microsoft VC++
-#ifndef DECLSPEC_UUID
-  #if (_MSC_VER >= 1100) && defined ( __cplusplus )
-    #define DECLSPEC_UUID(x)    __declspec(uuid(x))
-  #else
-    #define DECLSPEC_UUID(x)
-  #endif
-#endif
-
-
 #if !defined( __LCC__ )
 // *************************************************
 // Instruct Linker to Search Object/Import Libraries
@@ -87,25 +55,7 @@
 // End of Object/Import Libraries To Search
 // *************************************************
 #endif
-//#include <windowsx.h>   // Win32 Header File 
-//#include <commctrl.h>   // Win32 Header File 
-//#include <commdlg.h>    // Win32 Header File 
-//#include <mmsystem.h>   // Win32 Header File 
-//#include <shellapi.h>   // Win32 Header File 
-//#include <shlobj.h>     // Win32 Header File 
-//#include <richedit.h>   // Win32 Header File 
-//#include <wchar.h>      // Win32 Header File 
-//#include <objbase.h>    // Win32 Header File 
-//#include <ocidl.h>      // Win32 Header File 
-//#include <winuser.h>    // Win32 Header File 
-//#include <olectl.h>     // Win32 Header File 
-//#include <oaidl.h>      // Win32 Header File 
-//#include <ole2.h>       // Win32 Header File 
-//#include <oleauto.h>    // Win32 Header File 
-//#include <conio.h>
-//#include <direct.h>
 #include <ctype.h>
-//#include <io.h>
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -122,6 +72,8 @@
 
 extern int U235SE_pad1 asm ("U235SE_pad1");
 extern int U235SE_pad2 asm ("U235SE_pad2");
+extern int U235SE_music_vol asm ("U235SE_music_vol");
+extern int U235SE_sfx_vol asm ("U235SE_sfx_vol");
 extern void *RAPTOR_sprite_table asm ("RAPTOR_sprite_table");
 extern void *pixel_list asm ("pixel_list");
 extern void *raptor_part_inject_addr asm ("raptor_part_inject_addr");
@@ -141,14 +93,14 @@ extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
 unsigned char plot_colour=0;
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
-int U235PAD(int pad);
+int GETPAD(int pad);
 void RSETLIST(int list_index);
 void RSETOBJ(int spr_index, int offset, int value);
 int RGETOBJ(int spr_index, int offset);
 int RHIT(int r_sl, int r_sh, int r_tl, int r_th);
 void RUPDALL(volatile int update);
-void U235MOD(int module);
-void U235SND(int sampleno, int channel);
+void MODPLAY(int module);
+void SNDPLAY(int sampleno, int channel);
 void RPARTI(int fx,int x,int y);
 void RSETMAP(int x,int y);
 void colour();
@@ -196,7 +148,7 @@ __asm__ ("movem.l	d0-d4/a0,-(a6)\n\t"
 "			movem.l	(a6)+,d0-d4/a0");
 }
 // -----------------------------------------------------------------------------
-int U235PAD(int pad)
+int GETPAD(int pad)
 {
 	if (pad==1)
 		return U235SE_pad1;
@@ -271,7 +223,7 @@ __asm__ ("	movem.l	d0-d7/a0-a6,-(a7)\n\t"
 	}
 }
 // -----------------------------------------------------------------------------
-void U235MOD(int module)
+void MODPLAY(int module)
 {
 	if (module>=0)
 	{
@@ -290,16 +242,23 @@ __asm__("move.l 8(a6),d0\n\t"
 	}
 }
 // -----------------------------------------------------------------------------
-void U235SND(int sampleno,int channel)
+void SNDPLAY(int sampleno,int channel)
 {
   	volatile int s=sampleno;
   	volatile int c=channel;
   __asm__ ("\tmove.l 8(a6),d0\n\t"
   "move.l 12(a6),d1\n\t"
   "jsr RAPTOR_U235playsample");
-  //volatile int s=sampleno; //tests show that gcc 4.6.4 -O2 puts
-  //volatile int c=channel; //s into d0 and c in d1. YMMV for anything other
-  //__asm__ ("	jsr RAPTOR_U235playsample");
+}
+// -----------------------------------------------------------------------------
+void MODVOL(int volume)
+{
+    U235SE_music_vol=volume;
+}
+// -----------------------------------------------------------------------------
+void SNDVOL(int volume)
+{
+    U235SE_sfx_vol=volume;
 }
 // -----------------------------------------------------------------------------
 void RPARTI(int fx,int x,int y)

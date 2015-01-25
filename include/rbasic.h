@@ -17,20 +17,23 @@ extern void *RAPTOR_U235gomodule_stereo() asm ("RAPTOR_U235gomodule_stereo");
 extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("_RAPTOR_wait_frame");
-extern unsigned char plot_colour asm ("_plot_colour");
 extern int RUPDALL_FLAG asm ("_RUPDALL_FLAG");
-extern int U235PAD(int pad) asm ("_U235PAD");
+
+//Functions
+
+void basicmain(); //main function declaration
+extern unsigned char plot_colour asm ("_plot_colour");
+extern int GETPAD(int pad) asm ("_GETPAD");
+extern void MODPLAY(int module) asm ("_MODPLAY");
+extern void SNDPLAY(int sampleno, int channel) asm ("_SNDPLAY");
+extern void RPARTI(int fx,int x,int y) asm ("_RPARTI");
 extern void RSETLIST(int list_index) asm ("_RSETLIST");
 extern void RSETOBJ(int spr_index, int offset, int value) asm ("_RSETOBJ");
 extern int RGETOBJ(int spr_index, int offset) asm ("_RGETOBJ");
 extern int RHIT(int r_sl, int r_sh, int r_tl, int r_th) asm ("_RHIT");
 extern void RUPDALL(volatile int update) asm ("_RUPDALL");
-extern void U235MOD(int module) asm ("_U235MOD");
-extern void U235SND(int sampleno, int channel) asm ("_U235SND");
-extern void RPARTI(int fx,int x,int y) asm ("_RPARTI");
 extern void RSETMAP(int x,int y) asm ("_RSETMAP");
 extern void colour() asm ("_colour");
-void basicmain(); //main function declaration
 extern void RPRINT() asm ("_RPRINT");
 extern void RLOCATE(int x, int y) asm ("_RLOCATE");
 extern int basic_r_xpos asm ("_basic_r_xpos");
@@ -40,4 +43,5 @@ extern int basic_r_size asm ("_basic_r_size");
 extern char *basic_r_buffer asm ("_basic_r_buffer");
 extern void plot(short plot_px, short plot_py) asm ("_plot");
 extern void cls(void) asm ("_cls");
-
+extern void MODVOL(int volume) asm ("_MODVOL");
+extern void SNDVOL(int volume) asm ("_SNDVOL");

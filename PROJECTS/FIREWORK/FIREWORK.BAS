@@ -14,7 +14,7 @@ do
 		RPARTI(1,(int)X<<16,(int)Y2<<16)
 	NEXT Y2
 	
-	U235SND(0,4)
+	SNDPLAY(0,4)
 	
 	RPARTI(0,(int)X<<16,(int)Y2<<16)
 loop

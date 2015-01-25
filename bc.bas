@@ -7021,6 +7021,9 @@ SUB TokenSubstitutions
       CASE  7
       SELECT CASE Keyword$
 
+        CASE "getpad"
+		Stk$[Tmp]= "GETPAD"
+
         CASE "getdimension"
         Stk$[Tmp] = "GetDimension"
         Use_GetDimension = Use_Proto = TRUE
@@ -8086,9 +8089,6 @@ SUB TokenSubstitutions
 
       CASE  21
       SELECT CASE Keyword$
-        CASE "u235pad"
-		Stk$[Tmp]= "U235PAD"
-
         CASE "uint"
         Stk$[Tmp]= "UINT"
 

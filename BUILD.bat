@@ -30,7 +30,7 @@ cd ..\..
 rem -------------------------------------------------------------
 rem translate .bas file to C
 bc  PROJECTS\%1\%1.bas -q
-move PROJECTS\%1\%1.C build /Y >NUL
+move /Y PROJECTS\%1\%1.C build >NUL
 
 rem -------------------------------------------------------------
 rem Compile C code
