@@ -99,3 +99,32 @@ enum
     BR_less   = 0,
     BR_more   = 1
 };
+
+enum
+{
+PAD_UP			=		1		, // Up
+PAD_U			=		1       , 
+PAD_DOWN		=		2		, // Down
+PAD_D			=		2       , 
+PAD_LEFT		=		4		, // Left
+PAD_L			=		4       , 
+PAD_RIGHT		=		8		, // Right
+PAD_R			=		8		, 
+PAD_HASH		=		16		, // Hash (#)
+PAD_9			=		32		, // 9
+PAD_6			=		64		, // 6
+PAD_3			=		0x80		, // 3
+PAD_PAUSE		=		0x100	, // Pause
+PAD_A			=		0x200	, // A button
+PAD_OPTION		=		0x400	, // Option
+PAD_STAR		=		0x800	, // Star 
+PAD_7			=		0x1000	, // 7
+PAD_4			=		0x2000	, // 4
+PAD_1			=		0x4000	, // 1
+PAD_0			=		0x8000	, // 0 (zero)
+PAD_8			=		0x10000	, // 8
+PAD_5			=		0x20000	, // 5
+PAD_2			=		0x40000	, // 2
+PAD_B			=		0x80000	, // B button
+PAD_C			=		0x100000	  // C button
+};
