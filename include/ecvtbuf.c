@@ -1,8 +1,8 @@
 /* Copyright (C) 1998 DJ Delorie, see COPYING.DJ for details */
-#include <crtdll/stdlib.h>
-#include <crtdll/stdio.h>
-#include <crtdll/string.h>
-#include <crtdll/float.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <float.h>
 // #include <crtdll/locale.h>
 
 void __ecvround (char *, char *, const char *, int *);
@@ -40,13 +40,15 @@ ecvtbuf (double value, int ndigits, int *decpt, int *sign, char *buf)
 {
   static char INFINITY[] = "Infinity";
   char decimal = '.' /* localeconv()->decimal_point[0] */;
-  char *cvtbuf = (char *)alloca (ndigits + 20); /* +3 for sign, dot, null; */
+  //char *cvtbuf = (char *)alloca (ndigits + 20); /* +3 for sign, dot, null; */
 					        /* two extra for rounding */
 						/* 15 extra for alignment */
-  char *s = cvtbuf, *d = buf;
+  //char *s = cvtbuf, *d = buf;
+  char *s = &ee_printf_buf[0], *d = buf;
 
   /* Produce two extra digits, so we could round properly.  */
-  sprintf (cvtbuf, "%-+.*E", ndigits + 2, value);
+  //sprintf (cvtbuf, "%-+.*E", ndigits + 2, value);
+  ee_printf ("%-+.*E", ndigits + 2, value);
   *decpt = 0;
 
   /* The sign.  */

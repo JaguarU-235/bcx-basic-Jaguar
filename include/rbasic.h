@@ -45,3 +45,5 @@ extern void plot(short plot_px, short plot_py) asm ("_plot");
 extern void cls(void) asm ("_cls");
 extern void MODVOL(int volume) asm ("_MODVOL");
 extern void SNDVOL(int volume) asm ("_SNDVOL");
+char *ee_printf(const char *fmt, ...) asm ("ee_printf");
+

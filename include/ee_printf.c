@@ -31,11 +31,16 @@ This code is based on a file that contains the following:
 
 */
 
-#include "coremark.h"
+#include <stddef.h>
 #include <stdarg.h>
-#include "support.h"
-#include "board.h"
-#include "uart.h"
+
+char *ee_printf(const char *fmt, ...) asm ("ee_printf");
+static char ee_printf_buf[256];
+
+#include "ecvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
+#include "fcvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
+
+#define HAS_FLOAT
 
 #define ZEROPAD  	(1<<0)	/* Pad with zero */
 #define SIGN    	(1<<1)	/* Unsigned/signed long */
@@ -596,28 +601,30 @@ repeat:
 	return str - buf;
 }
 
-void uart_send_char(char c)
+/*void uart_send_char(char c)
 {
 
 	uart_putc(c);
 
-}
+}*/
 
-int ee_printf(const char *fmt, ...)
+
+char *ee_printf(const char *fmt, ...)
 {
-	char buf[256], *p;
+	char *p, *buf;
+	buf=&ee_printf_buf[0];
 	va_list args;
 	int n = 0;
 
 	va_start(args, fmt);
 	ee_vsprintf(buf, fmt, args);
 	va_end(args);
-	p = buf;
-	while (*p) {
+	//p = buf;
+	/*while (*p) {
 		uart_send_char(*p);
 		n++;
 		p++;
-	}
+	}*/
 
-	return n;
+	return buf;
 }
