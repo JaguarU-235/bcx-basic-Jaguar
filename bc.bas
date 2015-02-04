@@ -10225,6 +10225,19 @@ SUB Emit
     FPRINT Outfile,Scoot$,"RPRINT();"
 
     '********************************************************************
+    CASE "rprintint"
+    '********************************************************************
+    lszTmp$ = ""
+
+    FOR i = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+
+    FPRINT Outfile,Scoot$,"basic_r_buffer=ee_printf("+DQ$+"%d"+DQ$+",";lszTmp$;");"
+    FPRINT Outfile,Scoot$,"RPRINT();"
+
+    '********************************************************************
     CASE "rlocate"
     '********************************************************************
     lszTmp$ = ""

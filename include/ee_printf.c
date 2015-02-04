@@ -37,10 +37,10 @@ This code is based on a file that contains the following:
 char *ee_printf(const char *fmt, ...) asm ("ee_printf");
 static char ee_printf_buf[256];
 
-#include "ecvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
-#include "fcvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
+//#include "ecvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
+//#include "fcvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
 
-#define HAS_FLOAT
+//#define HAS_FLOAT
 
 #define ZEROPAD  	(1<<0)	/* Pad with zero */
 #define SIGN    	(1<<1)	/* Unsigned/signed long */
@@ -601,20 +601,12 @@ repeat:
 	return str - buf;
 }
 
-/*void uart_send_char(char c)
-{
-
-	uart_putc(c);
-
-}*/
-
-
 char *ee_printf(const char *fmt, ...)
 {
 	char *p, *buf;
-	buf=&ee_printf_buf[0];
 	va_list args;
 	int n = 0;
+	buf=&ee_printf_buf[0];
 
 	va_start(args, fmt);
 	ee_vsprintf(buf, fmt, args);
