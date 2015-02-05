@@ -4749,7 +4749,7 @@ FUNCTION PrintWriteFormat$(DoWrite)
   IF NewLineFlag = 0 THEN
     CONCAT (Frmat$,"\\n")
   END IF
-  FUNCTION = "printf(" + ENC$(Frmat$) + Clean$(Arg$) + ");"
+  FUNCTION = "basic_r_buffer=(char *)ee_printf(" + ENC$(Frmat$) + Clean$(Arg$) + ");"
 END FUNCTION ' PrintWriteFormat$
 
 
@@ -13190,6 +13190,7 @@ SUB Emit
     CASE "print"
     '***********************
     FPRINT Outfile,Scoot$ ; PrintWriteFormat$(0)
+    FPRINT Outfile,Scoot$ ; "RPRINT();"
 
     '***********************
     CASE "write"
