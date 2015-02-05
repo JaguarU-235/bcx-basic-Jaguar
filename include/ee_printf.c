@@ -569,7 +569,7 @@ repeat:
 			break;
 
 #ifdef HAS_FLOAT
-
+		// GGN botch, original code=commented
 		case 'G': //probably wrong, but let's assume it's a float
 		case 'E': //probably wrong, but let's assume it's a float
 		case 'f':
