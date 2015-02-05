@@ -4,7 +4,6 @@
 // *********************************************************************
 //              Translated for compiling with a C Compiler
 // *********************************************************************
-//#include <windows.h>    // Win32 Header File 
 
 // ***************************************************
 // Compiler Defines
@@ -20,41 +19,6 @@
   #define C_IMPORT __declspec(dllimport)
 #endif
 
-#if !defined( __LCC__ )
-// *************************************************
-// Instruct Linker to Search Object/Import Libraries
-// *************************************************
-#pragma comment(lib,"kernel32.lib")
-#pragma comment(lib,"user32.lib")
-#pragma comment(lib,"gdi32.lib")
-#pragma comment(lib,"comctl32.lib")
-#pragma comment(lib,"advapi32.lib")
-#pragma comment(lib,"winspool.lib")
-#pragma comment(lib,"shell32.lib")
-#pragma comment(lib,"ole32.lib")
-#pragma comment(lib,"oleaut32.lib")
-#pragma comment(lib,"uuid.lib")
-#pragma comment(lib,"odbc32.lib")
-#pragma comment(lib,"odbccp32.lib")
-#pragma comment(lib,"winmm.lib")
-#pragma comment(lib,"comdlg32.lib")
-#pragma comment(lib,"imagehlp.lib")
-#pragma comment(lib,"version.lib")
-#else
-#pragma lib <winspool.lib>
-#pragma lib <shell32.lib>
-#pragma lib <ole32.lib>
-#pragma lib <oleaut32.lib>
-#pragma lib <uuid.lib>
-#pragma lib <odbc32.lib>
-#pragma lib <odbccp32.lib>
-#pragma lib <winmm.lib>
-#pragma lib <imagehlp.lib>
-#pragma lib <version.lib>
-// *************************************************
-// End of Object/Import Libraries To Search
-// *************************************************
-#endif
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
@@ -109,19 +73,58 @@ void basicmain() asm ("__Z9basicmainv"); //main function declaration
 double y=0; //needed by some libc/libm functions
 double yt2=0; //needed by some libc/libm functions
 char *basic_r_buffer=(char *)0;
-//struct exception {
-//	exception_type	type;	/* exception type */
-//	const char	*name;	/* function in which it occured */
-//	double		arg1;	/* an arg */
-//	double		arg2;	/* another arg */
-//	double		retval; /* val to return */
-//};
 struct exception xcpt={0,0,0,0,0}; //needed by some libc/libm functions
 volatile int basic_r_xpos=0;
 volatile int basic_r_ypos=0;
 int basic_r_indx=0;
 int basic_r_size=0;
+extern int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
 
+void SNDKILL(int x); //Sample command 1 - stop voice as - see below
+void SNDDELTA(int x,int y); // Sample command 3 - set volume as  - see below
+void U235SE_playbackmode(int mode); //- see below
+void MODJUMP(int x); //- see below
+void SNDFREQ(int x,int y); //- see below
+void SNDVOLRESET(int x); //- see below
+void SNDFREQRESET(int x); //- see below
+
+static unsigned int U235_commands[2]={0,0};
+// -----------------------------------------------------------------------------
+void SNDKILL(int x)
+{
+	U235_commands[0]=x<<4||1;
+	U235SE_sfxplaylist_ptr=&U235_commands[0];
+}
+// -----------------------------------------------------------------------------
+void SNDDELTA(int x,int y)
+{
+	U235_commands[0]=y<<8||x<<4||3;
+	U235SE_sfxplaylist_ptr=&U235_commands[0];
+}
+// -----------------------------------------------------------------------------
+void U235SE_playbackmode(int mode)
+{
+}
+// -----------------------------------------------------------------------------
+void MODJUMP(int x)
+{
+}
+// -----------------------------------------------------------------------------
+void SNDFREQ(int x,int y)
+{
+	U235_commands[0]=y<<16||x<<8||4;
+	U235SE_sfxplaylist_ptr=&U235_commands[0];
+}
+// -----------------------------------------------------------------------------
+void SNDVOLRESET(int x)
+{
+	U235_commands[0]=x<<4||8;
+	U235SE_sfxplaylist_ptr=&U235_commands[0];
+}
+// -----------------------------------------------------------------------------
+void SNDFREQRESET(int x)
+{
+}
 // -----------------------------------------------------------------------------
 void plot(short plot_px, short plot_py)
 {
