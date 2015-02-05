@@ -2,6 +2,7 @@ REM SIMPLE DODGE GAME
 dim FRCOUNT, CURRENT
 dim PY
 dim STICK
+dim col
 
 MODPLAY(0)
 FRCOUNT=0: CURRENT=0
@@ -23,14 +24,16 @@ do
 	RSETOBJ(1,R_sprite_y,PY<<16)
 	IF RHIT(1,1,2,22)<>-1 THEN
 		SNDPLAY(0,4)
+		col=PY<<10
+		dpoke 0xf00058,col
+	ELSE
+		dpoke 0xf00058,PY
 	endif
 	RUPDALL(0)
-'    lpoke 0xF00058,0xffffffff
-    dpoke 0xf00058,PY
-    PY=dpeek(0xf00058)
 	MODVOL(PY*63/200)
 	SNDVOL((199-PY)*63/200)
-	
+	SNDFREQ(4,PY*16384/200)
+'	sndkill(0)
 loop
 
 REM NEW ENEMY

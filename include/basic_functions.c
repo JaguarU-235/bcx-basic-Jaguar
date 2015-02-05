@@ -80,50 +80,42 @@ int basic_r_indx=0;
 int basic_r_size=0;
 extern int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
 
-void SNDKILL(int x); //Sample command 1 - stop voice as - see below
-void SNDDELTA(int x,int y); // Sample command 3 - set volume as  - see below
-void U235SE_playbackmode(int mode); //- see below
-void MODJUMP(int x); //- see below
-void SNDFREQ(int x,int y); //- see below
-void SNDVOLRESET(int x); //- see below
-void SNDFREQRESET(int x); //- see below
+void SNDKILL(int x) asm("SNDKILL");
+void SNDDELTA(int x,int y) asm("SNDDELTA");
+void SNDFREQ(int x,int y) asm("SNDFREQ");
+void SNDVOLRESET(int x) asm("SNDVOLRESET");
+void SNDPLAYFREQ(int x,int y) asm("SNDPLAYFREQ");
 
 static unsigned int U235_commands[2]={0,0};
 // -----------------------------------------------------------------------------
 void SNDKILL(int x)
 {
-	U235_commands[0]=x<<4||1;
+	U235_commands[0]=x<<4|1;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
 void SNDDELTA(int x,int y)
 {
-	U235_commands[0]=y<<8||x<<4||3;
+	U235_commands[0]=y<<8|x<<4|3;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
-}
-// -----------------------------------------------------------------------------
-void U235SE_playbackmode(int mode)
-{
-}
-// -----------------------------------------------------------------------------
-void MODJUMP(int x)
-{
 }
 // -----------------------------------------------------------------------------
 void SNDFREQ(int x,int y)
 {
-	U235_commands[0]=y<<16||x<<8||4;
+	U235_commands[0]=y<<16|x<<4|7;
+	U235SE_sfxplaylist_ptr=&U235_commands[0];
+}
+// -----------------------------------------------------------------------------
+void SNDPLAYFREQ(int x,int y)
+{
+	U235_commands[0]=y<<16|x<<8|4;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
 void SNDVOLRESET(int x)
 {
-	U235_commands[0]=x<<4||8;
+	U235_commands[0]=x<<4|8;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
-}
-// -----------------------------------------------------------------------------
-void SNDFREQRESET(int x)
-{
 }
 // -----------------------------------------------------------------------------
 void plot(short plot_px, short plot_py)
@@ -208,7 +200,7 @@ void RUPDALL(volatile int update)
 	{
 		if (RUPDALL_FLAG!=4)
 {
-__asm__ ("	movem.l	d0-d7/a0-a6,-(a7)\n\t"
+__asm__ ("\tmovem.l	d0-d7/a0-a6,-(a7)\n\t"
 "jsr		RAPTOR_wait_frame_UPDATE_ALL\n\t"
 "movem.l	(a7)+,d0-d7/a0-a6");
 }

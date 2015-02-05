@@ -7825,6 +7825,21 @@ SUB TokenSubstitutions
       CASE  19
       SELECT CASE Keyword$
 
+        CASE "sndkill"
+        Stk$[Tmp]= "SNDKILL"
+
+        CASE "sndplayfreq"
+        Stk$[Tmp]= "SNDPLAYFREQ"
+
+        CASE "snddelta"
+        Stk$[Tmp]= "SNDDELTA"
+
+        CASE "sndfreq"
+        Stk$[Tmp]= "SNDFREQ"
+
+        CASE "sndvolreset"
+        Stk$[Tmp]= "SNDVOLRESET"
+
         CASE "setdimension"
         Stk$[Tmp] = "SetDimension"
         Use_SetDimension = Use_Proto = TRUE

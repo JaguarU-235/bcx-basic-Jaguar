@@ -46,4 +46,8 @@ extern void cls(void) asm ("_cls");
 extern void MODVOL(int volume) asm ("_MODVOL");
 extern void SNDVOL(int volume) asm ("_SNDVOL");
 char *ee_printf(const char *fmt, ...) asm ("ee_printf");
-
+void SNDKILL(int x) asm("SNDKILL");
+void SNDDELTA(int x,int y) asm("SNDDELTA");
+void SNDFREQ(int x,int y) asm("SNDFREQ");
+void SNDVOLRESET(int x) asm("SNDVOLRESET");
+void SNDPLAYFREQ(int x,int y) asm("SNDPLAYFREQ");
