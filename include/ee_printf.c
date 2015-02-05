@@ -35,12 +35,13 @@ This code is based on a file that contains the following:
 #include <stdarg.h>
 
 char *ee_printf(const char *fmt, ...) asm ("ee_printf");
+void ee_sprintf(char * buf, const char *fmt, ...);
 static char ee_printf_buf[256];
 
 //#include "ecvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
 //#include "fcvtbuf.c" //because who gives a s**t about linking multiple .o files? :P
 
-//#define HAS_FLOAT
+#define HAS_FLOAT
 
 #define ZEROPAD  	(1<<0)	/* Pad with zero */
 #define SIGN    	(1<<1)	/* Unsigned/signed long */
@@ -569,11 +570,67 @@ repeat:
 
 #ifdef HAS_FLOAT
 
+		case 'G': //probably wrong, but let's assume it's a float
+		case 'E': //probably wrong, but let's assume it's a float
 		case 'f':
-			str =
+			{
+				char tmp[32];
+				int i,j;
+				int mult=1;
+				float number=va_arg(args,double);
+				if (field_width==-1)
+				{
+					field_width=0;
+					do
+					{
+						if (number<mult)
+							break;
+						mult=mult*10;
+						field_width++;
+					} while (1);
+				}
+				if (precision==-1)
+				{
+					float num2=number;
+					precision=0;
+					do
+					{
+						if (num2==(int)num2)
+							break;
+						num2=num2*10;
+						precision++;
+					} while (1);
+				}
+
+				mult=1;
+				for (i=0;i<field_width-1;i++)
+					mult=mult*10;
+				if (number<0)
+					*str++='-';
+				int number_integer=(int)number;
+				for (i=0;i<field_width;i++)
+				{
+					*str++=digits[(number_integer/mult) % 10];
+					mult=mult/10;
+				}
+				if (precision!=0)
+				{
+					*str++='.';
+					mult=10;
+					for (i=0;i<precision;i++)
+					{
+						*str++=digits[(int)(number*mult) % 10];
+						mult=mult*10;
+					}
+				}
+				//*t=0;
+				//*str=*t;
+			}
+			continue;
+			/*str =
 			    flt(str, va_arg(args, double), field_width,
 				precision, *fmt, flags | SIGN);
-			continue;
+			continue;*/
 
 #endif
 
@@ -601,6 +658,14 @@ repeat:
 	return str - buf;
 }
 
+void ee_sprintf(char * buf, const char *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	ee_vsprintf(buf, fmt, args);
+	va_end(args);
+}
+
 char *ee_printf(const char *fmt, ...)
 {
 	char *p, *buf;
@@ -611,12 +676,6 @@ char *ee_printf(const char *fmt, ...)
 	va_start(args, fmt);
 	ee_vsprintf(buf, fmt, args);
 	va_end(args);
-	//p = buf;
-	/*while (*p) {
-		uart_send_char(*p);
-		n++;
-		p++;
-	}*/
 
 	return buf;
 }
