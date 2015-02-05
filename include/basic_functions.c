@@ -161,10 +161,12 @@ int GETPAD(int pad)
 void RSETLIST(int list_index)
 {
 	//static int d0 asm ("d0")=list_index;
-__asm__ ("movem.l	d0-d3/a0,-(a7)\n\t"
+__asm__ ("movem.l	d0-d7/a0-a5,-(a6)\n\t"
 "			move.l 8(sp),d0\n\t"
+"			move.l a6,-(sp)\n\t"
 "    		jsr		RAPTOR_setlist\n\t"
-"			movem.l	(a7)+,d0-d3/a0");
+"			move.l (sp)+,a6\n\t"
+"			movem.l	(a6)+,d0-d7/a0-a5");
 }
 // -----------------------------------------------------------------------------
 int RHIT(int r_sl, int r_sh, int r_tl, int r_th)
