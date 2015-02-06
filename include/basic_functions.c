@@ -1,14 +1,3 @@
-// *********************************************************************
-// Created with BCX32 - BASIC To C/C++ Translator (V) 6.00 (2009/06/02)
-//                 BCX (c) 1999 - 2009 by Kevin Diggins
-// *********************************************************************
-//              Translated for compiling with a C Compiler
-// *********************************************************************
-
-// ***************************************************
-// Compiler Defines
-// ***************************************************
-
 // C++
 #if defined( __cplusplus )
   #define overloaded
@@ -245,7 +234,9 @@ void SNDPLAY(int sampleno,int channel)
   	volatile int c=channel;
   __asm__ ("\tmove.l 8(a6),d0\n\t"
   "move.l 12(a6),d1\n\t"
-  "jsr RAPTOR_U235playsample");
+  "movem.l d2-d7/a0-a5,-(sp)\n\t"
+  "jsr RAPTOR_U235playsample\n\t"
+  "movem.l (sp)+,d2-d7/a0-a5");
 }
 // -----------------------------------------------------------------------------
 void MODVOL(int volume)

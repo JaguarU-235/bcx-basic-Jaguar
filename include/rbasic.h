@@ -1,3 +1,5 @@
+//Variables
+
 extern int U235SE_pad1 asm ("U235SE_pad1");
 extern int U235SE_pad2 asm ("U235SE_pad2");
 extern void *RAPTOR_sprite_table asm ("RAPTOR_sprite_table");
