@@ -69,41 +69,41 @@ int basic_r_indx=0;
 int basic_r_size=0;
 extern int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
 
-void SNDKILL(int x) asm("SNDKILL");
-void SNDDELTA(int x,int y) asm("SNDDELTA");
-void SNDFREQ(int x,int y) asm("SNDFREQ");
-void SNDVOLRESET(int x) asm("SNDVOLRESET");
-void SNDPLAYFREQ(int x,int y) asm("SNDPLAYFREQ");
+void SNDKILL(int v) asm("SNDKILL");
+void SNDDELTA(int v,int x) asm("SNDDELTA");
+void SNDFREQ(int v,int y) asm("SNDFREQ");
+void SNDVOLRESET(int v) asm("SNDVOLRESET");
+void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
 
 static unsigned int U235_commands[2]={0,0};
 // -----------------------------------------------------------------------------
-void SNDKILL(int x)
+void SNDKILL(int v)
 {
-	U235_commands[0]=x<<4|1;
+	U235_commands[0]=v<<4|1;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
-void SNDDELTA(int x,int y)
+void SNDDELTA(int v,int x)
 {
-	U235_commands[0]=y<<8|x<<4|3;
+	U235_commands[0]=x<<8|x<<v|3;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
-void SNDFREQ(int x,int y)
+void SNDFREQ(int v,int y)
 {
-	U235_commands[0]=y<<16|x<<4|7;
+	U235_commands[0]=y<<16|v<<4|7;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
-void SNDPLAYFREQ(int x,int y)
+void SNDPLAYFREQ(int v,int x,int y)
 {
-	U235_commands[0]=y<<16|x<<8|4;
+	U235_commands[0]=y<<16|x<<8|v<<4|4;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
-void SNDVOLRESET(int x)
+void SNDVOLRESET(int v)
 {
-	U235_commands[0]=x<<4|8;
+	U235_commands[0]=v<<4|8;
 	U235SE_sfxplaylist_ptr=&U235_commands[0];
 }
 // -----------------------------------------------------------------------------
