@@ -30,10 +30,10 @@ do
 	IF RHIT(1,1,2,22)<>-1 THEN
 		'SNDPLAY(0,4)
 		col=PY<<10
-		dpoke 0xf00058,col
+		dpoke BG,col
 	PRINT "LOLOL"
 	ELSE
-		dpoke 0xf00058,PY
+		dpoke BG,PY
 	endif
 	RUPDALL(0)
 	MODVOL(PY*63/200)
