@@ -226,7 +226,7 @@ LBUFB	=     _BASE+0x1000,    // Line Buffer B
 LBUFC	=     _BASE+0x1800,    // Line Buffer Current
 
 //////////////////////////////////////////////////////////////////////////
-//      OBJECT PROCESSOR =ATES
+//      OBJECT PROCESSOR EQUATES
 //////////////////////////////////////////////////////////////////////////
 
 BITOBJ	=     0    ,
@@ -861,7 +861,7 @@ COMPAT	=     1,
 MOD_MASK	=     _BASE+0x1A118,   // Mask for DSP ADDQ(SUBQ)MOD
 
 //////
-////// These registers should never be messed with so these =s will
+////// These registers should never be messed with so these EQUs will
 ////// be purged in the next revision of JAGUAR.INC. Please don't use them.
 //////
 

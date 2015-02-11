@@ -25,6 +25,7 @@ rem delete residual files from previous builds
 if exist rbasic.abs del rbasic.abs
 if exist build\basic.o del build\basic.o
 if exist build\%1.C del build\%1.C
+if exist build\%1.o del build\%1.o
 
 rem -------------------------------------------------------------
 rem abort build if bas file doesn't exist

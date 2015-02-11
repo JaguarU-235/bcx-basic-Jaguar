@@ -1223,7 +1223,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"declare",""                     ,0,comvt_BAD}, ',Trans_BCX_128,83886083},
   {"decr","decr"                    ,0,comvt_BAD}, ',NULL         ,83886081},
   {"del$",""                        ,0,comvt_BAD}, ',StrPro004    ,83886081},
-  {"delay","delay"                  ,0,comvt_BAD}, ',NULL         ,83886081},
   {"delete",""                      ,0,comvt_BAD}, ',Trans_BCX_130,0},
   {"descending","descending"        ,0,comvt_BAD}, ',NULL         ,83886083},
   {"dim","dim"                      ,0,comvt_BAD}, ',NULL         ,83886081},
@@ -1551,6 +1550,7 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"vbs_stop",""                    ,0,comvt_BAD}, ',ScrPro004    ,83886081},
   {"vchr$",""                       ,0,comvt_BAD}, ',ConPro014    ,83886081},
   {"verify",""                      ,0,comvt_BAD}, ',ExtStr043    ,83886081},
+  {"vsync",""                       ,0,comvt_BAD}, ',NULL         ,83886081},
   {"vt$",""                         ,0,comvt_BAD}, ',StrConst     ,83886083},
   {"wend","wend"                    ,0,comvt_BAD}, ',NULL         ,83886083},
   {"while","while"                  ,0,comvt_BAD}, ',NULL         ,83886083},
@@ -6748,6 +6748,9 @@ SUB TokenSubstitutions
       CASE 4
       SELECT CASE Keyword$
 
+	    CASE "delay"
+		Stk$[Tmp] = "delay"
+		
         CASE "dpeek"
         Stk$[Tmp] = "*(short *)"
 
@@ -7965,9 +7968,6 @@ SUB TokenSubstitutions
 
         CASE "sinh"
         Stk$[Tmp]= "sinh"
-
-        CASE "sleep"
-        Stk$[Tmp]= "Sleep"
 
         CASE "space$"
         Stk$[Tmp]= "$$space$"
@@ -10185,6 +10185,11 @@ SUB Emit
   SELECT CASE Lookup$
 
     '********************************************************************
+    CASE "vsync"
+    '********************************************************************
+    FPRINT Outfile,Scoot$,"RUPDALL(0);"
+
+    '********************************************************************
     CASE "lpoke", "dpoke", "poke"
     '********************************************************************
 
@@ -10726,19 +10731,6 @@ SUB Emit
     NEXT
 
     FPRINT Outfile,Scoot$, "TextMode("; lszTmp$ ; ");"
-
-    '***********************
-    CASE "delay"
-    '***********************
-
-    lszTmp$ = ""
-
-    FOR i = 2 TO Ndx                 ' Allow size to be an expression
-      CONCAT(lszTmp$, Clean$(Stk$[i]))
-    NEXT
-
-    FPRINT Outfile,Scoot$,"Sleep(1000*";lszTmp$;");"
-
 
     '***********************
     CASE "qsortidx"          'qsortidx idx, size_of_array, A$, key
@@ -14173,6 +14165,7 @@ SUB DeclareVariables
 
   FPRINT Outfile, "#include "+DQ$+"rbasic.h"+DQ$+""
   FPRINT Outfile, "#include "+DQ$+"raptor.h"+DQ$+""
+  FPRINT Outfile, "inline void delay(int x) {for (int delayloopcounter=0;delayloopcounter<x;delayloopcounter++) RUPDALL(0);}"
 
 
   FOR i = 1 TO GlobalVarCnt
