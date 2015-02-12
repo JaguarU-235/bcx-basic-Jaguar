@@ -14165,7 +14165,6 @@ SUB DeclareVariables
 
   FPRINT Outfile, "#include "+DQ$+"rbasic.h"+DQ$+""
   FPRINT Outfile, "#include "+DQ$+"raptor.h"+DQ$+""
-  FPRINT Outfile, "inline void delay(int x) {for (int delayloopcounter=0;delayloopcounter<x;delayloopcounter++) RUPDALL(0);}"
 
 
   FOR i = 1 TO GlobalVarCnt

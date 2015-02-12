@@ -75,8 +75,12 @@ void SNDDELTA(int v,int x) asm("SNDDELTA");
 void SNDFREQ(int v,int y) asm("SNDFREQ");
 void SNDVOLRESET(int v) asm("SNDVOLRESET");
 void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
+void delay(int x) asm("delay");
 
 static unsigned int U235_commands[2]={0,0};
+// -----------------------------------------------------------------------------
+void delay(int x)
+{int delayloopcounter;for (delayloopcounter=0;delayloopcounter<x;delayloopcounter++) RUPDALL(0);}
 // -----------------------------------------------------------------------------
 void SNDKILL(int v)
 {
@@ -147,10 +151,8 @@ void RSETLIST(int list_index)
 {
 	//static int d0 asm ("d0")=list_index;
 __asm__ ("movem.l	d0-d7/a0-a6,-(a7)\n\t"
-"			move.l 8(sp),d0\n\t"
-"			move.l a6,-(sp)\n\t"
+"			move.l 8+60(sp),d0\n\t"
 "    		jsr		RAPTOR_setlist\n\t"
-"			move.l (sp)+,a6\n\t"
 "			movem.l	(a7)+,d0-d7/a0-a6");
 }
 // -----------------------------------------------------------------------------

@@ -54,3 +54,4 @@ void SNDDELTA(int v,int x) asm("SNDDELTA");
 void SNDFREQ(int v,int y) asm("SNDFREQ");
 void SNDVOLRESET(int v) asm("SNDVOLRESET");
 void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
+void delay(int x) asm("delay");
