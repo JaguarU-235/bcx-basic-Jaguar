@@ -28,6 +28,7 @@ extern int U235SE_pad2 asm ("U235SE_pad2");
 extern int U235SE_music_vol asm ("U235SE_music_vol");
 extern int U235SE_sfx_vol asm ("U235SE_sfx_vol");
 extern void *RAPTOR_sprite_table asm ("RAPTOR_sprite_table");
+extern void *raptor_liststart asm ("raptor_liststart");
 extern void *pixel_list asm ("pixel_list");
 extern void *raptor_part_inject_addr asm ("raptor_part_inject_addr");
 extern int raptor_map_position_x asm ("raptor_map_position_x");
@@ -67,7 +68,7 @@ volatile int basic_r_xpos=0;
 volatile int basic_r_ypos=0;
 int basic_r_indx=0;
 int basic_r_size=0;
-extern int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
+extern unsigned int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
 
 void SNDKILL(int v) asm("SNDKILL");
 void SNDDELTA(int v,int x) asm("SNDDELTA");
@@ -145,12 +146,12 @@ int GETPAD(int pad)
 void RSETLIST(int list_index)
 {
 	//static int d0 asm ("d0")=list_index;
-__asm__ ("movem.l	d0-d7/a0-a5,-(a6)\n\t"
+__asm__ ("movem.l	d0-d7/a0-a6,-(a7)\n\t"
 "			move.l 8(sp),d0\n\t"
 "			move.l a6,-(sp)\n\t"
 "    		jsr		RAPTOR_setlist\n\t"
 "			move.l (sp)+,a6\n\t"
-"			movem.l	(a6)+,d0-d7/a0-a5");
+"			movem.l	(a7)+,d0-d7/a0-a6");
 }
 // -----------------------------------------------------------------------------
 int RHIT(int r_sl, int r_sh, int r_tl, int r_th)
@@ -170,7 +171,7 @@ int RHIT(int r_sl, int r_sh, int r_tl, int r_th)
 void RSETOBJ(int spr_index, int offset, int value)
 {
 	char *a0;
-	a0=(char *)&RAPTOR_sprite_table;
+	a0=(char *)raptor_liststart;
 	a0=a0+offset+(spr_index*188);
 	*(int *)a0=value;
 }
@@ -178,7 +179,7 @@ void RSETOBJ(int spr_index, int offset, int value)
 int RGETOBJ(int spr_index, int offset)
 {
 	char *a0;
-	a0=(char *)&RAPTOR_sprite_table;
+	a0=(char *)raptor_liststart;
 	a0=a0+offset+(spr_index*188);
 	return *(int *)a0;
 }

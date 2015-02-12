@@ -20,6 +20,7 @@ extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("_RAPTOR_wait_frame");
 extern int RUPDALL_FLAG asm ("_RUPDALL_FLAG");
+extern void *raptor_liststart asm ("raptor_liststart");
 
 //Functions
 
