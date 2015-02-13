@@ -725,18 +725,14 @@ GLOBAL  Use_Cbool
 GLOBAL  Use_Cint
 GLOBAL  Use_Clng
 GLOBAL  Use_Color
-GLOBAL  Use_Command
 GLOBAL  Use_ComboBoxLoadFile
 GLOBAL  Use_Console
 GLOBAL  Use_ContainedIn
 GLOBAL  Use_Static
-GLOBAL  Use_CreateRegInt
-GLOBAL  Use_CreateRegString
 GLOBAL  Use_Crlf
 GLOBAL  Use_Csrlin
 GLOBAL  Use_Date
 GLOBAL  Use_Del
-GLOBAL  Use_DeleteRegKey
 GLOBAL  Use_Doevents
 GLOBAL  Use_Download
 GLOBAL  Use_Draw
@@ -748,7 +744,6 @@ GLOBAL  Use_Elf
 GLOBAL  Use_Enclose
 GLOBAL  Use_Environ
 GLOBAL  Use_EnumFile
-GLOBAL  Use_Eof
 GLOBAL  Use_Exist
 GLOBAL  Use_ExitCode
 GLOBAL  Use_Extract
@@ -764,7 +759,6 @@ GLOBAL  Use_Fix
 GLOBAL  Use_FileLocked
 GLOBAL  Use_Frac
 GLOBAL  Use_Fracl
-GLOBAL  Use_Freefile
 GLOBAL  Use_Get
 GLOBAL  Use_SetDimension
 GLOBAL  Use_GetDimension
@@ -796,10 +790,7 @@ GLOBAL  Use_IRemove
 GLOBAL  Use_Instrrev
 GLOBAL  Use_Imod
 GLOBAL  Use_Join
-GLOBAL  Use_Keypress
 GLOBAL  Use_Lcase
-GLOBAL  Use_LccPath
-GLOBAL  Use_PellesPath
 GLOBAL  Use_Ldouble
 GLOBAL  Use_Left
 GLOBAL  Use_Like
@@ -835,9 +826,7 @@ GLOBAL  Use_Oct
 GLOBAL  Use_Outp
 GLOBAL  Use_Outpw
 GLOBAL  Use_Overloaded
-GLOBAL  Use_OSVersion
 GLOBAL  Use_Panel
-GLOBAL  Use_Pause
 GLOBAL  Use_PeekStr
 GLOBAL  Use_Pos
 GLOBAL  Use_Printer
@@ -860,19 +849,10 @@ GLOBAL  Use_Exp
 GLOBAL  Use_Retain
 GLOBAL  Use_Round
 GLOBAL  Use_Rtrim
-GLOBAL  Use_Run
-GLOBAL  Use_SaveBmp
 GLOBAL  Use_Scan
-GLOBAL  Use_Screen
-GLOBAL  Use_Setattr
 GLOBAL  Use_SearchPath
-GLOBAL  Use_Set_BCX_Bitmap
-GLOBAL  Use_Set_BCX_Bitmap2
-GLOBAL  Use_Set_BCX_BmpButton
-GLOBAL  Use_Set_BCX_Icon
 GLOBAL  Use_Sgn
 GLOBAL  Use_SingleFile
-GLOBAL  Use_Sound
 GLOBAL  Use_Space
 GLOBAL  Use_Split
 GLOBAL  Use_DSplit
@@ -890,8 +870,6 @@ GLOBAL  Use_Strqsortd
 GLOBAL  Use_Strtoken
 GLOBAL  Use_DynStrqsorta
 GLOBAL  Use_DynStrqsortd
-GLOBAL  Use_RegInt
-GLOBAL  Use_RegString
 GLOBAL  Use_Resource
 GLOBAL  Use_GenResFile
 GLOBAL  Use_Swap
@@ -902,7 +880,6 @@ GLOBAL  Use_Tally
 GLOBAL  Use_TempFileName
 GLOBAL  Use_Textmode
 GLOBAL  Use_Threads
-GLOBAL  Use_Time
 GLOBAL  Use_Timer
 GLOBAL  Use_Treeview
 GLOBAL  Use_Trim
@@ -930,25 +907,16 @@ GLOBAL  Use_Checkbox
 GLOBAL  Use_Combobox
 GLOBAL  Use_Datepick
 GLOBAL  Use_Edit
-GLOBAL  Use_BCXMDialog
-GLOBAL  Use_BCXDialog
-GLOBAL  Use_Form
 GLOBAL  Use_Grayrect
 GLOBAL  Use_Group
 GLOBAL  Use_Hide
 GLOBAL  Use_Icon
 GLOBAL  Use_Label
-GLOBAL  Use_Listbox
 GLOBAL  Use_Listview
-GLOBAL  Use_PlayWav
 GLOBAL  Use_Radio
 GLOBAL  Use_Refresh
-GLOBAL  Use_Richedit
-GLOBAL  Use_SetColor
 GLOBAL  Use_SetFont
-GLOBAL  Use_SetText
 GLOBAL  Use_Show
-GLOBAL  Use_Status
 GLOBAL  Use_Whiterect
 
 '********************************
@@ -1094,57 +1062,7 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"band",""                        ,0,comvt_BAD}, ',Trans_010    ,83886081},
   {"base","base"                    ,0,comvt_BAD}, ',NULL         ,83886083},
   {"bcopy",""                       ,0,comvt_BAD}, ',StrPro001    ,83886081},
-  {"bcx_circle",""                  ,0,comvt_BAD}, ',Trans_BCX_019,83886081},
   {"bcx_classname$","BCX_ClassName$",0,comvt_BAD}, ',NULL         ,0},
-  {"bcx_datepick",""                ,0,comvt_BAD}, ',BCXGUI014    ,83886081},
-  {"bcx_dialog",""                  ,0,comvt_BAD}, ',BCXGUI005    ,83886081},
-  {"bcx_dispatchobject",""          ,0,comvt_BAD}, ',Trans_COM_001,83886081},
-  {"bcx_font",""                    ,0,comvt_BAD}, ',Trans_BCX_028,0},
-  {"bcx_fontdlg",""                 ,0,comvt_BAD}, ',BCXGUI016    ,83886081},
-  {"bcx_form",""                    ,0,comvt_BAD}, ',BCXGUI017    ,83886081},
-  {"bcx_framewnd",""                ,0,comvt_BAD}, ',BCXGUI018    ,0},
-  {"bcx_get",""                     ,0,comvt_BAD}, ',Trans_BCX_032,83886081},
-  {"bcx_get_com_error_desc$","BCX_GET_COM_ERROR_DESC"      ,0,comvt_BAD}, ',NULL         ,0},
-  {"bcx_get_com_success","BCX_GET_COM_SUCCESS"         ,0,comvt_BAD}, ',NULL         ,0},
-  {"bcx_get_text$",""               ,0,comvt_BAD}, ',BCXGUI019    ,83886081},
-  {"bcx_get_updown",""              ,0,comvt_BAD}, ',BCXGUI020    ,0},
-  {"bcx_loadimage",""               ,0,comvt_BAD}, ',Trans_BCX_047,0},
-  {"bcx_mdi_msgpump",""             ,0,comvt_BAD}, ',BCXGUI029    ,0},
-  {"bcx_mdialog",""                 ,0,comvt_BAD}, ',Trans_BCX_049,0},
-  {"bcx_mdichild","BCX_MDICHILD"    ,0,comvt_BAD}, ',NULL         ,0},
-  {"bcx_mdiclass","BCX_MDICLASS"    ,0,comvt_BAD}, ',NULL         ,0},
-  {"bcx_radio",""                   ,0,comvt_BAD}, ',BCXGUI035    ,83886081},
-  {"bcx_rectangle",""               ,0,comvt_BAD}, ',Trans_BCX_063,83886081},
-  {"bcx_regwnd",""                  ,0,comvt_BAD}, ',BCXGUI036    ,0},
-  {"bcx_remtab","BCX_RemTab"        ,0,comvt_BAD}, ',NULL         ,0},
-  {"bcx_repeat","bcx_repeat"        ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"bcx_resource","bcx_resource"    ,0,comvt_BAD}, ',NULL         ,83886083},
-  {"bcx_richedit",""                ,0,comvt_BAD}, ',BCXGUI038    ,83886081},
-  {"bcx_roundrect",""               ,0,comvt_BAD}, ',Trans_BCX_066,83886081},
-  {"bcx_scalex","BCX_ScaleX"        ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"bcx_scaley","BCX_ScaleY"        ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"bcx_set_form_color",""          ,0,comvt_BAD}, ',BCXGUI048    ,83886081},
-  {"bcx_set_text",""                ,0,comvt_BAD}, ',BCXGUI050    ,83886081},
-  {"bcx_setbkgrdbrush",""           ,0,comvt_BAD}, ',BCXGUI040    ,0},
-  {"bcx_setclassstyle",""           ,0,comvt_BAD}, ',BCXGUI041    ,0},
-  {"bcx_setcolor",""                ,0,comvt_BAD}, ',BCXGUI039    ,0},
-  {"bcx_setcursor",""               ,0,comvt_BAD}, ',BCXGUI042    ,0},
-  {"bcx_seticon",""                 ,0,comvt_BAD}, ',BCXGUI043    ,0},
-  {"bcx_seticonsm",""               ,0,comvt_BAD}, ',BCXGUI044    ,0},
-  {"bcx_setmetric",""               ,0,comvt_BAD}, ',BCXGUI045    ,0},
-  {"bcx_setsplitpos",""             ,0,comvt_BAD}, ',Trans_BCX_077,0},
-  {"bcx_show_com_errors","BCX_SHOW_COM_ERRORS",0,comvt_BAD}, ',NULL    ,0},
-  {"bcx_slider",""                  ,0,comvt_BAD}, ',BCXGUI051    ,0},
-  {"bcx_splitter",""                ,0,comvt_BAD}, ',BCXGUI052    ,0},
-  {"bcx_status",""                  ,0,comvt_BAD}, ',BCXGUI053    ,83886081},
-  {"bcx_str","bcx_str"              ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"bcx_tab",""                     ,0,comvt_BAD}, ',BCXGUI055    ,0},
-  {"bcx_tabselect",""               ,0,comvt_BAD}, ',BCXGUI056    ,0},
-  {"bcx_thread",""                  ,0,comvt_BAD}, ',ThrPro001    ,83886081},
-  {"bcx_threadend",""               ,0,comvt_BAD}, ',ThrPro001    ,83886081},
-  {"bcx_threadkill",""              ,0,comvt_BAD}, ',ThrPro001    ,83886081},
-  {"bcx_threadresume",""            ,0,comvt_BAD}, ',ThrPro001    ,83886081},
-  {"bcx_threadsuspend",""           ,0,comvt_BAD}, ',ThrPro001    ,83886081},
   {"bcxlib","bcxlib"                ,0,comvt_BAD}, ',NULL         ,83886083},
   {"bcxsplitpath$",""               ,0,comvt_BAD}, ',FilMan004    ,0},
   {"begin",""                       ,0,comvt_BAD}, ',Trans_BCX_093,83886083},
@@ -1192,7 +1110,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"colorref","COLORREF"            ,0,comvt_BAD}, ',NULL         ,0},
   {"colour",""                      ,0,comvt_BAD}, ',NULL         ,83886083},
   {"comboboxloadfile",""            ,0,comvt_BAD}, ',FilMan007    ,67108865},
-  {"command$",""                    ,0,comvt_BAD}, ',OthPro008    ,67108865},
   {"concat","strcat"                ,0,comvt_BAD}, ',NULL         ,83886081},
   {"console","console"              ,0,comvt_BAD}, ',NULL         ,83886081},
   {"const","const"                  ,0,comvt_BAD}, ',NULL         ,83886083},
@@ -1203,12 +1120,9 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"cosl","cosl"                    ,0,comvt_BAD}, ',NULL         ,0},
   {"cr$",""                         ,0,comvt_BAD}, ',StrConst     ,83886083},
   {"createobject",""                ,0,comvt_BAD}, ',Trans_BCX_113,0},
-  {"createregint",""                ,0,comvt_BAD}, ',RegPro001    ,83886083},
-  {"createregstring",""             ,0,comvt_BAD}, ',RegPro002    ,83886083},
   {"crlf$",""                       ,0,comvt_BAD}, ',StrConst     ,83886083},
   {"csng",""                        ,0,comvt_BAD}, ',MatPro016    ,83886081},
   {"csrlin",""                      ,0,comvt_BAD}, ',DOSPro003    ,83886081},
-  {"currency","CURRENCY"            ,0,comvt_BAD}, ',NULL         ,0},
   {"cursorx",""                     ,0,comvt_BAD}, ',DOSPro004    ,83886081},
   {"cursory",""                     ,0,comvt_BAD}, ',DOSPro003    ,83886081},
   {"cvd",""                         ,0,comvt_BAD}, ',ConPro003    ,83886081},
@@ -1243,7 +1157,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"endmodal",""                    ,0,comvt_BAD}, ',Trans_00194  ,0},
   {"enum",""                        ,0,comvt_BAD}, ',SUB_202      ,83886083},
   {"environ$",""                    ,0,comvt_BAD}, ',SUB_203      ,83886081},
-  {"eof",""                         ,0,comvt_BAD}, ',FilMan009    ,83886081},
   {"eof$",""                        ,0,comvt_BAD}, ',StrConst     ,83886083},
   {"esc$",""                        ,0,comvt_BAD}, ',StrConst     ,83886083},
   {"events","events"                ,0,comvt_BAD}, ',NULL         ,83886083},
@@ -1272,7 +1185,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"frac",""                        ,0,comvt_R8 }, ',MatPro020    ,83886081},
   {"fracl",""                       ,0,comvt_BAD}, ',SUB_222      ,0},
   {"free","free"                    ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"freefile",""                    ,0,comvt_BAD}, ',FilMan014    ,83886081},
   {"freeglobals","FreeGlobals"      ,0,comvt_BAD}, ',NULL         ,83886083},
   {"from","from"                    ,0,comvt_BAD}, ',NULL         ,0},
   {"function",""                    ,0,comvt_BAD}, ',ConFlo006    ,83886083},
@@ -1333,10 +1245,8 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"isptr",""                       ,0,comvt_BAD}, ',SUB_258      ,83886081},
   {"iterate","continue"             ,0,comvt_BAD}, ',NULL         ,83886083},
   {"join$",""                       ,0,comvt_BAD}, ',ExtStr009    ,83886081},
-  {"keypress",""                    ,0,comvt_BAD}, ',KeyPro006    ,83886081},
   {"kill","kill"                    ,0,comvt_BAD}, ',NULL         ,83886081},
   {"lcase$",""                      ,0,comvt_BAD}, ',ExtStr010    ,83886081},
-  {"lccpath$",""                    ,0,comvt_BAD}, ',FilMan018    ,83886081},
   {"ldouble",""                     ,0,comvt_BAD}, ',SUB_270      ,0},
   {"left$",""                       ,0,comvt_BAD}, ',ExtStr011    ,83886081},
   {"len","strlen"                   ,0,comvt_R4 }, ',NULL         ,83886081},
@@ -1399,15 +1309,12 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"option","option"                ,0,comvt_BAD}, ',NULL         ,83886083},
   {"optional","optional"            ,0,comvt_BAD}, ',NULL         ,83886083},
   {"or","or"                        ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"osversion",""                   ,0,comvt_BAD}, ',SUB_319      ,83886081},
   {"outp",""                        ,0,comvt_BAD}, ',HarPro003    ,83886081},
   {"output","output"                ,0,comvt_BAD}, ',NULL         ,83886081},
   {"outpw",""                       ,0,comvt_BAD}, ',HarPro004    ,83886081},
   {"overloaded","overloaded"        ,0,comvt_BAD}, ',NULL         ,83886083},
   {"panel","panel"                  ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"pause",""                       ,0,comvt_BAD}, ',DOSPro017    ,0},
   {"peek$",""                       ,0,comvt_BAD}, ',ExtStr019    ,83886081},
-  {"pellespath$",""                 ,0,comvt_BAD}, ',FilMan024    ,0},
   {"pixels","pixels"                ,0,comvt_BAD}, ',NULL         ,83886083},
   {"playwav",""                     ,0,comvt_BAD}, ',SUB_329      ,83886081},
   {"poke","memmove"                 ,0,comvt_BAD}, ',NULL         ,83886081},
@@ -1417,7 +1324,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"preserve","PRESERVE"            ,0,comvt_BAD}, ',NULL         ,83886083},
   {"print",""                       ,0,comvt_BAD}, ',DOSPro008    ,83886081},
   {"print#","fprint"                ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"printer",""                     ,0,comvt_BAD}, ',PRINTERINI   ,83886081},
   {"private",""                     ,0,comvt_BAD}, ',SUB_334      ,83886083},
   {"program","program"              ,0,comvt_BAD}, ',NULL         ,83886083},
   {"ptr",""                         ,1,comvt_BAD}, ',SUB_325      ,83886081},
@@ -1433,9 +1339,7 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"record","record"                ,0,comvt_BAD}, ',NULL         ,83886081},
   {"redim","redim"                  ,0,comvt_BAD}, ',NULL         ,83886081},
   {"refresh",""                     ,0,comvt_BAD}, ',BCXGUI076    ,0},
-  {"regint",""                      ,0,comvt_BAD}, ',RegPro004    ,83886081},
   {"register","register"            ,0,comvt_BAD}, ',NULL         ,83886083},
-  {"regstring$",""                  ,0,comvt_BAD}, ',RegPro005    ,83886081},
   {"rem","rem"                      ,0,comvt_BAD}, ',NULL         ,117440516},
   {"remain$",""                     ,0,comvt_BAD}, ',ExtStr023    ,218103809},
   {"remove","remove"                ,0,comvt_BAD}, ',NULL         ,218103809},
@@ -1455,23 +1359,15 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"round",""                       ,0,comvt_R8 }, ',MatPro037    ,83886081},
   {"rpad$",""                       ,0,comvt_BAD}, ',ExtStr030    ,83886081},
   {"rtrim$",""                      ,0,comvt_BAD}, ',ExtStr031    ,83886081},
-  {"run","Run"                      ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"savebmp",""                     ,0,comvt_BAD}, ',SUB_370      ,83886081},
   {"scanerror","scanerror"          ,0,comvt_BAD}, ',NULL         ,83886083},
-  {"screen",""                      ,0,comvt_BAD}, ',DOSPro009    ,83886081},
   {"searchpath$",""                 ,0,comvt_BAD}, ',SUB_367      ,83886081},
   {"seek","seek"                    ,0,comvt_BAD}, ',NULL         ,83886081},
   {"select","select"                ,0,comvt_BAD}, ',NULL         ,83886083},
   {"sendmessage",""                 ,0,comvt_BAD}, ',SUB_369      ,0},
   {"set","set"                      ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"set_bcx_bitmap",""              ,0,comvt_BAD}, ',BCXGUI077    ,83886081},
   {"set_bcx_bitmap2",""             ,0,comvt_BAD}, ',BCXGUI078    ,0},
-  {"set_bcx_bmpbutton",""           ,0,comvt_BAD}, ',SUB_372      ,83886081},
-  {"set_bcx_icon",""                ,0,comvt_BAD}, ',BCXGUI080    ,83886081},
-  {"setattr",""                     ,0,comvt_BAD}, ',FilMan031    ,83886081},
   {"setdimension",""                ,0,comvt_BAD}, ',BCXGUI081    ,0},
   {"setformcolor","setformcolor"    ,0,comvt_BAD}, ',NULL         ,83886081},
-  {"setwindowrtftext",""            ,0,comvt_BAD}, ',BCXGUI082    ,83886081},
   {"sgn",""                         ,0,comvt_R4 }, ',MatPro038    ,83886081},
   {"shared","shared"                ,0,comvt_BAD}, ',NULL         ,83886081},
   {"shell","shell"                  ,0,comvt_BAD}, ',NULL         ,83886081},
@@ -1485,7 +1381,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"sizeof","sizeof"                ,0,comvt_R4 }, ',NULL         ,83886081},
   {"sleep","Sleep"                  ,0,comvt_BAD}, ',NULL         ,0},
   {"sndmsg",""                      ,0,comvt_BAD}, ',SUB_369      ,0},
-  {"sound",""                       ,0,comvt_BAD}, ',SUB_387      ,83886081},
   {"space$",""                      ,0,comvt_BAD}, ',ExtStr032    ,83886081},
   {"spc$",""                        ,0,comvt_BAD}, ',StrConst     ,83886083},
   {"split",""                       ,0,comvt_BAD}, ',ArrPro008    ,83886081},
@@ -1520,7 +1415,6 @@ SET BCXWords[] AS tagTokenSuFunctions
   {"textmode","textmode"            ,0,comvt_BAD}, ',NULL         ,83886081},
   {"then","then"                    ,0,comvt_BAD}, ',NULL         ,83886083},
   {"this",""                        ,0,comvt_BAD}, ',SUB_412      ,0},
-  {"time$",""                       ,0,comvt_BAD}, ',ExtStr040    ,83886081},
   {"timer",""                       ,0,comvt_R4}, ',DOSPro020     ,83886081},
   {"to","to"                        ,0,comvt_BAD}, ',NULL         ,83886083},
   {"trim$",""                       ,0,comvt_BAD}, ',SUB_404      ,83886081},
@@ -1999,31 +1893,6 @@ FUNCTION main(ARGC AS INTEGER, ARGV AS PCHAR PTR)
   IF Use_VBS THEN
     CALL Emit_VBSCRIPT_Support
   END IF
-
-  IF Use_Project = FALSE THEN
-    STATIC Pass_1
-    INCR Pass_1
-    IF Pass_1 = 1 THEN
-      AddLibrary("kernel32.lib")
-      AddLibrary("user32.lib")
-      AddLibrary("gdi32.lib")
-      AddLibrary("comctl32.lib")
-      AddLibrary("advapi32.lib")
-      AddLibrary("winspool.lib")
-      AddLibrary("shell32.lib")
-      AddLibrary("ole32.lib")
-      AddLibrary("oleaut32.lib")
-      AddLibrary("uuid.lib")
-      AddLibrary("odbc32.lib")
-      AddLibrary("odbccp32.lib")
-      AddLibrary("winmm.lib")
-      AddLibrary("comdlg32.lib")
-      AddLibrary("imagehlp.lib")
-      AddLibrary("version.lib")
-    END IF
-
-  END IF ' Use_Project = FALSE
-
 
   FLUSH (Outfile)            '*************************************
   IF FPtrNdx THEN            '  Pop out the $Include File Handles
@@ -3059,48 +2928,6 @@ SUB Library_Support()
       WEND
     END IF
     CLOSE LB1
-    ' add the libraries pragmas to bcxRT.h
-    FPRINT LB0,"#if !defined ( __LCC__ )"
-    FPRINT LB0,""
-    FPRINT LB0,"// *************************************************"
-    FPRINT LB0,"// Instruct Linker to Search Object/Import Libraries"
-    FPRINT LB0, "// *************************************************"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("kernel32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("user32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("gdi32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("comctl32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("advapi32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("winspool.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("shell32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("ole32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("oleaut32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("uuid.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("odbc32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("odbccp32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("delayimp.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("dxguid.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("winmm.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("comdlg32.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("htmlhelp.lib"), ")"
-    FPRINT LB0,"#pragma comment(lib,", ENC$("bcxRT.lib"), ")"
-    FPRINT LB0, "// *************************************************"
-    FPRINT LB0,"#else"
-    FPRINT LB0, "// *************************************************"
-    FPRINT LB0,"#pragma lib <winspool.lib>"
-    FPRINT LB0,"#pragma lib <shell32.lib>"
-    FPRINT LB0,"#pragma lib <ole32.lib>"
-    FPRINT LB0,"#pragma lib <oleaut32.lib>"
-    FPRINT LB0,"#pragma lib <uuid.lib>"
-    FPRINT LB0,"#pragma lib <odbc32.lib>"
-    FPRINT LB0,"#pragma lib <odbccp32.lib>"
-    FPRINT LB0,"#pragma lib <winmm.lib>"
-    FPRINT LB0,"#pragma lib <htmlhelp.lib>"
-    FPRINT LB0,"#pragma lib <bcxRT.lib>"
-    FPRINT LB0, "// *************************************************"
-    FPRINT LB0,"// End of Object/Import Libraries To Search"
-    FPRINT LB0,"// *************************************************"
-    FPRINT LB0,"#endif"
-    CLOSE LB0
 
     ' create response file for BCC55's TLib.exe
 
@@ -3494,38 +3321,6 @@ SUB EmitCompilerDefines()
   FPRINT FP7,"#else"
   FPRINT FP7,"  #define C_EXPORT __declspec(dllexport)"
   FPRINT FP7,"  #define C_IMPORT __declspec(dllimport)"
-  FPRINT FP7,"#endif"
-  FPRINT FP7,""
-  FPRINT FP7,"// Open Watcom defs"
-  FPRINT FP7,"#if defined( __WATCOM_CPLUSPLUS__ ) || defined( __TINYC__ )"
-  FPRINT FP7,"  #define atanl atan"
-  FPRINT FP7,"  #define sinl  sin"
-  FPRINT FP7,"  #define cosl  cos"
-  FPRINT FP7,"  #define tanl  tan"
-  FPRINT FP7,"  #define asinl asin"
-  FPRINT FP7,"  #define acosl acos"
-  FPRINT FP7,"  #define log10l log10"
-  FPRINT FP7,"  #define logl   log"
-  FPRINT FP7,"  #define _fcloseall fcloseall"
-  FPRINT FP7,"#endif"
-  FPRINT FP7,""
-  FPRINT FP7,"// Borland C++ 5.5.1 defs - bcc32.exe"
-  FPRINT FP7,"#if defined( __BCPLUSPLUS__ )"
-  FPRINT FP7,"  // ===== Borland Libraries =========="
-  FPRINT FP7,"  #include <dos.h>"
-  FPRINT FP7,"  #pragma comment(lib,", ENC$("import32.lib"), ")"
-  FPRINT FP7,"  #pragma comment(lib,", ENC$("cw32.lib"), ")"
-  FPRINT FP7,"  // =================================="
-  FPRINT FP7,"#endif"
-  FPRINT FP7,""
-  FPRINT FP7,"// Microsoft VC++"
-  ' this may need to be changed to work with all C++ compilers?????
-  FPRINT FP7,"#ifndef DECLSPEC_UUID"
-  FPRINT FP7,"  #if (_MSC_VER >= 1100) && defined ( __cplusplus )"
-  FPRINT FP7,"    #define DECLSPEC_UUID(x)    __declspec(uuid(x))"
-  FPRINT FP7,"  #else"
-  FPRINT FP7,"    #define DECLSPEC_UUID(x)"
-  FPRINT FP7,"  #endif"
   FPRINT FP7,"#endif"
   FPRINT FP7,""
   IF Use_Library THEN FPRINT FP7,"// END BCXRTHEADER\n\n"
@@ -6423,94 +6218,6 @@ SUB TokenSubstitutions
         ' Special Case Handler: Maintain case sensitivity for this structure
         ' *******************************************************************
 
-        CASE "bcx_font"
-        Stk$[Tmp]   = UCASE$(Stk$[Tmp])
-        DIM RAW tmp$
-        tmp$ = Clean$(UCASE$(Stk$[Tmp+1]))
-
-        SELECT CASE tmp$
-          CASE ".NAME"         : Stk$[Tmp+1] = ".lf.lfFaceName$"
-          CASE ".BOLD"         : Stk$[Tmp+1] = ".lf.lfWeight"
-          CASE ".UNDERLINE"    : Stk$[Tmp+1] = ".lf.lfUnderline"
-          CASE ".STRIKEOUT"    : Stk$[Tmp+1] = ".lf.lfStrikeOut"
-          CASE ".ITALIC"       : Stk$[Tmp+1] = ".lf.lfItalic"
-          CASE ".CHARSET"      : Stk$[Tmp+1] = ".lf.lfCharSet"
-          CASE ".SIZE", ".RGB" : Stk$[Tmp+1] = tmp$
-          CASE ELSE
-          Stk$[Tmp+1] = Clean$(Stk$[Tmp+1])
-        END SELECT
-
-        CASE "bcx_remtab"
-        Stk$[Tmp] = "BCX_RemTab"
-
-        CASE "bcx_scalex"
-        Stk$[Tmp] = "BCX_ScaleX"
-
-        CASE "bcx_scaley"
-        Stk$[Tmp] = "BCX_ScaleY"
-
-        CASE "bcx_classname$"
-        Stk$[Tmp] = "BCX_ClassName$"
-
-        CASE "bcx_mdialog"
-        IF InWinMain AND NOT Use_BCXMDialog THEN
-          FPRINT Outfile,Scoot$,"BCX_hInstance    =  hInst;"
-          CALL AddGlobal("BcxFont"      ,vt_HFONT,    0,"",0,0,0,0)
-          CALL AddGlobal("BCX_ScaleX",   vt_SINGLE,   0,"",0,0,0,0)
-          CALL AddGlobal("BCX_ScaleY",   vt_SINGLE,   0,"",0,0,0,0)
-          CALL AddGlobal("BCX_hInstance",vt_HINSTANCE,0,"",0,0,0,0)
-        END IF
-        Stk$[Tmp] = "BCX_MDialog"
-        Use_BCXMDialog = Use_Proto = TRUE
-
-        CASE "bcx_dialog"
-        Stk$[Tmp] = "BCX_Dialog"
-        Use_BCXDialog = Use_Proto = TRUE
-
-        CASE "bcx_form"
-        Stk$[Tmp] = "BCX_Form"
-        Use_Form = Use_Proto = Use_MainEvent = TRUE
-
-        CASE "bcx_radio"
-        Stk$[Tmp] = "BCX_Radio"
-        Use_Radio = Use_GetTextSize = Use_Proto = TRUE
-
-        CASE "bcx_richedit"
-        Stk$[Tmp] = "BCX_RichEdit"
-        Use_Richedit = Use_Proto = TRUE
-
-        CASE "bcx_setcolor"
-        Stk$[Tmp] = "Set_Color"
-        RAW iPCnt = GetNumArgs(Tmp+2)
-
-        IF iPCnt = 1 THEN
-          InsertTokens(Ndx-1, 4, ",", "wParam", ",", "lParam")
-        ELSEIF iPCnt = 2 THEN
-          InsertTokens(Ndx-1, 2, ",", "lParam")
-        END IF
-        Use_SetColor = Use_Proto = TRUE
-
-        CASE "bcx_set_text"
-        Stk$[Tmp] = "BCX_Set_Text"
-        Use_SetText = Use_Proto = TRUE
-        IF Stk$[Tmp+1] <> "(" THEN
-          InsertTokens(Tmp,1,"(")
-          Stk$[++Ndx] = ")"
-        END IF
-
-        CASE "bcx_status"
-        Stk$[Tmp] = "BCX_Status"
-        Use_Status = Use_Proto = TRUE
-
-        CASE "bcx_get_com_error_desc$"
-        Stk$[Tmp] = "BCX_GET_COM_ERROR_DESC()"
-
-        CASE "bcx_get_com_success"
-        Stk$[Tmp] = "BCX_GET_COM_SUCCESS()"
-
-        CASE "bcx_show_com_errors"
-        Stk$[Tmp] = "BCX_SHOW_COM_ERRORS"
-
         CASE "bff$"
         Stk$[Tmp] = "$$BFF$"
         Use_Bff = UseFlag = TRUE
@@ -6602,14 +6309,6 @@ SUB TokenSubstitutions
         Stk$[Tmp] = "CRLF$"
         Use_Crlf = UseFlag = TRUE
 
-        CASE "createregstring"
-        Stk$[Tmp] = "CreateRegString"
-        Use_CreateRegString = UseFlag = TRUE
-
-        CASE "createregint"
-        Stk$[Tmp] = "CreateRegInt"
-        Use_CreateRegInt = UseFlag = TRUE
-
         CASE "cbctl"
         Stk$[Tmp]= "LOWORD(wParam)"
 
@@ -6654,13 +6353,6 @@ SUB TokenSubstitutions
         CASE "color", "color_fg", "color_bg"
         Stk$[Tmp] = LCASE$(Stk$[Tmp])
         Use_Color = Use_Console = Use_Proto = TRUE
-
-        CASE "command$"
-        Use_Command = UseFlag = TRUE
-        Stk$[Tmp]= "command$(-1)"
-        IF Stk$ [Tmp+1] = "(" THEN
-          Stk$ [Tmp]= "command$"
-        END IF
 
         CASE "comboboxloadfile"
         Stk$[Tmp] = "ComboBoxLoadFile"
@@ -6730,9 +6422,6 @@ SUB TokenSubstitutions
         CASE "csrlin","cursory"
         Stk$[Tmp]  = "Csrlin()"
         Use_Csrlin = Use_Proto  = TRUE
-
-        CASE "currency"
-        Stk$[Tmp] = "CURRENCY"
 
         CASE "c_declare"
         CallType$ = "__cdecl "
@@ -6842,13 +6531,6 @@ SUB TokenSubstitutions
         CASE "eof$"
         Stk$[Tmp] = "EF$"
         Use_EOF = UseFlag = TRUE
-
-        CASE "eof"
-        Stk$[Tmp]= "EoF"
-        Use_Eof = UseFlag = TRUE
-        IF DataType(Stk$[Tmp + 2]) = vt_NUMBER THEN
-          Stk$[Tmp + 2] = "FP" + Stk$[Tmp + 2]
-        END IF
 
         CASE "esc$"
         Stk$[Tmp] = "ESC$"
@@ -7015,10 +6697,6 @@ SUB TokenSubstitutions
         CASE "fracl"
         Stk$[Tmp]= "FRACL"
         Use_Fix = Use_Fracl = Use_Sysmacros = TRUE
-
-        CASE "freefile"
-        Stk$[Tmp]= "FreeFile()"
-        Use_Freefile = Use_Proto = TRUE
       END SELECT
 
       CASE  7
@@ -7242,15 +6920,6 @@ SUB TokenSubstitutions
       END SELECT
 
       CASE  11
-      SELECT CASE Keyword$
-        CASE "keypress"
-        Stk$[Tmp] = "keypress()"
-        IF Stk$[Tmp+1] = "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_Keypress = Use_Proto = TRUE
-      END SELECT
 
       CASE  12
       SELECT CASE Keyword$
@@ -7258,16 +6927,6 @@ SUB TokenSubstitutions
         CASE "lpeek"
         Stk$[Tmp] = "*(int *)"
           
-        CASE "lccpath$"
-        Stk$[Tmp] = "LccPath$()"
-        IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-
-        Use_LccPath = Use_RegString = Use_Instrrev = TRUE
-        Use_Left = UseFlag = TRUE
-
         CASE "loadfile$"
         Stk$[Tmp]= "$$LoadFile$"
         Use_LoadFile = Use_Get = UseFlag = TRUE
@@ -7541,50 +7200,10 @@ SUB TokenSubstitutions
         Stk$[Tmp]= "Outpw"
         Use_Outpw = Use_Sysmacros = TRUE
 
-        CASE "osversion"
-        Stk$[Tmp]= "OSVersion()"
-        IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_OSVersion = Use_Proto = TRUE
-
       END SELECT
 
       CASE  16
       SELECT CASE Keyword$
-
-        CASE "pellespath$"
-        Stk$[Tmp] = "PellesPath$()"
-        IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_PellesPath = Use_RegString = Use_Instrrev = TRUE
-        Use_Left = UseFlag = TRUE
-
-
-        CASE "printer"
-        Stk$[1] = "printer"
-        Stk$[2] =  LCASE$(Stk$[2])
-        Emit()
-        Use_Printer = Use_Proto = TRUE
-        SrcTmp$ = "GLOBAL BcxPtr_hDC        AS HDC"        : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_FontMetrix AS LONG"       : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_LineCtr    AS LONG"       : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_PrinterOn  AS LONG"       : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_hFont      AS HFONT"      : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_hFontOld   AS HFONT"      : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_di         AS DOCINFO"    : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_Lf         AS LOGFONT"    : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_tm         AS TEXTMETRIC" : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_Text$"                    : Parse(SrcTmp$) : Emit()
-        SrcTmp$ = "GLOBAL BcxPtr_Buffer$"                  : Parse(SrcTmp$) : Emit()
-
-        Use_Mid = Use_Left = Use_StrStr = TRUE
-        Use_Extract = Use_Str = UseFlag = TRUE
-
-        '********************************************************************
 
         CASE "peek"
         Stk$[Tmp] = "*(char *)"
@@ -7628,22 +7247,9 @@ SUB TokenSubstitutions
         Stk$[Tmp] = "panel"
         Use_Panel = Use_Console = Use_Proto = TRUE
 
-        CASE "pause"
-        Stk$[Tmp] = "Pause()"
-        IF Stk$[Tmp+1] = "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_Pause = Use_Keypress = Use_Proto = TRUE
-
-
         CASE "peek$"
         Stk$[Tmp]= "$$peekstr$"
         Use_PeekStr = UseFlag = TRUE
-
-        CASE "playwav"
-        Stk$[Tmp] = "PlayWav"
-        Use_PlayWav = Use_GetResource = Use_Proto = TRUE
 
         CASE "pos"
         Stk$[Tmp] = "Pos()"
@@ -7765,22 +7371,6 @@ SUB TokenSubstitutions
         Stk$[Tmp]= "Refresh"
         Use_Refresh = Use_Sysmacros = TRUE
 
-        CASE "regstring$"
-        Stk$[Tmp] = "$$RegString$"
-        IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_RegString = UseFlag = TRUE
-
-        CASE "regint"
-        Stk$[Tmp] = "RegInt"
-        IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_RegInt = UseFlag = TRUE
-
         CASE "remain$"
         Stk$[Tmp]= "$$remain$"
         Use_Remain = UseFlag = TRUE
@@ -7819,10 +7409,6 @@ SUB TokenSubstitutions
         CASE "rtrim$"
         Stk$[Tmp]= "$$rtrim$"
         Use_Rtrim = UseFlag = TRUE
-
-        CASE "run"
-        Stk$[Tmp]= "Run"
-        Use_Run = Use_Proto = TRUE
       END SELECT
 
       CASE  19
@@ -7909,39 +7495,6 @@ SUB TokenSubstitutions
           LOOP
         END IF
 
-        CASE "savebmp"
-        Stk$[Tmp] = "SaveBmp"
-        Use_SaveBmp = Use_Proto = UseFlag = TRUE
-
-        CASE "set_bcx_bitmap"
-        Stk$[Tmp] = "Set_BCX_Bitmap"
-        Use_Set_BCX_Bitmap = UseFlag = TRUE
-
-        CASE "set_bcx_bitmap2"
-        Stk$[Tmp] = "Set_BCX_Bitmap2"
-        Use_Set_BCX_Bitmap2 = UseFlag = TRUE
-
-        CASE "set_bcx_bmpbutton"
-        Stk$[Tmp] = "Set_BCX_BmpButton"
-        Use_Set_BCX_BmpButton = UseFlag = TRUE
-
-        CASE "set_bcx_icon"
-        Stk$[Tmp] = "Set_BCX_Icon"
-        Use_Proto = TRUE
-        Use_Set_BCX_Icon = Use_GetResource = TRUE
-
-        CASE "screen"
-        Stk$[Tmp]= "Screen"
-        Use_Screen = Use_Proto = TRUE
-
-        CASE "setattr"
-        Stk$[Tmp]= "SETATTR"
-        Use_Setattr = Use_Sysmacros = TRUE
-
-        CASE "setwindowrtftext"
-        Stk$[Tmp] = "SetWindowRTFText"
-        Use_Richedit = UseFlag = TRUE
-
         CASE "sgn"
         Stk$[Tmp]= "sgn"
         Use_Sgn = Use_Proto = TRUE
@@ -7972,10 +7525,6 @@ SUB TokenSubstitutions
         CASE "space$"
         Stk$[Tmp]= "$$space$"
         Use_Space = UseFlag = TRUE
-
-        CASE "sound"
-        Stk$[Tmp]= "Sound"
-        Use_Sound = Use_Round = Use_Str = Use_Abs = UseFlag = TRUE
 
         CASE "split"
         Stk$[Tmp]= "Split"
@@ -8080,18 +7629,6 @@ SUB TokenSubstitutions
         IF *Stk[Tmp+1] = ASC(".") THEN
           Stk$[Tmp+1] = "->" & MID$(Stk$[Tmp+1],2)
         END IF
-
-        CASE "time$"
-        IF Stk$[Tmp+1] <> "("  THEN
-          Stk$[Tmp] = "$$timef$()"
-        ELSE
-          Stk$[Tmp] = "$$timef$"
-        END IF
-        IF Stk$[Tmp+1]= "(" AND Stk$[Tmp+2]= ")" THEN
-          Stk$[Tmp+1] = ""
-          Stk$[Tmp+2] = ""
-        END IF
-        Use_Time = UseFlag = TRUE
 
         CASE "timer"
         Stk$[Tmp]= "timer()"
@@ -13206,16 +12743,6 @@ SUB Emit
     FPRINT Outfile,Scoot$,PrintWriteFormat$(1)
 
     '***********************
-    CASE "run"
-    '***********************
-
-    FPRINT Outfile,Scoot$,"Run (";
-    FOR A = 2 TO Ndx
-      FPRINT Outfile,Clean$(Stk$[A]);
-    NEXT
-    FPRINT Outfile,Scoot$,");"
-
-    '***********************
     CASE "color"
     '***********************
 
@@ -13800,30 +13327,12 @@ SUB EmitProlog
     FPRINT Outfile,"// BCXRTHEADER: INCLUDE FILES"
   ELSE
     FPRINT Outfile,"// *********************************************************************"
-    FPRINT Outfile,"// Created with BCX32 - BASIC To C/C++ Translator (V) ", Version$
+    FPRINT Outfile,"// Generated by Raptor Basic +, Reboot 2014-2015"
+    FPRINT Outfile,"// Based on BCX32 - BASIC To C/C++ Translator (V) ", Version$
     FPRINT Outfile,"//                 BCX (c) 1999 - 2009 by Kevin Diggins"
     FPRINT Outfile,"// *********************************************************************"
   END IF
-  FPRINT Outfile,"//#include <windows.h>    // Win32 Header File "
-  FPRINT Outfile,"//#include <windowsx.h>   // Win32 Header File "
-  FPRINT Outfile,"//#include <commctrl.h>   // Win32 Header File "
-  FPRINT Outfile,"//#include <commdlg.h>    // Win32 Header File "
-  FPRINT Outfile,"//#include <mmsystem.h>   // Win32 Header File "
-  FPRINT Outfile,"//#include <shellapi.h>   // Win32 Header File "
-  FPRINT Outfile,"//#include <shlobj.h>     // Win32 Header File "
-  FPRINT Outfile,"//#include <richedit.h>   // Win32 Header File "
-  FPRINT Outfile,"//#include <wchar.h>      // Win32 Header File "
-  FPRINT Outfile,"//#include <objbase.h>    // Win32 Header File "
-  FPRINT Outfile,"//#include <ocidl.h>      // Win32 Header File "
-  FPRINT Outfile,"//#include <winuser.h>    // Win32 Header File "
-  FPRINT Outfile,"//#include <olectl.h>     // Win32 Header File "
-  FPRINT Outfile,"//#include <oaidl.h>      // Win32 Header File "
-  FPRINT Outfile,"//#include <ole2.h>       // Win32 Header File "
-  FPRINT Outfile,"//#include <oleauto.h>    // Win32 Header File "
-  FPRINT Outfile,"//#include <conio.h>"
-  FPRINT Outfile,"//#include <direct.h>"
   FPRINT Outfile,"#include <ctype.h>"
-  FPRINT Outfile,"//#include <io.h>"
   FPRINT Outfile,"#include <math.h>"
   FPRINT Outfile,"#include <stdio.h>"
   FPRINT Outfile,"#include <string.h>"
@@ -13833,13 +13342,14 @@ SUB EmitProlog
   FPRINT Outfile,"#include <time.h>"
   FPRINT Outfile,"#include <stdarg.h>"
   FPRINT Outfile,"#include <process.h>"
+  FPRINT Outfile,"#include "+DQ$+"rbasic.h"+DQ$+""
+  FPRINT Outfile,"#include "+DQ$+"raptor.h"+DQ$+""
   FPRINT Outfile,""
 
   IF Use_Library THEN
     FPRINT Outfile,"// END BCXRTHEADER\n\n"
     FPRINT Outfile,""
   ELSE
-    'FPRINT Outfile,"int main(int argc, char *argv[])"
     FPRINT Outfile,"void basicmain()"
     '*****************************************************************************
     '         int main is conditionally removed later IN SUB AddProtos
@@ -13990,40 +13500,6 @@ SUB DeclareVariables
       FPRINT Outfile,"int     OffSet;"
     END IF
 
-    IF Use_Sound THEN
-      FPRINT Outfile,""
-      FPRINT Outfile,"#define SNDQUE 10000"
-      FPRINT Outfile,""
-      FPRINT Outfile,"typedef struct _soundtype"
-      FPRINT Outfile,"{"
-      FPRINT Outfile,"  FLOAT  Freq;"
-      FPRINT Outfile,"  INT    Dura;"
-      FPRINT Outfile,"  INT    Vol;"
-      FPRINT Outfile,"  INT    Voice;"
-      FPRINT Outfile,"  FLOAT  Tempo;"
-      FPRINT Outfile,"  INT    sndTid;"
-      FPRINT Outfile,"} soundtype, *LPSOUNDTYPE;"
-      FPRINT Outfile,""
-      IF Use_Project THEN
-        FPRINT Outfile,"soundtype  SndPmtr[SNDQUE+1];"
-        FPRINT Outfile,"UINT       gTenter;"
-        FPRINT Outfile,"UINT       gTwait;"
-        FPRINT Outfile,"UINT       gTexit;"
-        FPRINT Outfile,"UINT       gTarray;"
-        FPRINT Outfile,"BOOL       gTsig;"
-        FPRINT Outfile,"HANDLE     gSThread=NULL;"
-      ELSE
-        FPRINT Outfile,"static  soundtype  SndPmtr[SNDQUE+1];"
-        FPRINT Outfile,"static  UINT       gTenter;"
-        FPRINT Outfile,"static  UINT       gTwait;"
-        FPRINT Outfile,"static  UINT       gTexit;"
-        FPRINT Outfile,"static  UINT       gTarray;"
-        FPRINT Outfile,"static  BOOL       gTsig;"
-        FPRINT Outfile,"static  HANDLE     gSThread=NULL;"
-      END IF
-      FPRINT Outfile,""
-    END IF
-
     IF Use_Date THEN
       FPRINT Outfile,"char    Date [2048];"
     END IF
@@ -14162,10 +13638,6 @@ SUB DeclareVariables
   '*************************************
   'First we declare the simple Variables
   '*************************************
-
-  FPRINT Outfile, "#include "+DQ$+"rbasic.h"+DQ$+""
-  FPRINT Outfile, "#include "+DQ$+"raptor.h"+DQ$+""
-
 
   FOR i = 1 TO GlobalVarCnt
     IF GlobalVars[i].VarEmitFlag THEN ITERATE
@@ -14782,10 +14254,6 @@ SUB AddProtos
       FPRINT Outfile,"#define GETATTR(a)(DWORD)GetFileAttributes(a)"
     END IF
 
-    IF Use_Setattr THEN
-      FPRINT Outfile,"#define SETATTR(a,b)(DWORD)SetFileAttributes(a,b)"
-    END IF
-
     IF Use_Fint THEN
       FPRINT Outfile,"#define FINT(a)floor(a)"
     END IF
@@ -14872,10 +14340,6 @@ SUB AddProtos
       FPRINT Outfile,"int     str_cmp(char*, char*);"
     END IF
 
-    IF Use_Eof THEN
-      FPRINT Outfile,"int     EoF (FILE*);"
-    END IF
-
     IF Use_AppActivate THEN
       FPRINT Outfile,"int     AppActivate (char *);"
     END IF
@@ -14899,18 +14363,6 @@ SUB AddProtos
       FPRINT Outfile,"int     qbcolor (int);"
     END IF
 
-    IF Use_SetColor THEN
-      FPRINT Outfile,"LRESULT Set_Color (int,int,int,int);"
-    END IF
-
-    IF Use_PlayWav THEN
-      FPRINT Outfile,"void    PlayWav (char *,int=0, int=SND_SYNC);"
-    END IF
-
-    IF Use_SaveBmp THEN
-      FPRINT Outfile,"void    SaveBmp(LPVOID, LPTSTR);"
-    END IF
-
     IF Use_Color THEN
       FPRINT Outfile,"void    color (int,int);"
     END IF
@@ -14929,10 +14381,6 @@ SUB AddProtos
 
     IF Use_Csrlin THEN
       FPRINT Outfile,"int     Csrlin (void);"
-    END IF
-
-    IF Use_Run THEN
-      FPRINT Outfile,"int     Run (char*, int =1, int =0);"
     END IF
 
     IF Use_Doevents THEN
@@ -15039,10 +14487,6 @@ SUB AddProtos
       FPRINT Outfile,"char*   reverse (char*);"
     END IF
 
-    IF Use_Command THEN
-      FPRINT Outfile,"char*   command (int=-1);"
-    END IF
-
     IF Use_Mcase THEN
       FPRINT Outfile,"char*   mcase (char*);"
     END IF
@@ -15103,36 +14547,8 @@ SUB AddProtos
       FPRINT Outfile,"char*   SEARCHPATH (char *);"
     END IF
 
-    IF Use_LccPath THEN
-      FPRINT Outfile,"char*   LccPath (void);"
-    END IF
-
-    IF Use_PellesPath THEN
-      FPRINT Outfile,"char*   PellesPath (void);"
-    END IF
-
     IF Use_Strtoken THEN
       FPRINT Outfile,"char*   StrToken (char*,char*,int);"
-    END IF
-
-    IF Use_RegString THEN
-      FPRINT Outfile,"char*   RegString (HKEY,char*,char*);"
-    END IF
-
-    IF Use_CreateRegString THEN
-      FPRINT Outfile,"void    CreateRegString (HKEY,char*,char*,char*);"
-    END IF
-
-    IF Use_DeleteRegKey THEN
-      FPRINT Outfile,"void    DeleteRegKey (HKEY,char*);"
-    END IF
-
-    IF Use_CreateRegInt THEN
-      FPRINT Outfile,"void   CreateRegInt (HKEY,char*,char*,int);"
-    END IF
-
-    IF Use_RegInt THEN
-      FPRINT Outfile,"int    RegInt (HKEY,char*,char*);"
     END IF
 
     IF Use_FileLocked THEN
@@ -15156,10 +14572,6 @@ SUB AddProtos
     END IF
 
 
-    IF Use_Time THEN
-      FPRINT Outfile,"char*   timef (int i=0);"
-    END IF
-
     IF Use_Join THEN
       FPRINT Outfile,"char*   join (int, ... );"
     END IF
@@ -15175,10 +14587,6 @@ SUB AddProtos
 
     IF Use_VChr THEN
       FPRINT Outfile,"char*   vchr (int,...);"
-    END IF
-
-    IF Use_Freefile THEN
-      FPRINT Outfile,"FILE*   FreeFile (void);"
     END IF
 
     IF Use_PeekStr THEN
@@ -15333,18 +14741,6 @@ SUB AddProtos
       FPRINT Outfile,"char*   del (char*,int,int);"
     END IF
 
-    IF Use_Screen THEN
-      FPRINT Outfile,"int     Screen (int,int,int=0);"
-    END IF
-
-    IF Use_Pause THEN
-      FPRINT Outfile,"void    Pause (void);"
-    END IF
-
-    IF Use_Keypress THEN
-      FPRINT Outfile,"int     keypress (void);"
-    END IF
-
     IF Use_Lof THEN
       FPRINT Outfile,"DWORD   lof (char*);"
     END IF
@@ -15460,15 +14856,6 @@ SUB AddProtos
 
     IF Use_Mkld THEN
       FPRINT Outfile,"char*   MKLD (long double);"
-    END IF
-
-    IF Use_OSVersion THEN
-      FPRINT Outfile,"int     OSVersion (void);"
-    END IF
-
-    IF Use_Sound THEN
-      FPRINT Outfile,"int     Sound (float,int=0,int=127,int=0,float=1);"
-      FPRINT Outfile,"int     PlaySnd (void);"
     END IF
 
     IF Use_Dynacall OR Use_DynacallA THEN
@@ -15798,22 +15185,26 @@ SUB RunTimeFunctions
   IF UseFlag THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: BCX_TmpStr"
     IF Use_Turbo THEN
+      FPRINT Outfile,"char BCX_TmpStr_buffer[256];"
       FPRINT Outfile,"char *BCX_TmpStr (size_t Bites)"
       FPRINT Outfile,"{"
-      FPRINT Outfile,"  static int   StrCnt;"
-      FPRINT Outfile,"  static char *StrFunc[",TurboSize,"];"
-      FPRINT Outfile,"  StrCnt=(++StrCnt &",TurboSize-1,");"
-      FPRINT Outfile,"  StrFunc[StrCnt]=(char*)realloc(StrFunc[StrCnt],Bites + 128);"
-      FPRINT Outfile,"  return (char*)memset(StrFunc[StrCnt],0,Bites+128);"
+      FPRINT Outfile,"  return &BCX_TmpStr_buffer[0]; //that's all you're gonna get ;)"
+      FPRINT Outfile,"//  static int   StrCnt;"
+      FPRINT Outfile,"//  static char *StrFunc[",TurboSize,"];"
+      FPRINT Outfile,"//  StrCnt=(++StrCnt &",TurboSize-1,");"
+      FPRINT Outfile,"//  StrFunc[StrCnt]=(char*)realloc(StrFunc[StrCnt],Bites + 128);"
+      FPRINT Outfile,"//  return (char*)memset(StrFunc[StrCnt],0,Bites+128);"
       FPRINT Outfile,"}\n\n"
     ELSE
+      FPRINT Outfile,"char BCX_TmpStr_buffer[256];"
       FPRINT Outfile,"char *BCX_TmpStr (size_t Bites)"
       FPRINT Outfile,"{"
-      FPRINT Outfile,"  static int   StrCnt;"
-      FPRINT Outfile,"  static char *StrFunc[2048];"
-      FPRINT Outfile,"  StrCnt=(StrCnt + 1) & 2047;"
-      FPRINT Outfile,"  if(StrFunc[StrCnt]) free (StrFunc[StrCnt]);"
-      FPRINT Outfile,"  return StrFunc[StrCnt]=(char*)calloc(Bites+128,sizeof(char));"
+      FPRINT Outfile,"  return &BCX_TmpStr_buffer[0]; //that's all you're gonna get ;)"
+      FPRINT Outfile,"//  static int   StrCnt;"
+      FPRINT Outfile,"//  static char *StrFunc[2048];"
+      FPRINT Outfile,"//  StrCnt=(StrCnt + 1) & 2047;"
+      FPRINT Outfile,"//  if(StrFunc[StrCnt]) free (StrFunc[StrCnt]);"
+      FPRINT Outfile,"//  return StrFunc[StrCnt]=(char*)calloc(Bites+128,sizeof(char));"
       FPRINT Outfile,"}\n\n"
     END IF
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
@@ -15836,18 +15227,6 @@ SUB RunTimeFunctions
     FPRINT Outfile,"    if(!a[counter]) return 0;"
     FPRINT Outfile,"    counter++;"
     FPRINT Outfile,"   }"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_Eof THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: Eof"
-    FPRINT Outfile,"int EoF (FILE* stream)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  register int c, status = ((c = fgetc(stream)) == EOF);"
-    FPRINT Outfile,"  ungetc(c,stream);"
-    FPRINT Outfile,"  return status;"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
@@ -16018,56 +15397,6 @@ SUB RunTimeFunctions
     FPRINT Outfile,"  } while (*src);"
     FPRINT Outfile,"  if (isspace((unsigned char)*(--dst))) *dst = 0;"
     FPRINT Outfile,"  return strtmp;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_Command THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: command"
-    FPRINT Outfile,"char *command (int nArg)"
-    FPRINT Outfile," {"
-    FPRINT Outfile," register int i = 0;"
-    FPRINT Outfile," char *c, *retstr, *s = GetCommandLine();"
-    FPRINT Outfile," if(nArg < i) // return entire commandline"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      while(*s && *s != 32)"
-    FPRINT Outfile,"         {"
-    FPRINT Outfile,"         if(*s == 34)"
-    FPRINT Outfile,"           while(*++s && *s != 34);"
-    FPRINT Outfile,"           s++;"
-    FPRINT Outfile,"         }"
-    FPRINT Outfile,"      while(isspace((unsigned char)*s))s++;"
-    FPRINT Outfile,"      retstr = BCX_TmpStr(strlen(s)+1);"
-    FPRINT Outfile,"      strcpy(retstr, s);"
-    FPRINT Outfile,"      if(*(retstr+strlen(retstr)-1)==20) *retstr=0;"
-    FPRINT Outfile,"      return retstr;"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"   while(i <= nArg)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"    while(isspace((unsigned char)*s)) s++; // skip whitespace"
-    FPRINT Outfile,"    c = s;"
-    FPRINT Outfile,"    if(*s == 34)                           // argument starts a quote"
-    FPRINT Outfile,"       {"
-    FPRINT Outfile,"         while(*++s && *s != 34);          // skip till next quote"
-    FPRINT Outfile,"         if(*s) s++;                       // skip quote itself"
-    FPRINT Outfile,"       }"
-    FPRINT Outfile,"    else"
-    FPRINT Outfile,"       {"
-    FPRINT Outfile,"         while(*s && *s != 32)"
-    FPRINT Outfile,"         s++;"
-    FPRINT Outfile,"       }"
-    FPRINT Outfile,"    i++;"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  if(*c == 34)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      c++;                                 // skip leading quote"
-    FPRINT Outfile,"      if(*(s-1) == 34) s--;                // skip any trailing quotes"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  retstr = BCX_TmpStr((s - c) + 1);"
-    FPRINT Outfile,"  strncpy(retstr, c, (s - c));"
-    FPRINT Outfile,"  retstr[s-c]=0;"
-    FPRINT Outfile,"  return retstr;"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
@@ -16368,48 +15697,6 @@ SUB RunTimeFunctions
   END IF
 
 
-  IF Use_Time THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: timef"
-    FPRINT Outfile,"char *timef (int t)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  time_t elapse_time;"
-    FPRINT Outfile,"  struct tm *tp;"
-    FPRINT Outfile,"  char *strtmp = BCX_TmpStr(256);"
-    FPRINT Outfile,"  time (&elapse_time);"
-    FPRINT Outfile,"  tp = localtime(&elapse_time);"
-    FPRINT Outfile,"  switch (t)"
-    FPRINT Outfile,"  {"
-    FPRINT Outfile,"   case 0:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T0$, ",tp); break;"
-    FPRINT Outfile,"   case 1:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T1$, ",tp); break;"
-    FPRINT Outfile,"   case 2:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T2$, ",tp); break;"
-    FPRINT Outfile,"   case 3:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T3$, ",tp); break;"
-    FPRINT Outfile,"   case 4:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T4$, ",tp); break;"
-    FPRINT Outfile,"   case 5:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T5$, ",tp); break;"
-    FPRINT Outfile,"   case 6:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T6$, ",tp); break;"
-    FPRINT Outfile,"   case 7:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T7$, ",tp); break;"
-    FPRINT Outfile,"   case 8:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T8$, ",tp); break;"
-    FPRINT Outfile,"   case 9:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T9$, ",tp); break;"
-    FPRINT Outfile,"   case 10:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T10$, ",tp); break;"
-    FPRINT Outfile,"   case 11:"
-    FPRINT Outfile,"   strftime(strtmp,256,",T11$, ",tp); break;"
-    FPRINT Outfile,"  }"
-    FPRINT Outfile,"  return strtmp;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
   IF Use_Enclose THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: enc"
     FPRINT Outfile,"char *enc (char *A, int L, int R)"
@@ -16524,86 +15811,6 @@ SUB RunTimeFunctions
     FPRINT Outfile,"  char *strtmp = BCX_TmpStr(2048);"
     FPRINT Outfile,"   itoa(number,strtmp,2);"
     FPRINT Outfile,"  return strtmp;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_Pause THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: Pause"
-    FPRINT Outfile,"void Pause(void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  printf(", ENC$("\\n%s\\n"), ",", ENC$("Press any key to continue . . ."), ");"
-    FPRINT Outfile,"  keypress();"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_Keypress THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: keypress"
-    FPRINT Outfile,"int keypress(void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  register int ch = 0;"
-    FPRINT Outfile,"  INPUT_RECORD InputRecord;"
-    FPRINT Outfile,"  DWORD Count = 0, cks;"
-    FPRINT Outfile,"  WORD vkc, vsc;"
-    FPRINT Outfile,"  HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);"
-    FPRINT Outfile,"  PeekConsoleInput(hStdIn, &InputRecord, 1, &Count);"
-    FPRINT Outfile,"  DWORD OldConsoleMode;"
-    FPRINT Outfile,"  GetConsoleMode(hStdIn, &OldConsoleMode);"
-    FPRINT Outfile,"  SetConsoleMode(hStdIn, 0);"
-    FPRINT Outfile,"  register int i = 0;"
-    FPRINT Outfile,"  static char uchr[44];"
-    FPRINT Outfile,"  static char lchr[44];"
-    FPRINT Outfile,"  strcpy(uchr," + DQ$ &"\\x7E\\x21\\x40\\x23\\x24\\x25\\x5E\\x26\\x2A\\x28\\x29\\x5F\\x2B\\x7C\\x7B\\x7D\\x3A\\x22\\x3C\\x3E\\x3F\\x60\\x31\\x32\\x33\\x34\\x35\\x36\\x37\\x38\\x39\\x30\\x2D\\x3D\\x5C\\x5B\\x5D\\x3B\\x27\\x2C\\x2E\\x2F\\x00" + DQ$ &");"
-    FPRINT Outfile,"  strcpy(lchr," + DQ$ &"\\x60\\x31\\x32\\x33\\x34\\x35\\x36\\x37\\x38\\x39\\x30\\x2D\\x3D\\x5C\\x5B\\x5D\\x3B\\x27\\x2C\\x2E\\x2F\\x7E\\x21\\x40\\x23\\x24\\x25\\x5E\\x26\\x2A\\x28\\x29\\x5F\\x2B\\x7C\\x7B\\x7D\\x3A\\x22\\x3C\\x3E\\x3F\\x00" + DQ$ &");"
-    FPRINT Outfile,"  do"
-    FPRINT Outfile,"  {"
-    FPRINT Outfile,"   ReadConsoleInput(hStdIn, &InputRecord, 1, &Count);"
-    FPRINT Outfile,"   SetConsoleMode(hStdIn, OldConsoleMode);"
-    FPRINT Outfile,"   if (Count && InputRecord.EventType == KEY_EVENT"
-    FPRINT Outfile,"     && InputRecord.Event.KeyEvent.bKeyDown)"
-    FPRINT Outfile,"   {"
-    FPRINT Outfile,"  vkc = InputRecord.Event.KeyEvent.wVirtualKeyCode;"
-    FPRINT Outfile,"  vsc = InputRecord.Event.KeyEvent.wVirtualScanCode;"
-    FPRINT Outfile,"  ch = InputRecord.Event.KeyEvent.uChar.AsciiChar;"
-    FPRINT Outfile,"  cks = InputRecord.Event.KeyEvent.dwControlKeyState;"
-    FPRINT Outfile,"  FlushConsoleInputBuffer(hStdIn);"
-    FPRINT Outfile,"  if((!ch && vsc>58))"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      if((cks & 3))"
-    FPRINT Outfile,"        {"
-    FPRINT Outfile,"          return (1000+vsc)*(-1);"
-    FPRINT Outfile,"        }"
-    FPRINT Outfile,"      if((cks & 12))"
-    FPRINT Outfile,"        {"
-    FPRINT Outfile,"          return (2000+vsc)*(-1);"
-    FPRINT Outfile,"        }"
-    FPRINT Outfile,"      return vsc*(-1);"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  if (ch && (cks & 3))"
-    FPRINT Outfile,"   return vkc + 1000;"
-    FPRINT Outfile,"  if ((vsc == 15) && (cks & 16))"
-    FPRINT Outfile,"   return 15;"
-    FPRINT Outfile,"  if (vkc == 27)"
-    FPRINT Outfile,"   return 27;"
-    FPRINT Outfile,"  if (ch && (cks & 128))"
-    FPRINT Outfile,"  {"
-    FPRINT Outfile,"   for (i = 0; i <= strlen(lchr); i++)"
-    FPRINT Outfile,"   {"
-    FPRINT Outfile,"    if (uchr[i] == ch)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"     ch = lchr[i];"
-    FPRINT Outfile,"     break;"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"   }"
-    FPRINT Outfile,"  }"
-    FPRINT Outfile,"  if (ch)"
-    FPRINT Outfile,"   return ch;"
-    FPRINT Outfile,"   }"
-    FPRINT Outfile,"  }while (TRUE);"
-    FPRINT Outfile,"   return 0;"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
@@ -17244,27 +16451,6 @@ SUB RunTimeFunctions
     FPRINT Outfile,"     return FSize;"
     FPRINT Outfile,"   }"
     FPRINT Outfile,"  return 0;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_Screen THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: Screen"
-    FPRINT Outfile,"int Screen (int y,int x,int mode)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  HANDLE  hConsole = GetStdHandle(STD_OUTPUT_HANDLE);"
-    FPRINT Outfile,"  DWORD Slen;"
-    FPRINT Outfile,"  COORD Coord;"
-    FPRINT Outfile,"  WORD  Attr;"
-    FPRINT Outfile,"  char  Char[2];"
-    FPRINT Outfile,"  Coord.X=x-1;"
-    FPRINT Outfile,"  Coord.Y=y-1;"
-    FPRINT Outfile,"  ReadConsoleOutputCharacterA(hConsole,Char,1,Coord,&Slen);"
-    FPRINT Outfile,"  ReadConsoleOutputAttribute(hConsole,&Attr,1,Coord,&Slen);"
-    FPRINT Outfile,"  if(mode)"
-    FPRINT Outfile,"  return  Attr;"
-    FPRINT Outfile,"  return  Char[0];"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
@@ -17938,19 +17124,6 @@ SUB RunTimeFunctions
   END IF
 
 
-  IF Use_Freefile THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: FreeFile"
-    FPRINT Outfile,"FILE* FreeFile (void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  static FILE *pf;"
-    FPRINT Outfile,"  if(pf){free(pf);pf=NULL;}"
-    FPRINT Outfile,"  pf = (FILE*)calloc(sizeof(FILE*),sizeof(FILE*));"
-    FPRINT Outfile,"  return pf;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
   IF Use_Textmode THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: TextMode"
     FPRINT Outfile,"int TextMode (int Y)"
@@ -17970,61 +17143,6 @@ SUB RunTimeFunctions
     FPRINT Outfile,"int MsgBox (char *Msg, char *Title, int Num)"
     FPRINT Outfile,"{"
     FPRINT Outfile,"  return MessageBox(GetActiveWindow(),Msg,Title,Num);"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_Run THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: Run"
-    FPRINT Outfile,"int Run (char* Cmdline, int ShowHide, int WaitState)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  STARTUPINFO si;"
-    FPRINT Outfile,"  PROCESS_INFORMATION pi;"
-    FPRINT Outfile,"  DWORD dwState;"
-    FPRINT Outfile,"  int fRet=FALSE;"
-    FPRINT Outfile,"  MSG msg;"
-    FPRINT Outfile,"  memset(&si,0,sizeof(si));"
-    FPRINT Outfile,"  memset(&pi,0,sizeof(pi));"
-    FPRINT Outfile,"  memset(&msg,0,sizeof(msg));"
-    FPRINT Outfile,"  si.cb=sizeof(si);"
-    FPRINT Outfile,"  si.dwFlags=STARTF_USESHOWWINDOW;"
-    FPRINT Outfile,"  si.wShowWindow=ShowHide;"
-    FPRINT Outfile,"  if(CreateProcess (NULL,Cmdline,NULL,NULL,FALSE, NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi)==0)"
-    FPRINT Outfile,"    goto EXITRUN;"
-    FPRINT Outfile,""
-    FPRINT Outfile,"   WaitForInputIdle(pi.hProcess,1500);"
-    FPRINT Outfile,"   if(WaitState==TRUE)"
-    FPRINT Outfile,"     {"
-    FPRINT Outfile,"       if(pi.hProcess)"
-    FPRINT Outfile,"         {"
-    FPRINT Outfile,"           do {"
-    FPRINT Outfile,"               dwState=MsgWaitForMultipleObjects(1,&pi.hProcess,FALSE,INFINITE,QS_ALLINPUT);"
-    FPRINT Outfile,"               while(PeekMessage(&msg,NULL,0,0,PM_REMOVE))"
-    FPRINT Outfile,"                 {"
-    FPRINT Outfile,"                   if(msg.message==WM_QUIT) goto EXITRUN;"
-    FPRINT Outfile,"                   DispatchMessage(&msg);"
-    FPRINT Outfile,"                   Sleep(0);"
-    FPRINT Outfile,"                 }               "
-    FPRINT Outfile,"             } while(dwState!=WAIT_OBJECT_0&&dwState!=-1);"
-    FPRINT Outfile,"           if(dwState==WAIT_OBJECT_0) fRet=TRUE;"
-    FPRINT Outfile,"         }"
-    FPRINT Outfile,"     }"
-    FPRINT Outfile,"EXITRUN:;"
-    FPRINT Outfile,"  if(pi.hThread)  CloseHandle(pi.hThread);"
-    FPRINT Outfile,"  if(pi.hProcess) CloseHandle(pi.hProcess);"
-    FPRINT Outfile,"  if(msg.message==WM_QUIT) PostQuitMessage(0);"
-    FPRINT Outfile,"  return fRet;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-
-  IF Use_PlayWav THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: PlayWav"
-    FPRINT Outfile,"void PlayWav (char *A, int rsid, int Sync)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  NOT IMPLEMENTED FOR RBASIC+ YET!"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
@@ -18309,90 +17427,6 @@ SUB RunTimeFunctions
     END IF
   END IF
 
-  IF Use_LccPath THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: LccPath"
-    FPRINT Outfile,"char *LccPath (void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  char *BCX_RetStr={0};"
-    FPRINT Outfile,"  static char LCC_Reg[2048];"
-    FPRINT Outfile,"  static char LCC_RegPath[2048];"
-    FPRINT Outfile,"  strcpy(LCC_Reg,",ENC$("Software\\\\lcc\\\\lcclnk\\\\"), ");"
-    FPRINT Outfile,"  strcpy(LCC_RegPath,(char*)RegString(HKEY_LOCAL_MACHINE,LCC_Reg,", ENC$("libpath"), "));"
-    FPRINT Outfile,"  if(LCC_RegPath[0]==0)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      strcpy(LCC_RegPath,(char*)RegString(HKEY_CURRENT_USER,LCC_Reg,", ENC$("libpath"), "));"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  if(strcmp(LCC_RegPath,", DDQ$, ")!=0)"
-    FPRINT Outfile,"     {"
-    FPRINT Outfile,"        BCX_RetStr=BCX_TmpStr(256);"
-    FPRINT Outfile,"        return strcpy(BCX_RetStr,(char*)left(LCC_RegPath,InstrRev(LCC_RegPath,", ENC$("\\\\"), ")));"
-    FPRINT Outfile,"     }"
-    FPRINT Outfile,"  else"
-    FPRINT Outfile,"     {"
-    FPRINT Outfile,"        BCX_RetStr=BCX_TmpStr(strlen(LCC_RegPath));"
-    FPRINT Outfile,"        return strcpy(BCX_RetStr,LCC_RegPath);"
-    FPRINT Outfile,"     }"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_PellesPath THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: PellesPath"
-    FPRINT Outfile,"char *PellesPath (void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  char *BCX_RetStr={0};"
-    FPRINT Outfile,"  static char Pelles_Reg[2048];"
-    FPRINT Outfile,"  static char Pelles_RegPath[2048];"
-    FPRINT Outfile,"  strcpy(Pelles_Reg,", ENC$("Software\\\\Pelle Orinius\\\\PellesC\\\\Directories\\\\"), ");"
-    FPRINT Outfile,"  strcpy(Pelles_RegPath,(char*)RegString(HKEY_LOCAL_MACHINE,Pelles_Reg,", ENC$("PathDirs"), "));"
-    FPRINT Outfile,"  if(Pelles_RegPath[0]==0)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      strcpy(Pelles_RegPath,(char*)RegString(HKEY_CURRENT_USER,Pelles_Reg,", ENC$("PathDirs"), "));"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  if(strcmp(Pelles_RegPath,", DDQ$, ")!=0)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      BCX_RetStr=BCX_TmpStr(256);"
-    FPRINT Outfile,"      return strcpy(BCX_RetStr,(char*)left(Pelles_RegPath,InstrRev(Pelles_RegPath,", ENC$("\\\\"), ")));"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile," else"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      BCX_RetStr=BCX_TmpStr(strlen(Pelles_RegPath));"
-    FPRINT Outfile,"      return strcpy(BCX_RetStr,Pelles_RegPath);"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_RegString THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: RegString"
-    FPRINT Outfile,"char *RegString (HKEY hKey, char *RegPath, char *SubKey)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  char *Result=BCX_TmpStr(2048);"
-    FPRINT Outfile,"  int BufferLen=2048;"
-    FPRINT Outfile,"  if(!RegOpenKeyEx(hKey,RegPath,0,KEY_QUERY_VALUE,&hKey))"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"   RegQueryValueEx(hKey,SubKey,0,0,(LPBYTE)Result,(LPDWORD)&BufferLen);"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  RegCloseKey(hKey);"
-    FPRINT Outfile,"  return Result;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_CreateRegString THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: CreateRegString"
-    FPRINT Outfile,"void CreateRegString (HKEY HK, char *Key, char *VarName, char *Value)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  HKEY  hKey;"
-    FPRINT Outfile,"  char  Buff[100]={0};"
-    FPRINT Outfile,"  DWORD  Result;"
-    FPRINT Outfile,"  RegCreateKeyEx(HK,Key,0,Buff,REG_OPTION_NON_VOLATILE,KEY_ALL_ACCESS,0,&hKey,&Result);"
-    FPRINT Outfile,"  RegSetValueEx(hKey,VarName,0,REG_SZ,(LPBYTE)Value,(DWORD)lstrlen(Value)+1);"
-    FPRINT Outfile,"  RegCloseKey(hKey);"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
   IF Use_Strtoken THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: StrToken"
     FPRINT Outfile,"char * StrToken (char *Source, char *TokenChar, int n)"
@@ -18447,44 +17481,6 @@ SUB RunTimeFunctions
     FPRINT Outfile,"  strcpy(BCX_RetStr,(char*)RemoveStr(RetVal,TokenChar));"
     FPRINT Outfile,"  if(RetVal)free(RetVal);"
     FPRINT Outfile,"  return BCX_RetStr;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_DeleteRegKey THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: DeleteRegKey"
-    FPRINT Outfile,"void DeleteRegKey (HKEY HK, char *Key)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  RegDeleteKey(HK,Key);"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_CreateRegInt THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: CreateRegInt"
-    FPRINT Outfile,"void CreateRegInt (HKEY HK, char *Key, char *VarName, int Value)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  char  Buf[100]={0};"
-    FPRINT Outfile,"  DWORD Result;"
-    FPRINT Outfile,"  HKEY  hKey;"
-    FPRINT Outfile,"  RegCreateKeyEx(HK,Key,0,Buf,REG_OPTION_NON_VOLATILE,KEY_ALL_ACCESS,0,&hKey,&Result);"
-    FPRINT Outfile,"  RegSetValueEx(hKey,VarName,0,REG_DWORD,(BYTE*)&Value,sizeof(int));"
-    FPRINT Outfile,"  RegCloseKey(hKey);"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_RegInt THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: RegInt"
-    FPRINT Outfile,"int RegInt(HKEY HK,char* Key, char* SubKey)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  HKEY  hKey   =  0;"
-    FPRINT Outfile,"  DWORD Result =  0;"
-    FPRINT Outfile,"  DWORD Size   =  sizeof(DWORD);"
-    FPRINT Outfile,"  RegOpenKeyEx    (HK,Key,0,KEY_QUERY_VALUE,&HK);"
-    FPRINT Outfile,"  RegQueryValueEx (HK,SubKey,0,0,(LPBYTE)&Result,&Size);"
-    FPRINT Outfile,"  RegCloseKey     (hKey);"
-    FPRINT Outfile,"  return Result;"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
@@ -18837,114 +17833,6 @@ SUB RunTimeFunctions
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
   END IF
 
-
-  IF Use_Sound THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: Sound"
-    FPRINT Outfile,"int Sound (float Freq,int Dura,int Vol,int Voice,float Tempo)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  DWORD  dwThreadId;"
-    FPRINT Outfile,"  if(Freq==0&&Dura<1) return gTenter-gTexit;"
-    FPRINT Outfile,"  if(Freq==0) Vol=0;"
-    FPRINT Outfile,"  if(Dura<5)  Dura=5;"
-    FPRINT Outfile,"  gTenter++;"
-    FPRINT Outfile,"  gTsig=FALSE;"
-    FPRINT Outfile,"  if(gTenter>=SNDQUE) gTarray=gTenter % SNDQUE+1;"
-    FPRINT Outfile,"  else                gTarray=gTenter;"
-    FPRINT Outfile,"  SndPmtr[gTarray].Freq=Freq;"
-    FPRINT Outfile,"  SndPmtr[gTarray].Dura=Dura;"
-    FPRINT Outfile,"  SndPmtr[gTarray].Tempo=Tempo;"
-    FPRINT Outfile,"  SndPmtr[gTarray].Vol=Vol;"
-    FPRINT Outfile,"  SndPmtr[gTarray].Voice=Voice;"
-    FPRINT Outfile,"  SndPmtr[gTarray].sndTid=gTenter;"
-    FPRINT Outfile,"  if(gSThread==NULL&&(Freq==Abs(Freq)||Freq==0))"
-    FPRINT Outfile,"    {"
-    ' added (LPSTR) to satisfy GCC, picky, picky, picky :~(
-    FPRINT Outfile,"      gSThread=CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)PlaySnd,(LPSTR)";ENC$("PlaySnd");",0,&dwThreadId);"
-    FPRINT Outfile,"      Sleep(1);"
-    FPRINT Outfile,"      return 0;"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  if(Freq!=Abs(Freq))"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      if(Freq==-1)"
-    FPRINT Outfile,"        {"
-    FPRINT Outfile,"          Freq=0;"
-    FPRINT Outfile,"          SndPmtr[gTarray].Vol=0;"
-    FPRINT Outfile,"        }"
-    FPRINT Outfile,"      SndPmtr[gTarray].Freq=Abs(Freq);"
-    FPRINT Outfile,"      gTsig=TRUE;"
-    FPRINT Outfile,"      while(gSThread!=NULL)"
-    FPRINT Outfile,"        {"
-    FPRINT Outfile,"         Sleep(10);"
-    FPRINT Outfile,"        }"
-    FPRINT Outfile,"      gTexit=gTenter-1;"
-    FPRINT Outfile,"      gTwait=gTenter-1;"
-    FPRINT Outfile,"      gTsig=FALSE;"
-    FPRINT Outfile,"      return PlaySnd();"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  return 0;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: PlaySnd"
-    FPRINT Outfile,"int PlaySnd (void)"
-    FPRINT Outfile,"{"
-    FPRINT Outfile,"  soundtype  LocSndPar;"
-    FPRINT Outfile,"  UINT  lTarray;"
-    FPRINT Outfile,"  while(gTenter>gTexit&&gTsig==FALSE)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"      gTwait++;"
-    FPRINT Outfile,"      if(gTwait>=SNDQUE)"
-    FPRINT Outfile,"          lTarray=gTwait % SNDQUE+1;"
-    FPRINT Outfile,"      else"
-    FPRINT Outfile,"          lTarray=gTwait;"
-    FPRINT Outfile,"      LocSndPar=SndPmtr[lTarray];"
-    FPRINT Outfile,"      int       Note=0;"
-    FPRINT Outfile,"      int       Phrase=0;"
-    FPRINT Outfile,"      HMIDIOUT hMidi;"
-    FPRINT Outfile,"      midiOutOpen(&hMidi,(UINT)-1,0,0,CALLBACK_NULL);"
-    FPRINT Outfile,"      midiOutShortMsg(hMidi,(256*LocSndPar.Voice)+192);"
-    FPRINT Outfile,"      Note=Round((log((double) LocSndPar.Freq)- log((double)440.0))/ log((double)2)*12+69,0);"
-    FPRINT Outfile,"      Phrase=(LocSndPar.Vol*256+Note)*256+144;"
-    FPRINT Outfile,"      midiOutShortMsg(hMidi,Phrase);"
-    FPRINT Outfile,"      Sleep(LocSndPar.Dura*(1/LocSndPar.Tempo+0.0001));"
-    FPRINT Outfile,"      Phrase=(LocSndPar.Vol*256+Note)*256+128;"
-    FPRINT Outfile,"      midiOutShortMsg(hMidi,Phrase);"
-    FPRINT Outfile,"      midiOutClose(hMidi);"
-    FPRINT Outfile,"      gTexit++;"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  CloseHandle(gSThread);"
-    FPRINT Outfile,"  gSThread=NULL;"
-    FPRINT Outfile,"  return 0;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
-  IF Use_OSVersion THEN
-    IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: OSVersion"
-    FPRINT Outfile,"int OSVersion (void) {"
-    FPRINT Outfile,"    OSVERSIONINFO  osvi={0};"
-    FPRINT Outfile,"    osvi.dwOSVersionInfoSize=sizeof(osvi);"
-    FPRINT Outfile,"    if(GetVersionEx(&osvi)==ERROR_OLD_WIN_VERSION) return -1;"
-    FPRINT Outfile,"    switch (osvi.dwPlatformId)"
-    FPRINT Outfile,"    {"
-    FPRINT Outfile,"    case VER_PLATFORM_WIN32_NT:"
-    FPRINT Outfile,"        if(osvi.dwMajorVersion==3 && osvi.dwMinorVersion==51)   return 4;"
-    FPRINT Outfile,"        if(osvi.dwMajorVersion==4 && osvi.dwMinorVersion==0)    return 5;"
-    FPRINT Outfile,"        if(osvi.dwMajorVersion==5 && osvi.dwMinorVersion==0)    return 6;"
-    FPRINT Outfile,"        if(osvi.dwMajorVersion==5 && osvi.dwMinorVersion==1)    return 7;"
-    FPRINT Outfile,"        if(osvi.dwMajorVersion>=5 && osvi.dwMinorVersion>=2)    return 8;"
-    FPRINT Outfile,"    case VER_PLATFORM_WIN32_WINDOWS:"
-    FPRINT Outfile,"        if((osvi.dwMajorVersion==4 && osvi.dwMinorVersion==0))  return 1;"
-    FPRINT Outfile,"        if((osvi.dwMajorVersion==4 && osvi.dwMinorVersion==10)) return 2;"
-    FPRINT Outfile,"        if((osvi.dwMajorVersion==4 && osvi.dwMinorVersion==90)) return 3;"
-    FPRINT Outfile,"    case VER_PLATFORM_WIN32s:"
-    FPRINT Outfile,"         return 0;"
-    FPRINT Outfile,"    }"
-    FPRINT Outfile,"  return -1;"
-    FPRINT Outfile,"}\n\n"
-    IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
-  END IF
-
   IF Use_ContainedIn THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: containedin"
     FPRINT Outfile,"int containedin(char * Token,char **Contain ,int c)"
@@ -19021,8 +17909,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Asc                    = TRUE
   Use_Asinh                  = TRUE
   Use_Atanh                  = TRUE
-  Use_BCXDialog              = TRUE
-  Use_BCXMDialog             = TRUE
   Use_BEL                    = TRUE
   Use_BS                     = TRUE
   Use_Bff                    = TRUE
@@ -19041,11 +17927,8 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Color                  = TRUE
   Use_ComboBoxLoadFile       = TRUE
   Use_Combobox               = TRUE
-  Use_Command                = TRUE
   Use_Console                = TRUE
   Use_ContainedIn            = TRUE
-  Use_CreateRegInt           = TRUE
-  Use_CreateRegString        = TRUE
   Use_Crlf                   = TRUE
   Use_Csrlin                 = TRUE
   Use_Cvd                    = TRUE
@@ -19059,7 +17942,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Date                   = TRUE
   Use_Datepick               = TRUE
   Use_Del                    = TRUE
-  Use_DeleteRegKey           = TRUE
   Use_Doevents               = TRUE
   Use_Download               = TRUE
   Use_Draw                   = TRUE
@@ -19074,7 +17956,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Elf                    = TRUE
   Use_Enclose                = TRUE
   Use_Environ                = TRUE
-  Use_Eof                    = TRUE
   Use_Exist                  = TRUE
   Use_Exp                    = TRUE
   Use_Extract                = TRUE
@@ -19085,8 +17966,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Findfirst              = TRUE
   Use_Findnext               = TRUE
   Use_FirstInstance          = TRUE
-  Use_Form                   = TRUE
-  Use_Freefile               = TRUE
   Use_GUINoMain              = TRUE
   Use_GenFree                = TRUE
   Use_GetResource            = TRUE
@@ -19115,14 +17994,12 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Instr                  = TRUE
   Use_Instrrev               = TRUE
   Use_Join                   = TRUE
-  Use_Keypress               = TRUE
   Use_LF                     = TRUE
   Use_Label                  = TRUE
   Use_Lcase                  = TRUE
   Use_Left                   = TRUE
   Use_Like                   = TRUE
   Use_ListBoxLoadFile        = TRUE
-  Use_Listbox                = TRUE
   Use_Listview               = TRUE
   Use_LoadFile               = TRUE
   Use_Loc                    = TRUE
@@ -19153,12 +18030,9 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Numqsortddouble        = TRUE
   Use_Numqsortdfloat         = TRUE
   Use_Numqsortdint           = TRUE
-  Use_OSVersion              = TRUE
   Use_Oct                    = TRUE
   Use_Panel                  = TRUE
-  Use_Pause                  = TRUE
   Use_PeekStr                = TRUE
-  Use_PlayWav                = TRUE
   Use_Pos                    = TRUE
   Use_Printer                = TRUE
   Use_ProgressBar            = TRUE
@@ -19169,38 +18043,24 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Randomize              = TRUE
   Use_Rec                    = TRUE
   Use_RecCount               = TRUE
-  Use_RegInt                 = TRUE
-  Use_RegString              = TRUE
   Use_Remain                 = TRUE
   Use_Remove                 = TRUE
   Use_Repeat                 = TRUE
   Use_Replace                = TRUE
   Use_Retain                 = TRUE
   Use_Reverse                = TRUE
-  Use_Richedit               = TRUE
   Use_Right                  = TRUE
   Use_Rnd                    = TRUE
   Use_Round                  = TRUE
   Use_Rpad                   = TRUE
   Use_Rtrim                  = TRUE
-  Use_Run                    = TRUE
   Use_SPC                    = TRUE
-  Use_SaveBmp                = TRUE
   Use_Scan                   = TRUE
-  Use_Screen                 = TRUE
   Use_SearchPath             = TRUE
-  Use_SetColor               = TRUE
   Use_SetFont                = TRUE
-  Use_SetText                = TRUE
-  Use_Set_BCX_Bitmap         = TRUE
-  Use_Set_BCX_Bitmap2        = TRUE
-  Use_Set_BCX_BmpButton      = TRUE
-  Use_Set_BCX_Icon           = TRUE
   Use_Sgn                    = TRUE
-  Use_Sound                  = TRUE
   Use_Space                  = TRUE
   Use_Split                  = TRUE
-  Use_Status                 = TRUE
   Use_Str                    = TRUE
   Use_StrStr                 = TRUE
   Use_Str_Cmp                = TRUE
@@ -19218,7 +18078,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Tally                  = TRUE
   Use_TempFileName           = TRUE
   Use_Textmode               = TRUE
-  Use_Time                   = TRUE
   Use_Timer                  = TRUE
   Use_Treeview               = TRUE
   Use_Trim                   = TRUE
@@ -19238,9 +18097,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   IF bCPP = TRUE THEN
     UseCpp                   = TRUE
   END IF
-
-  Use_PellesPath             = TRUE
-  Use_LccPath                = TRUE
 
   ' Set Sysmacros
 
@@ -19263,7 +18119,6 @@ SUB UseAll( bCPP AS BOOLEAN )
   Use_Val                    = TRUE
   Use_Vall                   = TRUE
   Use_Getattr                = TRUE
-  Use_Setattr                = TRUE
   Use_Fint                   = TRUE
   Use_Frac                   = TRUE
   Use_Fracl                  = TRUE
@@ -19332,8 +18187,6 @@ SUB SetUsed
         IF Src$ = "Use_Asinh" THEN Use_Asinh = TRUE
         IF Src$ = "Use_Atanh" THEN Use_Atanh = TRUE
         CASE  2
-        IF Src$ = "Use_BCXMDialog" THEN Use_BCXMDialog = TRUE
-        IF Src$ = "Use_BCXDialog" THEN Use_BCXDialog = TRUE
         IF Src$ = "Use_Bff" THEN Use_Bff = TRUE
         IF Src$ = "Use_Bin" THEN Use_Bin = TRUE
         IF Src$ = "Use_Bin2dec" THEN Use_Bin2dec = TRUE
@@ -19352,10 +18205,7 @@ SUB SetUsed
         IF Src$ = "Use_Color" THEN Use_Color = TRUE
         IF Src$ = "Use_Combobox" THEN Use_Combobox = TRUE
         IF Src$ = "Use_ComboBoxLoadFile" THEN Use_ComboBoxLoadFile = TRUE
-        IF Src$ = "Use_Command" THEN Use_Command = TRUE
         IF Src$ = "Use_ContainedIn" THEN Use_ContainedIn = TRUE
-        IF Src$ = "Use_CreateRegInt" THEN Use_CreateRegInt = TRUE
-        IF Src$ = "Use_CreateRegString" THEN Use_CreateRegString = TRUE
         IF Src$ = "Use_Csrlin" THEN Use_Csrlin = TRUE
         IF Src$ = "Use_Cvd" THEN Use_Cvd = TRUE
         IF Src$ = "Use_Cvi" THEN Use_Cvi = TRUE
@@ -19365,7 +18215,6 @@ SUB SetUsed
         CASE  4
         IF Src$ = "Use_Datepick" THEN Use_Datepick = TRUE
         IF Src$ = "Use_Del" THEN Use_Del = TRUE
-        IF Src$ = "Use_DeleteRegKey" THEN Use_DeleteRegKey = TRUE
         IF Src$ = "Use_Doevents" THEN Use_Doevents = TRUE
         IF Src$ = "Use_Download" THEN Use_Download = TRUE
         IF Src$ = "Use_Draw" THEN Use_Draw = TRUE
@@ -19380,7 +18229,6 @@ SUB SetUsed
         IF Src$ = "Use_Elf" THEN Use_Elf = TRUE
         IF Src$ = "Use_Enclose" THEN Use_Enclose = TRUE
         IF Src$ = "Use_Environ" THEN Use_Environ = TRUE
-        IF Src$ = "Use_Eof" THEN Use_Eof = TRUE    'added 7/30/2005
         IF Src$ = "Use_Exist" THEN Use_Exist = TRUE
         IF Src$ = "Use_Exp" THEN Use_Exp = TRUE
         IF Src$ = "Use_Extract" THEN Use_Extract = TRUE
@@ -19391,8 +18239,6 @@ SUB SetUsed
         IF Src$ = "Use_Findnext" THEN Use_Findnext = TRUE
         IF Src$ = "Use_FirstInstance" THEN Use_FirstInstance = TRUE
         IF Src$ = "Use_FindInType" THEN Use_FindInType = TRUE
-        IF Src$ = "Use_Form" THEN Use_Form = TRUE
-        IF Src$ = "Use_Freefile" THEN Use_Freefile = TRUE
         CASE  7
         IF Src$ = "Use_GetDimension" THEN Use_GetDimension = TRUE
         IF Src$ = "Use_Getfilename" THEN Use_Getfilename = TRUE
@@ -19423,15 +18269,12 @@ SUB SetUsed
         CASE  10
         IF Src$ = "Use_Join" THEN Use_Join = TRUE
         CASE  11
-        IF Src$ = "Use_Keypress" THEN Use_Keypress = TRUE
         CASE  12
         IF Src$ = "Use_Label" THEN Use_Label = TRUE
         IF Src$ = "UseFlag" THEN UseFlag = TRUE
         IF Src$ = "Use_Lcase" THEN Use_Lcase = TRUE
-        IF Src$ = "Use_LccPath" THEN Use_LccPath = TRUE
         IF Src$ = "Use_Left" THEN Use_Left = TRUE
         IF Src$ = "Use_Like" THEN Use_Like = TRUE
-        IF Src$ = "Use_Listbox" THEN Use_Listbox = TRUE
         IF Src$ = "Use_ListBoxLoadFile" THEN Use_ListBoxLoadFile = TRUE
         IF Src$ = "Use_Listview" THEN Use_Listview = TRUE
         IF Src$ = "Use_LoadFile" THEN Use_LoadFile = TRUE
@@ -19463,13 +18306,9 @@ SUB SetUsed
         IF Src$ = "Use_Numqsortdint" THEN Use_Numqsortdint = TRUE
         CASE  15
         IF Src$ = "Use_Oct" THEN Use_Oct = TRUE
-        IF Src$ = "Use_OSVersion" THEN Use_OSVersion = TRUE
         CASE  16
         IF Src$ = "Use_Panel" THEN Use_Panel = TRUE
-        IF Src$ = "Use_Pause" THEN Use_Pause = TRUE
         IF Src$ = "Use_PeekStr" THEN Use_PeekStr = TRUE
-        IF Src$ = "Use_PellesPath" THEN Use_PellesPath = TRUE
-        IF Src$ = "Use_PlayWav" THEN Use_PlayWav = TRUE
         IF Src$ = "Use_Pos" THEN Use_Pos = TRUE
         IF Src$ = "UseCpp" THEN UseCpp = TRUE
         IF Src$ = "Use_Printer" THEN Use_Printer = TRUE
@@ -19482,39 +18321,25 @@ SUB SetUsed
         IF Src$ = "Use_Randomize" THEN Use_Randomize = TRUE
         IF Src$ = "Use_Rec" THEN Use_Rec = TRUE
         IF Src$ = "Use_RecCount" THEN Use_RecCount = TRUE
-        IF Src$ = "Use_RegInt" THEN Use_RegInt = TRUE
-        IF Src$ = "Use_RegString" THEN Use_RegString = TRUE
         IF Src$ = "Use_Remain" THEN Use_Remain = TRUE
         IF Src$ = "Use_Remove" THEN Use_Remove = TRUE
         IF Src$ = "Use_Repeat" THEN Use_Repeat = TRUE
         IF Src$ = "Use_Replace" THEN Use_Replace = TRUE
         IF Src$ = "Use_Retain" THEN Use_Retain = TRUE
         IF Src$ = "Use_Reverse" THEN Use_Reverse = TRUE
-        IF Src$ = "Use_Richedit" THEN Use_Richedit = TRUE
         IF Src$ = "Use_Right" THEN Use_Right = TRUE
         IF Src$ = "Use_Rnd" THEN Use_Rnd = TRUE
         IF Src$ = "Use_Round" THEN Use_Round = TRUE
         IF Src$ = "Use_Rpad" THEN Use_Rpad = TRUE
         IF Src$ = "Use_Rtrim" THEN Use_Rtrim = TRUE
-        IF Src$ = "Use_Run" THEN Use_Run = TRUE
         CASE  19
-        IF Src$ = "Use_SaveBmp" THEN Use_SaveBmp = TRUE
         IF Src$ = "Use_Scan" THEN Use_Scan = TRUE
-        IF Src$ = "Use_Screen" THEN Use_Screen = TRUE
         IF Src$ = "Use_SearchPath" THEN Use_SearchPath = TRUE
-        IF Src$ = "Use_SetColor" THEN Use_SetColor = TRUE
         IF Src$ = "Use_SetDimension" THEN Use_SetDimension = TRUE
         IF Src$ = "Use_SetFont" THEN Use_SetFont = TRUE
-        IF Src$ = "Use_SetText" THEN Use_SetText = TRUE
-        IF Src$ = "Use_Set_BCX_Bitmap" THEN Use_Set_BCX_Bitmap = TRUE
-        IF Src$ = "Use_Set_BCX_Bitmap2" THEN Use_Set_BCX_Bitmap2 = TRUE
-        IF Src$ = "Use_Set_BCX_BmpButton" THEN Use_Set_BCX_BmpButton = TRUE
-        IF Src$ = "Use_Set_BCX_Icon" THEN Use_Set_BCX_Icon = TRUE
         IF Src$ = "Use_Sgn" THEN Use_Sgn = TRUE
-        IF Src$ = "Use_Sound" THEN Use_Sound = TRUE
         IF Src$ = "Use_Space" THEN Use_Space = TRUE
         IF Src$ = "Use_Split" THEN Use_Split = TRUE
-        IF Src$ = "Use_Status" THEN Use_Status = TRUE
         IF Src$ = "Use_Str" THEN Use_Str = TRUE
         IF Src$ = "Use_Strim" THEN Use_Strim = TRUE
         IF Src$ = "Use_String" THEN Use_String = TRUE
@@ -19532,7 +18357,6 @@ SUB SetUsed
         IF Src$ = "Use_Tally" THEN Use_Tally = TRUE
         IF Src$ = "Use_TempFileName" THEN Use_TempFileName = TRUE
         IF Src$ = "Use_Textmode" THEN Use_Textmode = TRUE
-        IF Src$ = "Use_Time" THEN Use_Time = TRUE
         IF Src$ = "Use_Timer" THEN Use_Timer = TRUE
         IF Src$ = "Use_Treeview" THEN Use_Treeview = TRUE
         IF Src$ = "Use_Trim" THEN Use_Trim = TRUE
@@ -19580,10 +18404,7 @@ SUB SetFlags ' SetFlags
   IF Use_Color THEN FPRINT fpFlags, "Use_Color"
   IF Use_Combobox THEN FPRINT fpFlags, "Use_Combobox"
   IF Use_ComboBoxLoadFile THEN FPRINT fpFlags, "Use_ComboBoxLoadFile"
-  IF Use_Command THEN FPRINT fpFlags, "Use_Command"
   IF Use_ContainedIn THEN FPRINT fpFlags, "Use_ContainedIn"
-  IF Use_CreateRegInt THEN FPRINT fpFlags, "Use_CreateRegInt"
-  IF Use_CreateRegString THEN FPRINT fpFlags, "Use_CreateRegString"
   IF Use_Csrlin THEN FPRINT fpFlags, "Use_Csrlin"
   IF Use_Cvd THEN FPRINT fpFlags, "Use_Cvd"
   IF Use_Cvi THEN FPRINT fpFlags, "Use_Cvi"
@@ -19592,9 +18413,6 @@ SUB SetFlags ' SetFlags
   IF Use_Cvs THEN FPRINT fpFlags, "Use_Cvs"
   IF Use_Datepick THEN FPRINT fpFlags, "Use_Datepick"
   IF Use_Del THEN FPRINT fpFlags, "Use_Del"
-  IF Use_DeleteRegKey THEN FPRINT fpFlags, "Use_DeleteRegKey"
-  IF Use_BCXMDialog THEN FPRINT fpFlags, "Use_BCXMDialog"
-  IF Use_BCXDialog THEN FPRINT fpFlags, "Use_BCXDialog"
   IF Use_Doevents THEN FPRINT fpFlags, "Use_Doevents"
   IF Use_Download THEN FPRINT fpFlags, "Use_Download"
   IF Use_Draw THEN FPRINT fpFlags, "Use_Draw"
@@ -19608,7 +18426,6 @@ SUB SetFlags ' SetFlags
   IF Use_Elf THEN FPRINT fpFlags, "Use_Elf"
   IF Use_Enclose THEN FPRINT fpFlags, "Use_Enclose"
   IF Use_Environ THEN FPRINT fpFlags, "Use_Environ"
-  IF Use_Eof THEN FPRINT fpFlags, "Use_Eof"    'added 7/30/2005
   IF Use_Exist THEN FPRINT fpFlags, "Use_Exist"
   IF Use_Exp THEN FPRINT fpFlags, "Use_Exp"
   IF Use_Extract THEN FPRINT fpFlags, "Use_Extract"
@@ -19618,8 +18435,6 @@ SUB SetFlags ' SetFlags
   IF Use_Findnext THEN FPRINT fpFlags, "Use_Findnext"
   IF Use_FirstInstance THEN FPRINT fpFlags, "Use_FirstInstance"
   IF Use_FindInType THEN FPRINT fpFlags, "Use_FindInType"
-  IF Use_Form THEN FPRINT fpFlags, "Use_Form"
-  IF Use_Freefile THEN FPRINT fpFlags, "Use_Freefile"
   IF Use_GetDimension THEN FPRINT fpFlags,"Use_GetDimension"
   IF Use_Getfilename THEN FPRINT fpFlags, "Use_Getfilename"
   IF Use_GetSpecialFolder THEN FPRINT fpFlags, "Use_GetSpecialFolder"
@@ -19646,15 +18461,12 @@ SUB SetFlags ' SetFlags
   IF Use_IRemove THEN FPRINT fpFlags, "Use_IRemove"
   IF Use_iReplace THEN FPRINT fpFlags, "Use_iReplace"
   IF Use_Join THEN FPRINT fpFlags, "Use_Join"
-  IF Use_Keypress THEN FPRINT fpFlags, "Use_Keypress"
   IF Use_Label THEN FPRINT fpFlags, "Use_Label"
   IF UseFlag THEN FPRINT fpFlags, "UseFlag"
   IF UseLCaseTbl THEN FPRINT fpFlags, "UseLCaseTbl"
   IF Use_Lcase THEN FPRINT fpFlags, "Use_Lcase"
-  IF Use_LccPath THEN FPRINT fpFlags, "Use_LccPath"
   IF Use_Left THEN FPRINT fpFlags, "Use_Left"
   IF Use_Like THEN FPRINT fpFlags, "Use_Like"
-  IF Use_Listbox THEN FPRINT fpFlags, "Use_Listbox"
   IF Use_ListBoxLoadFile THEN FPRINT fpFlags, "Use_ListBoxLoadFile"
   IF Use_Listview THEN FPRINT fpFlags, "Use_Listview"
   IF Use_LoadFile THEN FPRINT fpFlags, "Use_LoadFile"
@@ -19683,12 +18495,8 @@ SUB SetFlags ' SetFlags
   IF Use_Numqsortdfloat THEN FPRINT fpFlags, "Use_Numqsortdfloat"
   IF Use_Numqsortdint THEN FPRINT fpFlags, "Use_Numqsortdint"
   IF Use_Oct THEN FPRINT fpFlags, "Use_Oct"
-  IF Use_OSVersion THEN FPRINT fpFlags, "Use_OSVersion"
   IF Use_Panel THEN FPRINT fpFlags, "Use_Panel"
-  IF Use_Pause THEN FPRINT fpFlags, "Use_Pause"
   IF Use_PeekStr THEN FPRINT fpFlags, "Use_PeekStr"
-  IF Use_PellesPath THEN FPRINT fpFlags, "Use_PellesPath"
-  IF Use_PlayWav THEN FPRINT fpFlags, "Use_PlayWav"
   IF Use_Pos THEN FPRINT fpFlags, "Use_Pos"
   IF UseCpp THEN FPRINT fpFlags, "UseCpp"
   IF Use_Printer THEN FPRINT fpFlags, "Use_Printer"
@@ -19699,38 +18507,24 @@ SUB SetFlags ' SetFlags
   IF Use_Randomize THEN FPRINT fpFlags, "Use_Randomize"
   IF Use_Rec THEN FPRINT fpFlags, "Use_Rec"
   IF Use_RecCount THEN FPRINT fpFlags, "Use_RecCount"
-  IF Use_RegInt THEN FPRINT fpFlags, "Use_RegInt"
-  IF Use_RegString THEN FPRINT fpFlags, "Use_RegString"
   IF Use_Remain THEN FPRINT fpFlags, "Use_Remain"
   IF Use_Remove THEN FPRINT fpFlags, "Use_Remove"
   IF Use_Repeat THEN FPRINT fpFlags, "Use_Repeat"
   IF Use_Replace THEN FPRINT fpFlags, "Use_Replace"
   IF Use_Retain THEN FPRINT fpFlags, "Use_Retain"
   IF Use_Reverse THEN FPRINT fpFlags, "Use_Reverse"
-  IF Use_Richedit THEN FPRINT fpFlags, "Use_Richedit"
   IF Use_Right THEN FPRINT fpFlags, "Use_Right"
   IF Use_Rnd THEN FPRINT fpFlags, "Use_Rnd"
   IF Use_Round THEN FPRINT fpFlags, "Use_Round"
   IF Use_Rpad THEN FPRINT fpFlags, "Use_Rpad"
   IF Use_Rtrim THEN FPRINT fpFlags, "Use_Rtrim"
-  IF Use_Run THEN FPRINT fpFlags, "Use_Run"
-  IF Use_SaveBmp THEN FPRINT fpFlags, "Use_SaveBmp"
   IF Use_Scan THEN FPRINT fpFlags, "Use_Scan"
-  IF Use_Screen THEN FPRINT fpFlags, "Use_Screen"
   IF Use_SearchPath THEN FPRINT fpFlags, "Use_SearchPath"
-  IF Use_SetColor THEN FPRINT fpFlags, "Use_SetColor"
   IF Use_SetDimension THEN FPRINT fpFlags,"Use_SetDimension"
   IF Use_SetFont THEN FPRINT fpFlags, "Use_SetFont"
-  IF Use_SetText THEN FPRINT fpFlags, "Use_SetText"
-  IF Use_Set_BCX_Bitmap THEN FPRINT fpFlags, "Use_Set_BCX_Bitmap"
-  IF Use_Set_BCX_Bitmap2 THEN FPRINT fpFlags, "Use_Set_BCX_Bitmap2"
-  IF Use_Set_BCX_BmpButton THEN FPRINT fpFlags, "Use_Set_BCX_BmpButton"
-  IF Use_Set_BCX_Icon THEN FPRINT fpFlags, "Use_Set_BCX_Icon"
   IF Use_Sgn THEN FPRINT fpFlags, "Use_Sgn"
-  IF Use_Sound THEN FPRINT fpFlags, "Use_Sound"
   IF Use_Space THEN FPRINT fpFlags, "Use_Space"
   IF Use_Split THEN FPRINT fpFlags, "Use_Split"
-  IF Use_Status THEN FPRINT fpFlags, "Use_Status"
   IF Use_Str THEN FPRINT fpFlags, "Use_Str"
   IF Use_Strim THEN FPRINT fpFlags, "Use_Strim"
   IF Use_String THEN FPRINT fpFlags, "Use_String"
@@ -19747,7 +18541,6 @@ SUB SetFlags ' SetFlags
   IF Use_Tally THEN FPRINT fpFlags, "Use_Tally"
   IF Use_TempFileName THEN FPRINT fpFlags, "Use_TempFileName"
   IF Use_Textmode THEN FPRINT fpFlags, "Use_Textmode"
-  IF Use_Time THEN FPRINT fpFlags, "Use_Time"
   IF Use_Timer THEN FPRINT fpFlags, "Use_Timer"
   IF Use_Treeview THEN FPRINT fpFlags, "Use_Treeview"
   IF Use_Trim THEN FPRINT fpFlags, "Use_Trim"
@@ -21102,7 +19895,6 @@ SET tBcxWords[] AS tagWords
   {"fix",vt_DECFUNC},
   {"frac",vt_DOUBLE},
   {"fracl",vt_LDOUBLE},
-  {"freefile",vt_FILEPTR},
   {"getattr",vt_DECFUNC},
   {"hex2dec",vt_INTEGER},
   {"hypot",vt_DOUBLE},
@@ -21112,7 +19904,6 @@ SET tBcxWords[] AS tagWords
   {"instr",vt_DECFUNC},
   {"instrrev",vt_DECFUNC},
   {"kbhit",vt_DECFUNC},
-  {"keypress()",vt_DECFUNC},
   {"lof",vt_DOUBLE},
   {"log",vt_DOUBLE},
   {"log10",vt_DOUBLE},

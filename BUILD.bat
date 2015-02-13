@@ -1,6 +1,6 @@
 @echo off
 echo ------------------------------------------------------------
-echo Building RAPTOR Basic Application
+echo Building RAPTOR Basic+ Application
 echo.
 
 rem -------------------------------------------------------------
@@ -49,7 +49,6 @@ m68k-atari-mint-gcc -O2 -Iinclude -c build\%1.C -o build\%1.o
 
 rem -------------------------------------------------------------
 rem Link binaries
-rem rln -z -rq -o RBASIC.ABS -a 4000 x x build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o build\%1.o include\ecvtbuf.o include\ee_printf.o include\fcvtbuf.o
 rln -z -rq -o RBASIC.ABS -a 4000 x x build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o build\%1.o
 
 rem -------------------------------------------------------------
