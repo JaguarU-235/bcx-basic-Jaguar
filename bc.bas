@@ -9522,7 +9522,7 @@ SUB DimDynaString(SVar$, DG, s)
     CALL AddLocal(SVar$, vt_CHAR, 0,"",1,0,0)
   ELSE
     IF Use_GenFree THEN
-      GlobalDynaCnt++
+      GlobalDynaCnt++ 
       GlobalDynaStr$[GlobalDynaCnt] = DS$
     END IF
     IF DG = 2 THEN
@@ -9720,6 +9720,45 @@ SUB Emit
   Lookup$ = LCASE$(Stk$[1])
 
   SELECT CASE Lookup$
+
+    '********************************************************************
+    CASE "loadclut"
+    '********************************************************************
+
+    lszTmp$ = "" 
+
+	FPRINT Outfile,Scoot$,"loadclut(";
+	
+    FOR j = 2 TO Ndx                 ' Allow size to be an expression
+      IF Stk$[j]= "(" THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[j]))
+    NEXT
+	FPRINT Outfile,lszTmp$;
+	
+	j++
+    FOR i = j TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+	FPRINT Outfile,"(unsigned short *)";lszTmp$;",";
+	
+    i++
+    lszTmp$ = ""
+    FOR j = i TO Ndx                 ' Allow size to be an expression
+      IF Stk$[j]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[j]))
+    NEXT
+	FPRINT Outfile,lszTmp$;",";
+	
+    j++
+    lszTmp$ = ""
+	
+    FOR i = j TO Ndx                 ' Allow size to be an expression
+      IF Stk$[i]= "," THEN EXIT FOR
+      CONCAT(lszTmp$, Clean$(Stk$[i]))
+    NEXT
+
+    FPRINT Outfile,lszTmp$;";"
 
     '********************************************************************
     CASE "vsync"
@@ -13344,7 +13383,16 @@ SUB EmitProlog
   FPRINT Outfile,"#include <process.h>"
   FPRINT Outfile,"#include "+DQ$+"rbasic.h"+DQ$+""
   FPRINT Outfile,"#include "+DQ$+"raptor.h"+DQ$+""
+  FPRINT Outfile,"#include "+DQ$+"romassets.h"+DQ$+""
   FPRINT Outfile,""
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
 
   IF Use_Library THEN
     FPRINT Outfile,"// END BCXRTHEADER\n\n"

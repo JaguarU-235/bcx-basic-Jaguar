@@ -259,7 +259,7 @@ RAPTOR_sprite_table:		.ds.b	sprite_max*sprite_tabwidth													; RAPTOR spri
 							.dphrase
 RAPTOR_particle_table:		.ds.b	raptor_particle_pixels*particle_tabwidth									; RAPTOR particle database
 							.dphrase
-basic_ram:					.ds.b	64000
+
 							
 _trashram:
 								

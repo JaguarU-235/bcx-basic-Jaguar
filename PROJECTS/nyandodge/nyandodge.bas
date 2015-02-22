@@ -28,9 +28,10 @@ do
 	endif
 	RSETOBJ(1,R_sprite_y,PY<<16)
 	IF RHIT(1,1,2,22)<>-1 THEN
-		'SNDPLAY(0,4)
+		SNDPLAY(0,4)
 		col=PY<<10
 		dpoke BG,col
+		col=DPEEK(VI)
 	PRINT "LOLOL"
 	ELSE
 		dpoke BG,PY

@@ -55,3 +55,4 @@ void SNDFREQ(int v,int y) asm("SNDFREQ");
 void SNDVOLRESET(int v) asm("SNDVOLRESET");
 void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
 void delay(int x) asm("delay");
+void loadclut(unsigned short *paladdress, short target_clut, short no_of_indices) asm("loadclut");

@@ -18,10 +18,31 @@
 #include <time.h>
 #include <stdarg.h>
 #include <process.h>
+#include "raptor.h"
 
-// *************************************************
-//            User Global Variables
-// *************************************************
+//
+// Function declarations, variables and externs
+//
+
+void basicmain() asm ("__Z9basicmainv"); //main function declaration
+void colour();
+void delay(int x) asm("delay");
+int GETPAD(int pad);
+void RSETLIST(int list_index);
+void RSETOBJ(int spr_index, int offset, int value);
+int RGETOBJ(int spr_index, int offset);
+int RHIT(int r_sl, int r_sh, int r_tl, int r_th);
+void RUPDALL(volatile int update);
+void MODPLAY(int module);
+void SNDPLAY(int sampleno, int channel);
+void RPARTI(int fx,int x,int y);
+void RSETMAP(int x,int y);
+void SNDKILL(int v) asm("SNDKILL");
+void SNDDELTA(int v,int x) asm("SNDDELTA");
+void SNDFREQ(int v,int y) asm("SNDFREQ");
+void SNDVOLRESET(int v) asm("SNDVOLRESET");
+void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
+void loadclut(unsigned short *paladdress, short target_clut, short no_of_indices) asm("loadclut");
 
 extern int U235SE_pad1 asm ("U235SE_pad1");
 extern int U235SE_pad2 asm ("U235SE_pad2");
@@ -45,21 +66,10 @@ extern void *RAPTOR_U235gomodule_stereo() asm ("RAPTOR_U235gomodule_stereo");
 extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
-unsigned char plot_colour=0;
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
-int GETPAD(int pad);
-void RSETLIST(int list_index);
-void RSETOBJ(int spr_index, int offset, int value);
-int RGETOBJ(int spr_index, int offset);
-int RHIT(int r_sl, int r_sh, int r_tl, int r_th);
-void RUPDALL(volatile int update);
-void MODPLAY(int module);
-void SNDPLAY(int sampleno, int channel);
-void RPARTI(int fx,int x,int y);
-void RSETMAP(int x,int y);
-void colour();
+
+unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
-void basicmain() asm ("__Z9basicmainv"); //main function declaration
 double y=0; //needed by some libc/libm functions
 double yt2=0; //needed by some libc/libm functions
 char *basic_r_buffer=(char *)0;
@@ -69,18 +79,24 @@ volatile int basic_r_ypos=0;
 int basic_r_indx=0;
 int basic_r_size=0;
 extern unsigned int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
-
-void SNDKILL(int v) asm("SNDKILL");
-void SNDDELTA(int v,int x) asm("SNDDELTA");
-void SNDFREQ(int v,int y) asm("SNDFREQ");
-void SNDVOLRESET(int v) asm("SNDVOLRESET");
-void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
-void delay(int x) asm("delay");
-
 static unsigned int U235_commands[2]={0,0};
+
+
+
+//
+// And now, teh c0d3!!!111
+//
+
+
 // -----------------------------------------------------------------------------
-void delay(int x)
-{int delayloopcounter;for (delayloopcounter=0;delayloopcounter<x;delayloopcounter++) RUPDALL(0);}
+void loadclut(unsigned short *paladdress, short target_clut, short no_of_indices)
+{
+	short i;
+	unsigned short *src=(unsigned short *)paladdress;
+	unsigned short *dest=(unsigned short *)(0xf00400+target_clut*(16*2));
+	for (i=0;i<no_of_indices;i++)
+		*dest++=*src++;
+}
 // -----------------------------------------------------------------------------
 void SNDKILL(int v)
 {
@@ -211,6 +227,9 @@ __asm__ ("\tmovem.l	d0-d7/a0-a6,-(a7)\n\t"
 		RUPDALL_FLAG=0;
 	}
 }
+// -----------------------------------------------------------------------------
+void delay(int x)
+{int delayloopcounter;for (delayloopcounter=0;delayloopcounter<x;delayloopcounter++) RUPDALL(0);}
 // -----------------------------------------------------------------------------
 void MODPLAY(int module)
 {

@@ -1,0 +1,2 @@
+rom_bmp_player,gfx_clut,assets\gfx\_nyancat.bmp
+rom_bmp_enemy,gfx_clut,assets\gfx\_ufo.bmp

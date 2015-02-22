@@ -1,0 +1,243 @@
+'
+' RB+ ROM builder
+' (c) Reboot in 2015
+' Argument 1: compiled .bin file from rln
+' Argument 2: path+filename linkfile
+' Argument 3: destination .rom file
+'
+Mode StrSpace 0 'fucking VB :P
+
+ConvertCMDLine()
+'If __argc <> 3
+'End
+'EndIf
+
+'If Exist(__argv(2))
+'DeleteFile Yes, __argv(2)
+'EndIf
+
+Open __argv(1) for Input As # 2
+Open __argv(3) for Output As # 1
+
+'Open "..\rbasic.bin" for Input As # 2
+'Open "..\rbasic.rom" for Output As # 1
+
+
+Dim romlen% = 0
+Dim rblen% = LOF(# 2)
+
+'
+' First, dump the universal header
+' (maybe this should be optional if someone wants to run it on an Alpine?
+'  ...on second thoughts LOLOL)
+'
+
+Dim buffer(LOF(# 2)) As Byte
+Dim b% = V:buffer(0)
+Open ":univ" for Input As # 3
+BGet # 3, b%, 8192
+Close # 3
+BPut # 1, b%, 8192
+Add romlen%, 8192
+
+'
+' Now dump the copy to RAM routine
+'
+
+Open ":copyrom" for Input As # 3
+BGet # 3, b%, 40
+Close # 3
+
+Open __argv(2)  for Input As # 3 'open linkfile
+Dim linklen% = LOF(# 3) 'get linkfile's length
+
+lpoke_endian(b% + $e, $800000 + 8192 + 40 + linklen%) '(rb+ binary address = rom start + universal header + copy routine + linkfile's length)
+lpoke_endian(b% + $14, $4000) 'run address
+lpoke_endian(b% + $1c, rblen%) 'length of rb+ program + data
+BPut # 1, b%, 40
+Add romlen%, 40
+
+'
+' Read linkfile and dump it to rom
+'
+
+Dim linkbuff(linklen%) As Byte
+BGet # 3, V:linkbuff(0), linklen%
+'##E#
+BPut # 1, V:linkbuff(0), linklen%
+Close # 3
+Add romlen%, linklen%
+
+'
+' Now dump RB+ file
+'
+BGet # 2, b%, rblen%
+BPut # 1, b%, rblen%
+Add romlen%, rblen%
+
+
+'
+' Finally, pad the ROM
+'
+
+
+Dim pad$
+pad$ = String$(8 * 1024 * 1024 / 24, "RB+ (C) Reboot 2014-2015")
+
+'CopyFile __argv(1) To __argv(2)
+
+If romlen% < 1024 * 1024
+  BPut # 1, V:pad$, 1024 * 1024 - romlen%
+ElseIf romlen% < 2 * 1024 * 1024
+  BPut # 1, V:pad$, 2 * 1024 * 1024 - romlen%
+ElseIf romlen% < 4 * 1024 * 1024
+  BPut # 1, V:pad$, 4 * 1024 * 1024 - romlen%
+ElseIf romlen% < 6 * 1024 * 1024
+  BPut # 1, V:pad$, 4 * 1024 * 1024 - romlen%
+ElseIf romlen% < 8 * 1024 * 1024                'Well, 8mb ROM is only possible with skunkboard and bank switching - I suppose it can't hurt to be here!
+  BPut # 1, V:pad$, 8 * 1024 * 1024 - romlen%
+EndIf
+Close # 1
+End
+
+>Procedure lpoke_endian(adr%, value%)
+  Poke adr%, Shr%(value%, 24)
+  Poke adr% + 1, Shr%(value%, 16) And 255
+  Poke adr% + 2, Shr%(value%, 8) And 255
+  Poke adr% + 3, value% And 255
+Return
+
+  //$Export
+  // ****************************************************************************
+  // * Parameters.Lib                                                           *
+  // * GFA-BASIC 32 Library                                                     *
+  // *                                                                          *
+  // * Splits the command line into C compatible argv Array and                 *
+  // * features Delphi/Borland Pascal compatible ParamXX functions              *
+  // *                                                                          *
+  // * Maintained by GFA Software Technologies GmbH /                           *
+  // * GFA Software Technologies, Inc. <info@gfa.net>                           *
+  // *                                                                          *
+  // * Feel free to modify and redistribute.                                    *
+  // ****************************************************************************
+
+  ' Library Parameters
+
+  /* Erstellen eines C-kompatiblen argv-Arrays aus der Kommandozeile
+
+  // __argc enthdlt nach Aufruf der Prozedur ConvertCMDLine
+  // die Anzahl der Kommandozeilenargumente. Ein Argument
+  // besteht dabei aus beliebigen Zeichen mit Ausnahme des
+  // Leerzeichens/Space, das zur Trennung von Argumenten
+  // dient.
+  // Sollen Argumente ?ber ein oder mehrere Leerzeichen
+  // hinausgehen, m?ssen Anfang und Ende des Argumentes
+  // zusdtzlich zu den Leerzeichen durch Anf?hrungszeichen
+  // (keine typografischen, sondern ") gekennzeichnet werden.
+
+  // __argv ist ein Array mit den einzelnen Kommandozeilen-
+  // argumenten; dabei werden maximal __argmax Argumente
+  // verwaltet.
+
+  // __argv(0) ist immer der komplette Pfad inkl. Dateinamen
+  // der eigenen Programmdatei.
+
+  //$Export Var __argc "numbers of elements in command line"
+  //$Export Var __argv "array of elements in command line"
+  //$Export Sub  ConvertCMDLine "()"
+  //$Export Func ParamCount "() As Int ' Delphi/Borland Pascal compatible"
+  //$Export Func ParamStr "(ByVal Index As Int) ' Delphi/Borland Pascal compatible"
+
+  Global Const __argmax = 50
+  Global __argc As Int, __argv() As String
+
+>Procedure ConvertCMDLine()
+  Local i As Int = 0, j As Int = 0
+  'Print "---" + _DosCmd$ + "---"
+  Local cmd$ = Trim(_DosCmd$) + " "
+  'cmd$ = "i:\svn\reboot\JiFFI\source>JiFFI_1.3.Exe -i c:\Users\gn\Desktop\UFO.BIN -o ""c:\$WINDOWS.~BT\jag\vj2\software"" -load 10000 -run 12000 -rom -all -overwrite -nyan -yaarrr "
+  Local LargeArg As Boolean = False
+  Local a$
+
+  ReDim __argv(__argmax)
+
+  __argv(0) = App.FileName
+  // Anf?hrungszeichen rund um App.FileName entfernen,
+  // falls vorhanden
+  If Left$(__argv(0), 1) = #34
+    __argv(0) = Mid(__argv(0), 2)
+  EndIf
+  If Right$(__argv(0), 1) = #34
+    __argv(0) = Left(__argv(0), Len(__argv(0)) - 1)
+  EndIf
+  '##E#
+
+  If Left$(cmd$, 1) <> """"
+    i = InStr(cmd$, #32)
+  Else
+    i = InStr(cmd$, #34, 2) : LargeArg = True
+    cmd$ = Mid$(cmd$, 2) // Leerzeichen am Anfang abschneiden
+  EndIf
+
+  While i > 0
+    j++
+    If LargeArg
+      // Space und Leerzeichen am Ende abschneiden
+      a$ = Left$(cmd$, i - 2)
+      If Len(a)
+        __argv(j) = Left$(cmd$, i - 2)
+      Else
+        j--
+      EndIf
+      LargeArg = False
+    Else
+      // nur Leerzeichen am Ende abschneiden
+      a$ = Left$(cmd$, i - 1)
+      If Len(a)
+        __argv(j) = Left$(cmd$, i - 1)
+      Else
+        j--
+      EndIf
+    EndIf
+
+    Exit If (i + 1) > Len(cmd$)
+    cmd$ = Mid$(cmd$, i + 1)
+
+    If Left$(cmd$, 1) <> """"
+      i = InStr(cmd$, #32)
+    Else
+      i = InStr(cmd$, #34, 2) : LargeArg = True
+      cmd$ = Mid$(cmd$, 2) // Leerzeichen am Anfang abschneiden
+    EndIf
+  Wend
+
+  // Anzahl der Argumente zur?ckgeben; ggf. 0
+  __argc = j
+Return
+$DatFile
+$FormVersion = 2
+:Univ 696, 8192
+0KAUDtWMsKAAgcqA//PAH8vAGavQjwTDs2RjwOScT57hRcBmnQgJiEsvfkHMbDpxIPB+JEUm4F1y
+/zY+/VH8r5g/T0ChYHS5RSdA/MiXT4q8v8ObJgtBfmzJP22TDMd2E2j6reLSxbOmRdC8uRpDQKJy
+0D1OGhFCjA+SSzDHFDzaRQi+GjXKRPlWkBekaZB7ZfIxY3iFYqWhpEw9lsv95H8D4c6sb6hxZkmH
+rVQA3BdzJA/pPoqdkIpJo8uckbYQ7MoI8cwTntgtn8FfXzuU2/LRuz5azogN+y06+QD560v91dYs
+tbfUyZQmoARcXTkfe/glzTYA/nVczILGV5kVDxkppLn4K9JBaeY8zJph+A4BVxhzXZ30ck8QC23z
+Zkkb7nBY0Jn1QeTg4tPEB4X5cdbgIK+6HIadQUTELnuL1lTe+YHu4rFi/z2dH0rzFYv0pMwX+SQU
+YffFHkvvZLxJ9Au8ADyL/aqu2tWaPWQQB0knwn3hvy427Dz4JHVKq4Tk6AuUuXk55pVPSKhEfwmY
+iuZmsitMzT/zKlgVa1gdEGuW/PSaSPg5uckxUlwoH52WaFK6lUcphRGuCi8FaoIydweSU6BAgOSO
+1MvsnS1RQusUAh3ozg46joQKbc8tiDRdfeyWjDwYvJRVgsARye270VxF7u3tViHw+zSmd/P38P0r
+CJ8JKOlnitgEOOtX29wKd2WjoQEo0GrIo2JLBAJBr2AYpA21JJAJeCRHmzBWJzPFXK5IeQn3j86p
+2utU4ptXsZxa2cBvB8naVdafADW/QJHeiRR/Gc/DeIIz7vgYGgXHAuQVumcJhVGibPiDNsf27E0M
+Fi8nhxbyXISKOFkyl+037B/tDT6kyK/5NtjRhIS2Q9pL/tyoSHKJoR+vo8/B+HOdHcABEQABAAII
+AAAAAAw/H4/+zDAA
+:Copyrom 40
+Gx/JAMD//9PAwDgTBlfQSNVRDlvRP90SkkEI8IlQrEiEYPFgupvTSD==
+$ExeName = ..\BIN\makearom.Exe
+$FileDescription = Description
+$Comments = Author: Not registered   
+$CompanyName = Not registered   
+$LegalCopyright = © 2013 Not registered   
+$LanguageId = 0409
+$FileVersion = %d.%d.%d.%d
+$ProductVersion = %d.%d.%d.%d
+$DatFile
