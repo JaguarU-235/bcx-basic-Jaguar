@@ -16,7 +16,6 @@ ConvertCMDLine()
 'DeleteFile Yes, __argv(2)
 'EndIf
 
-Open __argv(1) for Input As # 2
 Open __argv(3) for Output As # 1
 
 'Open "..\rbasic.bin" for Input As # 2
@@ -24,15 +23,14 @@ Open __argv(3) for Output As # 1
 
 
 Dim romlen% = 0
-Dim rblen% = LOF(# 2)
-
 '
 ' First, dump the universal header
 ' (maybe this should be optional if someone wants to run it on an Alpine?
 '  ...on second thoughts LOLOL)
 '
 
-Dim buffer(LOF(# 2)) As Byte
+'##E#
+Dim buffer(1024 * 1024) As Byte
 Dim b% = V:buffer(0)
 Open ":univ" for Input As # 3
 BGet # 3, b%, 8192
@@ -43,19 +41,20 @@ Add romlen%, 8192
 '
 ' Now dump the copy to RAM routine
 '
-
+Dim linkcopyrom%
 Open ":copyrom" for Input As # 3
-BGet # 3, b%, 40
+linkcopyrom% = LOF(# 3)
+BGet # 3, b%, linkcopyrom%
 Close # 3
 
 Open __argv(2)  for Input As # 3 'open linkfile
 Dim linklen% = LOF(# 3) 'get linkfile's length
 
-lpoke_endian(b% + $e, $800000 + 8192 + 40 + linklen%) '(rb+ binary address = rom start + universal header + copy routine + linkfile's length)
+lpoke_endian(b% + $e, $800000 + 8192 + linkcopyrom% + linklen%) '(rb+ binary address = rom start + universal header + copy routine + linkfile's length)
 lpoke_endian(b% + $14, $4000) 'run address
-lpoke_endian(b% + $1c, rblen%) 'length of rb+ program + data
-BPut # 1, b%, 40
-Add romlen%, 40
+'lpoke_endian(b% + $1c, rblen%) 'length of rb+ program + data
+BPut # 1, b%, linkcopyrom%
+Add romlen%, linkcopyrom%
 
 '
 ' Read linkfile and dump it to rom
@@ -63,14 +62,38 @@ Add romlen%, 40
 
 Dim linkbuff(linklen%) As Byte
 BGet # 3, V:linkbuff(0), linklen%
-'##E#
 BPut # 1, V:linkbuff(0), linklen%
 Close # 3
 Add romlen%, linklen%
 
 '
-' Now dump RB+ file
+' Pack RB+ file
 '
+Local pHdl As Handle, pID As Int
+Local l As Large, e%, h%
+l =   System("pack2e.exe " + __argv(1) + " " + __argv(1) + ".pak")
+If !l Then Message "Can't run sox - aborting!" : End
+
+'Wait till pack2e finishes
+pHdl = LoLarge(l) ' process handle
+pID = HiLarge(l)  ' process ID
+
+~GetExitCodeProcess(pHdl, V:e)
+While e = STATUS_PENDING
+  ~MsgWaitForMultipleObjects(1, V:pHdl, _
+    0, 1000, QS_ALLINPUT)
+  DoEvents
+  ~GetExitCodeProcess(pHdl, V:e)
+Wend
+~CloseHandle(pHdl)
+
+'
+' Now dump packed RB+ file
+'
+
+Open __argv(1) + ".pak" for Input As # 2
+Dim rblen% = LOF(# 2)
+
 BGet # 2, b%, rblen%
 BPut # 1, b%, rblen%
 Add romlen%, rblen%
@@ -85,6 +108,9 @@ Dim pad$
 pad$ = String$(8 * 1024 * 1024 / 24, "RB+ (C) Reboot 2014-2015")
 
 'CopyFile __argv(1) To __argv(2)
+'Print romlen%
+'Repeat
+'Until InKey$ <> ""
 
 If romlen% < 1024 * 1024
   BPut # 1, V:pad$, 1024 * 1024 - romlen%
@@ -93,7 +119,7 @@ ElseIf romlen% < 2 * 1024 * 1024
 ElseIf romlen% < 4 * 1024 * 1024
   BPut # 1, V:pad$, 4 * 1024 * 1024 - romlen%
 ElseIf romlen% < 6 * 1024 * 1024
-  BPut # 1, V:pad$, 4 * 1024 * 1024 - romlen%
+  BPut # 1, V:pad$, 6 * 1024 * 1024 - romlen%
 ElseIf romlen% < 8 * 1024 * 1024                'Well, 8mb ROM is only possible with skunkboard and bank switching - I suppose it can't hurt to be here!
   BPut # 1, V:pad$, 8 * 1024 * 1024 - romlen%
 EndIf
@@ -230,8 +256,11 @@ CJ8JKOlnitgEOOtX29wKd2WjoQEo0GrIo2JLBAJBr2AYpA21JJAJeCRHmzBWJzPFXK5IeQn3j86p
 2utU4ptXsZxa2cBvB8naVdafADW/QJHeiRR/Gc/DeIIz7vgYGgXHAuQVumcJhVGibPiDNsf27E0M
 Fi8nhxbyXISKOFkyl+037B/tDT6kyK/5NtjRhIS2Q9pL/tyoSHKJoR+vo8/B+HOdHcABEQABAAII
 AAAAAAw/H4/+zDAA
-:Copyrom 40
-Gx/JAMD//9PAwDgTBlfQSNVRDlvRP90SkkEI8IlQrEiEYPFgupvTSD==
+:COPYROM 182, 196
+yCAUDtWMqCAxAUKA//PAHojR8fCAzw/f/DA8A4UQ5HkUTV0Q5b0TPtELJFmAOZNfwmuT+Bge/DHg
+gJgEYDNAkhgZ4DBGRDQZyLXA0BA0AYGBR0QATHkEYAgFSghAQMVQXEBAHwgacDGYXFUZWEeiSghR
+BKegkhRFXUQ1CBGMiUQFJMQZoLlQWYAAcfRHAABWCIvZGExCHYBZqTlQqEwRxjBASaY1HJx2SsdU
+K/P/gBw/s5UdAAA=
 $ExeName = ..\BIN\makearom.Exe
 $FileDescription = Description
 $Comments = Author: Not registered   

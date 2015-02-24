@@ -1,0 +1,438 @@
+'
+' Build a linkfile for RB+ ROM
+' 22-Feb-2015 Reboot
+' Run it like:
+' build link <path+filename of assets file> <base project dir>
+'
+
+Mode StrSpace 0
+
+Global Const __argmax = 50
+Global __argc As Int
+Global __argv() As String
+ConvertCMDLine
+
+If __argc <> 2
+  End
+EndIf
+
+Dim basedir$ = __argv(2)
+Dim base_adr% = $802000 + 196 'rom base address + header + copy routine size (hardcoded for now)
+Dim ass_adr% = base_adr%
+Dim tempbuf(4 * 1024 * 1024) As Byte
+Dim tempadr As Int = V:tempbuf(0)
+
+Dim varname$, type$, assetfile$
+Open __argv(1) for Input As # 1
+Open basedir$ + "\build\linkfile.bin" for Output As # 2
+Open basedir$ + "\romassets.inc" for Output As # 3
+Open basedir$ + "\romassets.h" for Output As # 4
+Dim size As Int
+Dim fullname$
+
+'##E#
+Dim pad$ = "PUSH THE BUTTON!"
+Repeat
+  Input # 1, varname$, type$, assetfile$
+
+  'Align to 16 bytes, just cause I say so :P
+  BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
+  ass_adr% = (ass_adr% + 15) And $fffffff0
+
+  'Print assetfile$
+  'Repeat
+  'Until InKey$ <> ""
+  fullname$ = basedir$ + "\" + assetfile$
+  If Lower$(type$) = "gfx_clut"
+    convertbmp(fullname$, True)
+    Print # 3; varname$; "_gfxdata EQU $"; Hex$(ass_adr%)
+    Print # 4; "#define "; varname$; "_gfxdata 0x"; Hex$(ass_adr%)
+    Open fullname$ + ".gfxdata" for Input As # 5
+    size = LOF(# 5)
+    BGet # 5, tempadr, size
+    BPut # 2, tempadr, size
+    Close # 5
+    Add ass_adr%, size
+    Print # 3; varname$; "_clut EQU $"; Hex$(ass_adr%)
+    Print # 4; "#define "; varname$; "_clut 0x"; Hex$(ass_adr%)
+    Open fullname$ + ".clut" for Input As # 5
+    size = LOF(# 5)
+    BGet # 5, tempadr, size
+    BPut # 2, tempadr, size
+    Close # 5
+    Add ass_adr%, size
+  ElseIf Lower$(type$) = "gfx_noclut"
+    convertbmp(fullname$, False)
+    Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+    Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+    Open fullname$ + ".gfxdata" for Input As # 5
+    size = LOF(# 5)
+    BGet # 5, tempadr, size
+    BPut # 2, tempadr, size
+    Close # 5
+    Add ass_adr%, size
+    Print # 3; varname$; "_gfxdata_end EQU $"; Hex$(ass_adr%)
+    Print # 4; "#define "; varname$; "_gfxdata_end 0x"; Hex$(ass_adr%)
+  ElseIf Left$(Lower$(type$), 7) = "sfx_raw"
+    Local pHdl As Handle, pID As Int
+    Local l As Large, e%, h%
+    l =   System("sox " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + SubStr(type$, 8))
+    If !l Then Message "Can't run sox - aborting!" : End
+
+    'Wait till sox finishes
+    pHdl = LoLarge(l) ' process handle
+    pID = HiLarge(l)  ' process ID
+
+    ~GetExitCodeProcess(pHdl, V:e)
+    While e = STATUS_PENDING
+      ~MsgWaitForMultipleObjects(1, V:pHdl, _
+        0, 1000, QS_ALLINPUT)
+      '    Beep -1
+      DoEvents
+      ~GetExitCodeProcess(pHdl, V:e)
+    Wend
+    ~CloseHandle(pHdl)
+
+  ElseIf Lower$(type$) = "sfx_adpcm"
+  Else
+    Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+    Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+    Open fullname$ for Input As # 5
+    size = LOF(# 5)
+    BGet # 5, tempadr, size
+    BPut # 2, tempadr, size
+    Close # 5
+    Add ass_adr%, size
+    Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
+    Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+  EndIf
+
+Until EOF(# 1)
+Close # 1
+
+End
+
+
+'
+' Convert a 8bpp bmp to jag format
+' Code by promethea, with original 68k code by Sinister developments
+'
+' Foooooked in the arse by ggn in 27-02-2013 (WARNING - only 256c works proppa for now!)
+' Mono mode added by ggn in 15-02-2015 for Kevvykevkevkevkev
+' 4bit converter fixed in 22-02-2015
+'
+' Needs to be launched with parameters from the command prompt:
+' convbmp <input filename> <output filename> <colour bit depth> <width in bytes> <height in scanlines>
+' It will output <filename>.jag
+'
+Procedure convertbmp(file$, dumpclut As Bool)
+  Dim infile$, outpath$
+  Dim depth, width, height, l, i, x As Int
+  Dim sourceaddr, xBGR As Int
+
+  '
+  ' Process command line params
+  '
+  infile$ = file$
+  outpath$ = file$ + ".gfxdata"
+
+
+  'TODO: check if destination files exist and are of newer date than source file
+
+  '
+  ' Read in source file
+  '
+  'Print "open "; file$
+  'Repeat
+  'Until InKey$ <> ""
+  Open file$ for Binary As # 5
+  l = LOF(# 5)
+  Dim sourcebmp(l) As Byte
+  sourceaddr = V:sourcebmp(0)
+  Dim aaa As Byte
+  For i = 1 To l
+    BGet # 5, V:aaa, 1
+    sourcebmp(i - 1) = aaa
+  Next i
+  Close # 5
+  '
+  ' Figure out width and height
+  '
+  width = sourcebmp($15) * $100000 + sourcebmp($14) * $1000 + sourcebmp($13) * $100 + sourcebmp($12)
+  height = sourcebmp($19) * $100000 + sourcebmp($18) * $1000 + sourcebmp($17) * $100 + sourcebmp($16)
+  depth = sourcebmp($1d) * $100 + sourcebmp($1c)
+
+  '
+  ' Convert palette to jag format
+  '
+  If sourcebmp($1c) <> 4
+    xBGR = 53
+  Else
+    xBGR = $35
+  EndIf
+  Dim palette(255) As Word
+  Dim red, green, blue As Word
+  For i = 0 To 255
+    blue = Rol&((Shr&(sourcebmp(xBGR + 1), 3)), 6)
+    green = Shr&(sourcebmp(xBGR + 2), 2)
+    red = Ror&(Shr&(sourcebmp(xBGR + 3), 3), 5)
+    '  Debug.Print    Hex$(blue, 4)`Hex$(green, 4)`Hex$(red, 4)`Hex$(red Or green Or blue, 4)
+    palette(i) = Ror&(red Or green Or blue, 8)            'Fuck you endianess!
+    Add xBGR, 4
+  Next i
+
+  'Print depth
+  'Repeat
+  'Until InKey$ <> ""
+
+  '
+  ' Do the conversion
+  '
+  Dim screenstart, destindex As Int
+  Dim col As Byte
+  Select depth
+  Case -1                         '***************** just dump the palette & exit
+    'Open outpath$ for Binary As # 1
+    Open file$ for Binary As # 5
+    For i = 1 To 256
+      BPut # 1, V:palette(i - 1), 2
+    Next i
+    Close # 5
+    '  BSave outpath$, V:palette(0), 512
+
+  Case 1                          '***************** 1-bit
+    Global hBmp As Long
+    Dim y As Int ', x As Int
+    Dim b$
+    hBmp = LoadImage(0, file$, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE)
+    Dim z As Picture
+    Set z = LoadPicture(file$)
+    Dim w As Int = Round(z.Width / 26.46)
+    Dim h As Int = Round(z.Height / 26.46)
+    Dim yy As Int = h
+
+
+    If dumpclut
+      Open file$ + ".clut" for Output As # 5 'clut for 1bpp? lol
+      Close # 5
+    EndIf
+
+    If checkdate(file$, file$ + ".gfxdata")
+
+      'Open Left$(a$, RInStr(a$, ".") - 1) + ".jag" for Output As # 1
+      Open file$ + ".gfxdata" for Output As # 5
+
+      OpenW 1, 0, 0, 500, 300, 0
+      While yy > 0
+        Put 0, yy - h, hBmp
+        Get 0, 0, (w - 1), Min(199, yy - 1), b$
+        Dim picadr% = V:b$ + 24
+
+        '
+        ' Dump mono bitmap
+        '
+        Dim outb As Byte, pixel As Byte
+        Dim outadr% = V:outb
+
+        For y = 0 To Min(199, yy - 1)
+          pixel = 128
+          outb = 0
+          For x = 0 To w - 1
+            '    Plot x, y, Peek(picadr% + i + 0) * 65536 + Peek(picadr% + i + 1) * 256 + Peek(picadr% + i + 2)
+            If LPeek(picadr%) <> 0
+              outb = outb | pixel
+            EndIf
+            pixel = pixel >> 1
+            If pixel = 0
+              BPut # 5, outadr%, 1
+              outb = 0
+              pixel = 128
+            EndIf
+            Add picadr%, 4
+          Next x
+          If  ((w / 8) And 7 <> 0)
+            outb = 0
+            For i = 0 To 7 -  ((w / 8) And 7)
+              BPut # 5, V:outadr%, 1
+            Next i
+          EndIf
+        Next y
+        yy = yy - 200
+      Wend
+      CloseW 1
+      Close # 5
+    EndIf
+  Case 4                          '***************** 4-bit
+    width = width / 2
+    screenstart = 54 + 64
+    Dim outbuffer(width * height) As Byte
+    destindex = width * (height - 1)
+    For i = 1 To height
+      For x = 0 To width - 1
+        outbuffer(destindex + x) = sourcebmp(screenstart)
+        Inc screenstart
+      Next x
+      Sub destindex, width
+    Next i
+    If checkdate(file$, file$ + ".gfxdata")
+      Open file$ + ".gfxdata" for Binary As # 5
+      For i = 1 To width * height
+        BPut # 5, V:outbuffer(i - 1), 1
+      Next i
+      Close # 5
+    EndIf
+    If dumpclut
+      If checkdate(file$, file$ + ".clut")
+        Open file$ + ".clut" for Binary As # 5
+        For i = 1 To 16
+          BPut # 5, V:palette(i - 1), 2
+        Next i
+        Close # 5
+      EndIf
+    EndIf
+  Case 8                          '***************** 8-bit
+    screenstart = 1024 + 54
+    Dim outbuffer(width * height) As Byte
+    destindex = width * (height - 1)
+    For i = 1 To height
+      For x = 0 To width - 1
+        outbuffer(destindex + x) = sourcebmp(screenstart)
+        Inc screenstart
+      Next x
+      Sub destindex, width
+    Next i
+    'If outpath$ = ""
+    If dumpclut
+      If checkdate(file$, file$ + ".clut")
+        'BSave Left$(infile$, Len(infile$) - 4) + ".gfxdata", V:palette(0), 512
+        BSave file$ + ".clut", V:palette(0), 512
+      EndIf
+    EndIf
+    If checkdate(file$, file$ + ".gfxdata")
+      Open Left$(infile$, Len(infile$) - 4) + ".gfxdata" for Binary As # 5
+      'Else
+      'infile$ = Right$(infile$, Len(infile$) - RInStr(infile$, "\"))
+      'infile$ = Left$(infile$, Len(infile$) - 4)
+      'outpath$ = Left$(outpath$, RInStr(outpath$, "\"))
+      'BSave outpath$ + infile$ + ".pal", V:palette(0), 512
+      'Open outpath$ + infile$ + ".jag" for Binary As # 1
+      'EndIf
+      For i = 1 To width * height
+        BPut # 5, V:outbuffer(i - 1), 1
+      Next i
+      Close # 5
+    EndIf
+  Case 16                          '***************** 16-bit raw
+    screenstart = 1024 + 54
+    Dim outbuffer16(width * height * 2) As Word
+    destindex = width * (height - 1)
+    For i = 1 To height
+      For x = 0 To width - 1
+        col = sourcebmp(screenstart)
+        outbuffer16(destindex + x) = palette(col)
+        Inc screenstart
+      Next x
+      Sub destindex, width
+    Next i
+    Open Left$(infile$, Len(infile$), 4) + ".jag" for Binary As # 1
+    '  OpenW 1
+    '  Print width, height, width * height * 2
+    '  Repeat
+    'Until InKey$ <> ""
+    For i = 1 To width * height
+      BPut # 1, V:outbuffer16(i - 1), 2
+    Next i
+  EndSelect
+Return
+
+>Function checkdate(a$, b$)
+  If Not Exist(b$)
+    Return True
+  EndIf
+  Return FileDateTime(a$) > FileDateTime(b$)
+EndFunc
+>Procedure ConvertCMDLine()
+  // The global variable __argc holds the
+  // number of commandline arguments after executing ConvertCMDLine().
+  // Arguments are separated by space(s)
+
+  // __argv() is an Array with the splitted arguments.
+  // Only __argmax arguments are returned.
+
+  // __argv(0) holds the complete path, filename included.
+
+  Local i As Int = 0, j As Int = 0
+  Local cmd$
+
+  Local LargeArg As Boolean = False
+  Local a$
+
+  ReDim __argv(__argmax)
+  __argv(0) = App.FileName
+
+  // Remove quotes
+  If Left$(__argv(0), 1) = #34
+    __argv(0) = Mid(__argv(0), 2)
+  EndIf
+  If Right$(__argv(0), 1) = #34
+    __argv(0) = Left(__argv(0), Len(__argv(0)) - 1)
+  EndIf
+
+  cmd$ = Trim(_DosCmd$) + #32
+  If Left$(cmd$, 1) <> """"
+    i = InStr(cmd$, #32)
+  Else
+    'Debug.Print InStr(cmd$, """", 2)
+    i = InStr(cmd$, #34, 2) : LargeArg = True
+
+    cmd$ = Mid$(cmd$, 2) // remove space at start
+  EndIf
+
+  While i > 0
+    j++
+    If LargeArg
+      // remove space at end
+      a$ = Left$(cmd$, i - 2)
+      If Len(a)
+        __argv(j) = Left$(cmd$, i - 2)
+      Else
+        j--
+      EndIf
+      LargeArg = False
+    Else
+      // only remove space at end
+      a$ = Left$(cmd$, i - 1)
+      If Len(a)
+        __argv(j) = Left$(cmd$, i - 1)
+      Else
+        j--
+      EndIf
+    EndIf
+
+    Exit If (i + 1) > Len(cmd$)
+
+    cmd$ = Mid$(cmd$, i + 1)
+
+    If Left$(cmd$, 1) <> """"
+      i = InStr(cmd$, #32)
+    Else
+      i = InStr(cmd$, #34, 2) : LargeArg = True
+      cmd$ = Mid$(cmd$, 2) // remove space at beginning
+    EndIf
+  Wend
+
+  // Return number of arguments
+  __argc = j
+
+EndProcedure
+$DatFile
+$FormVersion = 2
+$ExeName = ..\BIN\Buildlink.exe
+$FileDescription = Description
+$Comments = Author: Not registered   
+$CompanyName = Not registered   
+$LegalCopyright = © 2015 Not registered   
+$LanguageId = 0409
+$FileVersion = %d.%d.%d.%d
+$ProductVersion = %d.%d.%d.%d
+$DatFile

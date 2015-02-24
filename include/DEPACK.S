@@ -1,16 +1,3 @@
-                move    #$2700,SR
-                move.w  #$7FFF,$F0004E
-                lea     'ARSE',A0       ;address of RB+ binary in ROM
-                lea     'FOOK',A1       ;run address
-                movea.l A1,A6
-;       move.l #'RB+!',d0       ;length of binary in byte
-;copyloop:
-;       move.b (a0)+,(a1)+
-;       subq.l #1,d0
-;       bgt.s copyloop
-                bsr.s   depack2e
-                jmp     (A6)
-
 ;-------------------------------------------------------------------------------
 ;  n2e_d.ash -- NRV2E decompression in 68000 assembly
 ;
@@ -73,15 +60,15 @@
 
 ; ------------- constants & macros -------------
 depack2e:
-                moveq   #-$50,D6        ;   0xffffffb0
-                lsl.w   #4,D6           ;   << 4
+                moveq   #-$50,D6                  ;   0xffffffb0
+                lsl.w   #4,D6                     ;   << 4
 
                 moveq   #0,D7
-                moveq   #-1,D5          ; last_off = -1
+                moveq   #-1,D5                    ; last_off = -1
 
 ; init d0 with high bit set
 ;;move.b  #$80,d0               ; init d0.b for FILLBYTES
-                moveq   #-128,D0        ; d0.b = $80
+                moveq   #-128,D0                  ; d0.b = $80
                 bra.s   decompr_start
 
 
@@ -136,7 +123,7 @@ _l01:
                 bra.s   decompr_end
 decompr_break1:
                 subq.w  #3,D1
-                bcs.s   decompr_prev_dist ; last m_off
+                bcs.s   decompr_prev_dist         ; last m_off
                 lsl.l   #8,D1
                 move.b  (A0)+,D1
                 not.l   D1
@@ -203,12 +190,12 @@ decompr_got_mlen:
 
 ;   cost for any m_len:   12 + 22 * (m_len - 1) + 4
 ;     38, 60, 82, 104, 126, 148, 170, 192, 214, 236
-                move.b  (A3)+,(A1)+     ; 12
-Lcopy0:         move.b  (A3)+,(A1)+     ; 12
-                dbra    D2,Lcopy0       ; 10 / 14
+                move.b  (A3)+,(A1)+               ; 12
+Lcopy0:         move.b  (A3)+,(A1)+               ; 12
+                dbra    D2,Lcopy0                 ; 10 / 14
 
                 bra     decompr_loop
 decompr_end:
                 rts
 ; vi:ts=8:et
-                END
+

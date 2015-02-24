@@ -1,7 +1,4 @@
 @echo off
-echo ------------------------------------------------------------
-echo Building RAPTOR Basic+ Application
-echo.
 
 rem -------------------------------------------------------------
 rem set path
@@ -14,18 +11,23 @@ rem -------------------------------------------------------------
 if [%1] neq [] goto :dobuild
 echo Usage: BUILD.bat projectname
 echo        BUILD.bat projectname ROM
-echo
+echo.
 echo Folder "projectname" must exist inside folder "projects"
 echo and have a file called "projectname.bas" inside.
-echo
+echo.
 echo when building a ROM it is assumed that there will exist
 echo a file called assets.txt inside the project folder
 echo and will contain all assets to be included in ROM (if any)
-echo
+echo.
 echo Current projects:
 dir /AD /B PROJECTS
 goto :veryend
+
+rem -------------------------------------------------------------
 :dobuild
+echo ------------------------------------------------------------
+echo Building RAPTOR Basic+ Application
+echo.
 
 rem -------------------------------------------------------------
 rem delete residual files from previous builds
@@ -76,7 +78,7 @@ if "%2" neq "ROM" goto :norom
 rem -------------------------------------------------------------
 rem Let's build a ROM
 makearom PROJECTS\%1\%1.BIN PROJECTS\%1\build\linkfile.bin PROJECTS\%1\%1.rom
-del PROJECTS\%1\%1.BIN >NUL
+rem del PROJECTS\%1\%1.BIN >NUL
 if not exist PROJECTS\%1\%1.ROM goto :builderror
 virtualjaguar PROJECTS\%1\%1.ROM --alpine
 goto :veryend
