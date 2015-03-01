@@ -35,7 +35,7 @@ int RHIT(int r_sl, int r_sh, int r_tl, int r_th);
 void RUPDALL(volatile int update);
 void MODPLAY(int module);
 void SNDPLAY(int sampleno, int channel);
-void RPARTI(int fx,int x,int y);
+void RPARTI(int *fx);
 void RSETMAP(int x,int y);
 void SNDKILL(int v) asm("SNDKILL");
 void SNDDELTA(int v,int x) asm("SNDDELTA");
@@ -271,13 +271,13 @@ void SNDVOL(int volume)
     U235SE_sfx_vol=volume;
 }
 // -----------------------------------------------------------------------------
-void RPARTI(int fx,int x,int y)
+void RPARTI(int *fx)
 {
-	int *a0=(int *)&pixel_list;
-	a0=(int *)a0[fx];
-	*(int *)&raptor_part_inject_addr=(int)a0;
-	*a0=x;
-	*(a0+1)=y;
+	//fx is an array of longs - 6 rows and
+	//as many columns as the user wants
+	//first column should be:
+	//zzz,zzz,zzz,no_particles,x,y (zzz=don't care)
+	*(int *)&raptor_part_inject_addr=(int)&fx[3];
 	__asm__ ("movem.l	d0-a6,-(a7)\n\t"
 "lea		RAPTOR_particle_injection_GPU,a0\n\t"
 "jsr 	RAPTOR_call_GPU_code\n\t"

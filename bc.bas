@@ -7292,6 +7292,13 @@ SUB TokenSubstitutions
         CASE "rupdall"
 		Stk$[Tmp]= "RUPDALL"
 
+		CASE "rparti"
+		
+		'Stk$[Tmp]= "RPARTI(int *)"+Stk$[Tmp+2]+");"
+		Stk$[Tmp+1]= "((int *)"
+		'Stk$[Tmp+2]= ""
+		
+		
         CASE "rhit"
         Stk$[Tmp]= "RHIT"
 

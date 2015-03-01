@@ -1,3 +1,4 @@
+'##E#
 '
 ' Build a linkfile for RB+ ROM
 ' 22-Feb-2015 Reboot
@@ -12,67 +13,133 @@ Global __argc As Int
 Global __argv() As String
 ConvertCMDLine
 
-If __argc <> 2
+'If __argc <> 2
+'End
+'EndIf
+
+Dim basedir$ = __argv(2)
+
+'basedir$ = "..\projects\spiral\"
+'__argv(1) = "..\projects\spiral\assets.txt"
+
+If Not Exist(__argv(1))
+  Open basedir$ + "\build\romassets.inc" for Output As # 3 : Close # 3
+  Open basedir$ + "\build\romassets.h" for Output As # 4 : Close # 4
+  Open basedir$ + "\build\ramassets.inc" for Output As # 6 : Close # 6
+  Open basedir$ + "\build\linkfile.bin" for Output As # 2 : Close # 2
   End
 EndIf
 
-Dim basedir$ = __argv(2)
 Dim base_adr% = $802000 + 196 'rom base address + header + copy routine size (hardcoded for now)
 Dim ass_adr% = base_adr%
 Dim tempbuf(4 * 1024 * 1024) As Byte
 Dim tempadr As Int = V:tempbuf(0)
+Dim fullnameslash$
 
-Dim varname$, type$, assetfile$
+Dim romabs$, varname$, type$, assetfile$
 Open __argv(1) for Input As # 1
 Open basedir$ + "\build\linkfile.bin" for Output As # 2
-Open basedir$ + "\romassets.inc" for Output As # 3
-Open basedir$ + "\romassets.h" for Output As # 4
+Open basedir$ + "\build\romassets.inc" for Output As # 3
+Open basedir$ + "\build\romassets.h" for Output As # 4
+Open basedir$ + "\build\ramassets.inc" for Output As # 6
+Print # 6; ".dphrase"
 Dim size As Int
 Dim fullname$
+Dim plainfile$
+Dim i As Int
 
-'##E#
+Dim filepointer As Int
+
 Dim pad$ = "PUSH THE BUTTON!"
-Repeat
-  Input # 1, varname$, type$, assetfile$
+While Not EOF(# 1)
+  'Print "Reading assets.txt line"
+  filepointer = Seek(# 1)
+  Line Input # 1, romabs$
+  romabs$ = Left$(romabs$, 1)
+  If romabs$ = ";" Or romabs$ = "#" Or romabs$ = "'" Or romabs$ = "*" Or romabs$ = ""
+    'Print "Skipping line"
+    GoTo skipline
+  EndIf
+  Seek # 1, filepointer
+  Input # 1, romabs$, varname$, type$, assetfile$
+  romabs$ = Trim$(romabs$)
+  varname$ = Trim$(varname$)
+  type$ = Trim$(type$)
+  assetfile$ = Trim$(assetfile$)
+
+  'Print "Processing " + assetfile$
 
   'Align to 16 bytes, just cause I say so :P
   BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
   ass_adr% = (ass_adr% + 15) And $fffffff0
+  fullname$ = basedir$ + "\" + assetfile$
+  fullnameslash$ = assetfile$
+  plainfile$ = SubStr(assetfile$, RInStr(assetfile$, "\") + 1)
 
-  'Print assetfile$
+  'Print plainfile$
   'Repeat
   'Until InKey$ <> ""
-  fullname$ = basedir$ + "\" + assetfile$
+  For i = 1 To Len(fullnameslash$)
+    If Mid$(fullnameslash$, i, 1) = "\"
+      Mid$(fullnameslash$, i, 1) = "/"
+    EndIf
+  Next i
   If Lower$(type$) = "gfx_clut"
     convertbmp(fullname$, True)
-    Print # 3; varname$; "_gfxdata EQU $"; Hex$(ass_adr%)
-    Print # 4; "#define "; varname$; "_gfxdata 0x"; Hex$(ass_adr%)
-    Open fullname$ + ".gfxdata" for Input As # 5
-    size = LOF(# 5)
-    BGet # 5, tempadr, size
-    BPut # 2, tempadr, size
-    Close # 5
-    Add ass_adr%, size
-    Print # 3; varname$; "_clut EQU $"; Hex$(ass_adr%)
-    Print # 4; "#define "; varname$; "_clut 0x"; Hex$(ass_adr%)
-    Open fullname$ + ".clut" for Input As # 5
-    size = LOF(# 5)
-    BGet # 5, tempadr, size
-    BPut # 2, tempadr, size
-    Close # 5
-    Add ass_adr%, size
+    If Upper$(romabs$) = "ROM"
+      Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+      Open basedir$ + "\build\" + plainfile$ + ".gfxdata" for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+
+      'Align to 16 bytes, just cause I say so :P
+      BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
+      ass_adr% = (ass_adr% + 15) And $fffffff0
+
+      Print # 3; varname$; "_clut EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; "_clut 0x"; Hex$(ass_adr%)
+      Open basedir$ + "\build\" + plainfile$ + ".clut" for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+    Else
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + """"
+      Print # 6; varname$; "_end:"
+      Print # 6; varname$; "_clut: incbin ""build/" + plainfile$ + ".clut" + """"
+      Print # 6; varname$; "_clut_end:"
+      Print # 6; ".extern " + varname$
+      Print # 6; ".extern " + varname$ + "_clut"
+      Print # 6; ".dphrase"
+      Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+      Print # 4; "extern void *" + varname$ + "_clut" + " asm(""" + varname$ + "_clut"");"
+    EndIf
   ElseIf Lower$(type$) = "gfx_noclut"
     convertbmp(fullname$, False)
-    Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
-    Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-    Open fullname$ + ".gfxdata" for Input As # 5
-    size = LOF(# 5)
-    BGet # 5, tempadr, size
-    BPut # 2, tempadr, size
-    Close # 5
-    Add ass_adr%, size
-    Print # 3; varname$; "_gfxdata_end EQU $"; Hex$(ass_adr%)
-    Print # 4; "#define "; varname$; "_gfxdata_end 0x"; Hex$(ass_adr%)
+    If Upper$(romabs$) = "ROM"
+      Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+      'Print basedir$ + "\build\" + plainfile$ + ".gfxdata"
+      Open basedir$ + "\build\" + plainfile$ + ".gfxdata" for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+      Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+    Else
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + """"
+      Print # 6; varname$; "_end:"
+      Print # 6; ".extern " + varname$
+      Print # 6; ".dphrase"
+      Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+    EndIf
   ElseIf Left$(Lower$(type$), 7) = "sfx_raw"
     Local pHdl As Handle, pID As Int
     Local l As Large, e%, h%
@@ -95,20 +162,31 @@ Repeat
 
   ElseIf Lower$(type$) = "sfx_adpcm"
   Else
-    Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
-    Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-    Open fullname$ for Input As # 5
-    size = LOF(# 5)
-    BGet # 5, tempadr, size
-    BPut # 2, tempadr, size
-    Close # 5
-    Add ass_adr%, size
-    Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
-    Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+    If Upper$(romabs$) = "ROM"
+      Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+      Open fullname$ for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+      Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+    Else
+      Print # 6; varname$; ": incbin """ + fullnameslash$ + """"
+      Print # 6; varname$; "_end:"
+      Print # 6; ".extern " + varname$
+      Print # 6; ".dphrase"
+      Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+    EndIf
   EndIf
-
-Until EOF(# 1)
+  skipline:
+Wend
 Close # 1
+Close # 3
+Close # 4
+Close # 6
 
 End
 
@@ -126,7 +204,7 @@ End
 ' It will output <filename>.jag
 '
 Procedure convertbmp(file$, dumpclut As Bool)
-  Dim infile$, outpath$
+  Dim infile$, outfile$
   Dim depth, width, height, l, i, x As Int
   Dim sourceaddr, xBGR As Int
 
@@ -134,7 +212,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
   ' Process command line params
   '
   infile$ = file$
-  outpath$ = file$ + ".gfxdata"
+  outfile$ = basedir$ + "\build\" + plainfile$
 
 
   'TODO: check if destination files exist and are of newer date than source file
@@ -172,11 +250,10 @@ Procedure convertbmp(file$, dumpclut As Bool)
   EndIf
   Dim palette(255) As Word
   Dim red, green, blue As Word
-  For i = 0 To 255
+  For i = 0 To (2 ^ depth) - 1
     blue = Rol&((Shr&(sourcebmp(xBGR + 1), 3)), 6)
     green = Shr&(sourcebmp(xBGR + 2), 2)
     red = Ror&(Shr&(sourcebmp(xBGR + 3), 3), 5)
-    '  Debug.Print    Hex$(blue, 4)`Hex$(green, 4)`Hex$(red, 4)`Hex$(red Or green Or blue, 4)
     palette(i) = Ror&(red Or green Or blue, 8)            'Fuck you endianess!
     Add xBGR, 4
   Next i
@@ -192,13 +269,11 @@ Procedure convertbmp(file$, dumpclut As Bool)
   Dim col As Byte
   Select depth
   Case -1                         '***************** just dump the palette & exit
-    'Open outpath$ for Binary As # 1
     Open file$ for Binary As # 5
     For i = 1 To 256
       BPut # 1, V:palette(i - 1), 2
     Next i
     Close # 5
-    '  BSave outpath$, V:palette(0), 512
 
   Case 1                          '***************** 1-bit
     Global hBmp As Long
@@ -213,14 +288,13 @@ Procedure convertbmp(file$, dumpclut As Bool)
 
 
     If dumpclut
-      Open file$ + ".clut" for Output As # 5 'clut for 1bpp? lol
+      Open outfile$ + ".clut" for Output As # 5 'clut for 1bpp? lol
       Close # 5
     EndIf
 
-    If checkdate(file$, file$ + ".gfxdata")
+    If checkdate(file$, outfile$ + ".gfxdata")
 
-      'Open Left$(a$, RInStr(a$, ".") - 1) + ".jag" for Output As # 1
-      Open file$ + ".gfxdata" for Output As # 5
+      Open outfile$ + ".gfxdata" for Output As # 5
 
       OpenW 1, 0, 0, 500, 300, 0
       While yy > 0
@@ -233,12 +307,12 @@ Procedure convertbmp(file$, dumpclut As Bool)
         '
         Dim outb As Byte, pixel As Byte
         Dim outadr% = V:outb
+        Local align = (w / 8) And 7
 
         For y = 0 To Min(199, yy - 1)
           pixel = 128
           outb = 0
           For x = 0 To w - 1
-            '    Plot x, y, Peek(picadr% + i + 0) * 65536 + Peek(picadr% + i + 1) * 256 + Peek(picadr% + i + 2)
             If LPeek(picadr%) <> 0
               outb = outb | pixel
             EndIf
@@ -250,9 +324,9 @@ Procedure convertbmp(file$, dumpclut As Bool)
             EndIf
             Add picadr%, 4
           Next x
-          If  ((w / 8) And 7 <> 0)
+          If  align > 0
             outb = 0
-            For i = 0 To 7 -  ((w / 8) And 7)
+            For i = 0 To 7 - align
               BPut # 5, V:outadr%, 1
             Next i
           EndIf
@@ -274,16 +348,16 @@ Procedure convertbmp(file$, dumpclut As Bool)
       Next x
       Sub destindex, width
     Next i
-    If checkdate(file$, file$ + ".gfxdata")
-      Open file$ + ".gfxdata" for Binary As # 5
+    If checkdate(file$, outfile$ + ".gfxdata")
+      Open outfile$ + ".gfxdata" for Binary As # 5
       For i = 1 To width * height
         BPut # 5, V:outbuffer(i - 1), 1
       Next i
       Close # 5
     EndIf
     If dumpclut
-      If checkdate(file$, file$ + ".clut")
-        Open file$ + ".clut" for Binary As # 5
+      If checkdate(file$, outfile$ + ".clut")
+        Open outfile$ + ".clut" for Binary As # 5
         For i = 1 To 16
           BPut # 5, V:palette(i - 1), 2
         Next i
@@ -301,28 +375,19 @@ Procedure convertbmp(file$, dumpclut As Bool)
       Next x
       Sub destindex, width
     Next i
-    'If outpath$ = ""
     If dumpclut
-      If checkdate(file$, file$ + ".clut")
-        'BSave Left$(infile$, Len(infile$) - 4) + ".gfxdata", V:palette(0), 512
-        BSave file$ + ".clut", V:palette(0), 512
+      If checkdate(file$, outfile$ + ".clut")
+        BSave outfile$ + ".clut", V:palette(0), 512
       EndIf
     EndIf
-    If checkdate(file$, file$ + ".gfxdata")
-      Open Left$(infile$, Len(infile$) - 4) + ".gfxdata" for Binary As # 5
-      'Else
-      'infile$ = Right$(infile$, Len(infile$) - RInStr(infile$, "\"))
-      'infile$ = Left$(infile$, Len(infile$) - 4)
-      'outpath$ = Left$(outpath$, RInStr(outpath$, "\"))
-      'BSave outpath$ + infile$ + ".pal", V:palette(0), 512
-      'Open outpath$ + infile$ + ".jag" for Binary As # 1
-      'EndIf
+    If checkdate(file$, outfile$ + ".gfxdata")
+      Open outfile$ + ".gfxdata" for Binary As # 5
       For i = 1 To width * height
         BPut # 5, V:outbuffer(i - 1), 1
       Next i
       Close # 5
     EndIf
-  Case 16                          '***************** 16-bit raw
+  Case 16                          '***************** 16-bit raw - NOT WORKING
     screenstart = 1024 + 54
     Dim outbuffer16(width * height * 2) As Word
     destindex = width * (height - 1)
@@ -335,10 +400,6 @@ Procedure convertbmp(file$, dumpclut As Bool)
       Sub destindex, width
     Next i
     Open Left$(infile$, Len(infile$), 4) + ".jag" for Binary As # 1
-    '  OpenW 1
-    '  Print width, height, width * height * 2
-    '  Repeat
-    'Until InKey$ <> ""
     For i = 1 To width * height
       BPut # 1, V:outbuffer16(i - 1), 2
     Next i

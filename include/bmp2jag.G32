@@ -116,6 +116,12 @@ Case 1                          '***************** 1-bit
   Dim h As Int = Round(z.Height / 26.46)
   Dim yy As Int = h
 
+  'Print w, h
+  'Print a$
+  'Print(w / 8) And 7
+  'Repeat
+  'Until InKey$ <> ""
+'##E#
 
   Open Left$(a$, RInStr(a$, ".") - 1) + ".jag" for Output As # 1
 
@@ -134,6 +140,7 @@ Case 1                          '***************** 1-bit
 
     Dim picadr% = V:b$ + 24
 
+    Local align = (w / 8) And 7
 
     '
     ' Dump mono bitmap
@@ -157,9 +164,9 @@ Case 1                          '***************** 1-bit
         EndIf
         Add picadr%, 4
       Next x
-      If  ((w / 8) And 7 <> 0)
+      If  align > 0
         outb = 0
-        For i = 0 To 7 -  ((w / 8) And 7)
+        For i = 0 To 7 - align
           BPut # 1, V:outadr%, 1
         Next i
       EndIf
@@ -249,7 +256,6 @@ Case 4                          '***************** 4-bit
     BPut # 5, V:palette(i - 1), 2
   Next i
   Close # 5
-'##E#
 EndSelect
 
 >Procedure ConvertCMDLine()

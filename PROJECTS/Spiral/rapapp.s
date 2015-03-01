@@ -15,7 +15,7 @@
 			.extern	listing
 			.extern	RUPDALL_FLAG
 			.extern	pixel_list
-
+	
 			extern RAPTOR_particle_gfx
 			extern RAPTOR_sprite_table
 			extern RAPTOR_module_list
@@ -52,7 +52,7 @@ raptor_tilesize					equ				raptor_tilelinesz*raptor_tilesize_y		; calculate the 
 
 raptor_particle_buffer_width	equ				320										; tell RAPTOR the Particle / Text Buffer is 368 pixels wide
 raptor_particle_buffer_height	equ				240										; tell RAPTOR the Particle / Text Buffer is 240 pixels high
-raptor_particle_pixels			equ				50										; tell RAPTOR the maximum number of particles
+raptor_particle_pixels			equ				200										; tell RAPTOR the maximum number of particles
 raptor_particle_drift_x			equ				0										; tell RAPTOR the Particle Drift Factor (x)
 raptor_particle_drift_y			equ				0										; tell RAPTOR the Particle Drift Factor (y)
 
@@ -137,7 +137,7 @@ LIST_display					equ				0										; the first display list
 			moveq	#1,d2
 			moveq	#0,d3
 			jsr		RAPTOR_print
-
+			
 			jmp __Z9basicmainv
 			
 			;		"0123456789012345678901234567890123456789"
@@ -153,13 +153,13 @@ init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
 ;; RAPTOR user VBI vector
 ;;
 
-RAPTOR_user_vbi:	
+RAPTOR_user_vbi:
 			tst.l	RUPDALL_FLAG
 			beq.s	.uvbi_out
 			movem.l	d0-d7/a0-a6,-(a7)
 			jsr		RAPTOR_UPDATE_ALL
 			movem.l	(a7)+,d0-d7/a0-a6		
-.uvbi_out:	rts	
+.uvbi_out:	rts																			; we're not using this, nothing tied to the vblank
 RUPDALL_FLAG: dc.l 0
 
 ;;
@@ -174,31 +174,29 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
 						
 							include 	"RAPINIT.S"									; RAPTOR object user data
 							include 	"RAPU235.S"									; RAPTOR u235se user data
-	
+							
 ;; 
 ;; Convert List
 ;;
 
-RAPTOR_autoconvert_list:	dc.l	BMP_PLAYER,1
-							dc.l	BMP_ENEMY,2
+RAPTOR_autoconvert_list:	;dc.l	BMP_PLAYER,-1
 							dc.l	-1,-1
 
-RAPTOR_module_list:			dc.l	module0
+RAPTOR_module_list:			;dc.l	module0
 							dc.l	-1
 							
 ;;
 ;; MOD files
 ;;
 							.dphrase
-module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
+module0:					;incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
 						
 ;;
 ;; Effects
 ;;
 
 							.dphrase
-explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
-explode_end:
+							
 							
 ;;
 ;; Graphics
@@ -213,13 +211,9 @@ RAPTOR_font8x16:            incbin  "ASSETS/FONTS/F_8x16.BMP"  ; User defined 8x
 RAPTOR_font16x16:           incbin  "ASSETS/FONTS/F_16x16.BMP" ; User defined 16x16 fonts                    
 .dphrase                                                       
 RAPTOR_particle_palette:    incbin  "ASSETS/PARTIPAL.BMP"      ; User defined palette for fonts and particles
-							.dphrase
 
-BMP_PLAYER:					incbin	"ASSETS/GFX/_nyancat.bmp"
 							.dphrase
-BMP_ENEMY:					incbin	"ASSETS/GFX/_ufo.bmp"
-							.dphrase
-							
+				
 ;;
 ;; Assets
 ;;

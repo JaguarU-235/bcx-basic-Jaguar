@@ -29,8 +29,7 @@ Dim romlen% = 0
 '  ...on second thoughts LOLOL)
 '
 
-'##E#
-Dim buffer(1024 * 1024) As Byte
+Dim buffer(2 * 1024 * 1024) As Byte
 Dim b% = V:buffer(0)
 Open ":univ" for Input As # 3
 BGet # 3, b%, 8192
@@ -69,35 +68,17 @@ Add romlen%, linklen%
 '
 ' Pack RB+ file
 '
-Local pHdl As Handle, pID As Int
-Local l As Large, e%, h%
-l =   System("pack2e.exe " + __argv(1) + " " + __argv(1) + ".pak")
-If !l Then Message "Can't run sox - aborting!" : End
-
-'Wait till pack2e finishes
-pHdl = LoLarge(l) ' process handle
-pID = HiLarge(l)  ' process ID
-
-~GetExitCodeProcess(pHdl, V:e)
-While e = STATUS_PENDING
-  ~MsgWaitForMultipleObjects(1, V:pHdl, _
-    0, 1000, QS_ALLINPUT)
-  DoEvents
-  ~GetExitCodeProcess(pHdl, V:e)
-Wend
-~CloseHandle(pHdl)
-
+'##E#
+System "pack2e.exe " + __argv(1) + " " + __argv(1) + ".pak", Wait, Show SW_HIDE
 '
 ' Now dump packed RB+ file
 '
-
 Open __argv(1) + ".pak" for Input As # 2
 Dim rblen% = LOF(# 2)
 
 BGet # 2, b%, rblen%
 BPut # 1, b%, rblen%
 Add romlen%, rblen%
-
 
 '
 ' Finally, pad the ROM
@@ -177,7 +158,7 @@ Return
   Global Const __argmax = 50
   Global __argc As Int, __argv() As String
 
->Procedure ConvertCMDLine()
+Procedure ConvertCMDLine()
   Local i As Int = 0, j As Int = 0
   'Print "---" + _DosCmd$ + "---"
   Local cmd$ = Trim(_DosCmd$) + " "

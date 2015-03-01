@@ -20,6 +20,7 @@
 			extern RAPTOR_sprite_table
 			extern RAPTOR_module_list
 	
+			include				"build/romassets.inc"
 			include				"../../RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
 			include				"../../RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
 			include				"../../U235SE.021/U235SE.INC"									; Include U235SE library labels
@@ -171,7 +172,6 @@ RAPTOR_PRE_Object_List:																	; No unmanaged objects before the list
 RAPTOR_POST_Object_List:																; No unmanaged Objects after the list									
 			rts
 						
-							include		"RAPPIXL.S"									; RAPTOR particle module user data
 							include 	"RAPINIT.S"									; RAPTOR object user data
 							include 	"RAPU235.S"									; RAPTOR u235se user data
 							
@@ -215,6 +215,13 @@ RAPTOR_particle_palette:    incbin  "ASSETS/PARTIPAL.BMP"      ; User defined pa
 
 							.dphrase
 				
+;;
+;; Assets
+;;
+
+							.dphrase
+							include "build/ramassets.inc"
+
 ;;
 ;; BSS SECTION
 ;;

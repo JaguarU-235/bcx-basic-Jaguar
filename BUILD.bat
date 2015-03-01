@@ -42,12 +42,14 @@ if not exist PROJECTS\%1\%1.bas echo PROJECTS\%1\%1.bas doesn't exist!
 if not exist PROJECTS\%1\%1.bas goto :builderror
 
 rem -------------------------------------------------------------
-rem if we're building a ROM, we're going to need to build
-rem the linkfile and assets.s/h right here
-if "%2" neq "ROM" goto :assembleraptor
+rem let's build the linkfile and romassets.inc/.h/ramassets.inc right here
+rem does asset conversion too
+rem if "%2" neq "ROM" goto :assembleraptor
 if exist PROJECTS\%1\%1.rom del PROJECTS\%1\%1.rom
+if exist PROJECTS\%1\%1.rom del PROJECTS\%1\build\%1.bin
 if exist PROJECTS\%1\romassets.h del PROJECTS\%1\romassets.h
 if exist PROJECTS\%1\romassets.inc del PROJECTS\%1\romassets.inc
+if exist PROJECTS\%1\ramassets.inc del PROJECTS\%1\ramassets.inc
 if exist PROJECTS\%1\build\linkfile.bin del PROJECTS\%1\build\linkfile.bin
 buildlink PROJECTS\%1\assets.txt PROJECTS\%1
 
@@ -55,7 +57,7 @@ rem -------------------------------------------------------------
 rem assemble raptor skeleton
 :assembleraptor
 cd PROJECTS\%1
-rmac -fb -u -o build\BASIC.O RAPAPP.s 
+rmac -fb -u -i..\..\include -o build\BASIC.O RAPAPP.s 
 cd ..\..
 
 rem -------------------------------------------------------------
@@ -70,42 +72,40 @@ if not exist PROJECTS\%1\build\%1.o goto :builderror
 
 rem -------------------------------------------------------------
 rem Link binaries
-rln -z -rq -o PROJECTS\%1\%1.ABS -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
-rln -z -rq -o PROJECTS\%1\%1.BIN -n -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
-if not exist PROJECTS\%1\%1.ABS goto :builderror
+rln -z -rq -o PROJECTS\%1\%1.abs -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
+rln -z -rq -o PROJECTS\%1\build\%1.bin -n -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
+if not exist PROJECTS\%1\%1.abs goto :builderror
 
 if "%2" neq "ROM" goto :norom
 rem -------------------------------------------------------------
 rem Let's build a ROM
-makearom PROJECTS\%1\%1.BIN PROJECTS\%1\build\linkfile.bin PROJECTS\%1\%1.rom
-rem del PROJECTS\%1\%1.BIN >NUL
-if not exist PROJECTS\%1\%1.ROM goto :builderror
-virtualjaguar PROJECTS\%1\%1.ROM --alpine
+makearom PROJECTS\%1\build\%1.bin PROJECTS\%1\build\linkfile.bin PROJECTS\%1\%1.rom
+if not exist PROJECTS\%1\%1.rom goto :builderror
+
+if "%3"=="sendy" goto :sendrom
+virtualjaguar PROJECTS\%1\%1.rom --alpine
 goto :veryend
-rem TODO:
-rem       - convert all gfx to native format
-rem       - create a linkfile with all gfx+sound+whatever else.
-rem       - linkfile will be created from a .txt file
-rem       - from that file a .s will be created with EQUs so the addresses in ROM
-rem         can be exposed to raptor/bcx (bcx should prolly be romassets(0) (1) etc)
-rem       - linkfile should have offsets to each asset as a long at its start
-rem       - code to copy rom to ram (grab from jiffi) + jump to ram
-rem       - prolly make a bin/bjl instead of abs
-rem       - grab linkfile created above and pad it in front of .bin
-rem       - pad rom
-rem       - write last long of rom with address to linkfile
-rem       - .txt should be something like "asset_name,'music'/'gfx'/'data',filename"
+:sendrom
+jcp -r
+ping localhost
+jcp -f PROJECTS\%1\%1.rom
+goto :veryend
 
 :norom
-
 rem -------------------------------------------------------------
 rem Don't run vj if no .abs file was produced
 if not exist PROJECTS\%1\%1.abs goto :builderror
 
 rem -------------------------------------------------------------
-rem Run vj
+rem Run vj or send binary to skunk
 rem taskkill /IM virtualjaguar.exe >NUL
-virtualjaguar PROJECTS\%1\%1.ABS --alpine
+if "%2"=="sendy" goto :sendabs
+virtualjaguar PROJECTS\%1\%1.abs --alpine
+goto :veryend
+:sendabs
+jcp -r
+ping localhost
+jcp PROJECTS\%1\%1.abs
 goto :veryend
 
 rem -------------------------------------------------------------

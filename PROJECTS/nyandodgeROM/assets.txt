@@ -1,2 +1,3 @@
-rom_bmp_player,gfx_clut,assets\gfx\_nyancat.bmp
-rom_bmp_enemy,gfx_clut,assets\gfx\_ufo.bmp
+ROM,rom_bmp_player,gfx_clut,assets\gfx\_nyancat.bmp
+ROM,rom_bmp_enemy,gfx_clut,assets\gfx\_ufo.bmp
+ROM,rom_nyan,just put me in the rom ffs,ASSETS\SFX\SND\NyanCatoriginal_23084_signed.raw

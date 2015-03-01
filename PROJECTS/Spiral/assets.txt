@@ -1,0 +1,5 @@
+ABS,BMP_BLUE,gfx_clut,ASSETS\GFX\palblue.bmp
+ABS,BMP_RED,gfx_clut,ASSETS\GFX\palred.bmp
+ABS,BMP_RBPLUS,gfx_clut,ASSETS\GFX\rbplus.bmp
+
+

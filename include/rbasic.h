@@ -29,7 +29,7 @@ extern unsigned char plot_colour asm ("_plot_colour");
 extern int GETPAD(int pad) asm ("_GETPAD");
 extern void MODPLAY(int module) asm ("_MODPLAY");
 extern void SNDPLAY(int sampleno, int channel) asm ("_SNDPLAY");
-extern void RPARTI(int fx,int x,int y) asm ("_RPARTI");
+extern void RPARTI(int *fx) asm ("_RPARTI");
 extern void RSETLIST(int list_index) asm ("_RSETLIST");
 extern void RSETOBJ(int spr_index, int offset, int value) asm ("_RSETOBJ");
 extern int RGETOBJ(int spr_index, int offset) asm ("_RGETOBJ");
