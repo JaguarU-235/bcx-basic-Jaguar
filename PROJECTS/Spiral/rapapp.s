@@ -52,7 +52,7 @@ raptor_tilesize					equ				raptor_tilelinesz*raptor_tilesize_y		; calculate the 
 
 raptor_particle_buffer_width	equ				320										; tell RAPTOR the Particle / Text Buffer is 368 pixels wide
 raptor_particle_buffer_height	equ				240										; tell RAPTOR the Particle / Text Buffer is 240 pixels high
-raptor_particle_pixels			equ				200										; tell RAPTOR the maximum number of particles
+raptor_particle_pixels			equ				300										; tell RAPTOR the maximum number of particles
 raptor_particle_drift_x			equ				0										; tell RAPTOR the Particle Drift Factor (x)
 raptor_particle_drift_y			equ				0										; tell RAPTOR the Particle Drift Factor (y)
 
@@ -141,9 +141,9 @@ LIST_display					equ				0										; the first display list
 			jmp __Z9basicmainv
 			
 			;		"0123456789012345678901234567890123456789"
-init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
+init_txt:	dc.b	"                                        ",raptor_t_lf
 			dc.b	raptor_t_font_siz,0
-			dc.b	"        Derived from BCX BASIC v6       "
+			dc.b	"                                        "
 			dc.b	raptor_t_quit
 			.even
 			
@@ -233,6 +233,9 @@ RAPTOR_MTtrash:				.ds.b	16384																		; Workspace for MemoryTrack rout
 							.dphrase
 RAPTOR_particle_gfx:		.ds.b	(raptor_particle_buffer_width/2)*raptor_particle_buffer_height				; particle FX buffer
 RAPTOR_particle_gfxe:			
+							.dphrase
+RAPTOR_particle_gfx2:		.ds.b	(raptor_particle_buffer_width/2)*raptor_particle_buffer_height				; particle FX buffer
+RAPTOR_particle_gfx2e:			
 							.dphrase
 RAPTOR_sprite_table:		.ds.b	sprite_max*sprite_tabwidth													; RAPTOR sprite database
 							.dphrase

@@ -235,12 +235,7 @@ void MODPLAY(int module)
 {
 	if (module>=0)
 	{
-__asm__("move.l 8(a6),d0\n\t"
-"move.l %d0,%a0\n\t"
-"add.l %d0,%a0\n\t"
-"move.l %a0,%a1\n\t"
-"add.l #RAPTOR_module_list,%a1\n\t"
-"move.l (%a1,%a0.l),%a0\n\t"
+__asm__("move.l 8(a6),a0\n\t"
 "jsr RAPTOR_U235setmodule\n\t"
 "jsr RAPTOR_U235gomodule_stereo");
 	}

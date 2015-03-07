@@ -9,7 +9,7 @@
 RAPTOR_samplebank:
 
 sample0:	dc.l	explode_sam		; start of sample
-			dc.l	explode_end		; end of sample
+			dc.l	explode_sam_end	; end of sample
 			dc.l	0				; repeat offset
 			dc.l	0				; repeat length
 			dc.w	0				; <NULL>

@@ -1,0 +1,2 @@
+abs,BMP_PLAYER,gfx_clut,ASSETS\GFX\_nyancat.bmp
+abs,BMP_ENEMY,gfx_clut,ASSETS\GFX\_ufo.bmp

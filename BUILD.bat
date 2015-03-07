@@ -32,6 +32,7 @@ echo.
 rem -------------------------------------------------------------
 rem delete residual files from previous builds
 if exist PROJECTS\%1\%1.abs del PROJECTS\%1\%1.abs
+if not exist PROJECTS\%1\build mkdir PROJECTS\%1\build
 if exist PROJECTS\%1\build\basic.o del PROJECTS\%1\build\basic.o
 if exist PROJECTS\%1\build\%1.C del PROJECTS\%1\build\%1.C
 if exist PROJECTS\%1\build\%1.o del PROJECTS\%1\build\%1.o
@@ -69,14 +70,12 @@ rem -------------------------------------------------------------
 rem Compile C code
 m68k-atari-mint-gcc -O2 -Iinclude -IPROJECTS\%1\ -c PROJECTS\%1\build\%1.C -o PROJECTS\%1\build\%1.o
 if not exist PROJECTS\%1\build\%1.o goto :builderror
+if "%2" neq "ROM" goto :norom
 
 rem -------------------------------------------------------------
 rem Link binaries
-rln -z -rq -o PROJECTS\%1\%1.abs -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
 rln -z -rq -o PROJECTS\%1\build\%1.bin -n -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
-if not exist PROJECTS\%1\%1.abs goto :builderror
-
-if "%2" neq "ROM" goto :norom
+if not exist PROJECTS\%1\build\%1.bin goto :builderror
 rem -------------------------------------------------------------
 rem Let's build a ROM
 makearom PROJECTS\%1\build\%1.bin PROJECTS\%1\build\linkfile.bin PROJECTS\%1\%1.rom
@@ -92,6 +91,11 @@ jcp -f PROJECTS\%1\%1.rom
 goto :veryend
 
 :norom
+rem -------------------------------------------------------------
+rem Link binaries
+rln -z -rq -o PROJECTS\%1\%1.abs -a 4000 x x PROJECTS\%1\build\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o PROJECTS\%1\build\%1.o
+if not exist PROJECTS\%1\%1.abs goto :builderror
+
 rem -------------------------------------------------------------
 rem Don't run vj if no .abs file was produced
 if not exist PROJECTS\%1\%1.abs goto :builderror

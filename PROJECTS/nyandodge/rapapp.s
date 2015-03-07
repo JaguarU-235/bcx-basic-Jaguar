@@ -179,26 +179,23 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
 ;; Convert List
 ;;
 
-RAPTOR_autoconvert_list:	dc.l	BMP_PLAYER,1
-							dc.l	BMP_ENEMY,2
+RAPTOR_autoconvert_list:	
 							dc.l	-1,-1
 
-RAPTOR_module_list:			dc.l	module0
+RAPTOR_module_list:			
 							dc.l	-1
 							
 ;;
 ;; MOD files
 ;;
 							.dphrase
-module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
+module0:		
 						
 ;;
 ;; Effects
 ;;
 
 							.dphrase
-explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
-explode_end:
 							
 ;;
 ;; Graphics
@@ -215,11 +212,6 @@ RAPTOR_font16x16:           incbin  "ASSETS/FONTS/F_16x16.BMP" ; User defined 16
 RAPTOR_particle_palette:    incbin  "ASSETS/PARTIPAL.BMP"      ; User defined palette for fonts and particles
 							.dphrase
 
-BMP_PLAYER:					incbin	"ASSETS/GFX/_nyancat.bmp"
-							.dphrase
-BMP_ENEMY:					incbin	"ASSETS/GFX/_ufo.bmp"
-							.dphrase
-							
 ;;
 ;; Assets
 ;;

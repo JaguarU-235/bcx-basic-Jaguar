@@ -4,13 +4,16 @@ dim PY
 dim STICK
 dim col
 
-MODPLAY(0)
 FRCOUNT=0: CURRENT=0
 PY=100
 basic_r_indx=0
 basic_r_size=0
 
 RLOCATE 10,10
+
+loadclut(strptr(BMP_PLAYER_clut),1,16)
+loadclut(strptr(BMP_ENEMY_clut),2,16)
+MODPLAY((int)strptr(Module1))
 
 REM MAIN LOOP
 do

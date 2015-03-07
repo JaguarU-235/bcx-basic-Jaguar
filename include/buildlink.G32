@@ -1,4 +1,3 @@
-'##E#
 '
 ' Build a linkfile for RB+ ROM
 ' 22-Feb-2015 Reboot
@@ -52,12 +51,12 @@ Dim filepointer As Int
 
 Dim pad$ = "PUSH THE BUTTON!"
 While Not EOF(# 1)
-  'Print "Reading assets.txt line"
+  Print "Reading assets.txt line"
   filepointer = Seek(# 1)
   Line Input # 1, romabs$
   romabs$ = Left$(romabs$, 1)
   If romabs$ = ";" Or romabs$ = "#" Or romabs$ = "'" Or romabs$ = "*" Or romabs$ = ""
-    'Print "Skipping line"
+    Print "Skipping line"
     GoTo skipline
   EndIf
   Seek # 1, filepointer
@@ -67,7 +66,7 @@ While Not EOF(# 1)
   type$ = Trim$(type$)
   assetfile$ = Trim$(assetfile$)
 
-  'Print "Processing " + assetfile$
+  Print "Processing " + assetfile$
 
   'Align to 16 bytes, just cause I say so :P
   BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
@@ -76,9 +75,11 @@ While Not EOF(# 1)
   fullnameslash$ = assetfile$
   plainfile$ = SubStr(assetfile$, RInStr(assetfile$, "\") + 1)
 
-  'Print plainfile$
-  'Repeat
-  'Until InKey$ <> ""
+  If Not Exist(fullname$)
+    Message "Aborting - Couldn't find file " + fullname$
+    End
+  EndIf
+'##E#
   For i = 1 To Len(fullnameslash$)
     If Mid$(fullnameslash$, i, 1) = "\"
       Mid$(fullnameslash$, i, 1) = "/"
