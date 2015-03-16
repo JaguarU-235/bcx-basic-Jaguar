@@ -1,0 +1,2 @@
+ABS,STARS,gfx_clut,assets\gfx\stars.bmp
+ABS,SHIP,gfx_clut,assets\gfx\ship.bmp
