@@ -35,7 +35,7 @@
 			
 raptor_video_mode				equ				vidRGB16								; tell RAPTOR we want RGB 16 mode
 raptor_video_enabled			equ				vidENABLE								; tell RAPTOR we want to Video ENABLED
-raptor_video_VARMOD				equ				vidVARMOD_ON							; tell RAPTOR we want VARMOD disabled
+raptor_video_VARMOD				equ				vidVARMOD_OFF							; tell RAPTOR we want VARMOD disabled
 			
 ;; MAP MODULE SETUP EQUATES
 			
@@ -191,8 +191,8 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
 ;; Convert List
 ;;
 
-RAPTOR_autoconvert_list:	dc.l	-1,-1
-
+RAPTOR_autoconvert_list:	dc.l	SPRITE_BG,-1
+							dc.l	-1,-1
 RAPTOR_module_list:			dc.l	-1,-1
 
 ;;
@@ -218,10 +218,11 @@ RAPTOR_particle_palette:	incbin	"ASSETS/PARTIPAL.BMP"							; User defined palet
 ;;
 ;; Assets
 ;;
-
+SPRITE_BG:					incbin	"ASSETS/GFX/background.tga"
 							.dphrase
 							include "build/ramassets.inc"
 
+							.dphrase
 ;;
 ;; BSS SECTION
 ;;

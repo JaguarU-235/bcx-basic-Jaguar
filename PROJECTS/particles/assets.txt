@@ -1,2 +1,3 @@
-
-
+ABS,SHADOWS,gfx_clut,ASSETS\GFX\shadowpal.bmp
+ABS,SHADOWS2,gfx_clut,ASSETS\GFX\shadowpal2.bmp
+ABS,LOGO,gfx_clut,ASSETS\GFX\logo.bmp

@@ -15,33 +15,36 @@
 ' particle/text layer                                        0
 
 DIM background%		:background=1	'  1 object		total	 1
-DIM poulpe1%		:poulpe1=2		'  1 object		total	 2
-DIM poulpe2%		:poulpe2=3		'  1 object		total	 3
-DIM poulpe3%		:poulpe3=4		'  1 object		total	 4
-DIM poulpe4%		:poulpe4=5		'  1 object		total	 5
-DIM poulpe5%		:poulpe5=6		'  1 object		total	 6
-DIM nyan1%			:nyan1=7		'  1 object		total	 7
-DIM nyan2%			:nyan2=8		'  1 object		total	 8
-DIM nyan3%			:nyan3=9		'  1 object		total	 9
-DIM nyan4%			:nyan4=10		'  1 object		total	10
-DIM nyan5%			:nyan5=11		'  1 object		total	11
-DIM nyan6%			:nyan6=12		'  1 object		total	12
-DIM nyan7%			:nyan7=13		'  1 object		total	13
-DIM nyan8%			:nyan8=14		'  1 object		total	14
-DIM nyan9%			:nyan9=15		'  1 object		total	15
-DIM nyan10%			:nyan10=16		'  1 object		total	16
-DIM nyan11%			:nyan11=17		'  1 object		total	17
-DIM nyan12%			:nyan12=18		'  1 object		total	18
-DIM nyan13%			:nyan13=19		'  1 object		total	19
-DIM nyan14%			:nyan14=20		'  1 object		total	20
-DIM nyan15%			:nyan15=21		'  1 object		total	21
-DIM doge%			:doge=22		'  1 object		total   22
-DIM title%			:title=23		'  1 object		total   23
-DIM dead%			:dead=24		'  1 object		total	24
-DIM dogeover1%		:dogeover1=25	'  1 object		total	25
-DIM dogeover2%		:dogeover2=26	'  1 object		total	26
-DIM dogeover3%		:dogeover3=27	'  1 object		total	27
-DIM dogeover4%		:dogeover4=28	'  1 object		total	28
+DIM water%			:water=2		'  1 object		total    2
+DIM poulpe1%		:poulpe1=3		'  1 object		total	 3
+DIM poulpe2%		:poulpe2=4		'  1 object		total	 4
+DIM poulpe3%		:poulpe3=5		'  1 object		total	 5
+DIM poulpe4%		:poulpe4=6		'  1 object		total	 6
+DIM poulpe5%		:poulpe5=7		'  1 object		total	 7
+DIM poulpe6%		:poulpe6=8		'  1 object		total	 8
+DIM poulpe7%		:poulpe7=9		'  1 object		total	 9
+DIM nyan1%			:nyan1=10		'  1 object		total	10
+DIM nyan2%			:nyan2=11		'  1 object		total	11
+DIM nyan3%			:nyan3=12		'  1 object		total	12
+DIM nyan4%			:nyan4=13		'  1 object		total	13
+DIM nyan5%			:nyan5=14		'  1 object		total	14
+DIM nyan6%			:nyan6=15		'  1 object		total	15
+DIM nyan7%			:nyan7=16		'  1 object		total	16
+DIM nyan8%			:nyan8=17		'  1 object		total	17
+DIM nyan9%			:nyan9=18		'  1 object		total	18
+DIM nyan10%			:nyan10=19		'  1 object		total	19
+DIM nyan11%			:nyan11=20		'  1 object		total	20
+DIM nyan12%			:nyan12=21		'  1 object		total	21
+DIM nyan13%			:nyan13=22		'  1 object		total	22
+DIM nyan14%			:nyan14=23		'  1 object		total	23
+DIM nyan15%			:nyan15=24		'  1 object		total	24
+DIM doge%			:doge=25		'  1 object		total   25
+DIM title%			:title=26		'  1 object		total   26
+DIM dead%			:dead=27		'  1 object		total	27
+DIM dogeover1%		:dogeover1=28	'  1 object		total	28
+DIM dogeover2%		:dogeover2=29	'  1 object		total	29
+DIM dogeover3%		:dogeover3=30	'  1 object		total	30
+DIM dogeover4%		:dogeover4=31	'  1 object		total	31
 
 ' ****************************************************
 ' * REMAINING GLOBAL VARIABLES USED IN DOGER GAME    *
@@ -52,25 +55,30 @@ DIM pad1%				:	pad1=0									' This will be used to store the state of the jagp
 DIM doge_x%				:	doge_x=0								' We'll use this to keep track of the Doge's position accross the screen.
 DIM doge_y%				:	doge_y=0								' And this to keep track of the Doge's position down the screen.
 DIM doge_x_init%		:	doge_x_init=144							' This is the Doge's x starting position in pixels.
-DIM doge_y_init%		:	doge_y_init=224							' This is the Doge's x starting position in pixels.
+DIM doge_y_init%		:	doge_y_init=220							' This is the Doge's x starting position in pixels.
 DIM gamestart%			:	gamestart=0								' This will allow us to see if the player wants to start the game.
 DIM poulpemovement%		:	poulpemovement=0						' When sat on the Poulperaft, we're going to copy its speed and set the Doge to match.
 DIM doge1flag%			:	doge1flag=0								' These will be used to show the Doge has reached the far side.
 DIM doge2flag%			:	doge2flag=0
 DIM doge3flag%			:	doge3flag=0
 DIM doge4flag%			:	doge4flag=0
+DIM nyancheck%			:	nyancheck=0
+DIM nyanaddy%			:	nyanaddy=0
+DIM nyancount%			:	nyancount=0
+DIM i%					:	i=0
 
 
 ' ****************************************************
 ' * LOAD COLOURS FOR EACH GRAPHIC INTO THE CLUT      *
 ' ****************************************************
 
-LOADCLUT(strptr(SPRITE_BG_clut),0,16)								' The Jaguar's Colour Look-Up Table contains 256 entries and is used for 1,2,4 and 8-bit images.
+'LOADCLUT(strptr(SPRITE_BG_clut),0,16)								' The Jaguar's Colour Look-Up Table contains 256 entries and is used for 1,2,4 and 8-bit images.
 LOADCLUT(strptr(SPRITE_POULPES_clut),1,16)							'	With our 4-bit (16 colour) images, we can use up to 16x16 entries from 0 to 15.
 LOADCLUT(strptr(SPRITE_NYAN_clut),2,16)								'	You can mix and match or have individual palettes for each source graphic, up to 16.
 LOADCLUT(strptr(SPRITE_DOGE_clut),3,16)								'	8-bit (256 colour) images use the whole CLUT. Lower colour depths use only the first entries
 LOADCLUT(strptr(SPRITE_TITLE_clut),4,16)							'	in each of the 16x16 slots.
 LOADCLUT(strptr(SPRITE_DEAD_clut),5,16)
+LOADCLUT(strptr(SPRITE_WATER_clut),6,16)
 
 ' ****************************************************
 ' * SET UP SOME GAME STUFF                           *
@@ -80,13 +88,13 @@ RSETOBJ(doge,R_sprite_x,(doge_x_init<<16))							' Move the Doge to the initial 
 RSETOBJ(doge,R_sprite_y,(doge_y_init<<16))							' Move the Doge to the initial y position.
 MODPLAY((int)strptr(MOD_BOING))										' Play the Amiga MOD track included ni assets.txt. The ((int)strptr...) stuff you need not worry
 																	'	about... just do it and it works :0)
+nyanaddy=RGETOBJ(nyan1,R_sprite_gfxbase)
 
 ' ****************************************************
 ' * MAIN GAME LOOP				                     *
 ' ****************************************************
 DO
-
-	framecounter++													' Add 1 to the frame counter. It ticks over as screen refreshes.
+'	nyancount++
 	
 	IF gamestart=0 THEN												' The title screen will display at start and only allow the game to continue once the called
 		CALL waitforplayertostart									'	subroutine has its conditions met (push the button!). As gamestart is set to 1 this never
@@ -97,10 +105,10 @@ DO
 	doge_x=RGETOBJ(doge,R_sprite_x)									' Put the Doge's current x position in our x-tracker.
 	doge_y=RGETOBJ(doge,R_sprite_y)									' Put the Doge's current y position in our y-tracker.
 
-	IF framecounter=>8 THEN											' Check to see if 8 frames have ticked over.
+'	IF framecounter=>8 THEN											' Check to see if 8 frames have ticked over.
 		CALL movedoge												' If so, let the Doge move again - it prevents Doge running wild like a wild Doge.
-		framecounter=0												' Reset the counter for next time.
-	ENDIF
+'		framecounter=0												' Reset the counter for next time.
+'	ENDIF
 	
 	VSYNC															' Sync to screen refresh.
 		
@@ -112,12 +120,59 @@ DO
 		CALL checkpoulpecollide
 	ENDIF
 
+	CALL nyanswitch
+	
+	framecounter++													' Add 1 to the frame counter. It ticks over as screen refreshes.
 LOOP
 
 
 
 ' ****************************************************
 ' * SUBROUTINES                                      *
+' ****************************************************
+
+SUB nyanswitch
+
+FOR i=nyan1 TO nyan9
+	nyancheck=RGETOBJ(i,R_sprite_x)
+	IF nyancheck<(88<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy)
+	ENDIF
+	IF nyancheck>=(88<<16) AND nyancheck<(136<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072))
+	ENDIF
+	IF nyancheck>=(136<<16) AND nyancheck<(184<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072*2))
+	ENDIF
+	IF nyancheck>=(184<<16) AND nyancheck<(232<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072*3))
+	ENDIF	
+	IF nyancheck>=(232<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072*4))
+	ENDIF
+NEXT i
+
+FOR i=nyan10 TO nyan15
+	nyancheck=RGETOBJ(i,R_sprite_x)
+	IF nyancheck<(88<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072*4))
+	ENDIF
+	IF nyancheck>=(88<<16) AND nyancheck<(136<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072*3))
+	ENDIF
+	IF nyancheck>=(136<<16) AND nyancheck<(184<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072*2))
+	ENDIF
+	IF nyancheck>=(184<<16) AND nyancheck<(232<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy+(3072))
+	ENDIF	
+	IF nyancheck>=(232<<16) THEN
+		RSETOBJ(i,R_sprite_gfxbase,nyanaddy)
+	ENDIF
+NEXT i
+
+END SUB
+
 ' ****************************************************
 
 SUB waitforplayertostart											' The is the subroutine where we wait for the player to push the button.
@@ -135,27 +190,37 @@ END SUB
 ' ****************************************************
 
 SUB movedoge														' This subroutine handles our Doge movement. It can only be called after 8 frames have ticked by.
-	IF (pad1 BAND PAD_DOWN AND doge_y<=(208<<16)) THEN				' Move Doge lower down screen by 16 pixels if he's not already at the bottom.
+
+IF framecounter=>8 THEN	
+	IF (pad1 BAND PAD_DOWN AND doge_y<=(212<<16)) THEN				' Move Doge lower down screen by 16 pixels if he's not already at the bottom.
 		RSETOBJ(doge,R_sprite_y,doge_y+(16<<16))
+		framecounter=0
 	ENDIF
 	
-	IF (pad1 BAND PAD_UP AND doge_y>=(64<<16)) THEN					' Move Doge higher up screen by 16 pixels if he's not already near the top.
+	IF (pad1 BAND PAD_UP AND doge_y>=(60<<16)) THEN					' Move Doge higher up screen by 16 pixels if he's not already near the top.
 		RSETOBJ(doge,R_sprite_y,doge_y-(16<<16))
+		framecounter=0
 	ENDIF
 	
 	IF (pad1 BAND PAD_UP AND doge_y<(64<<16)) THEN					' This is where we manage the Doge trying to reach the holes at the top.
-		CALL dogekennels											'	It calls a subroutine to do this simply to keep things tidy, not because the code
-	ENDIF															'	is at all reusable.
-		
-	IF (pad1 BAND PAD_LEFT AND doge_x=>(16<<16)) THEN				' Move Doge left 16 pixels if he's not already at the left edge.
-		RSETOBJ(doge,R_sprite_x,doge_x-(16<<16))
+		CALL dogekennels
+		framecounter=0
+	ENDIF		
+ENDIF
+
+IF framecounter=>1 THEN		
+	IF (pad1 BAND PAD_LEFT AND doge_x=>(15<<16)) THEN				' Move Doge left 16 pixels if he's not already at the left edge.
+		RSETOBJ(doge,R_sprite_x,doge_x-(2<<16))
 		RSETOBJ(doge,R_sprite_flip,R_is_flipped)					' Point Doge left by setting his sprite flipped)
+		framecounter=0
 	ENDIF
 	
-	IF (pad1 BAND PAD_RIGHT AND doge_x=<(304-32<<16)) THEN			' Move Doge right 16 pixels if he's not already at the right edge.
-		RSETOBJ(doge,R_sprite_x,doge_x+(16<<16))
+	IF (pad1 BAND PAD_RIGHT AND doge_x=<(335-32<<16)) THEN			' Move Doge right 16 pixels if he's not already at the right edge.
+		RSETOBJ(doge,R_sprite_x,doge_x+(2<<16))
 		RSETOBJ(doge,R_sprite_flip,R_is_normal)						' Point Doge right by setting his sprite normally (not flipped).
-	ENDIF	
+		framecounter=0
+	ENDIF
+ENDIF	
 END SUB
 
 ' ****************************************************
@@ -211,20 +276,20 @@ SUB poulpeslide														' We make the Doge slide over the screen matching t
 	poulpemovement=0												' Reset poulpemovement variable.
 	doge_y=RGETOBJ(doge,R_sprite_y)									' Grab the current y position of Doge.
 	
-	IF doge_y=(48<<16) THEN											' If Doge is on the top row of poulpes, grab the x-drift value of it.
+	IF doge_y=(44<<16) THEN											' If Doge is on the top row of poulpes, grab the x-drift value of it.
 			poulpemovement=RGETOBJ(poulpe1,R_sprite_xadd)
 	ENDIF
-	IF doge_y=(64<<16) THEN											' If Doge is on the 2nd row of poulpes, grab the x-drift value of it.
-			poulpemovement=RGETOBJ(poulpe2,R_sprite_xadd)
-	ENDIF
-	IF doge_y=(80<<16) THEN											' If Doge is on the 3rd row of poulpes, grab the x-drift value of it.
+	IF doge_y=(60<<16) THEN											' If Doge is on the 2nd row of poulpes, grab the x-drift value of it.
 			poulpemovement=RGETOBJ(poulpe3,R_sprite_xadd)
 	ENDIF
-	IF doge_y=(96<<16) THEN											' If Doge is on the 4th row of poulpes, grab the x-drift value of it.
+	IF doge_y=(76<<16) THEN											' If Doge is on the 3rd row of poulpes, grab the x-drift value of it.
 			poulpemovement=RGETOBJ(poulpe4,R_sprite_xadd)
 	ENDIF
-	IF doge_y=(112<<16) THEN										' If Doge is on the bottom row of poulpes, grab the x-drift value of it.
+	IF doge_y=(92<<16) THEN											' If Doge is on the 4th row of poulpes, grab the x-drift value of it.
 			poulpemovement=RGETOBJ(poulpe5,R_sprite_xadd)
+	ENDIF
+	IF doge_y=(108<<16) THEN										' If Doge is on the bottom row of poulpes, grab the x-drift value of it.
+			poulpemovement=RGETOBJ(poulpe6,R_sprite_xadd)
 	ENDIF
 	
 	RSETOBJ(doge,R_sprite_xadd,poulpemovement)						' Set the Doge to drift in whichever way above matches his y-value. Either drifting
@@ -235,12 +300,12 @@ END SUB																'	with the raft or zero if no longer on one.
 SUB checkpoulpecollide												' This is where we check for Doge being on the Poulpe rafts.
 	doge_y=RGETOBJ(doge,R_sprite_y)									' First we need to check something and put the Doge's current y position in our y-tracker.
 	
-	IF doge_y>(120<<16) THEN										' We need to see if that cheeky Doge moved back down the screen from the 1st poulperaft.
+	IF doge_y>(116<<16) THEN										' We need to see if that cheeky Doge moved back down the screen from the 1st poulperaft.
 		RSETOBJ(doge,R_sprite_xadd,0)								'	If he did, he's fine, so we can exit this subroutine and go
 		EXIT SUB													'	back to the normal game loop after resetting his x-drift value.
 	ENDIF								
 	
-	IF RHIT(poulpe1,poulpe5,doge,doge)<>1 THEN						' Check poulpe vs doge for collisions. This =1 when the sprites collide. Doge is set to
+	IF RHIT(poulpe1,poulpe7,doge,doge)<>1 THEN						' Check poulpe vs doge for collisions. This =1 when the sprites collide. Doge is set to
 																	' 	"0 hits to death" which sounds a bit drastic(!), but we're using the CD in reverse
 																	'	here (i.e., Doge will die if he's NOT colliding) and we're not checking for any specifics
 																	'	(not interested in which poulperaft he's on, only that he's on one). We just use the returned

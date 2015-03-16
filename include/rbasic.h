@@ -21,6 +21,14 @@ extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("_RAPTOR_wait_frame");
 extern int RUPDALL_FLAG asm ("_RUPDALL_FLAG");
 extern void *raptor_liststart asm ("raptor_liststart");
+extern int rotary_mode1 asm("rotary_mode1");
+extern int rotary_mode2 asm("rotary_mode2");
+extern int turn_direction1 asm("turn_direction1");
+extern int turn_direction2 asm("turn_direction2");
+extern int rotary_interval1 asm("rotary_interval1");
+extern int rotary_interval2 asm("rotary_interval2");
+extern int spin_delta1 asm("spin_delta1");
+extern int spin_delta2 asm("spin_delta2");
 
 //Functions
 
@@ -56,3 +64,8 @@ void SNDVOLRESET(int v) asm("SNDVOLRESET");
 void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
 void delay(int x) asm("delay");
 void loadclut(unsigned short *paladdress, short target_clut, short no_of_indices) asm("loadclut");
+extern void RAPTOR_particles_GPU_erase() asm ("RAPTOR_particles_GPU_erase");
+extern void RAPTOR_particles_GPU_plot() asm ("RAPTOR_particles_GPU_plot");
+extern void RAPTOR_fade_clut() asm ("RAPTOR_fade_clut");
+int fadepal(int clut_no,int fade_cols,int *palette) asm("fadepal");
+extern short raptor_fade_delay asm("raptor_fade_delay");

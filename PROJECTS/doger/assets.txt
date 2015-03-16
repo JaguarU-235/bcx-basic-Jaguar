@@ -1,0 +1,12 @@
+'ABS,SPRITE_BG,gfx_clut,ASSETS\GFX\background.bmp
+ABS,SPRITE_POULPES,gfx_clut,ASSETS\GFX\poulpes.bmp
+ABS,SPRITE_NYAN,gfx_clut,ASSETS\GFX\nyan.bmp
+ABS,SPRITE_TITLE,gfx_clut,ASSETS\GFX\doger.bmp
+ABS,SPRITE_DOGE,gfx_clut,ASSETS\GFX\doge.bmp
+ABS,SPRITE_DEAD,gfx_clut,ASSETS\GFX\dogedead.bmp
+ABS,SPRITE_WATER,gfx_clut,ASSETS\GFX\water.bmp
+ABS,MOD_BOING,module0,ASSETS\Music\dobranocki.mod
+ABS,SFX_WOOF,sfx_woof_bark,assets\sfx\snd\woofbark.raw
+ABS,SFX_LAUGH,sfx_ha_ha_ha,assets\sfx\snd\laugh.raw
+
+' End of file.

@@ -73,13 +73,15 @@ do
 	x2=counter[sins]
 	y2=(counter/2)[sins]
 	
-	RSETOBJ(0,R_sprite_x,(x+x2-48)<<16)
-	RSETOBJ(0,R_sprite_y,(y+y2-64)<<16)
+	RSETOBJ(1,R_sprite_x,(x+x2-48)<<16)
+	RSETOBJ(1,R_sprite_y,(y+y2-64)<<16)
 
 	IF trigger=4 THEN
 		particles[0,3]=(x+x2)<<16
 		particles[0,4]=(y+y2)<<16
 		RPARTI(strptr(particles))
+
+'		CALL doublebuff		
 
 		trigger=0
 	ENDIF

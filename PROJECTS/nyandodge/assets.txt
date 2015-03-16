@@ -1,1 +1,4 @@
-ABS,music_beebris,null,ASSETS\SFX\MOD\MODULE1.MOD
+abs,BMP_PLAYER,gfx_clut,ASSETS\GFX\_nyancat.bmp
+abs,BMP_ENEMY,gfx_clut,ASSETS\GFX\_ufo.bmp
+abs,Module1,modfile,ASSETS\sfx\mod\Module1.mod
+abs,explode_sam,modfile,ASSETS\SFX\SND\EXPLODE.RAW

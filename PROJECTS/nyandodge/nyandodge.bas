@@ -8,10 +8,11 @@ FRCOUNT=0: CURRENT=0
 PY=100
 basic_r_indx=0
 basic_r_size=0
+raptor_fade_delay=1
 
 RLOCATE 10,10
 
-loadclut(strptr(BMP_PLAYER_clut),1,16)
+'loadclut(strptr(BMP_PLAYER_clut),1,16)
 loadclut(strptr(BMP_ENEMY_clut),2,16)
 MODPLAY((int)strptr(Module1))
 
@@ -44,6 +45,7 @@ do
 	SNDVOL((199-PY)*63/200)
 	SNDFREQ(4,PY*16384/200)
 '	sndkill(0)
+	fadepal(1,15,(int *)strptr(BMP_PLAYER_clut))
 loop
 
 REM NEW ENEMY

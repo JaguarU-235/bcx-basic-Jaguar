@@ -70,6 +70,7 @@ rem -------------------------------------------------------------
 rem Compile C code
 m68k-atari-mint-gcc -O2 -Iinclude -IPROJECTS\%1\ -c PROJECTS\%1\build\%1.C -o PROJECTS\%1\build\%1.o
 if not exist PROJECTS\%1\build\%1.o goto :builderror
+m68k-atari-mint-gcc -O2 -Iinclude -IPROJECTS\%1\ PROJECTS\%1\build\%1.C -S -o PROJECTS\%1\build\%1.s
 if "%2" neq "ROM" goto :norom
 
 rem -------------------------------------------------------------

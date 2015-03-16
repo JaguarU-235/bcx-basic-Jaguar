@@ -50,9 +50,9 @@ raptor_tilesize					equ				raptor_tilelinesz*raptor_tilesize_y		; calculate the 
 
 ;; PARTICLE MODULE SETUP EQUATES
 
-raptor_particle_buffer_width	equ				320										; tell RAPTOR the Particle / Text Buffer is 368 pixels wide
-raptor_particle_buffer_height	equ				240										; tell RAPTOR the Particle / Text Buffer is 240 pixels high
-raptor_particle_pixels			equ				200										; tell RAPTOR the maximum number of particles
+raptor_particle_buffer_width	equ				128										; tell RAPTOR the Particle / Text Buffer is 368 pixels wide
+raptor_particle_buffer_height	equ				96										; tell RAPTOR the Particle / Text Buffer is 240 pixels high
+raptor_particle_pixels			equ				128										; tell RAPTOR the maximum number of particles
 raptor_particle_drift_x			equ				0										; tell RAPTOR the Particle Drift Factor (x)
 raptor_particle_drift_y			equ				0										; tell RAPTOR the Particle Drift Factor (y)
 
