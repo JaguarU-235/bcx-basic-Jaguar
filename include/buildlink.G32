@@ -41,6 +41,8 @@ Open basedir$ + "\build\linkfile.bin" for Output As # 2
 Open basedir$ + "\build\romassets.inc" for Output As # 3
 Open basedir$ + "\build\romassets.h" for Output As # 4
 Open basedir$ + "\build\ramassets.inc" for Output As # 6
+Open basedir$ + "\build\build.log" for Append As # 10
+Print # 10; "Buildlink starting"
 Print # 6; ".dphrase"
 Dim size As Int
 Dim fullname$
@@ -51,12 +53,12 @@ Dim filepointer As Int
 
 Dim pad$ = "PUSH THE BUTTON!"
 While Not EOF(# 1)
-  Print "Reading assets.txt line"
+  Print # 10; "Reading assets.txt line"
   filepointer = Seek(# 1)
   Line Input # 1, romabs$
   romabs$ = Left$(romabs$, 1)
   If romabs$ = ";" Or romabs$ = "#" Or romabs$ = "'" Or romabs$ = "*" Or romabs$ = ""
-    Print "Skipping line"
+    'Print "Skipping line"
     GoTo skipline
   EndIf
   Seek # 1, filepointer
@@ -66,7 +68,7 @@ While Not EOF(# 1)
   type$ = Trim$(type$)
   assetfile$ = Trim$(assetfile$)
 
-  Print "Processing " + assetfile$
+  Print # 10; "Processing " + assetfile$
 
   'Align to 16 bytes, just cause I say so :P
   BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
@@ -76,10 +78,10 @@ While Not EOF(# 1)
   plainfile$ = SubStr(assetfile$, RInStr(assetfile$, "\") + 1)
 
   If Not Exist(fullname$)
-    Message "Aborting - Couldn't find file " + fullname$
+    Print # 10; "Aborting - Couldn't find file " + fullname$
+    'Message "Aborting - Couldn't find file " + fullname$
     End
   EndIf
-'##E#
   For i = 1 To Len(fullnameslash$)
     If Mid$(fullnameslash$, i, 1) = "\"
       Mid$(fullnameslash$, i, 1) = "/"
@@ -188,6 +190,11 @@ Close # 1
 Close # 3
 Close # 4
 Close # 6
+Print # 10; "Buildlink finished - everything went fine!"
+
+'Repeat
+'##E#
+'Until InKey$ <> ""
 
 End
 
@@ -413,7 +420,7 @@ Return
   EndIf
   Return FileDateTime(a$) > FileDateTime(b$)
 EndFunc
->Procedure ConvertCMDLine()
+Procedure ConvertCMDLine()
   // The global variable __argc holds the
   // number of commandline arguments after executing ConvertCMDLine().
   // Arguments are separated by space(s)
