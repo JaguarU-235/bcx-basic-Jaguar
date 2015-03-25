@@ -12,10 +12,6 @@ Global __argc As Int
 Global __argv() As String
 ConvertCMDLine
 
-'If __argc <> 2
-'End
-'EndIf
-
 Dim basedir$ = __argv(2)
 
 'basedir$ = "..\projects\spiral\"
@@ -50,6 +46,7 @@ Dim plainfile$
 Dim i As Int
 
 Dim filepointer As Int
+Dim rate As Int
 
 Dim pad$ = "PUSH THE BUTTON!"
 While Not EOF(# 1)
@@ -69,7 +66,6 @@ While Not EOF(# 1)
   assetfile$ = Trim$(assetfile$)
 
   Print # 10; "Processing " + assetfile$
-
   'Align to 16 bytes, just cause I say so :P
   BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
   ass_adr% = (ass_adr% + 15) And $fffffff0
@@ -88,6 +84,7 @@ While Not EOF(# 1)
     EndIf
   Next i
   If Lower$(type$) = "gfx_clut"
+    Print # 10; "Converting BMP internally into gfxdata/clut..."
     convertbmp(fullname$, True)
     If Upper$(romabs$) = "ROM"
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
@@ -123,6 +120,7 @@ While Not EOF(# 1)
       Print # 4; "extern void *" + varname$ + "_clut" + " asm(""" + varname$ + "_clut"");"
     EndIf
   ElseIf Lower$(type$) = "gfx_noclut"
+    Print # 10; "Converting BMP internally into gfxdata..."
     convertbmp(fullname$, False)
     If Upper$(romabs$) = "ROM"
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
@@ -144,26 +142,42 @@ While Not EOF(# 1)
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
     EndIf
   ElseIf Left$(Lower$(type$), 7) = "sfx_raw"
-    Local pHdl As Handle, pID As Int
-    Local l As Large, e%, h%
-    l =   System("sox " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + SubStr(type$, 8))
-    If !l Then Message "Can't run sox - aborting!" : End
+    Print # 10; "Converting sound file into raw file (using sox)..."
+    rate = Val(SubStr(type$, 8))
+    If rate < 1024
+      rate = 8000
+    EndIf
+    Print # 10; "Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate)
+    System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
 
-    'Wait till sox finishes
-    pHdl = LoLarge(l) ' process handle
-    pID = HiLarge(l)  ' process ID
+  ElseIf Lower$(Left$(type$, 8)) = "sfx_mlaw"
+    Print # 10; "Converting sound file into m-law file (using sox)..."
+    rate = Val(SubStr(type$, 9))
+'##E#
+    If rate < 1024
+      rate = 8000
+    EndIf
+    Print # 10; "Command run: sox.exe " + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate)
+    System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
+    If Upper$(romabs$) = "ROM"
+      Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+      Open fullname$ + ".ul" for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+      Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+    Else
+      Print # 6; varname$; ": incbin """ + fullnameslash$ + ".ul"""
+      Print # 6; varname$; "_end:"
+      Print # 6; ".extern " + varname$
+      Print # 6; ".dphrase"
+      Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+    EndIf
 
-    ~GetExitCodeProcess(pHdl, V:e)
-    While e = STATUS_PENDING
-      ~MsgWaitForMultipleObjects(1, V:pHdl, _
-        0, 1000, QS_ALLINPUT)
-      '    Beep -1
-      DoEvents
-      ~GetExitCodeProcess(pHdl, V:e)
-    Wend
-    ~CloseHandle(pHdl)
-
-  ElseIf Lower$(type$) = "sfx_adpcm"
   Else
     If Upper$(romabs$) = "ROM"
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
@@ -193,7 +207,6 @@ Close # 6
 Print # 10; "Buildlink finished - everything went fine!"
 
 'Repeat
-'##E#
 'Until InKey$ <> ""
 
 End

@@ -49,7 +49,7 @@ rem -------------------------------------------------------------
 rem let's build the linkfile and romassets.inc/.h/ramassets.inc right here
 rem does asset conversion too
 if exist %BUILDPATH%\%1.rom del %BUILDPATH%\%1.rom
-if exist %BUILDPATH%\%1.rom del %TEMPDIR%\%1.bin
+if exist %TEMPDIR%\%1.bin del %TEMPDIR%\%1.bin
 if exist %BUILDPATH%\romassets.h del %BUILDPATH%\romassets.h
 if exist %BUILDPATH%\romassets.inc del %BUILDPATH%\romassets.inc
 if exist %BUILDPATH%\ramassets.inc del %BUILDPATH%\ramassets.inc
@@ -77,16 +77,16 @@ rem -------------------------------------------------------------
 rem Compile C code
 echo. >> %TEMPDIR%\build.log
 echo Compiling C code... >> %TEMPDIR%\build.log
-m68k-atari-mint-gcc -O2 -Iinclude -I%BUILDPATH%\ -c %TEMPDIR%\%1.C -o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log
+m68k-atari-mint-gcc -O2 -Iinclude -I%BUILDPATH%\ -c %TEMPDIR%\%1.C -o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log 2>&1
 if not exist %TEMPDIR%\%1.o goto :builderror
-m68k-atari-mint-gcc -O2 -Iinclude -I%BUILDPATH%\ %TEMPDIR%\%1.C -S -o %TEMPDIR%\%1.s >> %TEMPDIR%\build.log
+m68k-atari-mint-gcc -O2 -Iinclude -I%BUILDPATH%\ %TEMPDIR%\%1.C -S -o %TEMPDIR%\%1.s >> %TEMPDIR%\build.log 2>&1
 if "%2" neq "ROM" goto :norom
 
 rem -------------------------------------------------------------
 rem Link binaries
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -z -rq -o %TEMPDIR%\%1.bin -n -a 4000 x x %TEMPDIR%\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o %TEMPDIR%\%1.o
+rln -z -rq -o %TEMPDIR%\%1.bin -n -a 4000 x x %TEMPDIR%\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log
 if not exist %TEMPDIR%\%1.bin goto :builderror
 rem -------------------------------------------------------------
 rem Let's build a ROM
@@ -111,7 +111,7 @@ rem -------------------------------------------------------------
 rem Link binaries
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -z -rq -o %BUILDPATH%\%1.abs -a 4000 x x %TEMPDIR%\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o %TEMPDIR%\%1.o
+rln -z -rq -o %BUILDPATH%\%1.abs -a 4000 x x %TEMPDIR%\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log
 
 rem -------------------------------------------------------------
 rem Don't run vj if no .abs file was produced
@@ -142,6 +142,7 @@ rem Error handler
 :builderror
 echo Build error!
 echo Build error! >> %TEMPDIR%\build.log
+notepad %TEMPDIR%\build.log
 
 :veryend
 
