@@ -67,6 +67,8 @@ extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
+//extern void Audio_Play asm ("Audio_Play");
+void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -87,6 +89,19 @@ static unsigned int U235_commands[2]={0,0};
 // And now, teh c0d3!!!111
 //
 
+// -----------------------------------------------------------------------------
+//void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command)
+//{
+//__asm(""
+//	"movem.l d0/a0/d1/d2/d3,-(a7)\n\t"
+//	"move.l	8(a6),d0\n\t"
+//	"move.l	12(a6),a0\n\t"
+//	"move.l	16(a6),d1\n\t"
+//	"move.l	20(a6),d2\n\t"
+//	"move.l	24(a6),d3\n\t"
+//	"jsr		Audio_Play\n\t"
+//	"movem.l (sp)+,d0/a0/d1/d2/d3");
+//}
 // -----------------------------------------------------------------------------
 int fadepal(int clut_no,int fade_cols,int *palette)
 {

@@ -153,7 +153,6 @@ While Not EOF(# 1)
   ElseIf Lower$(Left$(type$, 8)) = "sfx_mlaw"
     Print # 10; "Converting sound file into m-law file (using sox)..."
     rate = Val(SubStr(type$, 9))
-'##E#
     If rate < 1024
       rate = 8000
     EndIf
@@ -228,22 +227,14 @@ Procedure convertbmp(file$, dumpclut As Bool)
   Dim infile$, outfile$
   Dim depth, width, height, l, i, x As Int
   Dim sourceaddr, xBGR As Int
+  Dim r As Byte, g As Byte, b As Byte
 
-  '
-  ' Process command line params
-  '
   infile$ = file$
   outfile$ = basedir$ + "\build\" + plainfile$
-
-
-  'TODO: check if destination files exist and are of newer date than source file
 
   '
   ' Read in source file
   '
-  'Print "open "; file$
-  'Repeat
-  'Until InKey$ <> ""
   Open file$ for Binary As # 5
   l = LOF(# 5)
   Dim sourcebmp(l) As Byte
@@ -254,6 +245,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
     sourcebmp(i - 1) = aaa
   Next i
   Close # 5
+
   '
   ' Figure out width and height
   '
@@ -408,22 +400,23 @@ Procedure convertbmp(file$, dumpclut As Bool)
       Next i
       Close # 5
     EndIf
-  Case 16                          '***************** 16-bit raw - NOT WORKING
-    screenstart = 1024 + 54
-    Dim outbuffer16(width * height * 2) As Word
+  Case 16                          '***************** 16-bit raw
+    screenstart = 54
+    Dim outbuffer16(width * height) As Word
     destindex = width * (height - 1)
     For i = 1 To height
-      For x = 0 To width - 1
-        col = sourcebmp(screenstart)
-        outbuffer16(destindex + x) = palette(col)
-        Inc screenstart
+      For x = 1 To width
+        r = Shr|(sourcebmp(screenstart + 0), 3)
+        g = Shr|(sourcebmp(screenstart + 1), 2)
+        b = Shr|(sourcebmp(screenstart + 2), 3)
+        outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
+        Add screenstart, 4
       Next x
       Sub destindex, width
     Next i
-    Open Left$(infile$, Len(infile$), 4) + ".jag" for Binary As # 1
-    For i = 1 To width * height
-      BPut # 1, V:outbuffer16(i - 1), 2
-    Next i
+    Open outfile$ + ".gfxdata" for Binary As # 1
+'##E#
+    BPut # 1, V:outbuffer16(0), 2 * width * height
   EndSelect
 Return
 
@@ -433,7 +426,7 @@ Return
   EndIf
   Return FileDateTime(a$) > FileDateTime(b$)
 EndFunc
-Procedure ConvertCMDLine()
+>Procedure ConvertCMDLine()
   // The global variable __argc holds the
   // number of commandline arguments after executing ConvertCMDLine().
   // Arguments are separated by space(s)

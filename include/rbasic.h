@@ -69,3 +69,13 @@ extern void RAPTOR_particles_GPU_plot() asm ("RAPTOR_particles_GPU_plot");
 extern void RAPTOR_fade_clut() asm ("RAPTOR_fade_clut");
 int fadepal(int clut_no,int fade_cols,int *palette) asm("fadepal");
 extern short raptor_fade_delay asm("raptor_fade_delay");
+void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
+
+//Zerosquare player equates
+#define Zero_Chan_Format_Shift       30
+#define Zero_Chan_Looping_Shift      29
+#define Zero_Chan_Enabled_Shift      28
+#define Zero_Audio_8bit_Signed       (0 << Zero_Chan_Format_Shift)
+#define Zero_Audio_8bit_Unsigned     (1 << Zero_Chan_Format_Shift)
+#define Zero_Audio_8bit_muLaw        (2 << Zero_Chan_Format_Shift)
+#define Zero_Audio_Looping           (1 << Zero_Chan_Looping_Shift)

@@ -12,7 +12,10 @@ set TEMPDIR=PROJECTS\%1\build
 rem -------------------------------------------------------------
 if [%1] neq [] goto :dobuild
 echo Usage: BUILD.bat projectname
+echo        BUILD.bat projectname sendy
 echo        BUILD.bat projectname ROM
+echo        BUILD.bat projectname ROM sendy
+echo        BUILD.bat projectname new
 echo.
 echo Folder "projectname" must exist inside folder "projects"
 echo and have a file called "projectname.bas" inside.
@@ -21,12 +24,21 @@ echo when building a ROM it is assumed that there will exist
 echo a file called assets.txt inside the project folder
 echo and will contain all assets to be included in ROM (if any)
 echo.
+echo if you specify "new" then a new project will be created
+echo from the "projects\template" folder. No project will be
+echo created if folder exists.
+echo.
+echo if you specify "sendy" the project, upon succesful compilation
+echo will be sent to Skunkboard (caution - when using ROM, bank
+echo #1 will be erased without any warning!)
+echo.
 echo Current projects:
 dir /AD /B PROJECTS
 goto :veryend
 
 rem -------------------------------------------------------------
 :dobuild
+if "%2" == "new" goto :newproject
 echo ------------------------------------------------------------
 echo Building RAPTOR Basic+ Application
 echo.
@@ -143,8 +155,15 @@ rem Error handler
 echo Build error!
 echo Build error! >> %TEMPDIR%\build.log
 notepad %TEMPDIR%\build.log
+goto :veryend
+
+rem -------------------------------------------------------------
+rem Create a new project
+:newproject
+if exist PROJECTS\%1\%1.bas goto :veryend
+xcopy /e PROJECTS\template PROJECTS\%1\
+rename PROJECTS\%1\template.bas %1.bas
+echo Project %1 created successfully!
 
 :veryend
-
-
 
