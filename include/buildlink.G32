@@ -46,7 +46,7 @@ Dim plainfile$
 Dim i As Int
 
 Dim filepointer As Int
-Dim rate As Int
+Dim rate As Int, bpp As Int
 
 Dim pad$ = "PUSH THE BUTTON!"
 While Not EOF(# 1)
@@ -83,7 +83,8 @@ While Not EOF(# 1)
       Mid$(fullnameslash$, i, 1) = "/"
     EndIf
   Next i
-  If Lower$(type$) = "gfx_clut"
+  If Left$(Lower$(type$), 8) = "gfx_clut"
+    bpp = Val(SubStr(type$, 9))
     Print # 10; "Converting BMP internally into gfxdata/clut..."
     convertbmp(fullname$, True)
     If Upper$(romabs$) = "ROM"
@@ -119,7 +120,8 @@ While Not EOF(# 1)
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
       Print # 4; "extern void *" + varname$ + "_clut" + " asm(""" + varname$ + "_clut"");"
     EndIf
-  ElseIf Lower$(type$) = "gfx_noclut"
+  ElseIf Left$(Lower$(type$), 10) = "gfx_noclut"
+    bpp = Val(SubStr(type$, 11))
     Print # 10; "Converting BMP internally into gfxdata..."
     convertbmp(fullname$, False)
     If Upper$(romabs$) = "ROM"
@@ -252,28 +254,34 @@ Procedure convertbmp(file$, dumpclut As Bool)
   width = sourcebmp($15) * $100000 + sourcebmp($14) * $1000 + sourcebmp($13) * $100 + sourcebmp($12)
   height = sourcebmp($19) * $100000 + sourcebmp($18) * $1000 + sourcebmp($17) * $100 + sourcebmp($16)
   depth = sourcebmp($1d) * $100 + sourcebmp($1c)
+  If depth = 24 'special case, user defines bpp. otherwise assume 16
+    If bpp = 24
+      depth = 24
+    Else
+      depth = 16
+    EndIf
+  EndIf
+  Print # 10; "File is "; Str$(width); " pixels wide, "; Str$(height); " pixels high and is "; Str$(depth); " bits/pixel"
 
   '
   ' Convert palette to jag format
   '
-  If sourcebmp($1c) <> 4
-    xBGR = 53
-  Else
-    xBGR = $35
+  If depth < 16
+    If sourcebmp($1c) <> 4
+      xBGR = 53
+    Else
+      xBGR = $35
+    EndIf
+    Dim palette(255) As Word
+    Dim red, green, blue As Word
+    For i = 0 To (2 ^ depth) - 1
+      blue = Rol&((Shr&(sourcebmp(xBGR + 1), 3)), 6)
+      green = Shr&(sourcebmp(xBGR + 2), 2)
+      red = Ror&(Shr&(sourcebmp(xBGR + 3), 3), 5)
+      palette(i) = Ror&(red Or green Or blue, 8)            'Fuck you endianess!
+      Add xBGR, 4
+    Next i
   EndIf
-  Dim palette(255) As Word
-  Dim red, green, blue As Word
-  For i = 0 To (2 ^ depth) - 1
-    blue = Rol&((Shr&(sourcebmp(xBGR + 1), 3)), 6)
-    green = Shr&(sourcebmp(xBGR + 2), 2)
-    red = Ror&(Shr&(sourcebmp(xBGR + 3), 3), 5)
-    palette(i) = Ror&(red Or green Or blue, 8)            'Fuck you endianess!
-    Add xBGR, 4
-  Next i
-
-  'Print depth
-  'Repeat
-  'Until InKey$ <> ""
 
   '
   ' Do the conversion
@@ -406,17 +414,19 @@ Procedure convertbmp(file$, dumpclut As Bool)
     destindex = width * (height - 1)
     For i = 1 To height
       For x = 1 To width
-        r = Shr|(sourcebmp(screenstart + 0), 3)
+        'Print screenstart
+        r = Shr|(sourcebmp(screenstart + 2), 3)
         g = Shr|(sourcebmp(screenstart + 1), 2)
-        b = Shr|(sourcebmp(screenstart + 2), 3)
+        b = Shr|(sourcebmp(screenstart + 0), 3)
+'##E#
         outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
-        Add screenstart, 4
+        Add screenstart, 3
       Next x
       Sub destindex, width
     Next i
-    Open outfile$ + ".gfxdata" for Binary As # 1
-'##E#
-    BPut # 1, V:outbuffer16(0), 2 * width * height
+    Open outfile$ + ".gfxdata" for Binary As # 5
+    BPut # 5, V:outbuffer16(0), 2 * width * height
+    Close # 5
   EndSelect
 Return
 

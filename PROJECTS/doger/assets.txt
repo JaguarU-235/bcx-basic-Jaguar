@@ -1,4 +1,4 @@
-'ABS,SPRITE_BG,gfx_clut,ASSETS\GFX\background.bmp
+ABS,SPRITE_BG,gfx_noclut,ASSETS\GFX\background.bmp
 ABS,SPRITE_POULPES,gfx_clut,ASSETS\GFX\poulpes.bmp
 ABS,SPRITE_NYAN,gfx_clut,ASSETS\GFX\nyan.bmp
 ABS,SPRITE_TITLE,gfx_clut,ASSETS\GFX\doger.bmp

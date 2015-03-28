@@ -110,7 +110,7 @@ if not exist %BUILDPATH%\%1.rom goto :builderror
 if "%3"=="sendy" goto :sendrom
 echo. >> %TEMPDIR%\build.log
 echo starting vj >> %TEMPDIR%\build.log
-virtualjaguar %BUILDPATH%\%1.rom --alpine
+start virtualjaguar %BUILDPATH%\%1.rom --alpine
 goto :veryend
 :sendrom
 jcp -r
@@ -133,12 +133,11 @@ echo Build successful! >> %TEMPDIR%\build.log
 
 rem -------------------------------------------------------------
 rem Run vj or send binary to skunk
-rem taskkill /IM virtualjaguar.exe >NUL
 if "%2"=="sendy" goto :sendabs
 echo. >> %TEMPDIR%\build.log
 echo Starting vj
 echo starting vj >> %TEMPDIR%\build.log
-virtualjaguar %BUILDPATH%\%1.abs --alpine
+start virtualjaguar %BUILDPATH%\%1.abs --alpine
 goto :veryend
 :sendabs
 echo Sending to skunkboard...
