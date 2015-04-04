@@ -1,5 +1,6 @@
 '
 ' Build a linkfile for RB+ ROM
+' (or just convert assets)
 ' 22-Feb-2015 Reboot
 ' Run it like:
 ' build link <path+filename of assets file> <base project dir>
@@ -14,17 +15,18 @@ ConvertCMDLine
 
 Dim basedir$ = __argv(2)
 
-'basedir$ = "..\projects\spiral\"
-'__argv(1) = "..\projects\spiral\assets.txt"
-
 If Not Exist(__argv(1))
   Open basedir$ + "\build\romassets.inc" for Output As # 3 : Close # 3
   Open basedir$ + "\build\romassets.h" for Output As # 4 : Close # 4
   Open basedir$ + "\build\ramassets.inc" for Output As # 6 : Close # 6
-  Open basedir$ + "\build\linkfile.bin" for Output As # 2 : Close # 2
-  End
+  'Open basedir$ + "\build\linkfile.bin" for Output As # 2 : Close # 2
+  If Exist(basedir$ + "\build\linkfile.bin")
+    DeleteFile Silent, Yes basedir$ + "\build\linkfile.bin"
+  EndIf
+  Quit 1
 EndIf
 
+Dim any_rom_asset As Bool = False
 Dim base_adr% = $802000 + 196 'rom base address + header + copy routine size (hardcoded for now)
 Dim ass_adr% = base_adr%
 Dim tempbuf(4 * 1024 * 1024) As Byte
@@ -50,7 +52,7 @@ Dim rate As Int, bpp As Int
 
 Dim pad$ = "PUSH THE BUTTON!"
 While Not EOF(# 1)
-  Print # 10; "Reading assets.txt line"
+  Print # 10; "    Reading assets.txt line"
   filepointer = Seek(# 1)
   Line Input # 1, romabs$
   romabs$ = Left$(romabs$, 1)
@@ -65,7 +67,7 @@ While Not EOF(# 1)
   type$ = Trim$(type$)
   assetfile$ = Trim$(assetfile$)
 
-  Print # 10; "Processing " + assetfile$
+  Print # 10; "        Processing " + assetfile$
   'Align to 16 bytes, just cause I say so :P
   BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
   ass_adr% = (ass_adr% + 15) And $fffffff0
@@ -74,9 +76,9 @@ While Not EOF(# 1)
   plainfile$ = SubStr(assetfile$, RInStr(assetfile$, "\") + 1)
 
   If Not Exist(fullname$)
-    Print # 10; "Aborting - Couldn't find file " + fullname$
+    Print # 10; "Buildlink aborting - Couldn't find file " + fullname$
     'Message "Aborting - Couldn't find file " + fullname$
-    End
+    Quit 2
   EndIf
   For i = 1 To Len(fullnameslash$)
     If Mid$(fullnameslash$, i, 1) = "\"
@@ -85,9 +87,10 @@ While Not EOF(# 1)
   Next i
   If Left$(Lower$(type$), 8) = "gfx_clut"
     bpp = Val(SubStr(type$, 9))
-    Print # 10; "Converting BMP internally into gfxdata/clut..."
+    Print # 10; "        Converting BMP internally into gfxdata/clut..."
     convertbmp(fullname$, True)
     If Upper$(romabs$) = "ROM"
+      any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
       Open basedir$ + "\build\" + plainfile$ + ".gfxdata" for Input As # 5
@@ -122,9 +125,10 @@ While Not EOF(# 1)
     EndIf
   ElseIf Left$(Lower$(type$), 10) = "gfx_noclut"
     bpp = Val(SubStr(type$, 11))
-    Print # 10; "Converting BMP internally into gfxdata..."
+    Print # 10; "        Converting BMP internally into gfxdata..."
     convertbmp(fullname$, False)
     If Upper$(romabs$) = "ROM"
+      any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
       'Print basedir$ + "\build\" + plainfile$ + ".gfxdata"
@@ -144,23 +148,24 @@ While Not EOF(# 1)
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
     EndIf
   ElseIf Left$(Lower$(type$), 7) = "sfx_raw"
-    Print # 10; "Converting sound file into raw file (using sox)..."
+    Print # 10; "        Converting sound file into raw file (using sox)..."
     rate = Val(SubStr(type$, 8))
     If rate < 1024
       rate = 8000
     EndIf
-    Print # 10; "Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate)
+    Print # 10; "        Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate)
     System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
 
   ElseIf Lower$(Left$(type$, 8)) = "sfx_mlaw"
-    Print # 10; "Converting sound file into m-law file (using sox)..."
+    Print # 10; "        Converting sound file into m-law file (using sox)..."
     rate = Val(SubStr(type$, 9))
     If rate < 1024
       rate = 8000
     EndIf
-    Print # 10; "Command run: sox.exe " + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate)
+    Print # 10; "        Command run: sox.exe " + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate)
     System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
     If Upper$(romabs$) = "ROM"
+      any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
       Open fullname$ + ".ul" for Input As # 5
@@ -181,6 +186,7 @@ While Not EOF(# 1)
 
   Else
     If Upper$(romabs$) = "ROM"
+      any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
       Open fullname$ for Input As # 5
@@ -205,12 +211,16 @@ Close # 1
 Close # 3
 Close # 4
 Close # 6
+Close # 2
+'##E#
 Print # 10; "Buildlink finished - everything went fine!"
-
+If any_rom_asset = False
+  DeleteFile Silent, Yes basedir$ + "\build\linkfile.bin"
+EndIf
 'Repeat
 'Until InKey$ <> ""
 
-End
+Quit 0
 
 
 '
@@ -225,7 +235,7 @@ End
 ' convbmp <input filename> <output filename> <colour bit depth> <width in bytes> <height in scanlines>
 ' It will output <filename>.jag
 '
-Procedure convertbmp(file$, dumpclut As Bool)
+>Procedure convertbmp(file$, dumpclut As Bool)
   Dim infile$, outfile$
   Dim depth, width, height, l, i, x As Int
   Dim sourceaddr, xBGR As Int
@@ -261,7 +271,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
       depth = 16
     EndIf
   EndIf
-  Print # 10; "File is "; Str$(width); " pixels wide, "; Str$(height); " pixels high and is "; Str$(depth); " bits/pixel"
+  Print # 10; "        File is "; Str$(width); " pixels wide, "; Str$(height); " pixels high and is "; Str$(depth); " bits/pixel"
 
   '
   ' Convert palette to jag format
@@ -418,7 +428,6 @@ Procedure convertbmp(file$, dumpclut As Bool)
         r = Shr|(sourcebmp(screenstart + 2), 3)
         g = Shr|(sourcebmp(screenstart + 1), 2)
         b = Shr|(sourcebmp(screenstart + 0), 3)
-'##E#
         outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
         Add screenstart, 3
       Next x

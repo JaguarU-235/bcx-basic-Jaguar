@@ -112,12 +112,15 @@ ElseIf romlen% < 6 * 1024 * 1024
   BPut # 1, V:pad$, 6 * 1024 * 1024 - romlen%
 ElseIf romlen% < 8 * 1024 * 1024                'Well, 8mb ROM is only possible with skunkboard and bank switching - I suppose it can't hurt to be here!
   BPut # 1, V:pad$, 8 * 1024 * 1024 - romlen%
+Else
+  Print # 10; "Make-a-rom abort - produced ROM too large!"
+'##E#
+  Quit 1
 EndIf
 Close # 1
 Print # 10; "Make-a-rom finished - everything went fine!"
 Close # 10
-End
-'##E#
+Quit 0
 
 >Procedure lpoke_endian(adr%, value%)
   Poke adr%, Shr%(value%, 24)

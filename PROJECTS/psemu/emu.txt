@@ -1,0 +1,27 @@
+First off, this is, obviously, not a PlayStation emulator running on the Jaguar - that would not only be impractical it'd likely be impossible. The emulation actually takes place inside the skunkboard itself, utilising the power of the practically unused onboard FPGA, and uses the Jaguar mostly as a video output host and screen buffer relay.
+
+Unfortunately, the emulator will only work with skunkboards that have the USB sockets present. This might be temporary, we're looking for a work-around but for now it's simply not possible to make this work with USB-less skunkboards.
+
+Installation instructions are simple but please take care to follow every step IN ORDER:
+
+You'll need a USB drive (1GB+ recommended) and a standard USB Type A Male-to-Female cable.
+
+Create a directory in the root of the USB drive "PSXEMU", then download, unpack and copy the emulator from here:
+http://www.emulator-zone.com/doc.php/psx/epsxe.html
+
+WARNING: *MUST* be the 1.9.0 version of the package *OR YOU RISK DAMAGING YOUR HARDWARE*
+
+Place the USB drive into a free socket on the skunkboard and the correct end of the USB cable in the other free socket. Place this cable near to BUT NOT INSIDE a free USB socket on your PC or laptop. *IMPORTANT: DO NOT CONNECT THIS CABLE UNTIL PROMPTED TO DO SO ON SCREEN*.
+
+Download the PSX bootloader ROM and flash it to *BANK ONE* of your skunkboard:
+
+file.rom
+
+ *There are currently some minor issues using bank 2 - use at your own risk.
+ 
+ When you have completed these steps, the familiar PSX intro should display. Follow the on-screen prompts.
+ 
+ C, B and A correspond to SQUARE, TRIANGLE and CIRCLE. 3 is used for X.
+ With a Pro Controller, L1 and R1 map to the triggers, use with 6 on the keypad as a shift key for L2 and R2.
+ 
+ DISCLAIMER: Use of this software is strictly at your own risk. Software provided as-is without warranty. All (C) used without permission.

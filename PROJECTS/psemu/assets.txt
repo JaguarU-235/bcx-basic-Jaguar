@@ -1,0 +1,6 @@
+ROM,ROM_BMP_ANIM1,gfx_clut,assets\gfx\anim1.bmp
+ROM,ROM_BMP_ANIM2,gfx_noclut,assets\gfx\anim2.bmp
+ABS,BMP_TR,gfx_clut,assets\gfx\tr.bmp
+ABS,PAL_BLACK,gfx_clut,assets\gfx\blackpal.bmp
+ABS,PAL_GREYS,gfx_clut,assets\gfx\2x2-256greys.bmp
+ABS,rom_choon,muzexxx,assets\sfx\intro.raw

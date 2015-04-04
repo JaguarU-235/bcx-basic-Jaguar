@@ -8,6 +8,8 @@ set RBASIC+=64
 :pathset
 set BUILDPATH=PROJECTS\%1
 set TEMPDIR=PROJECTS\%1\build
+rem assume no ROM mode
+set ROM_MODE=
 
 rem -------------------------------------------------------------
 if [%1] neq [] goto :dobuild
@@ -68,6 +70,8 @@ if exist %BUILDPATH%\ramassets.inc del %BUILDPATH%\ramassets.inc
 if exist %TEMPDIR%\linkfile.bin del %TEMPDIR%\linkfile.bin
 echo. >> %TEMPDIR%\build.log
 buildlink %BUILDPATH%\assets.txt %BUILDPATH%
+if %ERRORLEVEL% NEQ 0 goto :builderror
+if exist %TEMPDIR%\linkfile.bin set ROM_MODE=1
 
 rem -------------------------------------------------------------
 rem assemble raptor skeleton
@@ -77,12 +81,14 @@ echo Assembling raptor skeleton... >> %TEMPDIR%\build.log
 cd %BUILDPATH%
 rmac -fb -u -i..\..\include -o build\BASIC.O RAPAPP.s >> build\build.log
 cd ..\..
+if %ERRORLEVEL% NEQ 0 goto :builderror
 
 rem -------------------------------------------------------------
 rem translate .bas file to C
 echo. >> %TEMPDIR%\build.log
 echo Translating .bas file to C... >> %TEMPDIR%\build.log
 bc  %BUILDPATH%\%1.bas -q >> %TEMPDIR%\build.log
+if %ERRORLEVEL% NEQ 0 goto :builderror
 move /Y %BUILDPATH%\%1.C %TEMPDIR% >NUL
 
 rem -------------------------------------------------------------
@@ -90,12 +96,14 @@ rem Compile C code
 echo. >> %TEMPDIR%\build.log
 echo Compiling C code... >> %TEMPDIR%\build.log
 m68k-atari-mint-gcc -O2 -Iinclude -I%BUILDPATH%\ -c %TEMPDIR%\%1.C -o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log 2>&1
+if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %TEMPDIR%\%1.o goto :builderror
 m68k-atari-mint-gcc -O2 -Iinclude -I%BUILDPATH%\ %TEMPDIR%\%1.C -S -o %TEMPDIR%\%1.s >> %TEMPDIR%\build.log 2>&1
-if "%2" neq "ROM" goto :norom
+if "%2" neq "ROM" (if "%ROM_MODE%"=="" goto :norom)
 
 rem -------------------------------------------------------------
 rem Link binaries
+echo Building ROM file...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
 rln -z -rq -o %TEMPDIR%\%1.bin -n -a 4000 x x %TEMPDIR%\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log
@@ -105,9 +113,11 @@ rem Let's build a ROM
 echo. >> %TEMPDIR%\build.log
 echo Making ROM... >> %TEMPDIR%\build.log
 makearom %TEMPDIR%\%1.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%1.rom
+if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %BUILDPATH%\%1.rom goto :builderror
 
 if "%3"=="sendy" goto :sendrom
+if "%2"=="sendy" goto :sendrom
 echo. >> %TEMPDIR%\build.log
 echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%1.rom --alpine
@@ -121,6 +131,7 @@ goto :veryend
 :norom
 rem -------------------------------------------------------------
 rem Link binaries
+echo Building ABS...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
 rln -z -rq -o %BUILDPATH%\%1.abs -a 4000 x x %TEMPDIR%\BASIC.O RAPTOR\RAPTOR.O U235SE.021\DSP.OBJ include\libm.a include\libc.a include\libgcc.a include\basic_functions.o include\ee_printf.o %TEMPDIR%\%1.o >> %TEMPDIR%\build.log

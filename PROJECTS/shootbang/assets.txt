@@ -1,0 +1,9 @@
+'
+ABS,STARS,gfx_clut,assets\gfx\stars.bmp
+ABS,SHIP,gfx_clut,assets\gfx\ship.bmp
+ABS,ENEMY,gfx_clut,assets\gfx\enemy.bmp
+ABS,BULLET,gfx_clut,assets\gfx\bullet.bmp
+'
+ABS,BOOM,gfx_clut,assets\gfx\explode2.bmp
+ABS,BOOM2,gfx_noclut,assets\gfx\explode2x.bmp
+'
