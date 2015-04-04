@@ -12,9 +12,8 @@ DIM tr%			:tr=6		'  1 object		total	 6
 ' *******************************************************
 
 DIM framecounter%		:	framecounter=0
-DIM cunt%				:	cunt=0
-DIM	twat%				:	twat=0
-DIM fadge%				:	fadge=0
+DIM count%				:	count=0
+DIM count2%				:	count2=0
 
 	SNDPLAY(0,5)
 	VSYNC
@@ -28,8 +27,8 @@ DIM fadge%				:	fadge=0
 	VSYNC
 	SNDVOL(48)
 
-FOR cunt=0 TO 31
-	DPOKE BG,((cunt<<11)+(cunt<<6)+(cunt<<1))
+FOR count=0 TO 31
+	DPOKE BG,((count<<11)+(count<<6)+(count<<1))
 	DELAY(3)
 NEXT
 
@@ -41,8 +40,8 @@ VSYNC
 
 RSETOBJ(anim1,R_sprite_active,R_is_active)
 
-DO UNTIL fadge=37
-	fadge++
+DO UNTIL count2=37
+	count2++
 	DELAY(4)
 LOOP
 
