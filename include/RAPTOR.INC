@@ -42,16 +42,16 @@ sprite_hitpoint			equ				132								; hitpoints of damage to take before removal
 sprite_damage			equ				136								; damage to deal
 sprite_flash			equ				140								; make sprite blink
 sprite_gwidth			equ				144								; graphics width
-sprite_unused01			equ				148								
-sprite_unused02			equ				152								; general purpose storage per object for user use
-sprite_userdat1			equ				156
-sprite_userdat2			equ				160
-sprite_userdat3			equ				164
-sprite_userdat4			equ				168
-sprite_userdat5			equ				172
-sprite_userdat6			equ				176
-sprite_userdat7			equ				180
-sprite_userdat8			equ				184
+sprite_rmotion			equ				148								; pointer to RMotion animation
+sprite_rmcurfrm			equ				152								; RMotion internal
+sprite_rmfrm			equ				156								; RMotion internal
+sprite_userdat1			equ				160
+sprite_userdat2			equ				164
+sprite_userdat3			equ				168
+sprite_userdat4			equ				172
+sprite_userdat5			equ				176
+sprite_userdat6			equ				180
+sprite_userdat7			equ				184
 
 particle_tabwidth		equ				44								; bytewidth of a single particle entry in particle database (below)
 particle_active			equ				0								; particle in use flag
@@ -148,14 +148,24 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 ;; Functions start with RAPTOR_
 ;; Variables start with raptor_
 ;;
-
+	.extern		rotary_interval1
+	.extern		rotary_interval2
+	.extern		rotary_mode1
+	.extern		rotary_mdoe2
+	.extern		turn_direction1
+	.extern		turn_direction2
+	.extern 	spin_delta1
+	.extern		spin_delta2
+	.extern		spin_step1
+	.extern		spin_step2
+	
 	.extern		RAPTOR_GPU_COLLISION
 	.extern		RAPTOR_HANDLER
 	.extern		RAPTOR_map_update_GPU
 	.extern		RAPTOR_particle_injection_GPU
-	.extern		RAPTOR_particles_GPU
+	.extern		RAPTOR_particles_GPU_erase
+	.extern		RAPTOR_particles_GPU_plot
 	.extern		RAPTOR_update_particles_GPU
-	.extern		RAPTOR_plot_particles_GPU
 	.extern		RAPTOR_U235init
 	.extern		RAPTOR_U235stopDSP
 	.extern		RAPTOR_U235playsample
@@ -164,7 +174,10 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		RAPTOR_U235gomodule_mono
 	.extern		RAPTOR_U235gomodule_stereo
 	.extern		RAPTOR_U235stopmodule	
-	.extern		RAPTOR_move_palette
+	.extern		RAPTOR_U235setpad1
+	.extern		RAPTOR_U235setrot1
+	.extern		RAPTOR_U235setpad2
+	.extern		RAPTOR_U235setrot2	
 	.extern		RAPTOR_GFXConvert
 	.extern		RAPTOR_mt_init
 	.extern		RAPTOR_mt_load
@@ -202,7 +215,13 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		RAPTOR_UPDATE_PARTICLES
 	.extern		RAPTOR_UPDATE_ALL
 	.extern		RAPTOR_setlist
-	
+	.extern		RAPTOR_particle_trigtable
+	.extern		RAPTOR_particle_gfxbase
+	.extern 	RAPTOR_fade_clut
+	.extern		RAPTOR_fade_clutindex
+	.extern		RAPTOR_attach_rmotion
+
+	.extern		raptor_fade_delay	
 	.extern		raptor_result
 	.extern		raptor_targetl
 	.extern		raptor_targeth
@@ -256,6 +275,9 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		raptor_last_score_name
 	.extern		raptor_mt_present
 	.extern		raptor_ticks
-	
+	.extern		raptor_liststart
+	.extern		raptor_fade_delay
+
+		
 ;END OF FILE.
 

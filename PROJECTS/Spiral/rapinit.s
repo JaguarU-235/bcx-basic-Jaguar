@@ -27,7 +27,7 @@ raptor_init_table:
 	dc.b	'LIST'		; initiate list structure
 
 ; Text / Particle Object		
-	include	"../../RAPTOR/incs/partlist.s"	; Include the ETXT/PARTICLE layer bitmap
+	include	"partlist.s"	; Include the ETXT/PARTICLE layer bitmap
 
 	dc.b	'STOP'							; end of the current LIST
 

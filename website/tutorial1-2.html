@@ -1,0 +1,994 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + tutorial 1.2</title></head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+<tbody>
+<tr>
+<td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+<td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+</td>
+<td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+</td>
+<td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+</a></td>
+<td style="vertical-align: top;"><a href="contact.html">contact<br>
+</a></td>
+<td style="vertical-align: top;"><a href="links.html">links<br>
+</a></td>
+</tr>
+</tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; height: 7880px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;">rB+
+tutorials :: 1.2 more forms and
+more fun </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><br>
+Topics touched on in this tutorial:<br>
+      <br>
+Functions:<br>
+Joypad reading - <span style="font-weight: bold;">GETPAD</span><br>
+Sprite movement - automatic, manual and user requested<br>
+Collision Detection - <span style="font-weight: bold;">RHIT</span><br>
+Reading sprite properties into your program - <span style="font-weight: bold;">RGETOBJ</span><br>
+Modifying sprite properties - <span style="font-weight: bold;">RSETOBJ</span><br>
+Playing U235SE sounds at different frequencies and defining them from
+sample data files - <span style="font-weight: bold;">SNDPLAY</span>, <span style="font-weight: bold;">SNDFREQ</span><br>
+Playing U235SE Amiga MOD music - <span style="font-weight: bold;">MODPLAY</span><br>
+Using the Random Number Generator - <span style="font-weight: bold;">RNG</span><br>
+Loading colour palettes into the Colour Look-Up Table - <span style="font-weight: bold;">LOADCLUT</span><br>
+Placing text on the screen - <span style="font-weight: bold;">RLOCATE</span>,
+      <span style="font-weight: bold;">PRINT</span>, particle/text
+layer object.<br>
+Changing the Jaguar's unique background colour value with the BG
+register - <span style="font-weight: bold;">DPOKE BG</span>. <span style="font-weight: bold;">POKE</span>, <span style="font-weight: bold;">DPOKE</span>, <span style="font-weight: bold;">LPOKE</span>, <span style="font-weight: bold;">PEEK</span>, <span style="font-weight: bold;">DPEEK</span>, <span style="font-weight: bold;">LPEEK</span>.<br>
+      <br>
+Concepts:<br>
+A few thoughts on game planning as it relates to creation of sprite and
+asset definitions.<br>
+A few discussion points concerning taking a raw working prototype
+forward into something more pleasing /effective /fun/ impressive/ etc.<br>
+Simple game flow control via incremental timer.<br>
+Defining a set of variables within our game to mirror our sprite list,
+allowing simple and logical access.<br>
+      <br>
+We're back and again it's time to make another list. You can think of
+rB+ as bureaucracy BASIC if you like, only it's a lot more fun than
+that sounds once the paperwork is complete. The handy things is that by
+completing all this form filling, it helps us consider each element of
+our game and its sprites in fairly fine detail, which is really useful
+when we come to put everything together as a game. This asset
+management used to be contained in another .S file, but GGN has worked
+hard to simplify things and abstract them away from their assembler
+roots in raptor. Currently only 16-bit TGA graphics (for raptor to
+auto-convert at run time) remain in rapapp.s - now we have <span style="font-weight: bold;">assets.txt</span> and it looks like this:<br>
+      <br>
+      <small>&nbsp;&nbsp; ' rB+ assets file.<br>
+&nbsp;&nbsp; '<br>
+&nbsp;&nbsp; ' This is where we tell rB+ to load in our graphics and
+sounds.<br>
+&nbsp;&nbsp; '<br>
+&nbsp;&nbsp; ' For 1-, 2-, 4- and 8-bit graphics, we can tell it to
+save the colour palette as well.<br>
+&nbsp;&nbsp; ' 16-bit graphics coming soon to an assets.txt near you,
+for now continue to use rapapp.s with 16-bit TGAs.<br>
+&nbsp;&nbsp; '<br>
+&nbsp;&nbsp; ' This first entry is for a background graphic. It's a
+4-bit-per-pixel (16 colour) image
+and we want to store the colour<br>
+&nbsp;&nbsp; ' &nbsp; &nbsp; palette for later use:<br>
+      <br>
+&nbsp;&nbsp; ABS,SPRITE_BG,gfx_clut,ASSETS\GFX\background.bmp<br>
+      <br>
+&nbsp;&nbsp; ' ABS &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp; Tells rB+
+that the file is to be stored in the executable file. If we wanted it<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stored in ROM, we'd enter 'ROM' instead.<br>
+&nbsp;&nbsp; ' SPRITE_BG&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+:&nbsp; A nickname we'll use to refer to the graphic in the
+sprite definition file.<br>
+&nbsp;&nbsp; ' gfx_clut&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :&nbsp; &nbsp;&nbsp;&nbsp; tells raptor that we want
+to keep the colour palette. CLUT stands for Colour<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+Look Up Table, it's
+an area of the Jaguar where 256 colour values are used for<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+the different palette-based graphics.<br>
+&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; :&nbsp; &nbsp;&nbsp;&nbsp;
+We can access these 16 colours in rB+ using the nickname
+"SPRITE_BG_clut" and<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+pop them into whichever part of the CLUT we like.<br>
+&nbsp;&nbsp; ' ASSETS\GFX\background.bmp&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+:&nbsp; Location of the graphics file relative to this
+assets.txt file.<br>
+&nbsp;&nbsp; <br>
+&nbsp;&nbsp; ' The rest of the graphics assets follow in just the same
+way:<br>
+      <br>
+&nbsp;&nbsp; ABS,SPRITE_POULPES,gfx_clut,ASSETS\GFX\poulpes.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_NYAN,gfx_clut,ASSETS\GFX\nyan.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_TITLE,gfx_clut,ASSETS\GFX\doger.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_DOGE,gfx_clut,ASSETS\GFX\doge.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_DEAD,gfx_clut,ASSETS\GFX\dogedead.bmp<br>
+      <br>
+&nbsp;&nbsp; ' Amiga .MOD music is included as follows. MOD by Cat/KTS
+(woof!)<br>
+      <br>
+&nbsp;&nbsp; ABS,MOD_BOING,module0,ASSETS\Music\dobranocki.mod<br>
+      <br>
+&nbsp;&nbsp; ' Sound samples like this:<br>
+      <br>
+&nbsp;&nbsp; ABS,SFX_WOOF,sfx_woof_bark,assets\sfx\snd\woofbark.raw<br>
+&nbsp;&nbsp; ABS,SFX_LAUGH,sfx_ha_ha_ha,assets\sfx\snd\laugh.raw<br>
+      <br>
+&nbsp;&nbsp; ' ABS &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp; Tells rB+
+that the file is to be stored in the executable file. If we wanted it</small><small><br>
+&nbsp;&nbsp; '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stored in ROM, we'd enter 'ROM' instead.</small><br>
+      <small>&nbsp;&nbsp; ' SFX_WOOF&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :&nbsp; A nickname used internally<br>
+&nbsp;&nbsp; ' sfx_woof_bark&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; :&nbsp; A nickname
+we use in the U235 sound engine sample definition file -
+multiple<br>
+&nbsp;&nbsp;
+' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp;&nbsp; sounds
+can be defined based on the same source sample data, just like we can<br>
+&nbsp;&nbsp;
+' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+define multiple sprites based on the same
+graphics bitmaps.<br>
+      <br>
+&nbsp;&nbsp; ' End of file.<br>
+      <br>
+      </small>... and with that, we are done all bar the actual
+programming. Yes,
+it's finally time for the fun stuff at last! But first, aren't you
+curious to see what we've got done so far? Don't you want to take a
+peek at the fruits of our form-filling? Surely we'd need to do a
+bit of programming before we can see anything on screen?<br>
+      <br>
+      <span style="font-weight: bold;">*SHRUG*</span><br style="font-weight: bold;">
+      <br style="font-weight: bold;">
+      <span style="font-weight: bold;">*WINK WINK*</span><br>
+      <br>
+If you haven't already, now is the time to copy all the files in the
+tutorial archive over to your rB+ <span style="font-weight: bold;">PROJECTS</span>
+folder. You will now have
+the "Doger" project.<br>
+      <br>
+Copy "<span style="font-weight: bold;">initial.abs</span>" into your
+VJ/software directory or send it to your Jaguar via skunkboard in the
+usual way.<br>
+      <br>
+      <div style="text-align: center;"><img style="width: 652px; height: 480px;" alt="doger" src="images/doger-initial.png"></div>
+      <br>
+Once you see that running, hopefully you get the idea of what we've
+been creating. Below is
+pretty much the only programming that made it happen once we completed
+our our
+forms:<br>
+      <small>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '
+****************************************************<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' * MAIN GAME
+LOOP&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '
+****************************************************<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DO<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+VSYNC&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' <span style="font-weight: bold;">LOL - nothing at
+all!</span><br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; LOOP<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '
+****************************************************<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' *
+SUBROUTINES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '
+****************************************************<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' Erm... nope,
+we don't have any!<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' END OF FILE&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Actually, this comment is the end of the file.
+Goodbye!<br>
+      </small><br>
+That's right: <span style="font-style: italic;">no programming</span>
+and we've already got this far. The only thing the
+program actually does that you can't see above at this point is take 6
+palettes and put them into 6
+different CLUT slots, then ask U235 to play some music. CLUT loading is
+explained later in the tutorial. U235 MOD playing is probably one of
+the most simple commands there is in rB+ and really needs no
+explanation, just
+take a look at the commented source and all will become clear.<br>
+      <br>
+So the
+game loop so far is nothing more than a screen refresh command... and
+we have 22 sprites on screen, 20 of which are automatically tracking
+and never need to be touched again.<br>
+      <br>
+This is one of the major things raptor can do for us with minimal
+effort - automatic tracking. It's a tiny fraction of what it is capable
+of, but with that lot up and running and the kinds of features we've
+already discussed when completing the sprite definitions, it shouldn't
+take much to get our game (and I hope you've figured out the genre by
+now) to a point where it's functioning as intended. Throw in a little
+bit of logic here
+and there and that's going to be job done bar the finishing touches.<br>
+      <br>
+This
+is exactly what I did. I decided the frog-style game was the best
+candidate for the first steps tutorial (thanks to a chat with CJ), and
+a couple of days
+ago I started drawing the graphics, it's mid-week now and the game is
+in a fully functional, if bare-bones, state. I'm a gfxer, not a
+programmer. I've only ever finished 2 games in BASIC before on the ST -
+a card battle game and a scripted sudoku "adventure" (yes, seriously!),
+never written a "real-time" until now and have never even had to
+consider collision detection or management. I was a collision detection
+virgin until I popped my CD cherry this morning shortly after I opened
+the epic raptor manual. And there's the game, I can play it, my 3 year
+old son can make the cats kill the dog. Hopefully this illustrates how
+easy it can be and that pretty much any of us can do this stuff, it's
+all incredibly
+simple.<br>
+      <br>
+For the pure novice new to all of this, you'll want to know how to
+actually get your program to build and take a look at it in VJ or on
+the Jaguar. To build the program and send to VJ, open the command
+prompt and navigate to the the rB+ root directory, or use the
+functionality of notepad++. You need to...<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">BUILD
+DOGER</span><br>
+      <br>
+or, if you wish to send to the Jaguar via the skunkboard, do this
+instead:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">BUILD
+DOGER SENDY</span><br>
+      <br>
+"SENDY" is my personal choice of phrase, you might find it a little
+silly, so feel free to edit <span style="font-weight: bold;">BUILD.BAT</span>
+to suit your more sensible needs.<br>
+      <br>
+If you do either of these now, you will build the tutorial game in its
+final state. If you're reading through to get more of an understanding
+first before seeing anything else,
+let's carry on.<br>
+      <br>
+      <div style="text-align: center;"><img style="width: 652px; height: 480px;" alt="doger title" src="images/doger-title.png"></div>
+      <br>
+We want to go from a few assets, 2 lists and our trusty VSYNC and end
+up with a game. So when we're presented with something such as the
+problem of how to generate and implement the game logic to make it play
+as we wish, we could just throw ourselves into it and see what happens,
+or we
+could step back and consider the flow, break it down into ever more
+detailed steps and gain an understanding of each element of the game in
+detail before we even type the
+first command. You can do either of those, a combination of them, or
+anything else that works for you.<br>
+      <br>
+I did a bit of both - thought some of it through, got bored, jumped in.
+There are likely far more elegant ways
+to
+work than I did and no doubt far better ways to implement some of the
+routines. I'm not going to let that worry me - I'm only interested
+in the results on screen, personally. So let's take a look through
+what I did and some of the ways rB+ works. I'm not about to teach you
+how to program in BASIC, I'm not qualified and there are plenty of
+online resources you can work through. So now I'll merely
+concentrate on some of the specifics of rB+ with the novice in mind -
+to quickly guide you though what took me weeks of trial and error and
+pestering of GGN and CJ. While this
+is my first "complete" game in rB+ (I think we can agree it's not a
+finished article), it's not my first time playing around in rB+. Here's
+what I've found to be a good first step when you've got your assets and
+done with the lists:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' particle/text
+layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM
+background%&nbsp;&nbsp;&nbsp;&nbsp; :background=1&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;1<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM poulpe1%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :poulpe1=2&nbsp;&nbsp;&nbsp; &nbsp;
+'&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; &nbsp;2<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM poulpe2%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :poulpe2=3&nbsp;&nbsp;&nbsp; &nbsp;
+'&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; &nbsp;3<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM poulpe3%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :poulpe3=4&nbsp;&nbsp;&nbsp; &nbsp;
+'&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; &nbsp;4<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM poulpe4%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :poulpe4=5&nbsp;&nbsp;&nbsp; &nbsp;
+'&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; &nbsp;5<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM poulpe5%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :poulpe5=6&nbsp;&nbsp;&nbsp; &nbsp;
+'&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; &nbsp;6<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan1%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan1=7&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; &nbsp;7<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan2%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan2=8&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; &nbsp;8<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan3%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan3=9&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; &nbsp;9<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan4%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan4=10&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 10<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan5%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan5=11&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 11<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan6%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan6=12&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 12<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan7%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan7=13&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 13<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan8%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan8=14&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 14<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan9%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :nyan9=15&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 15<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan10%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :nyan10=16&nbsp;&nbsp;&nbsp;
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 16<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan11%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :nyan11=17&nbsp;&nbsp;&nbsp;
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 17<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan12%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :nyan12=18&nbsp;&nbsp;&nbsp;
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 18<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan13%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :nyan13=19&nbsp;&nbsp;&nbsp;
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 19<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan14%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :nyan14=20&nbsp;&nbsp;&nbsp;
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 20<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM nyan15%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :nyan15=21&nbsp;&nbsp;&nbsp;
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 21<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM doge%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; :doge=22&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total &nbsp;&nbsp; 22<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM title%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; :title=23&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp; &nbsp; 23<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM dead%&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; :dead=24&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 24<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM
+dogeover1%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:dogeover1=25&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 25<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM dogeover2%&nbsp;&nbsp;&nbsp;
+&nbsp; :dogeover2=26&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 26<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM dogeover3%&nbsp;&nbsp;&nbsp;
+&nbsp; :dogeover3=27&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 27<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DIM dogeover4%&nbsp;&nbsp;&nbsp;
+&nbsp; :dogeover4=28&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 28<br>
+      <br>
+When accessing the sprites you described in your raptor list, you refer
+to them by their
+unique ID number - these start at the top of the list from 0 and count
+up. List out all the sprites from the rapinit file in the same order
+and
+DIMension some variables that equate to their sprite
+number. Now you can use "doge" instead of 22 to put values in and pull
+values from the doge sprite definition, or "title" instead of 23 for
+the title picture. Makes things much easier to work with and more
+maintainable.<br>
+      <br>
+The list actually starts at 0 - above you can see there's an
+object zero "<span style="font-weight: bold;">particle text layer</span>"
+which is the very first sprite in our raptor list in the rapinit file.
+I didn't mention this earlier as it
+is not really used in this game until the very end when the words "well
+doge!" are printed at a random x-position around half way down the
+screen. The particle/text sprite/object/layer - call it
+what you will - is simply the kind of screen you might be used to in
+old fun BASICs from your childhood - you can PLOT to it and PRINT text
+on it, that kind of thing. You can also position it, have multiple
+copies of it, flip it, make it automatically track around, if any of
+that seems a fun things to do. Plenty of possibilities there! There are
+no line drawing and shape drawing
+facilities, simply because we're sat here with the power of the Object
+Processor at our fingertips. If we want to make pretty circles and
+things, we just make sprites for them, or, there's the particle
+function that can be made to do that and
+so much more. What we'll mainly use the particle layer for is some of
+the usual game things such as scores and text displaying. As for
+particles themselves - we'll get to those in a later article.<br>
+      <br>
+With that out of the way, it's not a bad idea to do the game breakdown.
+So Doger should flow something like this:<br>
+      <br>
+      <small style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1. Guide the doge
+past the 15
+nyancats to safety in the centre<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2. Ride the poulpe rafts to the
+far side<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3. 4 holes in the wall offer the
+4 Doge destinations.</small><span style="font-weight: bold;"> </span><br>
+      <br>
+Of
+course, the player can decided to back-track and wander around - so we
+don't want to make this a highly-scripted of the frog-game, we don't
+want any rules that will break what players would expect. So with a
+little bit of thought our game might work if we do something
+like this:<br>
+      <br>
+      <small style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; Read the jagpad
+state and see if
+the player tried to move the doge<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Check if any movements attempted
+are legal within the game rules<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; If they are
+legal, move the doge<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; If he's in the bottom half of the
+screen, check if the doge hit the nyancats when he moved<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; If so, the
+doge needs to die because nyancats are vicious<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; If he's high up the screen, check
+if the doge landed safely on one of the rafts <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; If not, the
+doge needs to die because he fell in the water - he never learned to
+swim.<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Check if the doge jumped into a
+gap at the top<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; If so, well
+done, Doge! We can sit a Doge in the gap and spawn a new Doge at
+the
+bottom.<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Update the screen and loop</small><span style="font-weight: bold;"> </span><br>
+      <br>
+How
+you do this part is all down to personal choice. I chose to keep
+the doge-jumping-into-the-far-gaps part separate from the other upper
+screen movement, mainly because I thought it'd keep things simpler in
+our
+tutorial example. It could just
+as easily have been defined in the general movement rules part, maybe
+with extra objects in the gaps and using collision detection on them,
+but I saw that
+as maybe a little messy given the requirements for an entry-level
+tutorial.<br>
+      <br>
+Implementing these steps in BASIC shouldn't prove too difficult for
+anyone, even a novice such as myself managed it. Look at the flow above
+and see
+how it is described in the BASIC program listing <span style="font-weight: bold;">doger.bas</span>, and how each part is
+broken down into
+manageable little chunks that are easier to track. The only debugging I
+used when writing the game was this:<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">DPOKE BG,64</span><br>
+      <br>
+      <span style="font-weight: bold;">POKE</span>, <span style="font-weight: bold;">DPOKE</span> and <span style="font-weight: bold;">LPOKE</span> are handy little commands that
+let us insert different sized values into specific areas of the
+Jaguar's memory. <span style="font-weight: bold;">PEEK</span>, <span style="font-weight: bold;">DPEEK</span> and <span style="font-weight: bold;">LPEEK</span> are the equivalents for
+reading them. All the above command does is throw the value "64"
+decimal into the Jaguar's <span style="font-weight: bold;">BG-register.</span>
+Away from the CLUT, Jaguar has a separate background colour value. It's
+handy to POKE colours into BG when you want to see how far and when
+your code falls through to certain places, and a lack of change
+indicates it never does. Forget stepping through code in a debugger,
+most ills we'll encounter can be cured with a series of background
+colour switches and maybe a joypad button press delay or two. It's
+simple and obvious, just like us. By the way, the decimal number 64
+equates to a fairly dark green colour in the Jaguar's Red-Blue-Green
+colour system. Play around and find a few friendly colours to use if
+you get stuck and want to check a number of conditions or flows. Better
+yet, sit down and work them out on paper or in your head and see if
+they appear as expected. If it helps, you can DPEEK the current value
+into a variable first and print it to the screen, although it's likely
+to be black (0) if nothing has already set it :0) Here's how (make sure
+you have the text/particle layer positioned correctly and active first
+or you aren't going to see the value!):<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">variable%=DPEEK BG</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+RLOCATE 20,20</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PRINT variable%</span><br>
+      <br>
+I have commented every major area of the program and it should be
+fairly straightforward to see how a rB+ BASIC program listing is
+structured, much like any other BASIC I imagine. Feel free to modify
+and build the program to see how your
+changes affect the game. Become familiar with everything the program
+contains and there will be nothing stopping you making your own
+completely new game or an enhanced version of this one. Feel free to
+share any fun finds or modifications you make, the more input from
+users the better for us all.<br>
+      <br>
+The BCX BASIC website contains all the BCX commands and examples. For
+the rB+ commands, there's a similar but much smaller list on this rB+
+site. So as we've begun discussing some of the rB+ commands above,
+let's look at some of the others I used that are still in the program,
+a few that might not be instantly understandable or might need a little
+exploration.<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">LOADCLUT(strptr(SPRITE_DEAD_clut),5,16)</span><br>
+      <br>
+      <span style="font-weight: bold;">LOADCLUT</span> is used to put
+the colours that belong to an image into the
+Jaguar's Colour Look-Up Table. The images in Doger are all 16 colour.
+The build process creates the palette set if asked to in the assets.txt
+file (by stating gfx_clut instead of gfx_noclut). <span style="font-weight: bold;">SPRITE_DEAD_clut</span>
+is
+the nickname we use to be able to tell rB+ where the colours are
+stored. The "strptr" part simply lets rB+ pass the address location
+itself to the raptor function, rather than the nickname. "5,16" tells
+raptor that we want to put the colours into the 5th CLUT (of the 16
+sub-CLUTs numbered 0 to 15) and to copy all 16 values consecutively.<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">RSETOBJ(doge,R_sprite_y,(doge_y_init&lt;&lt;16))</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+doge_x=RGETOBJ(doge,R_sprite_x)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;</span> <br>
+      <br>
+      <span style="font-weight: bold;">RSETOBJ</span> and <span style="font-weight: bold;">RGETOBJ</span> are the two main
+raptor-interfacing functions. One
+sets values in a sprite definition, the other retrieves them. Usually
+you'll want to do as I did above and store the results of an <span style="font-weight: bold;">RGETOBJ</span>
+into a variable, to keep things simpler. You might prefer to act on the
+results directly.<br>
+      <br>
+      <span style="font-weight: bold;">RSETOBJ</span> passes a sprite
+number, or, as we've set up above, a nice
+friendly nickname variable for the value, so raptor knows which sprite
+definition to alter. The next part tells raptor which part of the
+object we wish to modify, followed by the value you wish to change to.
+Here are the different sprite definition properties that you can edit
+with this function, you should recognise most from the sprite
+definition lists - I gave these equivalents as comments to the far end
+of each comment line:<br>
+      <br>
+      <small>&nbsp;&nbsp;&nbsp; R_sprite_active&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; R_is_active&nbsp;&nbsp;&nbsp;&nbsp;
+R_is_inactive&nbsp;&nbsp;&nbsp;
+set sprite active or inactive<br>
+&nbsp;&nbsp;&nbsp; R_sprite_x &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; x position in
+16.16<br>
+&nbsp;&nbsp;&nbsp; R_sprite_y&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; y
+position in 16.16<br>
+&nbsp;&nbsp;&nbsp; R_sprite_xadd&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; x drift to add
+in 16.16<br>
+&nbsp;&nbsp;&nbsp; R_sprite_yadd&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; y drift to add
+in 16.16<br>
+&nbsp;&nbsp;&nbsp; R_sprite_flip&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+R_is_normal&nbsp;&nbsp;&nbsp;&nbsp;
+R_is_flipped&nbsp;&nbsp;&nbsp;&nbsp; if set, add _width to X and set
+mirror<br>
+&nbsp;&nbsp;&nbsp; R_sprite_width&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; pixel width of
+sprite<br>
+&nbsp;&nbsp;&nbsp; R_sprite_height&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+pixel height
+of sprite<br>
+&nbsp;&nbsp;&nbsp; R_sprite_vbox&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; vertical
+distance from midpoint for collision detection<br>
+&nbsp;&nbsp;&nbsp; R_sprite_hbox&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; horizontal
+distance from midpoint for collision detection<br>
+&nbsp;&nbsp;&nbsp; R_sprite_gfxbase&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; address of
+graphic bitmap data - you can adjust this to animate<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; sprites manually,
+see next entry<br>
+&nbsp;&nbsp;&nbsp; R_sprite_framesz &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size of sprite
+frame in bytes (offset to next frame)<br>
+&nbsp;&nbsp;&nbsp; R_sprite_framedel&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vertical
+blanks until next sprite animation frame<br>
+&nbsp;&nbsp;&nbsp; R_sprite_curframe&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; current frame
+number (or 0 for no frames)<br>
+&nbsp;&nbsp;&nbsp; R_sprite_maxframe&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maximum frame
+value (last frame)<br>
+&nbsp;&nbsp;&nbsp; R_sprite_animloop&nbsp;&nbsp;&nbsp;&nbsp;
+R_ani_rept&nbsp;&nbsp;&nbsp;
+&nbsp; R_ani_once&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; loop animation forever
+or just
+play once<br>
+&nbsp;&nbsp;&nbsp; R_sprite_wrap&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+R_edge_wrap&nbsp;&nbsp;&nbsp;&nbsp;
+R_edge_kill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wrap or make inactive on
+leaving
+screen<br>
+&nbsp;&nbsp;&nbsp; R_sprite_timer&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+#of frames&nbsp;&nbsp;&nbsp;
+&nbsp; R_spr_inf &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; number of frames to
+stay alive or
+infinite<br>
+&nbsp;&nbsp;&nbsp; R_sprite_track&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+R_spr_linear&nbsp;&nbsp;&nbsp;
+PTR to x.y&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; use
+drift values above or a pointer to a table
+containing a list<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; of x and y values<br>
+&nbsp;&nbsp;&nbsp; R_sprite_colchk&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+R_can_hit&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; R_cant_hit&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; is sprite to be
+checked by
+collision detection routine<br>
+&nbsp;&nbsp;&nbsp; R_sprite_scaled &nbsp;&nbsp;&nbsp;
+&nbsp; R_spr_scale&nbsp;&nbsp;&nbsp;&nbsp;
+R_spr_unscale&nbsp;&nbsp;&nbsp;
+is sprite to be scaled<br>
+&nbsp;&nbsp;&nbsp; R_sprite_scale_x&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; x-scale value.
+32 is 1:1<br>
+&nbsp;&nbsp;&nbsp; R_sprite_scale_y&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; y-scale value.
+32 is 1:1<br>
+&nbsp;&nbsp;&nbsp; R_sprite_CLUT&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+#of CLUT&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; R_no_CLUT&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; which
+CLUT to use or none for
+16-bit and 24-bit sprites<br>
+&nbsp;&nbsp;&nbsp; R_sprite_animspd&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; frame delay
+between animations<br>
+&nbsp;&nbsp;&nbsp; R_sprite_bytewid&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; width of one
+scanline of sprite in bytes<br>
+&nbsp;&nbsp;&nbsp; R_sprite_tracktop&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; loop point for
+tracking, or -1 for exit<br>
+&nbsp;&nbsp;&nbsp; R_sprite_was_hit&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; set to +ve by
+the collision routine if sprite hit<br>
+&nbsp;&nbsp;&nbsp; R_sprite_coffx&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; offset from
+centre of sprite for x collision box location<br>
+&nbsp;&nbsp;&nbsp; R_sprite_coffy&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; offset from
+centre of sprite for y collision box location<br>
+&nbsp;&nbsp;&nbsp; R_sprite_remhit&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+R_cd_keep&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; R_cd_remove&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; condition to
+keep or remove when
+hit in collision detection<br>
+&nbsp;&nbsp;&nbsp; R_sprite_bboxlink&nbsp;&nbsp;&nbsp;&nbsp;
+-1&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; or pointer to
+bounding box link data<br>
+&nbsp;&nbsp;&nbsp; R_sprite_hitpoint&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hit-points of
+damage to take before removal<br>
+&nbsp;&nbsp;&nbsp; R_sprite_damage&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; hitpoint
+damage to deal<br>
+&nbsp;&nbsp;&nbsp; R_sprite_flash&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+make sprite
+blink<br>
+&nbsp;&nbsp;&nbsp; R_sprite_gwidth&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; graphics
+width
+in bytes (has to be correctly aligned in memory)</small><br>
+      <br>
+You
+should be able to quite easily marry those up with the sprite
+definitions and see how altering some of those properties could allow
+for all kinds of features and effects in your games. I also listed the
+R_ versions above in the sprite definition comments to help in this
+regard - over to the far right.<br>
+      <br>
+Now to the "<span style="font-weight: bold;">&lt;&lt;16</span>" when
+passing x and y values to the sprite
+definition. Remember the 0,0 or 100,0 - we had whole number parts and
+fractional parts, but did not enter anything for the fractional ones. <span style="font-weight: bold;">16.16 sub-pixel accuracy</span>: 16-bits to
+describe the whole number and
+16-bits to describe the fraction of 1 pixel width. When passing whole
+numbers
+to raptor for these, we have to shift the value to the left by 16
+places to make sure it lands in the correct place, otherwise, without
+it, we'd just be putting a tiny number in the fractional part and
+probably notice no difference and end up scratching our heads (and, at
+first, you might do this a lot - I certainly have!). The fractional
+part has the range 0 to 65535... so you can see how putting a regular
+x- or y-value in here will result in only WTFs as nothing seems to be
+happening. If you want to pass a
+fractional part, remember it is always a positive value, whereas the
+whole part can obviously be negative. So if you need to describe say a
+negative drift of half a pixel, you have to first set the fractional
+part to a half, (65535/2= 32768), then set the whole part to -1,
+(-1&lt;&lt;16), with the net effect of -1 + 1/2 giving -1/2. Once you
+get this into your head it becomes second nature, it can just seem a
+little awkward at first.<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">pad1=GETPAD(1)</span><br>
+      <br>
+      <span style="font-weight: bold;">GETPAD(1)</span> and <span style="font-weight: bold;">GETPAD(2)</span> have the U235 controller
+handling functions
+grab the button states of the joypads and pack them into a single value
+for speedy and efficient transfer to our program. Once we receive this
+packet we can open it up and check the contents. There are two ways to
+do this, one a tiny bit simpler but less useful, the other is more
+powerful but not initially as straight forward.<br>
+      <br>
+The simple way will check for one and only one button press:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">IF
+pad1=PAD_UP THEN</span><br>
+      <br>
+If someone presses UP and only UP, the condition will be true and the
+commands within the IF...ENDIF statement will be executed. However, if
+they press UP and B at the same time, the value in pad1 will not = the
+constant value that PAD_UP describes. Sometimes this might be useful,
+but usually you'll want to be able to check for any one of a number of
+buttons pressed with or without others. Take a look at this line form
+the program to see how it is done:<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">IF (pad1 BAND PAD_UP AND
+doge_y&gt;=(64&lt;&lt;16))</span><br>
+      <br>
+      <span style="font-weight: bold;">BAND</span> takes the value of
+pad1 at the zeros and ones level and compares
+it with the bits set in the constant value described by <span style="font-weight: bold;">PAD_1</span>. Imagine
+if a 32-bit number stored all the possible states of the joypad. 0000
+0000 0000 0000 might describe no joypad activity at all. 0000 0000 0000
+0001 might describe UP. 1000 0000 0000 0000 might describe C. 1000 0000
+0000 0001 would be what rB+ receives back if both UP and C are pressed
+at the same time and nothing more. So you can see if we were to do the
+first check
+above, IF pad1=UP, it's simple to see why it wouldn't work here. What <span style="font-weight: bold;">BAND</span> does is allow us to check for
+just the presence of the bits in the
+returned value. So both pad1 BAND PAD_UP and pad1 BAND PAD_C would
+result in positive hits and allow flow to continue inside a conditional
+statement such as IF...THEN. I believe the numbers above do actually
+tally with those used by linko's U235SE joypad handling routines, but
+as an example it doesn't matter to us one way or the other :0)<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">IF
+RHIT(doge,doge,nyan1,nyan15)&lt;&gt;-1 THEN</span><br>
+      <br>
+      <span style="font-weight: bold;">RHIT</span> calls the sprite
+collision detection routines. Above, the source
+start is doge, the source end is also doge - so the source is just the
+one sprite. The target start is nyan1 and the target end is nyan15 - so
+the target is the range of sprites nyan1 to nyan15. So we're checking
+the doge vs all the nyancats. We can either act on the returned value
+directly, as above, or store it in a variable. What is does is return
+the value "1" if something - *anything* - was hit in the target range.
+As it doesn't matter to us which one we hit, all nyancats are equally
+lethal, this is enough for us to kill off the Doge and reset him. If we
+wished to manage the target sprites (for instance, if we were checking
+a bullet vs a crown of enemies) we would see the "1" flagged and then
+have to RGETOBJ for each sprite in turn to see which one/which ones had
+their own personal hit detection flag set to "1" (this is why we
+initially set them to -1 when setting up the sprite definitions. We
+could then act on that by resetting the value to -1, killing the
+sprite, moving it, having it scale, whatever we feel appropriate for
+the game we're making when a bullet hits an enemy ship.<br>
+      <br>
+Now compare that to this:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">IF
+RHIT(poulpe1,poulpe5,doge,doge)&lt;&gt;1 THEN</span><br>
+&nbsp;&nbsp;&nbsp; <br>
+The first one was checking the Doge vs a range of other sprites and
+looking for anything other than -1 to check for a collision. This one
+checks a range of sprites vs the Doge and wants to know if anything
+other than a 1 is seen. A poulpe vs Doge collision, i.e. the Doge
+landing on the raft, is a good thing in our game - we want to know when
+he's on them, that's what keeps him alive while his y-value sees him
+high up the screen. As soon as the Doge jumps off a raft or completely
+misses the first one and lands in the water, the collision detection
+sees no collision and no longer returns the value we're looking for.
+Just be careful to set up the sprites with initial values that will
+work for the whole of your program or game, otherwise you'll be tasked
+with managing them more closely.<br>
+      <br>
+Future tutorials will see us use collision detection in a way where we
+will need to reset and manage the flagged sprites as collisions occur,
+unlike here here where all game flow could be managed using just the
+global collision flag.<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><br>
+Everything else in the program should be self-explanatory. Use the <a href="http://www.bcxbasic.com/webhelp/BCXHelp.htm" target="_blank">BCX
+BASIC Help website</a> or the
+BCXBasic.chm windows help file file found within the rB+ package for a
+full list of commands with examples. Beware - some commands will fail,
+some might give odd results, some might be slow to execute, many will
+function perfectly. There's a small measure of trial and error, but
+feel free to contact us for any clarification, questions, comments and
+bug reports before we get around to supplying you with a more
+Jaguar-targeted version of BCX help.<br>
+<br>
+      <a href="tutorial1-1.html">&lt;&lt; rB+
+tutorials :: 1.1 the rB+ game application forms &lt;&lt;</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="tutorial1-3.html">&gt;&gt;rB+
+tutorials :: 1.3 conclusion&gt;&gt;</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br style="font-family: monospace;">
+
+<br style="font-family: monospace;">
+
+</body></html>

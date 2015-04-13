@@ -44,6 +44,7 @@ void SNDVOLRESET(int v) asm("SNDVOLRESET");
 void SNDPLAYFREQ(int v,int x,int y) asm("SNDPLAYFREQ");
 void loadclut(unsigned short *paladdress, short target_clut, short no_of_indices) asm("loadclut");
 int fadepal(int clut_no,int fade_cols,int *palette) asm("fadepal");
+int fadesingle(short clut_index,short target_col) asm("fadesingle");
 extern int U235SE_pad1 asm ("U235SE_pad1");
 extern int U235SE_pad2 asm ("U235SE_pad2");
 extern int U235SE_music_vol asm ("U235SE_music_vol");
@@ -102,6 +103,15 @@ static unsigned int U235_commands[2]={0,0};
 //	"jsr		Audio_Play\n\t"
 //	"movem.l (sp)+,d0/a0/d1/d2/d3");
 //}
+// -----------------------------------------------------------------------------
+int fadesingle(short clut_index,short target_col)
+{
+	__asm__ ("\tmove.l d1,-(a7)\n\t"
+	"move.l 10(a6),d1\n\t"
+	"move.l 8(a6),d0\n\t"
+	"jsr RAPTOR_fade_clutindex\n\t"
+	"move.l (a7)+,d1");	
+}
 // -----------------------------------------------------------------------------
 int fadepal(int clut_no,int fade_cols,int *palette)
 {

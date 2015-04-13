@@ -67,6 +67,8 @@ void loadclut(unsigned short *paladdress, short target_clut, short no_of_indices
 extern void RAPTOR_particles_GPU_erase() asm ("RAPTOR_particles_GPU_erase");
 extern void RAPTOR_particles_GPU_plot() asm ("RAPTOR_particles_GPU_plot");
 extern void RAPTOR_fade_clut() asm ("RAPTOR_fade_clut");
+extern void RAPTOR_fade_clutindex() asm ("RAPTOR_fade_clutindex");
+extern int fadesingle(short clut_index,short target_col) asm("fadesingle");
 int fadepal(int clut_no,int fade_cols,int *palette) asm("fadepal");
 extern short raptor_fade_delay asm("raptor_fade_delay");
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");

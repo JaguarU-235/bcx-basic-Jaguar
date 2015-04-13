@@ -2,54 +2,70 @@
 
 enum
 {
-    R_sprite_obj      = 0,   // pointer to object in OL
-    R_sprite_active   = 4,   // active flag (-1 = inactive)
-    R_sprite_x        = 8,   // x position in 16.16
-    R_sprite_y        = 12,  // y position in 16.16
-    R_sprite_xadd     = 16,  // x velocity to add in 16.16
-    R_sprite_yadd     = 20,  // y velocity to add in 16.16
-    R_sprite_flip     = 24,  // if set, add _width to X and set mirror
-    R_sprite_width    = 28,  // width of sprite
-    R_sprite_height   = 32,  // height of sprite
-    R_sprite_vbox     = 36,  // vertical distance from midpoint for collision clipping
-    R_sprite_hbox     = 40,  // horizontal distance from midpoint for collision clipping
-    R_sprite_gfxbase  = 44,  // pointer to phrase aligned sprite bitmap data
-    R_sprite_framesz  = 48,  // size of sprite frame in bytes (offset to next frame)
-    R_sprite_framedel = 52,  // vblanks till next sprite animation frame
-    R_sprite_curframe = 56,  // current frame number (or 0 for no frames)
-    R_sprite_maxframe = 60,  // maximum frame for sprite
-    R_sprite_animloop = 64,  // -1 = loop animation, 1=terminate on loop
-    R_sprite_wrap     = 68,  // flag for wrap or disable on leaving screen
-    R_sprite_timer    = 72,  // frames to stay alive, or -2 for infinite
-    R_sprite_track    = 76,  // -1 = use fract update, else pointer to x.y co-ords
-    R_sprite_colchk   = 80,  // -1 = no collision detection
-    R_sprite_scaled   = 84,  // -1 = unscaled, 1 = scaled
-    R_sprite_scale_x  = 88,  // x-scaler
-    R_sprite_scale_y  = 92,  // y-scaler
-    R_sprite_CLUT     = 96,  // -1 for no change, else CLUT to use for sprite if <16bit
-    R_sprite_animspd  = 100, // animation speed
-    R_sprite_bytewid  = 104, // width of one scanline of sprite in bytes
-    R_sprite_tracktop = 108, // loop point for tracking, or -1 for exit
-    R_sprite_was_hit  = 112, // set to +ve if by the collision routine if sprite hit
-    R_sprite_coffx    = 116, // offset from center for bounding box (hbox)
-    R_sprite_coffy    = 120, // offset from center for bounding box (vbox)
-    R_sprite_remhit   = 124, // 1 = remove if hit, else leave onscreen
-    R_sprite_bboxlink = 128, // -1, or pointer to bounding box link data
-    R_sprite_hitpoint = 132, // hitpoints of damage to take before removal
-    R_sprite_damage   = 136, // damage to deal
-    R_sprite_flash    = 140, // make sprite blink
-    R_sprite_gwidth   = 144, // graphics width
-    R_sprite_unused01 = 148,
-    R_sprite_unused02 = 152,
-    R_sprite_userdat1 = 156,
-    R_sprite_userdat2 = 160,
-    R_sprite_userdat3 = 164,
-    R_sprite_userdat4 = 168,
-    R_sprite_userdat5 = 172,
-    R_sprite_userdat6 = 176,
-    R_sprite_userdat7 = 180,
-    R_sprite_userdat8 = 184
+	R_sprite_obj				=0,		// pointer to object in OL
+	R_sprite_active				=4,		// active flag (-1 = inactive)
+	R_sprite_x					=8,		// x position in 16.16
+	R_sprite_y					=12,	// y position in 16.16
+	R_sprite_xadd				=16,	// x velocity to add in 16.16
+	R_sprite_yadd				=20,	// y velocity to add in 16.16
+	R_sprite_flip				=24,	// if set, add _width to X and set mirror
+	R_sprite_width				=28,	// width of sprite
+	R_sprite_height				=32,	// height of sprite
+	R_sprite_vbox				=36,	// vertical distance from midpoint for collision clipping
+	R_sprite_hbox				=40,	// horizontal distance from midpoint for collision clipping
+	R_sprite_gfxbase			=44,	// pointer to phrase aligned sprite bitmap data
+	R_sprite_framesz			=48,	// size of sprite frame in bytes (offset to next frame)
+	R_sprite_framedel			=52,	// vblanks till next sprite animation frame
+	R_sprite_curframe			=56,	// current frame number (or 0 for no frames)
+	R_sprite_maxframe			=60,	// maximum frame for sprite
+	R_sprite_animloop			=64,	// -1 = loop animation, 1=terminate on loop
+	R_sprite_wrap				=68,	// flag for wrap or disable on leaving screen
+	R_sprite_timer				=72,	// frames to stay alive, or -2 for infinite
+	R_sprite_track				=76,	// -1 = use fract update, else pointer to x.y co-ords
+	R_sprite_colchk				=80,	// -1 = no collision detection
+	R_sprite_scaled				=84,	// -1 = unscaled, 1 = scaled
+	R_sprite_scale_x			=88,	// x-scaler
+	R_sprite_scale_y			=92,	// y-scaler
+	R_sprite_CLUT				=96,	// -1 for no change, else CLUT to use for sprite if <16bit
+	R_sprite_animspd			=100,	// animation speed
+	R_sprite_bytewid			=104,	// width of one scanline of sprite in bytes
+	R_sprite_tracktop			=108,	// loop point for tracking, or -1 for exit
+	R_sprite_was_hit			=112,	// set to +ve if by the collision routine if sprite hit
+	R_sprite_coffx				=116,	// offset from center for bounding box (hbox)
+	R_sprite_coffy				=120,	// offset from center for bounding box (vbox)
+	R_sprite_remhit				=124,	// 1 = remove if hit, else leave onscreen
+	R_sprite_bboxlink			=128,	// -1, or pointer to bounding box link data
+	R_sprite_hitpoint			=132,	// hitpoints of damage to take before removal
+	R_sprite_damage				=136,	// damage to deal
+	R_sprite_flash				=140,	// make sprite blink
+	R_sprite_gwidth				=144,	// graphics width
+	R_sprite_rmotion			=148,	// pointer to RMotion animation
+	R_sprite_rmcurfrm			=152,	// RMotion internal
+	R_sprite_rmfrm				=156,	// RMotion internal
+	R_sprite_userdat1			=160,
+	R_sprite_userdat2			=164,
+	R_sprite_userdat3			=168,
+	R_sprite_userdat4			=172,
+	R_sprite_userdat5			=176,
+	R_sprite_userdat6			=180,
+	R_sprite_userdat7			=184
 };
+
+/*
+particle_tabwidth		equ				44								; bytewidth of a single particle entry in particle database (below)
+particle_active			equ				0								; particle in use flag
+particle_x				equ				4								; x position in 16.16 format
+particle_y				equ 			8								; y position in 16.16 format
+particle_angle			equ 			12								; angle (0-511) 0=right
+particle_speed			equ				16								; speed of particle 
+particle_angspd			equ 			20								; angular speed of particle (+=clockwise/-=anticlock)
+particle_colour			equ				24								; initial colour (0-15)
+particle_coldec			equ				28								; colour decay rate (in frames)
+particle_curdec			equ				32								; counter for above
+particle_life			equ				36								; pixel timetime (in frames)
+particle_address		equ				40								; position in ram where particle was ploted (used to clear)
+*/
+
 
 // changes for BRA objects
 //

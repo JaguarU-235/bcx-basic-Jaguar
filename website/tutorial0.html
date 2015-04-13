@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + getting started</title></head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+      <td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="contact.html">contact<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="links.html">links<br>
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;"><span style="font-family: monospace;">rB+ tutorials :: 0 for the absolute
+beginner</span> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><br>
+      <small>&nbsp;&nbsp; </small><span style="font-family: monospace;">This
+text and the following tutorial
+documents are intended to help guide anyone interested in the
+possibilities of rB+. This first one will to give a brief, simplified
+and friendly picture of what the Jaguar is and how rB+ might allow you
+to get creative and productive with your console. Rather than a
+tutorial discussing how to program in BASIC, subsequent parts will
+cover more of the raptor-specific side of rB+, the general flow and
+organisation of a project, and a simple background to how it all comes
+together as software on your Jaguar or Virtual Jaguar.<br>
+      <br>
+DISCLAIMER: This isn't a technical document. Further episodes are
+likely to remain as equally devoid of technical facts and figures. It
+exists solely to help put people in the right frame of mind regarding
+the workings of the Jaguar, raptor and rB+. To achieve this, it
+over-simplifies quite liberally to keep things in a comfortably safe
+realm that parallels the very reason for rB+'s existence.<br>
+      <br>
+raptor BASIC plus - rB+ - is Reboot's most recent attempt to lower the
+bar for would-be developers, to break down yet more barriers preventing
+people becoming active on the open platform Jaguar. It is built on the
+technology that was created to form raptor. Throughout the years of
+Jaguar's homebrew infancy and all the way through to today, many people
+have contributed to the Jaguar cause by releasing their libraries,
+discovering tricks and tips and sharing their knowledge. Now things
+take a slightly different turn - this is finally it, thanks to all that
+came before, we're now at the point where anyone and everyone gets to
+give it a go... where creativity and flair are given the chance to
+one-up past efforts as a broader spectrum of designers, tinkerers and
+curious kids with a few spare hours finally get to participate without
+having to do all the homework.<br>
+      <br>
+At least, that would be the case in an ideal world. As things stand
+there's a rather large barrier preventing much of this - documentation.
+That's something I plan to address with this website and a series of
+tutorials and mini features. What you are reading now is part zero.
+This is where we get things correctly aligned in our heads before we
+type a single line of code or define our first sprite.<br>
+      <br>
+So that's rB+ - what actually is raptor?<br>
+      <br>
+raptor is CJ's hardware-abstracting package designed to take much of
+the grind out of game development on Jaguar, to keep developers busy
+with more of the fun aspects of making games rather than lost in
+technicalities and reinventing the wheel each time a new project is
+undertaken. rB+ is the vehicle for placing this power into the hands of
+a broader user-base: raptor for all.<br>
+      <br>
+If you're new to Jaguar or, like myself, have only a passing knowledge
+of the hardware specifics, this text will hopefully prove helpful in
+getting you thinking the "Jaguar way" and similarly the "raptor way"
+and remove any lingering fears after downloading the package and being
+presented with all those scary .S files and only the fairly technical
+raptor manual for company (designed for assembler coders, not BASIC
+programmers). This is where we get past all that and break down any
+misconceptions we might have and build a clear and simple picture of
+the framework we'll work within.<br>
+      <br>
+I'm hopefully assuming nothing here. You may be familiar with creating
+games on other platforms, in BASIC or more low-level languages, if so
+you likely have a greater understanding of game creation than myself.
+OTOH, you could just be an avid Jaguar fan who has never even
+considered how to make a game but have spied the potential opportunity
+to dip a toe into Jaguar programming, something you might never have
+expected. Wherever you sit along that line, hopefully you'll shortly be
+in a better position and feel confident to give it a go. A few minutes
+from now you'll be able to begin thinking how rB+ can allow you to
+explore your creative ideas and realise them as software running on the
+machine.</span><small><br>
+      </small><span style="font-family: monospace;"><br>
+So what we're going to concentrate on first is the way the Jaguar
+builds the display we see on our TVs. This is fundamental and something
+we need to get right before going any further. We often read about how
+powerful the Jaguar is for 2D games, but do we know why this is so? It
+constructs the display we see with the use of its powerful 64-bit
+Object Processor (OP), but this processor is not one we have to
+directly program, it basically just digests a listed description of
+what we want to see on screen and constructs it. You could think of it
+as reading blueprint of what we want to see, seeing a list of the
+building blocks and where to find them, and then going off to build it
+for us. The blueprint is the Object List; the building blocks are
+objects or, as we'll be referring to them because it's friendlier,
+sprites, and the display on screen is nothing more than a collage of
+these sprites. Oddly, that collage is not something that actually ever
+exists as a whole...<br>
+      <br>
+Instead of having dedicated video memory, somewhere we copy all these
+sprites to in order to create the whole scene, Jaguar produces the
+display a single line at a time, up to 50 or 60 times a second for
+every row of pixels that form our view on screen. Working this way,
+Jaguar only ever has to think about just those sprites involved in
+building a single row of pixels, line by line. That's worth giving some
+thought, so maybe it's a good time to go make a hot, strong cup of
+something and consider what implications that might have. Get the cogs
+turning the right way.<br>
+      <br>
+If you went for that drink, hopefully you're already thinking of some
+of the advantages to this method of managing the display and maybe even
+a potential problem or two that might arise. If you've realised that a
+single block of graphics data in memory can be used to describe any
+number of objects or sprites on screen without using any more memory,
+good work. That's obviously something rB+ lets you take full advantage
+of. You could have a single sprite or 50 sprites over an empty
+background, all based on the same block of graphics in RAM, both
+effectively being equal in terms of memory usage - just one sprite's
+worth. If you're worriedly considering how the OP might handle all 50
+of these objects on one line at a time, your concern is noted. However,
+Jaguar is powerful and you'll come to get a feel for what is and what
+is not possible as your experience grows. Half the fun is finding out
+the limits of what you can get away with and tricks to get around the
+problems.<br>
+      <br>
+Jaguar's object handling allows for a little code and some simple list
+scripting to be translated into often quite complex scenes and
+movements on screen, that's all thanks to the OP. raptor has it's own
+lists that mirror these OP lists and manages them in the background.
+rB+ allows simple but powerful manipulation of these raptor lists that
+describe the objects we see. There's nothing particularly difficult
+about setting up the lists, in fact it's just like filling in a form.
+Each list is made up of a series of standard sprite definitions. These
+definitions are nothing more than a series of properties that combine
+to describe a sprite's look and movements - such as number of colours,
+size, position on screen, and also automated properties that tick over
+in the background without programmer intervention such as animation and
+drift. There are also standard Jaguar features such as scaling,
+horizontal flipping and windowing on larger bitmaps, made possible just
+by defining or re-defining a sprite's properties. It's simple but
+powerful stuff.<br>
+      <br>
+Now we're getting a feel for how the Jaguar does its 2D magic, it's
+maybe time to take a look at a single raptor/rB+ sprite definition and
+examine the majority of the properties. I had considered not touching
+on any of this stuff just yet, but I think it would help give more of a
+flavour of the possibilities and demystify things further if we do this
+now. A raptor list is nothing more than a series of these sprite
+definitions with a few markers here and there to allow raptor to manage
+them appropriately. The most potentially troublesome thing, and I
+believe this is why some people instantly baulked at the idea of rB+ as
+"requires assembler knowledge" (absolutely, categorically untrue) is
+that the list itself is contained in a hideously terrifying .S file.<br>
+      </span><span style="font-family: monospace;"><br>
+An .S file!<br>
+      <br>
+Oh no! That must mean it's difficult, right? Well... in all fairness,
+it can and does look a little daunting the first time you come face to
+face with it. But there is really nothing to fear, as I said, it's just
+a blank form that is hungry for our numbers. Let's take a look at a
+pseudo-entry converted to slightly friendlier English. Everything here
+is directly comparable to an actual sprite definition.<br>
+      <br>
+      </span><span style="font-family: monospace;">Simplified sprite
+definition </span><br>
+      <br>
+      <table style="text-align: left; width: 840px; margin-left: 0px; margin-right: auto; height: 1384px;" border="1" cellpadding="2" cellspacing="2">
+        <tbody>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Sprite property</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Sprite property value</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Description</span></td>
+          </tr>
+          
+          <tr>
+            <td style="vertical-align: top;"><span style="font-weight: bold;"></span><span style="font-family: monospace;">How
+many sprites like this one? <br>
+            </span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">1</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">You can ask raptor to make 1 or more
+of the sprite, to save defining say 10 of the same enemy ship for
+example.</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Is the sprite active?</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">yes</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Yes means it will display when the
+list is processed by the OP, no means... you guessed it</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Where will it display in x?</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">150</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Distance from left side of screen for
+sprite to sit. This is the top left corner of the sprite.</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Where will it display in y? <br>
+            </span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;"> 50</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Distance down from the top of the
+screen for the sprite to sit. Also the top left corner of the sprite</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Horizontal drift</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">1<br>
+            </span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">The sprite will move OVER one pixel
+from the left to the right every time the list is updated,
+automatically.</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Vertical drift</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">-2</span></td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">The sprite will move UP two pixels
+from the bottom to the top every time the list is</span><span style="font-family: monospace;"> updated, automatically.</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Sprite width</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">64</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">The sprite is 64 pixels wide</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Sprite height</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">32</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">The sprite is 32 pixels tall</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Flip sprite?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">No</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">The sprite is not mirrored by the
+Jaguar hardware,
+so displays regularly.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Collision box details&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">width,height,distance from </span><span style="font-family: monospace;">centre of
+sprite</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">These 4 values are used for collision
+detection - so
+you can set up an object that is able to be checked against others to
+see if they collided - for instance an
+enemy and your bullets or your bullet and many enemies or many bullets
+vs many enemies.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Location</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">BMP_CAR_SPRITE</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Just a nickname used to tell raptor
+where the graphics for this sprite sit in memory - you create this
+label nickname i</span><span style="font-family: monospace;">n another
+file where all the
+graphics, music and other extras are listed.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Graphics depth</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">16-bits</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Can be
+anything supported from 1-bit per pixel to 24-bits per pixel.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Graphics type&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">RGB</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This tells raptor that the graphics in
+RAM are
+regular Red/Green/Blue.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Transparent?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Yes&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Do you want the background colour of
+the sprite to
+paint over the objects beneath it or do you want that colour to be
+transparent and
+let the other colour beneath show through?</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">2x Sprite size in memory stuff</span> </td>
+            <td style="vertical-align: top;"><br>
+            </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;"></span> <span style="font-family: monospace;">These two are
+not pixel sizes, but the memory footprint they have. Basically
+dimensions x bit-depth</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Animation speed</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">0</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;"></span> <span style="font-family: monospace;">An animation speed of
+0 will update the sprite
+animation every time the list is updated. 1 would wait until after
+the Jaguar is building the next screen, 2 would wait for it to do this
+twice and
+so on.</span></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Number of additional frames of
+animation</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">7</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This sprite has a total of 8
+frames of animation, the 1 we described and 7 more like it following on.</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Repeat the animation?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Yes</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This sprite
+will animate fully and the loop back to the start and begin again.</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Edge wrap?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Yes</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">If the sprite wanders off the
+edges of the screen, it will come back on at the other side.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">How long do you want it active?</span>
+            </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">infinite</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This sprite won't fade away after
+a given time, it'll stay awake until we tell it otherwise.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Track a path?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">No</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This sprite won't use a special
+tracking file to
+describe how it moves</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">If you want it to track, where is it?</span>
+            </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">n/a&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">If we had it
+tracking, we could tell raptor where we keep the tracking path in RAM</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">scale sprite?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Yes</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">We've told raptor we want this sprite
+to be able to
+be scaled</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">x-scale?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">original</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">We do not want
+to scale it horizontally</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">y-scale?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">3x</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">We want the sprite scaled
+vertically x3 - so it'll be 96 pixels high (32*3)</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Was it hit?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">No</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">There's a flag here that raptor
+can set to tell us something hit it if we're using collision.</span><span style="font-family: monospace;"> We're setting it to not be
+flagged at start.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Colour table?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">N/A</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">For 1, 2, 4 and 8-bit graphics, we can
+specify which
+table of colours this object uses. Our object is 16-bit and
+therefore does not need a colour table, every pixel is described
+directly by the image, rather than as
+an index to a list of colour values.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Can this one be hit?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">No</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This object is
+not going to be used for collision checking.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">What will raptor to do if it gets
+hit?&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Nothing&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">You could tell raptor to remove
+the sprite if it gets hit.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Special collision box?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Normal</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">You can tell raptor to go look
+for a description of a special collision box description for non-boxy
+shapes.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">How many hits?&nbsp;</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">N/A</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This tells raptor how many times this
+sprite can be
+hit before it is removed</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">How hard does it hit?</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">N/A</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This tells raptor how hard this
+objects hurts another.</span> </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">Special width info</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;"> N/A</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This helps us handle objects that are
+windows into a
+larger graphic areas.</span> </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <span style="font-family: monospace;">And that's pretty much all
+there is to it. A raptor list essentially
+just consists of a number of entries like the one above. Most entries
+in there can be directly tinkered with from within rB+ once your
+program is up and running, and this is how the game creation begins. In
+reality it's slightly more involved and requires a little more
+understanding of different types of numbers and how they are used, but
+nothing that a little experimentation won't easily put to bed. It'll
+all make even more sense in the next part when we put this into
+practise and actually begin making things happen on screen. Until then,
+read through the sprite definition a couple more times and familiarise
+yourself with the properties and consider how you might modify those
+properties to make wonderful things happen on screen :0)</span><br>
+      <small style="font-weight: bold;">&nbsp; </small><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br style="font-family: monospace;">
+
+<br>
+
+</body></html>

@@ -1,0 +1,913 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + tutorial 1.4</title></head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+<tbody>
+<tr>
+<td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+<td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+</td>
+<td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+</td>
+<td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+</a></td>
+<td style="vertical-align: top;"><a href="contact.html">contact<br>
+</a></td>
+<td style="vertical-align: top;"><a href="links.html">links<br>
+</a></td>
+</tr>
+</tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;">rB+
+tutorials :: 1.4 Doger program listing<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><br>
+      <small>' Doger: super simple project by sh3-rg. Reboot 2015<br>
+' This is the first tutorial game for absolute beginners...<br>
+      <br>
+' ****************************************************<br>
+' * OBJECT NAMES IN ORDER OF APPEARANCE IN rapinit.s *<br>
+' ****************************************************<br>
+'<br>
+' Below is a suggested but not mandatory method of organising<br>
+' &nbsp;&nbsp;&nbsp; your sprites defined in rapinit.s<br>
+' It keeps things simple with humanly-readable names and helps<br>
+'&nbsp;&nbsp;&nbsp; manage sprites even if you add in sprites between
+others<br>
+'&nbsp;&nbsp;&nbsp; during development.<br>
+' It's possible to partially automate this with ENUM.<br>
+      <br>'
+particle/text
+layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0<br>
+      <br>
+DIM background%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+:background=1&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; &nbsp;1<br>
+DIM poulpe1%&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:poulpe1=2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;2<br>
+DIM poulpe2%&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+:poulpe2=3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;3<br>
+DIM poulpe3%&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+:poulpe3=4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;4<br>
+DIM poulpe4%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe4=5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;5<br>
+DIM poulpe5%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+:poulpe5=6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;6<br>
+DIM nyan1%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan1=7&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;7<br>
+DIM nyan2%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan2=8&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;8<br>
+DIM nyan3%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan3=9&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp;
+&nbsp;9<br>
+DIM nyan4%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan4=10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 10<br>
+DIM nyan5%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan5=11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 11<br>
+DIM nyan6%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan6=12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 12<br>
+DIM nyan7%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan7=13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 13<br>
+DIM nyan8%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan8=14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 14<br>
+DIM nyan9%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan9=15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 15<br>
+DIM nyan10%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan10=16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 16<br>
+DIM nyan11%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan11=17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 17<br>
+DIM nyan12%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan12=18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 18<br>
+DIM nyan13%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan13=19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 19<br>
+DIM nyan14%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan14=20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 20<br>
+DIM nyan15%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:nyan15=21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 21<br>
+DIM doge%&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:doge=22&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp; &nbsp; 22<br>
+DIM title%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:title=23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total &nbsp;&nbsp; 23<br>
+DIM dead%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+:dead=24&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; '&nbsp; 1
+object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 24<br>
+DIM dogeover1%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :dogeover1=25
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; 25<br>
+DIM dogeover2%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :dogeover2=26
+&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+total&nbsp;&nbsp;&nbsp; 26<br>
+DIM dogeover3%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:dogeover3=27&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 27<br>
+DIM dogeover4%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:dogeover4=28&nbsp;&nbsp; '&nbsp; 1 object&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; total&nbsp;&nbsp;&nbsp; 28<br>
+      <br>
+' ****************************************************<br>
+' * REMAINING GLOBAL VARIABLES USED IN DOGER GAME&nbsp;&nbsp;&nbsp; *<br>
+' ****************************************************<br>
+      <br>
+DIM framecounter%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;
+framecounter=0&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+We'll use this to count the number of screen updates.<br>
+DIM pad1%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; pad1=0&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+This will be used to store the state of the jagpad.<br>
+DIM doge_x%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; doge_x=0&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' We'll
+use this to keep track of the Doge's position over the screen.<br>
+DIM doge_y%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; doge_y=0&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' And
+this to keep track of the Doge's position down the screen.<br>
+DIM doge_x_init%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:&nbsp;&nbsp;&nbsp; doge_x_init=144&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' This is the Doge's x starting position in
+pixels.<br>
+DIM doge_y_init%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+:&nbsp;&nbsp;&nbsp; doge_y_init=224&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' This is the Doge's x starting position
+in pixels.<br>
+DIM gamestart%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+:&nbsp;&nbsp;&nbsp; gamestart=0&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' This will allow us to see if the
+player wants to start the game.<br>
+DIM poulpemovement%&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;
+poulpemovement=0&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' When sat
+on raft, we'll copy its speed and set the Doge to match.<br>
+DIM doge1flag%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+:&nbsp;&nbsp;&nbsp; doge1flag=0&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; ' These will be used to show the Doge has
+reached the far side.<br>
+DIM doge2flag%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+:&nbsp;&nbsp;&nbsp; doge2flag=0<br>
+DIM doge3flag%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+:&nbsp;&nbsp;&nbsp; doge3flag=0<br>
+DIM doge4flag%&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+:&nbsp;&nbsp;&nbsp; doge4flag=0<br>
+      <br>
+      <br>
+' ****************************************************<br>
+' * LOAD COLOURS FOR EACH GRAPHIC INTO THE
+CLUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
+' ****************************************************<br>
+      <br>
+LOADCLUT(strptr(SPRITE_BG_clut),0,16)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' The
+Jaguar's Colour Look-Up Table contains 256 entries and is used<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+for 1, 2, 4 and 8-bit images.<br>
+LOADCLUT(strptr(SPRITE_POULPES_clut),1,16)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' With our 4-bit (16 colour)
+images, we can use up to 16x16 entries<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+from 0 to 15.<br>
+LOADCLUT(strptr(SPRITE_NYAN_clut),2,16)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' You can mix and
+match or have individual palettes for each source<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+graphic, up to 16.<br>
+LOADCLUT(strptr(SPRITE_DOGE_clut),3,16)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' 8-bit (256 colour)
+images use the whole CLUT. Lower colour depths<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+use only the first entries</small><small> in each of the 16x16 slots.</small><br>
+      <small>LOADCLUT(strptr(SPRITE_TITLE_clut),4,16)<br>
+      <br>
+LOADCLUT(strptr(SPRITE_DEAD_clut),5,16)<br>
+      <br>
+' ****************************************************<br>
+' * SET UP SOME GAME
+STUFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*<br>
+' ****************************************************<br>
+      <br>
+RSETOBJ(doge,R_sprite_x,(doge_x_init&lt;&lt;16))&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' Move the Doge to the initial x
+position.<br>
+RSETOBJ(doge,R_sprite_y,(doge_y_init&lt;&lt;16))&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' Move the Doge to the initial y
+position.<br>
+MODPLAY((int)strptr(MOD_BOING))&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+Play the Amiga MOD track included in assets.txt. The ((int)strptr...)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+stuff you need not worry about... just do it and it works :0)<br>
+      <br>
+' ****************************************************<br>
+' * MAIN GAME LOOP&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*<br>
+' ****************************************************<br>
+DO<br>
+&nbsp;&nbsp;&nbsp; framecounter++&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Add 1 to the frame counter. It ticks over as
+screen refreshes.<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF gamestart=0 THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+The title screen will display at start and only allow the game to<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+continue once the called </small><small>subroutine has its conditions
+met</small><br>
+      <small>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL
+waitforplayertostart&nbsp; (push the button!). As gamestart is set to 1
+this never<br>
+&nbsp;&nbsp;&nbsp; ENDIF&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+'&nbsp;&nbsp;&nbsp; happens again but could be made to after a game
+over for instance.<br>
+      <br>
+&nbsp;&nbsp;&nbsp; pad1=GETPAD(1)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Read the jagpad state. All buttons are packed up
+into a bundle<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; by
+U235SE and stored here in pad1.<br>
+      <br>
+&nbsp;&nbsp;&nbsp; doge_x=RGETOBJ(doge,R_sprite_x)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+Put the Doge's current x position in our x-tracker.<br>
+&nbsp;&nbsp;&nbsp; doge_y=RGETOBJ(doge,R_sprite_y)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+Put the Doge's current y position in our y-tracker.<br>
+      <br>
+&nbsp;&nbsp;&nbsp; IF framecounter=&gt;8 THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' Check to see if 8
+frames have ticked over.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL movedoge&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; ' If so, let the Doge move again - it prevents
+Doge running wild<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+like a wild Doge.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; framecounter=0&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Reset the counter for next time.<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; VSYNC&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Sync
+to screen refresh.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_y&gt;=(128&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' If Doge is in bottom half
+of screen, check if he hits a Nyancat.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL checknyancollide<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_y&lt;(128&lt;&lt;16) AND
+doge_y&gt;=(48&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;&nbsp; ' If Doge is in
+top half of screen check if he is sat on the Poulpes.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL checkpoulpecollide<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+      <br>
+LOOP<br>
+      <br>
+      <br>
+      <br>
+' ****************************************************<br>
+' *
+SUBROUTINES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*<br>
+' ****************************************************<br>
+      <br>
+SUB waitforplayertostart&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' The is the subroutine
+where we wait for the player to push the button.<br>
+&nbsp;&nbsp;&nbsp; DO<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; pad1=GETPAD(1)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Read the jagpad state.<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; IF pad1=PAD_B
+THEN&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' If B was pressed, move the titles off screen and
+begin the game.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(title,R_sprite_y,-255&lt;&lt;16)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+gamestart=1&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' gamestart is set to 1, so the IF..
+statement in the main game<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+loop will not be true </small><small>and this sub will not be called
+again.</small><br>
+      <small>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; LOOP UNTIL gamestart=1<br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB movedoge&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Handles our Doge movement. Can only be
+called after 8 frames counted.<br>
+&nbsp;&nbsp;&nbsp; IF (pad1 BAND PAD_DOWN AND
+doge_y&lt;=(208&lt;&lt;16)) THEN' Move Doge lower down screen by 16
+pixels if not already at bottom.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_y,doge_y+(16&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF (pad1 BAND PAD_UP AND doge_y&gt;=(64&lt;&lt;16))
+THEN&nbsp;&nbsp; ' Move Doge higher up screen by 16 pixels if he's not
+already top.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_y,doge_y-(16&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF (pad1 BAND PAD_UP AND doge_y&lt;(64&lt;&lt;16))
+THEN&nbsp;&nbsp;&nbsp; ' This is where we manage the Doge trying to
+reach the holes at the top.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL
+dogekennels&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; '&nbsp;&nbsp;&nbsp; It calls a subroutine to
+do this simply to keep things tidy,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+not because the code </small><small>is at all reusable.</small><br>
+      <small>&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF (pad1 BAND PAD_LEFT AND
+doge_x=&gt;(16&lt;&lt;16)) THEN ' Move Doge left 16 pixels if he's not
+already at the left edge.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_x,doge_x-(16&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_flip,R_is_flipped)&nbsp;&nbsp;&nbsp; &nbsp; '
+Point Doge left by setting his sprite flipped)<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF (pad1 BAND PAD_RIGHT AND
+doge_x=&lt;(304-32&lt;&lt;16)) THEN ' Move Doge right 16 pixels if he's
+not already at the right edge.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_x,doge_x+(16&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_flip,R_is_normal)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+' Point Doge right by setting his sprite normally (not flipped).<br>
+&nbsp;&nbsp;&nbsp; ENDIF&nbsp;&nbsp;&nbsp; <br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB dogekennels&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+We arrive here if the player is pushing UP while on the top raft.<br>
+      <br>
+&nbsp;&nbsp;&nbsp; IF doge_x=&gt;(41&lt;&lt;16) AND
+doge_x&lt;=(50&lt;&lt;16) AND doge1flag=0 THEN ' Doge is smaller than
+gap, allow for this.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_xadd,0)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Kill the Doge drift, he
+won't be sitting on the raft now.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover1,R_sprite_x,(48&lt;&lt;16))&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Position the Doge-a-like copy graphics sprite in
+kennel #1.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover1,R_sprite_y,(26&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; doge1flag=1&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' Flag that the Doge has entered this
+kennel<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL highpitchedbark<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DELAY(30)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Wait 1/2 a sec to avoid
+insta-death on respawn.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL resetdoge<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_x=&gt;((41+64)&lt;&lt;16) AND
+doge_x&lt;=((50+64)&lt;&lt;16) AND doge2flag=0 THEN ' Same process as
+above, but for next gap.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; RSETOBJ(doge,R_sprite_xadd,0)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover2,R_sprite_x,((48+64)&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover2,R_sprite_y,(26&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; doge2flag=1<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL highpitchedbark<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DELAY(30)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Wait 1/2 a second to
+avoid insta-killing ourselves when we reset to<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+the bottom of the screen.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL resetdoge<br>
+&nbsp;&nbsp;&nbsp; ENDIF&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_x=&gt;((41+64+64)&lt;&lt;16) AND
+doge_x&lt;=((50+64+64)&lt;&lt;16) AND doge3flag=0 THEN ' Same process
+as above plus...<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_xadd,0)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+flip the sprite so he faces the centre.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover3,R_sprite_x,((48+64+64)&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover3,R_sprite_y,(26&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover3,R_sprite_flip,R_is_flipped)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; doge3flag=1<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL highpitchedbark<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DELAY(30)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Wait 1/2 a second to
+avoid insta-killing ourselves when we reset to<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+the bottom of the screen.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL resetdoge<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_x=&gt;((41+64+64+64)&lt;&lt;16) AND
+doge_x&lt;=((50+64+64+64)&lt;&lt;16) AND doge4flag=0 THEN ' Same
+process as above plus<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_xadd,0)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+flip the sprite to face centre.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover4,R_sprite_x,((48+64+64+64)&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover4,R_sprite_y,(26&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(dogeover4,R_sprite_flip,R_is_flipped)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; doge4flag=1<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL highpitchedbark<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DELAY(30)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Wait 1/2 a second to
+avoid insta-killing ourselves<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+when we reset to the bottom of the screen.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL resetdoge<br>
+&nbsp;&nbsp;&nbsp; ENDIF&nbsp;&nbsp;&nbsp; <br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB poulpeslide&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+We make the Doge slide over the screen matching the speed of the<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+Poulpes he's sat on.<br>
+&nbsp;&nbsp;&nbsp; poulpemovement=0&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Reset poulpemovement variable.<br>
+&nbsp;&nbsp;&nbsp; doge_y=RGETOBJ(doge,R_sprite_y)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+Grab the current y position of Doge.<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_y=(48&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' If Doge is on the
+top row of poulpes, grab the x-drift value of it.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+poulpemovement=RGETOBJ(poulpe1,R_sprite_xadd)<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; IF doge_y=(64&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' If Doge is on the
+2nd row of poulpes, grab the x-drift value of it.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+poulpemovement=RGETOBJ(poulpe2,R_sprite_xadd)<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; IF doge_y=(80&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' If Doge is on the
+3rd row of poulpes, grab the x-drift value of it.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+poulpemovement=RGETOBJ(poulpe3,R_sprite_xadd)<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; IF doge_y=(96&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' If Doge is on the
+4th row of poulpes, grab the x-drift value of it.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+poulpemovement=RGETOBJ(poulpe4,R_sprite_xadd)<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; IF doge_y=(112&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' If Doge is on the bottom
+row of poulpes, grab the x-drift value of it.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+poulpemovement=RGETOBJ(poulpe5,R_sprite_xadd)<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_xadd,poulpemovement)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Set the Doge to drift as above, either drifting<br>
+END SUB&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '&nbsp;&nbsp;&nbsp;
+with the raft or zero if no longer on one.<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB checkpoulpecollide&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' This is
+where we check for Doge being on the Poulpe rafts.<br>
+&nbsp;&nbsp;&nbsp; doge_y=RGETOBJ(doge,R_sprite_y)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '
+First we need to check something and put the Doge's current y position
+in our y-tracker.<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge_y&gt;(120&lt;&lt;16) THEN&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' See if Doge moved back
+down the screen from the 1st raft.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+RSETOBJ(doge,R_sprite_xadd,0)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; If he
+did, he's fine, so we can exit this subroutine and go<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; EXIT SUB&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; '&nbsp;&nbsp;&nbsp; back
+to the normal game loop after resetting his x-drift value.<br>
+&nbsp;&nbsp;&nbsp; ENDIF&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF RHIT(poulpe1,poulpe5,doge,doge)&lt;&gt;1
+THEN&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' Check poulpe vs doge for
+collisions.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+This =1 when the sprites collide. Doge is set to "0 hits to death"<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -
+we're using the CD in reverse here (i.e., Doge will die if he's<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+NOT colliding) and we're not checking for any specifics (not<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+interested in which poulperaft he's on, only that he's on one).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+We just use the returned value to check that anything at all in<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+our range hit the Doge.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Doge lands on a raft, the value given back by the CD routine<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+RHIT will be "1". If he misses, gets pulled off screen, or jumps<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+off into the water for a swim, we get back </small><small>"-1" and
+have to deal<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+with poor Doge's death :0(</small><br>
+      <small>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Call resetdoge<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL showangrydoge<br>
+&nbsp;&nbsp;&nbsp; ELSE<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL
+poulpeslide&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' He must be on the raft, so we need to match
+the speed of it or he'd<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+have to keep running up and down it!<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB resetdoge&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; ' Put Doge back at start, reset his values and
+check to see if all 4 Doges are home safely.<br>
+&nbsp;&nbsp;&nbsp; pad1=0<br>
+&nbsp;&nbsp;&nbsp; RSETOBJ(doge,R_sprite_x,(doge_x_init&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; RSETOBJ(doge,R_sprite_y,(doge_y_init&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; RSETOBJ(doge,R_sprite_xadd,(0&lt;&lt;16))<br>
+&nbsp;&nbsp;&nbsp; doge_x=doge_x_init<br>
+&nbsp;&nbsp;&nbsp; doge_y=doge_y_init<br>
+&nbsp;&nbsp;&nbsp; RSETOBJ(doge,R_sprite_was_hit,-1)<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; IF doge1flag=1 AND doge2flag=1 AND doge3flag=1 AND
+doge4flag=1 THEN ' If all flags=1, all Doges home, so game is won!<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DO<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; RLOCATE
+int(RND*260),156&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' Use RNG to give random x
+pixel and print text to screen using it.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; RPRINT "WELL
+DOGE!"&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ' RNG gives back a
+number between 0 and 1, multiply this by max we get<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a value between 0 and
+maximum.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' int(number) converts a floating point
+number to a whole number.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDPLAY(1,5)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 1 on channel 5<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDFREQ(5,12000)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on channel 5 to 12000Hz<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; VSYNC<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDPLAY(1,6)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 1 on channel 6<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDFREQ(6,12000)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on channel 6 to 12000Hz<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DELAY(180)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; LOOP<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB checknyancollide&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' This
+is where we check for Doge being attacked by nyancats.<br>
+&nbsp;&nbsp;&nbsp; IF RHIT(doge,doge,nyan1,nyan15)&lt;&gt;-1
+THEN&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' If there's a
+collision (-1 is returned by the RHIT command to signify<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+that *something* was hit.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL resetdoge&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' Knowing there was some kind of collision is good
+enough for this game,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+we don't need to go </small><small>and check which particular one was
+hit, it's<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+of no use. So we simply call to reset the Doge</small> <small>and call
+to display<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+the annoying death screen.</small><br>
+      <small>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; CALL showangrydoge<br>
+&nbsp;&nbsp;&nbsp; ENDIF<br>
+END SUB<br>
+&nbsp;&nbsp;&nbsp; <br>
+' ****************************************************<br>
+      <br>
+SUB showangrydoge&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; ' This is where the full screen Doge sprite is
+moved into view<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+momentarily.</small><br>
+      <small>&nbsp;&nbsp;&nbsp;
+RSETOBJ(dead,R_sprite_y,(0&lt;&lt;16))&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; '
+&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; SNDPLAY(0,5)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 0 on channel 5<br>
+&nbsp;&nbsp;&nbsp; SNDFREQ(5,12000)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on channel 5 to 12000Hz<br>
+&nbsp;&nbsp;&nbsp; VSYNC<br>
+&nbsp;&nbsp;&nbsp; SNDPLAY(0,6)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 0 on channel 6<br>
+&nbsp;&nbsp;&nbsp; SNDFREQ(6,12000)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on channel 6 to 12000Hz<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; DELAY(60)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' DELAY(60) simply waits
+for 60 vertical blanks - effectively performs<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+60 VSYNCs before allowing</small><small> flow of the game to continue.</small><small><br>
+&nbsp;&nbsp;&nbsp;
+RSETOBJ(dead,R_sprite_y,(255&lt;&lt;16))&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' And the full
+screen Doge is moved back off screen.<br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+SUB highpitchedbark<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; SNDPLAY(0,5)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 0 on channel 5<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDFREQ(5,16000)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on
+channel 5 to 16000Hz<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; VSYNC<br>
+&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; SNDPLAY(0,6)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 0 on channel 6<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDFREQ(6,16000)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on
+channel 6 to 16000Hz<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DELAY(30)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; SNDPLAY(0,5)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 0 on channel 5<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDFREQ(5,16000)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on
+channel 5 to 16000Hz<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; VSYNC<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; SNDPLAY(0,6)&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; ' Play sound 0 on channel 6<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+SNDFREQ(6,16000)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ' Set replay freq on
+channel 6 to 16000Hz<br>
+END SUB<br>
+      <br>
+' ****************************************************<br>
+      <br>
+' END OF FILE&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; ' Actually, this comment is the End of the
+file. Goodbye!</small><br>
+      <br>
+      <a href="tutorial1-3.html">&lt;&lt; rB+
+tutorials :: 1.3 conclusion &lt;&lt;</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body></html>

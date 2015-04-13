@@ -1,0 +1,8 @@
+' rB+ assets file.
+'
+' This is where we tell rB+ to load in our graphics and sounds etc.
+'
+ABS,BMP_PLAYER,gfx_clut,assets\gfx\player.bmp
+ABS,BMP_ENEMY,gfx_clut,assets\gfx\enemy.bmp
+ABS,BMP_BACKDROP,gfx_clut16,assets\gfx\backdrop.bmp
+ABS,no_special_label,rmotion,rmotion.txt

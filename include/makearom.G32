@@ -34,7 +34,7 @@ Dim romlen% = 0
 '  ...on second thoughts LOLOL)
 '
 
-Print # 10; "Dumping universal header..."
+Print # 10; "    Dumping universal header..."
 Dim buffer(2 * 1024 * 1024) As Byte
 Dim b% = V:buffer(0)
 Open ":univ" for Input As # 3
@@ -46,15 +46,19 @@ Add romlen%, 8192
 '
 ' Now dump the copy to RAM routine
 '
-Print # 10; "Dumping startup code..."
+Print # 10; "    Dumping startup code..."
 Dim linkcopyrom%
 Open ":copyrom" for Input As # 3
 linkcopyrom% = LOF(# 3)
 BGet # 3, b%, linkcopyrom%
 Close # 3
 
-Open __argv(2)  for Input As # 3 'open linkfile
-Dim linklen% = LOF(# 3) 'get linkfile's length
+If Exist(__argv(2))
+  Open __argv(2)  for Input As # 3 'open linkfile
+  Dim linklen% = LOF(# 3) 'get linkfile's length
+Else
+  linklen% = 0
+EndIf
 
 lpoke_endian(b% + $e, $800000 + 8192 + linkcopyrom% + linklen%) '(rb+ binary address = rom start + universal header + copy routine + linkfile's length)
 lpoke_endian(b% + $14, $4000) 'run address
@@ -66,22 +70,27 @@ Add romlen%, linkcopyrom%
 ' Read linkfile and dump it to rom
 '
 
-Print # 10; "Dumping linkfile..."
-Dim linkbuff(linklen%) As Byte
-BGet # 3, V:linkbuff(0), linklen%
-BPut # 1, V:linkbuff(0), linklen%
-Close # 3
-Add romlen%, linklen%
+If linklen% > 0
+  Print # 10; "    Dumping linkfile..."
+  Dim linkbuff(linklen%) As Byte
+  BGet # 3, V:linkbuff(0), linklen%
+  BPut # 1, V:linkbuff(0), linklen%
+  Close # 3
+  Add romlen%, linklen%
+Else
+'##E#
+  Print # 10; "    Linkfile not found - assuming no assets in ROM..."
+EndIf
 
 '
 ' Pack RB+ file
 '
-Print # 10; "Packing basic binary..."
+Print # 10; "    Packing basic binary..."
 System "pack2e.exe " + __argv(1) + " " + __argv(1) + ".pak", Wait, Show SW_HIDE
 '
 ' Now dump packed RB+ file
 '
-Print # 10; "Dumping packed file..."
+Print # 10; "    Dumping packed file..."
 Open __argv(1) + ".pak" for Input As # 2
 Dim rblen% = LOF(# 2)
 
@@ -93,7 +102,7 @@ Add romlen%, rblen%
 ' Finally, pad the ROM
 '
 
-Print # 10; "Padding ROM..."
+Print # 10; "    Padding ROM..."
 Dim pad$
 pad$ = String$(8 * 1024 * 1024 / 24, "RB+ (C) Reboot 2014-2015")
 
@@ -114,7 +123,6 @@ ElseIf romlen% < 8 * 1024 * 1024                'Well, 8mb ROM is only possible 
   BPut # 1, V:pad$, 8 * 1024 * 1024 - romlen%
 Else
   Print # 10; "Make-a-rom abort - produced ROM too large!"
-'##E#
   Quit 1
 EndIf
 Close # 1

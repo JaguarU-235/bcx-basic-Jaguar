@@ -1,0 +1,16 @@
+Notepad++ (http://notepad-plus-plus.org/) is a great editor and we really recommend using it for developing Raptor Basic Plus code! This folder contains a configuration file (npes_saved.txt) which can be used to build RB+ projects directly from N++. Here are the steps required to do this (feel free to skip parts you've already done):
+
+1. Install Notepad++
+2. Run Notepad++
+3. Go to menu Plugins->Plugin manager->Show plugin manager
+4. Find plugin called "Nppexec", check it and click "install"
+5. Exit Notepad++
+6. Find the Notepad++ configuration directory. If you didn't do any custom installation, it should be "%appdata%\Notepad++\plugins\config" (feel free to copy and paste this path without quotes to a windows explorer window and it should take you there).
+7. Copy npes_saved.txt to that folder.
+8. Start Notepad++ with a RB+ .bas file.
+9. Go to menu Plugins->NPPExec->Execute or simply press F6.
+10. In the drop down list there should be 4 options to build your RB+ project. If nothing shows up, see below.
+11. Your project should build according to what you chose - enjoy!
+12. Last tip, ctrl-f6 should run the last script you executed, so no annoying pop-ups!
+
+If nothing showed up in step 10, don't worry! There's another way to set this up. Just open npes_saved.txt and press f6. Now, copy and paste the 3 lines (npp_save/cd/build) to the execute window. Hit save and write a description (best to follow the ones from the .txt file). Do this 3 more times and all configurations are then set up - no worries!

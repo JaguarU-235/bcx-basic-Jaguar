@@ -3,12 +3,14 @@ dim FRCOUNT, CURRENT
 dim PY
 dim STICK
 dim col
+dim countr
 
 FRCOUNT=0: CURRENT=0
 PY=100
 basic_r_indx=0
 basic_r_size=0
 raptor_fade_delay=1
+countr=0
 
 RLOCATE 10,10
 
@@ -46,6 +48,23 @@ do
 	SNDFREQ(4,PY*16384/200)
 '	sndkill(0)
 	fadepal(1,15,(int *)strptr(BMP_PLAYER_clut))
+	if countr<32 then
+		fadepal(2,15,(int *)strptr(BMP_ENEMY_clut))
+	elseif countr<64 then
+		fadesingle(32,0x00ff)
+		fadesingle(33,0x00ff)
+		fadesingle(34,0x00ff)
+		fadesingle(35,0x00ff)
+		fadesingle(36,0x00ff)
+		fadesingle(37,0x00ff)
+		fadesingle(38,0x00ff)
+		fadesingle(39,0x00ff)
+		fadesingle(40,0x00ff)
+		fadesingle(41,0x00ff)
+	else
+		countr=0
+	endif
+	countr=countr+1
 loop
 
 REM NEW ENEMY

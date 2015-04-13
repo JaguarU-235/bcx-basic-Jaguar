@@ -15,7 +15,10 @@ ConvertCMDLine
 
 Dim basedir$ = __argv(2)
 
+Open basedir$ + "\build\build.log" for Append As # 10
+
 If Not Exist(__argv(1))
+  Print # 10; "Buildlink aborting - " + __argv(1) + " file not found"
   Open basedir$ + "\build\romassets.inc" for Output As # 3 : Close # 3
   Open basedir$ + "\build\romassets.h" for Output As # 4 : Close # 4
   Open basedir$ + "\build\ramassets.inc" for Output As # 6 : Close # 6
@@ -33,14 +36,19 @@ Dim tempbuf(4 * 1024 * 1024) As Byte
 Dim tempadr As Int = V:tempbuf(0)
 Dim fullnameslash$
 
-Dim romabs$, varname$, type$, assetfile$
-Open __argv(1) for Input As # 1
-Open basedir$ + "\build\linkfile.bin" for Output As # 2
-Open basedir$ + "\build\romassets.inc" for Output As # 3
-Open basedir$ + "\build\romassets.h" for Output As # 4
-Open basedir$ + "\build\ramassets.inc" for Output As # 6
-Open basedir$ + "\build\build.log" for Append As # 10
 Print # 10; "Buildlink starting"
+Dim romabs$, varname$, type$, assetfile$
+Print # 10; "    Opening - " + __argv(1) + "..."
+Open __argv(1) for Input As # 1
+Print # 10; "    Opening - " + basedir$ + "\build\linkfile.bin" + "..."
+Open basedir$ + "\build\linkfile.bin" for Output As # 2
+Print # 10; "    Opening - " + basedir$ + "\build\romassets.inc" + "..."
+Open basedir$ + "\build\romassets.inc" for Output As # 3
+Print # 10; "    Opening - " + basedir$ + "\build\romassets.h" + "..."
+Open basedir$ + "\build\romassets.h" for Output As # 4
+Print # 10; "    Opening - " + basedir$ + "\build\ramassets.inc" + "..."
+Open basedir$ + "\build\ramassets.inc" for Output As # 6
+Print # 10; "    Opening - " + basedir$ + "\build\build.log" + "..."
 Print # 6; ".dphrase"
 Dim size As Int
 Dim fullname$
@@ -104,24 +112,32 @@ While Not EOF(# 1)
       BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
       ass_adr% = (ass_adr% + 15) And $fffffff0
 
-      Print # 3; varname$; "_clut EQU $"; Hex$(ass_adr%)
-      Print # 4; "#define "; varname$; "_clut 0x"; Hex$(ass_adr%)
-      Open basedir$ + "\build\" + plainfile$ + ".clut" for Input As # 5
-      size = LOF(# 5)
-      BGet # 5, tempadr, size
-      BPut # 2, tempadr, size
-      Close # 5
-      Add ass_adr%, size
+      If bpp < 16
+        Print # 3; varname$; "_clut EQU $"; Hex$(ass_adr%)
+        Print # 4; "#define "; varname$; "_clut 0x"; Hex$(ass_adr%)
+        Open basedir$ + "\build\" + plainfile$ + ".clut" for Input As # 5
+        size = LOF(# 5)
+        BGet # 5, tempadr, size
+        BPut # 2, tempadr, size
+        Close # 5
+        Add ass_adr%, size
+      EndIf
     Else
       Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + """"
       Print # 6; varname$; "_end:"
-      Print # 6; varname$; "_clut: incbin ""build/" + plainfile$ + ".clut" + """"
-      Print # 6; varname$; "_clut_end:"
+      If bpp < 16
+        Print # 6; varname$; "_clut: incbin ""build/" + plainfile$ + ".clut" + """"
+        Print # 6; varname$; "_clut_end:"
+      EndIf
       Print # 6; ".extern " + varname$
-      Print # 6; ".extern " + varname$ + "_clut"
+      If bpp < 16
+        Print # 6; ".extern " + varname$ + "_clut"
+      EndIf
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
-      Print # 4; "extern void *" + varname$ + "_clut" + " asm(""" + varname$ + "_clut"");"
+      If bpp < 16
+        Print # 4; "extern void *" + varname$ + "_clut" + " asm(""" + varname$ + "_clut"");"
+      EndIf
     EndIf
   ElseIf Left$(Lower$(type$), 10) = "gfx_noclut"
     bpp = Val(SubStr(type$, 11))
@@ -155,7 +171,6 @@ While Not EOF(# 1)
     EndIf
     Print # 10; "        Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate)
     System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
-
   ElseIf Lower$(Left$(type$, 8)) = "sfx_mlaw"
     Print # 10; "        Converting sound file into m-law file (using sox)..."
     rate = Val(SubStr(type$, 9))
@@ -183,7 +198,23 @@ While Not EOF(# 1)
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
     EndIf
-
+  ElseIf Lower$(Left$(type$, 7)) = "rmotion"
+    Print # 10; "        Executing command: rmotion.exe " + fullname$ + " " + basedir$ + "\build\" + plainfile$ + ".s"
+    System "rmotion.exe " + fullname$ + " " + basedir$ + "\build\" + plainfile$ + ".s", Wait, Show SW_HIDE
+    Print # 6; " include ""build/" + fullnameslash$  + ".s"""
+    Open fullname$ for Input As # 5
+    Open basedir$ + "\build\" + plainfile$ + ".s" for Append As # 7
+    Repeat
+      Line Input # 5, romabs$
+      i = InStr(romabs$, ":")
+      If i <> 0 And Left$(romabs$, 1) <> "."
+'##E#
+        Print # 4; "extern int *" + Left$(romabs$, i - 1) + " asm(""" + Left$(romabs$, i - 1) + """);" " //Rmotion"
+        Print # 7; ".extern " + Left$(romabs$, i - 1)
+      EndIf
+    Until EOF(# 5)
+    Close # 5
+    Close # 7
   Else
     If Upper$(romabs$) = "ROM"
       any_rom_asset = True
@@ -212,7 +243,6 @@ Close # 3
 Close # 4
 Close # 6
 Close # 2
-'##E#
 Print # 10; "Buildlink finished - everything went fine!"
 If any_rom_asset = False
   DeleteFile Silent, Yes basedir$ + "\build\linkfile.bin"
@@ -435,6 +465,24 @@ Quit 0
     Next i
     Open outfile$ + ".gfxdata" for Binary As # 5
     BPut # 5, V:outbuffer16(0), 2 * width * height
+    Close # 5
+  Case 24                          '***************** 24-bit raw
+    screenstart = 54
+    Dim outbuffer24(width * height * 3) As Byte
+    destindex = width * (height - 1) * 3
+    For i = 1 To height
+      For x = 1 To width
+        'Print screenstart
+        outbuffer24(destindex + x * 3 + 0) = r = sourcebmp(screenstart + 2)
+        outbuffer24(destindex + x * 3 + 1) = g = sourcebmp(screenstart + 1)
+        outbuffer24(destindex + x * 3 + 2) = b = sourcebmp(screenstart + 0)
+        'outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
+        Add screenstart, 3
+      Next x
+      Sub destindex, width * 3
+    Next i
+    Open outfile$ + ".gfxdata" for Binary As # 5
+    BPut # 5, V:outbuffer16(0), 3 * width * height
     Close # 5
   EndSelect
 Return

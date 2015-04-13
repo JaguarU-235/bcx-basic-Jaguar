@@ -21,9 +21,10 @@
 			extern RAPTOR_module_list
 	
 			include				"build/romassets.inc"
-			include				"../../RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
-			include				"../../RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
-			include				"../../U235SE.021/U235SE.INC"									; Include U235SE library labels
+			include				"JAGUAR.INC"								; Include JAGUAR system labels
+			include				"RAPTOR.INC"								; Include RAPTOR library labels
+			include				"U235SE.INC"									; Include U235SE library labels
+
 
 			.text							
 

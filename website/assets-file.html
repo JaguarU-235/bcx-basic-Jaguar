@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + example assets.txt file</title></head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+<tbody>
+<tr>
+<td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+<td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+</td>
+<td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+</td>
+<td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+</a></td>
+<td style="vertical-align: top;"><a href="contact.html">contact<br>
+</a></td>
+<td style="vertical-align: top;"><a href="links.html">links<br>
+</a></td>
+</tr>
+</tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;">rB+
+:: assets.txt<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><br>
+      <small>&nbsp;&nbsp; ' example rB+ assets file.<br>
+&nbsp;&nbsp; '<br>
+&nbsp;&nbsp; ' This is where we tell rB+ to load in our graphics and
+sounds etc.<br>
+&nbsp;&nbsp; '<br>
+&nbsp;&nbsp; ' For 1-, 2-, 4- and 8-bit graphics, we can tell it to
+save the colour palette as well.<br>
+&nbsp;&nbsp; ' 16-bit graphics coming soon to an assets.txt near you,
+for now continue to use rapapp.s with 16-bit TGAs.<br>
+&nbsp;&nbsp; '<br>
+&nbsp;&nbsp; ' This first entry is for a background graphic. It's a
+4-bit-per-pixel (16 colour) image
+and we want to store the colour<br>
+&nbsp;&nbsp; ' &nbsp; &nbsp; palette for later use:<br>
+      <br>
+&nbsp;&nbsp; ABS,SPRITE_BG,gfx_clut,ASSETS\GFX\background.bmp<br>
+      <br>
+&nbsp;&nbsp; ' ABS &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp; Tells rB+
+that the file is to be stored in the executable file. If we wanted it<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stored in ROM, we'd enter 'ROM' instead.<br>
+&nbsp;&nbsp; ' SPRITE_BG&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+:&nbsp; A nickname we'll use to refer to the graphic in the
+sprite definition file.<br>
+&nbsp;&nbsp; ' gfx_clut&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :&nbsp; &nbsp;&nbsp;&nbsp; tells raptor that we want
+to keep the colour palette. CLUT stands for Colour<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+Look Up Table, it's
+an area of the Jaguar where 256 colour values are used for<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+the different palette-based graphics.<br>
+&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; :&nbsp; &nbsp;&nbsp;&nbsp;
+We can access these 16 colours in rB+ using the nickname
+"SPRITE_BG_clut" and<br>
+&nbsp;&nbsp;
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+pop them into whichever part of the CLUT we like.<br>
+&nbsp;&nbsp; ' ASSETS\GFX\background.bmp&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+:&nbsp; Location of the graphics file relative to this
+assets.txt file.<br>
+&nbsp;&nbsp; <br>
+&nbsp;&nbsp; ' The rest of the graphics assets follow in just the same
+way:<br>
+      <br>
+&nbsp;&nbsp; ABS,SPRITE_POULPES,gfx_clut,ASSETS\GFX\poulpes.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_NYAN,gfx_clut,ASSETS\GFX\nyan.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_TITLE,gfx_clut,ASSETS\GFX\doger.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_DOGE,gfx_clut,ASSETS\GFX\doge.bmp<br>
+&nbsp;&nbsp; ABS,SPRITE_DEAD,gfx_clut,ASSETS\GFX\dogedead.bmp<br>
+      <br>
+&nbsp;&nbsp; ' Amiga .MOD music is included as follows.<br>
+      <br>
+&nbsp;&nbsp; ABS,MOD_BOING,module0,ASSETS\Music\dobranocki.mod<br>
+      <br>
+&nbsp;&nbsp; ' Sound samples like this:<br>
+      <br>
+&nbsp;&nbsp; ABS,SFX_WOOF,sfx_woof_bark,assets\sfx\snd\woofbark.raw<br>
+&nbsp;&nbsp; ABS,SFX_LAUGH,sfx_ha_ha_ha,assets\sfx\snd\laugh.raw<br>
+      <br>
+&nbsp;&nbsp; ' ABS &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp; Tells rB+
+that the file is to be stored in the executable file. If we wanted it</small><small><br>
+&nbsp;&nbsp; '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stored in ROM, we'd enter 'ROM' instead.</small><br>
+      <small>&nbsp;&nbsp; ' SFX_WOOF&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; :&nbsp; A label used internally<br>
+&nbsp;&nbsp; ' sfx_woof_bark&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; :&nbsp; A label we
+use in the U235 sound engine sample definition file -
+multiple<br>
+&nbsp;&nbsp;
+' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp;&nbsp; sounds
+can be defined based on the same source sample data, just like we can<br>
+&nbsp;&nbsp;
+' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; : &nbsp; &nbsp;&nbsp;
+define multiple sprites based on the same
+graphics bitmaps.<br>
+      <br>
+&nbsp;&nbsp; ' End of file.<br>
+      </small><small style="font-weight: bold;"><br><a href="workingwith.html">&lt;&lt; </a></small><a href="workingwith.html">working
+with rB+ &lt;&lt;</a><small style="font-weight: bold;">  </small>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br style="font-family: monospace;">
+
+<br>
+</body></html>

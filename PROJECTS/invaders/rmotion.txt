@@ -1,0 +1,25 @@
+
+; just do a simple bitmap loop for the player
+RMA_player_animation:
+	rspeed(3)				; update every 3 frames
+	userdat1(4) 			; put 5-1 -- 4 pictures
+	gfx(BMP_PLAYER,WAIT) 	; put first picture and wait next VBL
+.lp1:
+	gfx(128,UPDATE,WAIT)	; update picture to the next frame in memory and wait next VBL
+	loop(userdat1,.lp1)		; do this 5 times
+jump(RMA_player_animation)	; and start all this again
+
+; just do a simple bitmap loop used by all bad spaceships
+RMA_enemy_animation:
+	rspeed(4)				; update every 3 frames
+	userdat1(3) 			; put 4-1 -- 3 pictures
+	gfx(BMP_ENEMY,WAIT) 	; put first picture and wait next VBL
+.lp2:
+	gfx(128,UPDATE,WAIT)	; update picture to the next frame in memory and wait next VBL
+	loop(userdat1,.lp2)		; do this 5 times
+jump(RMA_enemy_animation)	; and start all this again
+
+
+
+
+;End of file	
