@@ -20,30 +20,14 @@
 			extern RAPTOR_sprite_table
 			extern RAPTOR_module_list
 	
-			include				"../../RAPTOR/INCS/JAGUAR.INC"								; Include JAGUAR system labels
-			include				"../../RAPTOR/INCS/RAPTOR.INC"								; Include RAPTOR library labels
-			include				"../../U235SE.021/U235SE.INC"								; Include U235SE library labels
-			include				"build/romassets.inc"												; Include ROM assets (if any)
+			include				"build/romassets.inc"
+			include				"JAGUAR.INC"								; Include JAGUAR system labels
+			include				"RAPTOR.INC"								; Include RAPTOR library labels
+			include				"U235SE.INC"									; Include U235SE library labels
 
 
 			.text							
-.68000
-.noclear
-			.include "audioequ.s"
 
-
-    jsr         Audio_Init
-
-    move.l      #1, d0  
-    move.l      #rom_NYAN_tune, a0 
-    move.l      #rom_NYAN_tune_end - rom_NYAN_tune, d1
-    move.l      #2, d2   
-    move.l      #Audio_8bit_Signed | Audio_Looping, d3
-    jsr         Audio_Play
-
-    stop        #$2700
-	
-	
 ;; YOUR APPLICATION GOES HERE
 ;; MODIFY AWAY!
 						
@@ -118,44 +102,9 @@ LIST_display					equ				0										; the first display list
 			move.l	#0,raptor_mapbmptiles					; <<<<---- THIS WILL NEED TO BE CHANGED IF USING THE TILEMAP MODULE <<<<----
 			jsr		RAPTOR_HWinit				; Setup Jaguar hardware / install RAPTOR library
 
-			lea		RAPTOR_autoconvert_list,a6
-.autoconv:	move.l	(a6)+,a0
-			cmp.l	#-1,a0
-			beq.s	.out
-			lea		_trashram,a1
-			move.l	a6,-(a7)
-			jsr		RAPTOR_GFXConvert
-			move.l	(a7)+,a6
-			move.l	(a6)+,d0
-			bmi.s	.noclut
-			asl		#5,d0
-			lea		$f00400,a1
-			add.l	d0,a1
-			move.l	a6,-(a7)
-			jsr		RAPTOR_move_palette
-			move.l	(a7)+,a6
-.noclut:	bra		.autoconv
-.out:
-
-			
 ;; we're using Joystick input, so we now need U235 Sound Engine running
-;			jsr		RAPTOR_U235init														; init the U235 Sound Engine
-
-;			jsr		Audio_Init															; init the supa POWA Zerosquare player
-;			move.l #1,d0
-;			;lea rom_NYAN_tune,a0
-;			lea rom_nyan,a0
-;			;move.l #rom_NYAN_tune_end-rom_NYAN_tune,d1
-;			move.l #2501592,d1 ;lolol
-;			move.l #2,d2
-;			move.l #Audio_8bit_Signed,d3
-;			bsr Audio_Play
-;
-;a:
-;
-;		addq.w #1,BG
-;		bra.s a
-									
+			jsr		RAPTOR_U235init														; init the U235 Sound Engine
+						
 ;; get something on the screen
 	
 			jsr		RAPTOR_start_video													; start video processing
@@ -163,31 +112,8 @@ LIST_display					equ				0										; the first display list
 			jsr		RAPTOR_setlist														; tell RAPTOR which list to process
 			jsr		RAPTOR_UPDATE_ALL													; and update the object list with initial values
 
-			lea 	init_txt(pc),a0
-			move.l	#0,d0
-			move.l	#202,d1
-			moveq	#1,d2
-			moveq	#0,d3
-			jsr		RAPTOR_print
-			
-			move.w	MEMCON1,d0							; configure for Jagtopus cart/Skunkboard
-			bset	#1,d0
-			bclr	#2,d0
-			bset	#3,d0
-			bset	#4,d0
-			bclr	#7,d0
-			move.w	d0,MEMCON1
-			
 			jmp __Z9basicmainv
 			
-			;		"0123456789012345678901234567890123456789"
-init_txt:	dc.b	"       RAPTOR BASIC+ v0.1 - REBOOT      ",raptor_t_lf
-			dc.b	raptor_t_font_siz,0
-			dc.b	"        Derived from BCX BASIC v6       "
-			dc.b	raptor_t_quit
-			.even
-			
-																						; Loop around!
 						
 ;;
 ;; RAPTOR user VBI vector
@@ -214,39 +140,11 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
 						
 							include 	"RAPINIT.S"									; RAPTOR object user data
 							include 	"RAPU235.S"									; RAPTOR u235se user data
-
-							include		"audio.s"									; Zerosquare player
 	
-;; 
-;; Convert List
-;;
-
-RAPTOR_autoconvert_list:	;dc.l	BMP_PLAYER,1
-							;dc.l	BMP_ENEMY,2
-							dc.l	-1,-1
-
-RAPTOR_module_list:			dc.l	module0
-							dc.l	-1
-							
-;;
-;; MOD files
-;;
-							.dphrase
-module0:					incbin	"ASSETS/SFX/MOD/MODULE1.MOD"
-						
-;;
-;; Effects
-;;
-
-							.dphrase
-explode_sam:				incbin	"ASSETS/SFX/SND/EXPLODE.RAW"
-explode_end:
-							
 ;;
 ;; Graphics
 ;;
 							.dphrase
-							dc.l	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				
 RAPTOR_font8x8:             incbin  "ASSETS/FONTS/F_8x8.BMP"   ; User defined 8x8 fonts                      
 .dphrase                                                       
@@ -257,16 +155,13 @@ RAPTOR_font16x16:           incbin  "ASSETS/FONTS/F_16x16.BMP" ; User defined 16
 RAPTOR_particle_palette:    incbin  "ASSETS/PARTIPAL.BMP"      ; User defined palette for fonts and particles
 							.dphrase
 
-;BMP_PLAYER:					incbin	"ASSETS/GFX/_nyancat.bmp"
-;							.dphrase
-;BMP_ENEMY:					incbin	"ASSETS/GFX/_ufo.bmp"
-;							.dphrase
+;;
+;; Assets
+;;
+
 							.dphrase
-;rom_NYAN_tune: incbin "ASSETS/SFX/SND/NyanCatoriginal_23084_signed.raw"
-rom_NYAN_tune: incbin "audio_test/music.pcm"
-							.long
-rom_NYAN_tune_end:
-							
+							include "build/ramassets.inc"
+
 ;;
 ;; BSS SECTION
 ;;

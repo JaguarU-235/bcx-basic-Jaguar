@@ -199,7 +199,7 @@ rem -------------------------------------------------------------
 rem Create a new project
 :newproject
 if exist PROJECTS\%PROJECTNAME%\%PROJECTNAME%.bas goto :veryend
-xcopy /e %RBTOOLS%\include\template PROJECTS\%PROJECTNAME%\
+xcopy /e "%RBTOOLS%\include\template" PROJECTS\%PROJECTNAME%\
 rename PROJECTS\%PROJECTNAME%\template.bas %PROJECTNAME%.bas
 echo Project: %PROJECTNAME% >projects\%PROJECTNAME%.rbplus
 echo Creator: >>projects\%PROJECTNAME%.rbplus

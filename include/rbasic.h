@@ -29,6 +29,9 @@ extern int rotary_interval1 asm("rotary_interval1");
 extern int rotary_interval2 asm("rotary_interval2");
 extern int spin_delta1 asm("spin_delta1");
 extern int spin_delta2 asm("spin_delta2");
+extern int raptor_used_particles asm("raptor_used_particles");
+extern int raptor_free_particles asm("raptor_free_particles");
+
 
 //Functions
 

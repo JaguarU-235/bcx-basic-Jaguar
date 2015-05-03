@@ -146,6 +146,8 @@ Section "Base files (required)" BaseFiles
   File "..\include\jaguar.inc"
   File "..\include\partlist.s"
   File "..\include\u235se.inc"
+  SetOutPath $INSTDIR\Include\template
+  File /r "..\include\template\*.*"
   SetOutPath $INSTDIR\Include\bits
   File "..\include\bits\*.*"
   SetOutPath $INSTDIR\Include\sys

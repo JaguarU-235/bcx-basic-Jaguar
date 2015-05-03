@@ -277,6 +277,8 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		raptor_ticks
 	.extern		raptor_liststart
 	.extern		raptor_fade_delay
+	.extern		raptor_used_particles
+	.extern		raptor_free_particles	
 
 		
 ;END OF FILE.
