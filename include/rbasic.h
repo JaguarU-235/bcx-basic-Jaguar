@@ -1,4 +1,4 @@
-//Variables
+//Variables (remember, we compile with size of int = 32 bits)
 
 extern int U235SE_pad1 asm ("U235SE_pad1");
 extern int U235SE_pad2 asm ("U235SE_pad2");
@@ -32,6 +32,9 @@ extern int spin_delta2 asm("spin_delta2");
 extern int raptor_used_particles asm("raptor_used_particles");
 extern int raptor_free_particles asm("raptor_free_particles");
 extern void *RAPTOR_particle_gfx asm("RAPTOR_particle_gfx");
+extern int raptor_mt_present asm("raptor_mt_present");
+extern int raptor_highscores_hex[10] asm("raptor_highscores_hex");
+extern char raptor_highscores_nam[10][8] asm("raptor_highscores_nam");
 
 //Functions
 
@@ -75,6 +78,9 @@ extern int fadesingle(short clut_index,short target_col) asm("fadesingle");
 int fadepal(int clut_no,int fade_cols,int *palette) asm("fadepal");
 extern short raptor_fade_delay asm("raptor_fade_delay");
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
+extern short hiscore_check(int score, char *name) asm("hiscore_check");
+extern void RAPTOR_resort_score_table() asm("RAPTOR_resort_score_table");
+extern void RAPTOR_mt_save() asm("RAPTOR_mt_save");
 
 //Zerosquare player equates
 #define Zero_Chan_Format_Shift       30

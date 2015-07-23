@@ -1,0 +1,30 @@
+' rB+ assets file.
+'
+' This is where we tell rB+ to load in our graphics and sounds etc.
+'
+' Firstly, all these lines are comments and are not useful to the build process.
+' To be exact, all lines starting with the characters ";", "#", "'", "*" are considered to be comments.
+' 
+' Each non-comment assets.txt line is considered to have 4 comma separated strings of text like the following:
+' A,B,C,D
+' | | | +-- Filename of the asset, relative to the project folder (i.e. assets\gfx\background.bmp)
+' | | +---- Tells the build process if the file should just be imported as is or some conversion is needed beforehand. See below for details.
+' | +------ Name asset which is exposed to rb+. Actually two variables are exposed to rb+: name and name_end which holds the start and end addresses of the asset.
+' +-------- This should either be ABS or ROM. This tells the build process if you want the asset to be included in RAM or ROM.
+'
+' Parameter C explained further:
+' This can be any text if you have some asset that you want imported in rb+ as is (for example a converted raw sample or a backdrop). For this you can put any text in C.
+' For graphics conversion you can use "gfx_clut" or "gfx_noclut" to convert a .BMP file into jaguar raw format and optionally export the paletter or not (clut=yes, noclut=no).
+' This applies to 1-, 2-, 4- and 8-bit graphics only.
+' For 16-bit and 24-bit graphics no clut is created (because there isn't a need for one).
+' Finally for 16-bit images you have to use gfx_clut16 or gfx_noclut16.
+' For 24-bit images replace the 16 above with 24.
+' For audio files you can use "sfx_rawXXXXX" to convert any audio file (for example .wav, .mp3, .ogg, etc) into raw format.
+' You can optionally set XXXXX to be the desired sample rate, otherwise 8000Hz is used by default.
+' Rmotion scripts should be placed here - field C then should be "rmotion".
+'
+' That's all, have fun!
+'
+
+' End of file.
+
