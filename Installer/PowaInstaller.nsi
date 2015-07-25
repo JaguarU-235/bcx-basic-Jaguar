@@ -9,7 +9,7 @@
 ;--------------------------------
 
 ; The name of the installer
-Name "Raptor Basic+"
+Name "Raptor Basic+ v1.1"
 
 ; The file to write
 OutFile "rb+_install.exe"
@@ -233,6 +233,7 @@ Section "Example projects (optional)" ExamFiles
   !insertmacro copyexamples Particles
   !insertmacro copyexamples Print
   !insertmacro copyexamples Psemu
+  !insertmacro copyexamples Scores
   !insertmacro copyexamples ShootBang
   !insertmacro copyexamples Spiral
   !insertmacro copyexamples Tilemap
