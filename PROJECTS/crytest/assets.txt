@@ -1,0 +1,6 @@
+ABS,BMP_SLIDER,gfx_clut,ASSETS\GFX\slider16.bmp
+ABS,BMP_BLOB32,gfx_cry,ASSETS\GFX\blob32.bmp
+ABS,BMP_BLOB64,gfx_cry,ASSETS\GFX\blob64.bmp
+ABS,BMP_BLOB128,gfx_cry,ASSETS\GFX\blob128.bmp
+ABS,BMP_BLOBS,BLOBS,ASSETS\GFX\blobs.cry
+ABS,PAL_GREEN_INK,gfx_clut,ASSETS\GFX\greenink.bmp
