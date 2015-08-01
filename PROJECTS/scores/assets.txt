@@ -18,7 +18,7 @@
 ' This applies to 1-, 2-, 4- and 8-bit graphics only.
 ' For 16-bit and 24-bit graphics no clut is created (because there isn't a need for one).
 ' Finally for 16-bit images you have to use gfx_clut16 or gfx_noclut16.
-' For 24-bit images replace the 16 above with 24.
+' For conversion to CRY mode use "gfx_cry".
 ' For audio files you can use "sfx_rawXXXXX" to convert any audio file (for example .wav, .mp3, .ogg, etc) into raw format.
 ' You can optionally set XXXXX to be the desired sample rate, otherwise 8000Hz is used by default.
 ' Rmotion scripts should be placed here - field C then should be "rmotion".

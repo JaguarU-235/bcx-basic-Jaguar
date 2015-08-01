@@ -163,6 +163,30 @@ While Not EOF(# 1)
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
     EndIf
+  ElseIf Left$(Lower$(type$), 7) = "gfx_cry"
+    Print # 10; "        Converting bmp into CRY (using bmp_cry_nodither)..."
+    Print # 10; "        Command run: bmp_cry_nodither.exe  """ + fullname$ + """ " + basedir$ + "\build\" + plainfile$ + ".cry"
+'##E#
+    System "bmp_cry_nodither.exe """ + fullname$ + """  " + basedir$ + "\build\" + plainfile$ + ".cry""", Wait, Show SW_HIDE
+    If Upper$(romabs$) = "ROM"
+      any_rom_asset = True
+      Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+      Open basedir$ + "\build\" + plainfile$ for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+      Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+    Else
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".cry"""
+      Print # 6; varname$; "_end:"
+      Print # 6; ".extern " + varname$
+      Print # 6; ".dphrase"
+      Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+    EndIf
   ElseIf Left$(Lower$(type$), 7) = "sfx_raw"
     Print # 10; "        Converting sound file into raw file (using sox)..."
     rate = Val(SubStr(type$, 8))
@@ -171,6 +195,25 @@ While Not EOF(# 1)
     EndIf
     Print # 10; "        Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate)
     System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
+    If Upper$(romabs$) = "ROM"
+      any_rom_asset = True
+      Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
+      Open fullname$ + ".raw" for Input As # 5
+      size = LOF(# 5)
+      BGet # 5, tempadr, size
+      BPut # 2, tempadr, size
+      Close # 5
+      Add ass_adr%, size
+      Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
+      Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
+    Else
+      Print # 6; varname$; ": incbin """ + fullnameslash$ + ".raw"""
+      Print # 6; varname$; "_end:"
+      Print # 6; ".extern " + varname$
+      Print # 6; ".dphrase"
+      Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+    EndIf
   ElseIf Lower$(Left$(type$, 8)) = "sfx_mlaw"
     Print # 10; "        Converting sound file into m-law file (using sox)..."
     rate = Val(SubStr(type$, 9))
@@ -481,7 +524,6 @@ Procedure convertbmp(file$, dumpclut As Bool)
     EndIf
   Case 24                          '***************** 24-bit raw
     If checkdate(file$, outfile$ + ".gfxdata")
-'##E#
       screenstart = 54
       Dim outbuffer24(width * height * 3) As Byte
       destindex = width * (height - 1) * 3
