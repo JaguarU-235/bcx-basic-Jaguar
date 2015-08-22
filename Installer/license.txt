@@ -8,3 +8,4 @@ Uses portions from:
 - SoX - Sound eXchange (http://sox.sourceforge.net/)
 - U-235 Sound engine (http://www.u-235.co.uk/developer/sound-engine/about/)
 - NSIS installer (http://nsis.sourceforge.net/Main_Page)
+- Binary bitfield macros by Tom Torfs.

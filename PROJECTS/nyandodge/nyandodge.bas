@@ -11,6 +11,7 @@ basic_r_indx=0
 basic_r_size=0
 raptor_fade_delay=1
 countr=0
+dim sfxcount as short
 
 RLOCATE 10,10
 
@@ -34,11 +35,15 @@ do
 	endif
 	RSETOBJ(1,R_sprite_y,PY<<16)
 	IF RHIT(1,1,2,22)<>-1 THEN
-		SNDPLAY(0,4)
+		sfxcount=sfxcount+1
+		if sfxcount=10 then		
+			SNDPLAY(0,4)
+			sfxcount=0
+		endif
 		col=PY<<10
 		dpoke BG,col
 		col=DPEEK(VI)
-	PRINT "LOLOL"
+	'PRINT "LOLOL"
 	ELSE
 		dpoke BG,PY
 	endif

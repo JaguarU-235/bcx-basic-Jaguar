@@ -75,7 +75,6 @@ echo.
 rem -------------------------------------------------------------
 rem delete residual files from previous builds
 if exist %BUILDPATH%\%PROJECTNAME%.abs del %BUILDPATH%\%PROJECTNAME%.abs
-if not exist %TEMPDIR% mkdir %TEMPDIR%
 if exist %TEMPDIR%\basic.o del %TEMPDIR%\basic.o
 if exist %TEMPDIR%\%PROJECTNAME%.C del %TEMPDIR%\%PROJECTNAME%.C
 if exist %TEMPDIR%\%PROJECTNAME%.o del %TEMPDIR%\%PROJECTNAME%.o
@@ -84,6 +83,7 @@ rem -------------------------------------------------------------
 rem abort build if bas file doesn't exist
 if not exist %BUILDPATH%\%PROJECTNAME%.bas echo %BUILDPATH%\%PROJECTNAME%.bas doesn't exist!
 if not exist %BUILDPATH%\%PROJECTNAME%.bas goto :builderror
+if not exist %TEMPDIR% mkdir %TEMPDIR%
 echo Build started on %date% %time% > %TEMPDIR%\build.log
 
 rem -------------------------------------------------------------
@@ -162,7 +162,7 @@ rem Link binaries
 echo Building ABS...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\BASIC.O "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
+rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\BASIC.O "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
 
 rem -------------------------------------------------------------
 rem Don't run vj if no .abs file was produced
@@ -179,12 +179,17 @@ echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%PROJECTNAME%.abs --alpine
 goto :veryend
 :sendabs
+if "%3"=="bjl" goto :sendbjl
 echo Sending to skunkboard...
 echo. >> %TEMPDIR%\build.log
 echo Sending to skunkboard... >> %TEMPDIR%\build.log
 jcp -r
 ping localhost
 jcp %BUILDPATH%\%PROJECTNAME%.abs
+goto :veryend
+:sendbjl
+echo Sending to bjl (hopefully)... >> %TEMPDIR%\build.log
+lo_inp.exe -8 -b 0x4000 %BUILDPATH%\%PROJECTNAME%.abs
 goto :veryend
 
 rem -------------------------------------------------------------

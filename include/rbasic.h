@@ -35,6 +35,51 @@ extern void *RAPTOR_particle_gfx asm("RAPTOR_particle_gfx");
 extern int raptor_mt_present asm("raptor_mt_present");
 extern int raptor_highscores_hex[10] asm("raptor_highscores_hex");
 extern char raptor_highscores_nam[10][8] asm("raptor_highscores_nam");
+extern unsigned long zero_left_pad asm("zero_left_pad");
+extern unsigned long zero_right_pad asm("zero_right_pad");
+unsigned long zero_mousex_delta asm("zero_mousex_delta");
+unsigned long zero_mousey_delta asm("zero_mousey_delta");
+unsigned long zero_rotary_delta asm("zero_rotary_delta");
+extern short raptor_ntsc_flag asm("raptor_ntsc_flag");
+extern long raptor_vbl_time_remain asm("raptor_vbl_time_remain");
+extern long raptor_user_savedata asm("raptor_user_savedata");
+
+//Zerosquare player equates
+#define Zero_Chan_Format_Shift      30
+#define Zero_Chan_Looping_Shift     29
+#define Zero_Chan_Enabled_Shift     28
+#define Zero_Audio_8bit_Signed      (0 << Zero_Chan_Format_Shift)
+#define Zero_Audio_8bit_Unsigned    (1 << Zero_Chan_Format_Shift)
+#define Zero_Audio_8bit_muLaw       (2 << Zero_Chan_Format_Shift)
+#define Zero_Audio_Looping          (1 << Zero_Chan_Looping_Shift)
+// Bit numbers for pad buttons
+#define Input_Pad_Pause             ( 1 << 0 )
+#define Input_Pad_A                 ( 1 << 1 )
+#define Input_Pad_Up                ( 1 << 2 )
+#define Input_Pad_Down              ( 1 << 3 )
+#define Input_Pad_Left              ( 1 << 4 )
+#define Input_Pad_Right             ( 1 << 5 )
+#define Input_Pad_C1                ( 1 << 6 )
+#define Input_Pad_B                 ( 1 << 7 )
+#define Input_Pad_Star              ( 1 << 8 )
+#define Input_Pad_7                 ( 1 << 9 )
+#define Input_Pad_4                 ( 1 << 10 )
+#define Input_Pad_1                 ( 1 << 11 )
+#define Input_Pad_C2                ( 1 << 12 )
+#define Input_Pad_C                 ( 1 << 13 )
+#define Input_Pad_0                 ( 1 << 14 )
+#define Input_Pad_8                 ( 1 << 15 )
+#define Input_Pad_5                 ( 1 << 16 )
+#define Input_Pad_2                 ( 1 << 17 )
+#define Input_Pad_C3                ( 1 << 18 )
+#define Input_Pad_Option            ( 1 << 19 )
+#define Input_Pad_Sharp             ( 1 << 20 )
+#define Input_Pad_9                 ( 1 << 21 )
+#define Input_Pad_6                 ( 1 << 22 )
+#define Input_Pad_3                 ( 1 << 23 )
+// Bit numbers for mouse buttons
+#define Input_Mouse_Left            ( 1 << 1 )
+#define Input_Mouse_Right           ( 1 << 0 )
 
 //Functions
 
@@ -81,12 +126,36 @@ void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_d
 extern short hiscore_check(int score, char *name) asm("hiscore_check");
 extern void RAPTOR_resort_score_table() asm("RAPTOR_resort_score_table");
 extern void RAPTOR_mt_save() asm("RAPTOR_mt_save");
+extern void ZEROPAD() asm("ZEROPAD");
+extern void Input_SetJoyPort1() asm("Input_SetJoyPort1");
+extern void Input_SetJoyPort2() asm("Input_SetJoyPort2");
+extern void Input_SetNormalPadMode() asm("Input_SetNormalPadMode");
+extern void Input_SetRotaryMode() asm("Input_SetRotaryMode");
+extern void Input_SetAtariMouseMode() asm("Input_SetAtariMouseMode");
+extern void Input_SetAmigaMouseMode() asm("Input_SetAmigaMouseMode");
+extern void RBRA(long object_number, long branch_type, long ypos, long object_to_branch_if_taken) asm("RBRA");
+extern void bin2asc(long number, long no_digits, char *string) asm("bin2asc");
 
-//Zerosquare player equates
-#define Zero_Chan_Format_Shift       30
-#define Zero_Chan_Looping_Shift      29
-#define Zero_Chan_Enabled_Shift      28
-#define Zero_Audio_8bit_Signed       (0 << Zero_Chan_Format_Shift)
-#define Zero_Audio_8bit_Unsigned     (1 << Zero_Chan_Format_Shift)
-#define Zero_Audio_8bit_muLaw        (2 << Zero_Chan_Format_Shift)
-#define Zero_Audio_Looping           (1 << Zero_Chan_Looping_Shift)
+/* Construct binary constants at compile time
+   Code by Tom Torfs */
+
+/* Helper macros */
+#define HEX__(n) 0x##n##LU
+#define B8__(x) ((x&0x0000000FLU)?1:0) \
++((x&0x000000F0LU)?2:0) \
++((x&0x00000F00LU)?4:0) \
++((x&0x0000F000LU)?8:0) \
++((x&0x000F0000LU)?16:0) \
++((x&0x00F00000LU)?32:0) \
++((x&0x0F000000LU)?64:0) \
++((x&0xF0000000LU)?128:0)
+
+/* User macros */
+#define B8(d) ((unsigned char)B8__(HEX__(d)))
+#define B16(dmsb,dlsb) (((unsigned short)B8(dmsb)<<8) \
++ B8(dlsb))
+#define B32(dmsb,db2,db3,dlsb) (((unsigned long)B8(dmsb)<<24) \
++ ((unsigned long)B8(db2)<<16) \
++ ((unsigned long)B8(db3)<<8) \
++ B8(dlsb))
+

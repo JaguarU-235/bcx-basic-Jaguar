@@ -198,6 +198,7 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		RAPTOR_setup_object_g
 	.extern		RAPTOR_setup_object_xy
 	.extern		RAPTOR_setup_object_xyz
+	.extern		RAPTOR_setup_object_bra
 	.extern		RAPTOR_rmw
 	.extern		RAPTOR_setpalt
 	.extern		RAPTOR_reflect
@@ -279,7 +280,9 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		raptor_fade_delay
 	.extern		raptor_used_particles
 	.extern		raptor_free_particles	
-
+	.extern		raptor_ntsc_flag
+	.extern		raptor_vbl_time_remain
+	.extern		raptor_user_savedata
 		
 ;END OF FILE.
 

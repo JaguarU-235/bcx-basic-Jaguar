@@ -6441,7 +6441,7 @@ SUB TokenSubstitutions
 		Stk$[Tmp] = "delay"
 		
         CASE "dpeek"
-        Stk$[Tmp] = "*(short *)"
+        Stk$[Tmp] = "*(volatile short *)"
 
         CASE "declare"
         CallType$ = "__stdcall "
@@ -6925,7 +6925,7 @@ SUB TokenSubstitutions
       SELECT CASE Keyword$
 
         CASE "lpeek"
-        Stk$[Tmp] = "*(int *)"
+        Stk$[Tmp] = "*(volatile int *)"
           
         CASE "loadfile$"
         Stk$[Tmp]= "$$LoadFile$"
@@ -7206,7 +7206,7 @@ SUB TokenSubstitutions
       SELECT CASE Keyword$
 
         CASE "peek"
-        Stk$[Tmp] = "*(char *)"
+        Stk$[Tmp] = "*(volatile char *)"
 
         CASE "plot"
         Stk$[Tmp] = "plot"
@@ -9784,11 +9784,11 @@ SUB Emit
     NEXT
     
     if left$(Lookup$,1)="l" then
-      FPRINT Outfile,Scoot$,"*(unsigned int*)(";lszTmp$;")=(unsigned int)";
+      FPRINT Outfile,Scoot$,"*(volatile unsigned int*)(";lszTmp$;")=(volatile unsigned int)";
     elseif left$(Lookup$,1)="d" then
-      FPRINT Outfile,Scoot$,"*(unsigned short*)(";lszTmp$;")=(unsigned short)";
+      FPRINT Outfile,Scoot$,"*(volatile unsigned short*)(";lszTmp$;")=(volatile unsigned short)";
     elseif left$(Lookup$,1)="p" then
-      FPRINT Outfile,Scoot$,"*(unsigned char*)(";lszTmp$;")=(unsigned char)";
+      FPRINT Outfile,Scoot$,"*(volatile unsigned char*)(";lszTmp$;")=(volatile unsigned char)";
     endif
 
     i++

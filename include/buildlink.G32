@@ -160,13 +160,14 @@ While Not EOF(# 1)
       Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
+      Print # 6; ".extern " + varname$ + "_end"
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+      Print # 4; "extern void *" + varname$ + "_end" + " asm(""" + varname$ + "_end"");"
     EndIf
   ElseIf Left$(Lower$(type$), 7) = "gfx_cry"
     Print # 10; "        Converting bmp into CRY (using bmp_cry_nodither)..."
     Print # 10; "        Command run: bmp_cry_nodither.exe  """ + fullname$ + """ " + basedir$ + "\build\" + plainfile$ + ".cry"
-'##E#
     System "bmp_cry_nodither.exe """ + fullname$ + """  " + basedir$ + "\build\" + plainfile$ + ".cry""", Wait, Show SW_HIDE
     If Upper$(romabs$) = "ROM"
       any_rom_asset = True
@@ -184,8 +185,10 @@ While Not EOF(# 1)
       Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".cry"""
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
+      Print # 6; ".extern " + varname$ + "_end"
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+      Print # 4; "extern void *" + varname$ + "_end" + " asm(""" + varname$ + "_end"");"
     EndIf
   ElseIf Left$(Lower$(type$), 7) = "sfx_raw"
     Print # 10; "        Converting sound file into raw file (using sox)..."
@@ -193,13 +196,19 @@ While Not EOF(# 1)
     If rate < 1024
       rate = 8000
     EndIf
-    Print # 10; "        Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate)
-    System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding signed-integer """ + fullname$ + ".raw"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
+
+    If checkdate(fullname$, basedir$ + "\build\" + plainfile$ + ".raw")
+      Print # 10; "        Command run: sox.exe " + fullname$ + "--channels 1 --bits 8 --encoding signed-integer """ + basedir$ + "\build\" + plainfile$ + ".raw"" --show-progress rate -v " + Str$(rate)
+      System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding signed-integer """ + basedir$ + "\build\" + plainfile$ + ".raw"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
+    Else
+      Print # 10; "        Destination file " + basedir$ + "\build\" + plainfile$ + ".raw already exists and is newer than the source file - skipping"
+    EndIf
+
     If Upper$(romabs$) = "ROM"
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      Open fullname$ + ".raw" for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".raw" for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -208,11 +217,14 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-      Print # 6; varname$; ": incbin """ + fullnameslash$ + ".raw"""
+'##E#
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".raw"""
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
+      Print # 6; ".extern " + varname$ + "_end"
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+      Print # 4; "extern void *" + varname$ + "_end" + " asm(""" + varname$ + "_end"");"
     EndIf
   ElseIf Lower$(Left$(type$, 8)) = "sfx_mlaw"
     Print # 10; "        Converting sound file into m-law file (using sox)..."
@@ -220,13 +232,20 @@ While Not EOF(# 1)
     If rate < 1024
       rate = 8000
     EndIf
-    Print # 10; "        Command run: sox.exe " + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate)
-    System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + fullname$ + ".ul"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
+
+    If checkdate(fullname$, basedir$ + "\build\" + plainfile$ + ".ul")
+      Print # 10; "        Command run: sox.exe " + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + basedir$ + "\build\" + plainfile$ + ".ul"" --show-progress rate -v " + Str$(rate)
+      System "sox.exe """ + fullname$ + """ --channels 1 --bits 8 --encoding mu-law """ + basedir$ + "\build\" + plainfile$ + ".ul"" --show-progress rate -v " + Str$(rate), Wait, Show SW_HIDE
+    Else
+      Print # 10; "        Destination file "; basedir$ + "\build\" + plainfile$ + ".ul already exists and is newer than the source file - skipping"
+    EndIf
+
+
     If Upper$(romabs$) = "ROM"
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      Open fullname$ + ".ul" for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".ul" for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -235,11 +254,13 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-      Print # 6; varname$; ": incbin """ + fullnameslash$ + ".ul"""
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".ul"""
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
+      Print # 6; ".extern " + varname$ + "_end"
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+      Print # 4; "extern void *" + varname$ + "_end" + " asm(""" + varname$ + "_end"");"
     EndIf
   ElseIf Lower$(Left$(type$, 7)) = "rmotion"
     Print # 10; "        Executing command: rmotion.exe " + fullname$ + " " + basedir$ + "\build\" + plainfile$ + ".s"
@@ -399,47 +420,13 @@ Procedure convertbmp(file$, dumpclut As Bool)
 
       Open outfile$ + ".gfxdata" for Output As # 5
 
-      OpenW 1, 0, 0, 500, 300, 0
-      While yy > 0
-        Put 0, yy - h, hBmp
-        Get 0, 0, (w - 1), Min(199, yy - 1), b$
-        Dim picadr% = V:b$ + 24
-
-        '
-        ' Dump mono bitmap
-        '
-        Dim outb As Byte, pixel As Byte
-        Dim outadr% = V:outb
-        Local align = (w / 8) And 7
-
-        For y = 0 To Min(199, yy - 1)
-          pixel = 128
-          outb = 0
-          For x = 0 To w - 1
-            If LPeek(picadr%) <> 0
-              outb = outb | pixel
-            EndIf
-            pixel = pixel >> 1
-            If pixel = 0
-              BPut # 5, outadr%, 1
-              outb = 0
-              pixel = 128
-            EndIf
-            Add picadr%, 4
-          Next x
-          If  align > 0
-            outb = 0
-            For i = 0 To 7 - align
-              BPut # 5, V:outadr%, 1
-            Next i
-          EndIf
-        Next y
-        yy = yy - 200
-      Wend
-      CloseW 1
+      screenstart = 62
+      For i = height - 1 DownTo 0
+        BPut # 5, V:sourcebmp(screenstart + i * (width / 8)), width / 8
+      Next i
       Close # 5
     Else
-      Print # 10; "        Destination file already exists and is newer than the source file - skipping"
+      'Print  "        Destination file already exists and is newer than the source file - skipping"
     EndIf
   Case 4                          '***************** 4-bit
     If checkdate(file$, outfile$ + ".gfxdata")

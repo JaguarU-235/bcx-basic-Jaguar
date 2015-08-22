@@ -68,9 +68,11 @@ extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
-//extern void Audio_Play asm ("Audio_Play");
+extern void Audio_Play asm ("Audio_Play");
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
 short hiscore_check(int score, char *name) asm("hiscore_check");
+extern void ZEROPAD() asm("ZEROPAD");
+extern void Input_Read asm("Input_Read");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -84,13 +86,48 @@ int basic_r_indx=0;
 int basic_r_size=0;
 extern unsigned int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
 static unsigned int U235_commands[2]={0,0};
+extern long raptor_partbuf_x asm("raptor_partbuf_x");
+extern long raptor_partbuf_y asm("raptor_partbuf_y");
+extern void RBRA(long object_number, long branch_type, long ypos, long object_to_branch_if_taken) asm("RBRA");
+extern void bin2asc(long number, long no_digits, char *string) asm("bin2asc");
 
+//Warning: do NOT change the order of these 5 variables!
+unsigned long zero_left_pad asm("zero_left_pad")=0;
+unsigned long zero_right_pad asm("zero_right_pad")=0;
+long zero_mousex_delta asm("zero_mousex_delta")=0;
+long zero_mousey_delta asm("zero_mousey_delta")=0;
+long zero_rotary_delta asm("zero_rotary_delta")=0;
 
 
 //
 // And now, teh c0d3!!!111
 //
 
+// -----------------------------------------------------------------------------
+void bin2asc(long number, long no_digits, char *string)
+{
+	__asm__ ("\tmovem.l d1/d4/a0,-(sp)\n\t"
+            "movem.l 8(a6),d1/d4/a0\n\t"
+            "jsr RAPTOR_HEXtoDEC\n\t"
+			"clr.b 1(a0,d4.w)    |hex2dec expects digits-1 in d4 and we want to zero out the byte after the last digit\n\t"
+            "movem.l (sp)+,d1/d4/a0\n\t");
+}
+// -----------------------------------------------------------------------------
+void RBRA(long object_number, long branch_type, long ypos, long object_to_branch_if_taken)
+{
+	__asm__ ("\tmovem.l d0-d3/a6,-(sp) |lolol\n\t"
+            "movem.l 8(a6),d0-d3\n\t"    
+            "jsr RAPTOR_setup_object_bra\n\t"
+            "movem.l (sp)+,d0-d3/a6    |lolol\n\t");
+}
+// -----------------------------------------------------------------------------
+void ZEROPAD()
+{
+	__asm__ ("\tmovem.l d0-d4,-(sp)\n\t"
+                "jsr Input_Read\n\t"
+            "movem.l d0-d4,zero_left_pad\n\t"    
+            "movm.l (sp)+,d0-d4\n\t");
+}
 // -----------------------------------------------------------------------------
 short hiscore_check(int score, char *name)
 {
@@ -99,18 +136,18 @@ short hiscore_check(int score, char *name)
 	"jsr RAPTOR_chk_highscores\n\t");
 }
 // -----------------------------------------------------------------------------
-//void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command)
-//{
-//__asm(""
-//	"movem.l d0/a0/d1/d2/d3,-(a7)\n\t"
-//	"move.l	8(a6),d0\n\t"
-//	"move.l	12(a6),a0\n\t"
-//	"move.l	16(a6),d1\n\t"
-//	"move.l	20(a6),d2\n\t"
-//	"move.l	24(a6),d3\n\t"
-//	"jsr		Audio_Play\n\t"
-//	"movem.l (sp)+,d0/a0/d1/d2/d3");
-//}
+void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command)
+{
+__asm(""
+	"movem.l d0/a0/d1/d2/d3,-(a7)\n\t"
+	"move.l	8(a6),d0\n\t"
+	"move.l	12(a6),a0\n\t"
+	"move.l	16(a6),d1\n\t"
+	"move.l	20(a6),d2\n\t"
+	"move.l	24(a6),d3\n\t"
+	"jsr		Audio_Play\n\t"
+	"movem.l (sp)+,d0/a0/d1/d2/d3");
+}
 // -----------------------------------------------------------------------------
 int fadesingle(short clut_index,short target_col)
 {
@@ -353,8 +390,13 @@ void RPRINT()
 void cls(void)
 {
     __asm__ ("movem.l d0/d1/a0,-(a7)\n\t"
-"			  lea		RAPTOR_particle_gfx,a0\n\t"
-"              move.w #(320*240)/2/4-1,d0\n\t"
+"              lea RAPTOR_particle_gfx,a0\n\t"
+"              move.l raptor_partbuf_x,d0\n\t"
+"              move.l raptor_partbuf_y,d1\n\t"
+"              mulu d1,d0\n\t"
+"              lsr.l #3,d0\n\t"
+"              subq.w #1,d0\n\t"
+"              |used to be: move.w #(320*240)/2/4-1,d0\n\t"
 "              moveq #0,d1\n\t"
 "clr_loop:     move.l d1,(a0)+\n\t"
 "              dbra d0,clr_loop\n\t"

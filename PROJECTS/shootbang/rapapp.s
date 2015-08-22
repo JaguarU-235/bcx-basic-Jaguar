@@ -6,19 +6,12 @@
 ;;			use Notepad++ for maximum readability. 
 ;;
 
+;; THE NEXT LINE CONTROLS WHICH PLAYER WILL BE USED
 
+player equ 1      ;0=Zerosquare's player, 1=U-235 player
 
 ;; DO NOT MODIFY THE FOLLOWING LINES
-			.extern RAPTOR_particle_gfx
-			.extern RAPTOR_sprite_table
-			.extern	RAPTOR_module_list
-			.extern	listing
-			.extern	RUPDALL_FLAG
-			.extern	pixel_list
-
-			extern RAPTOR_particle_gfx
-			extern RAPTOR_sprite_table
-			extern RAPTOR_module_list
+			include				"externs.inc"
 
 			include				"build/romassets.inc"
 			include				"JAGUAR.INC"								; Include JAGUAR system labels
@@ -98,7 +91,9 @@ LIST_display					equ				0										; the first display list - plasma
 			move.l	#RAPTOR_MT_app_name,raptor_mtapp
 			move.l	#RAPTOR_MT_file_name,raptor_mtfn
 			move.l	#raptor_init_table,raptor_inittab
-			move.l	#RAPTOR_samplebank,raptor_samplebank_ptr
+                if player=1
+			move.l	#RAPTOR_samplebank,raptor_samplebank_ptr                ;linko player
+                endif
 			move.l	#0,raptor_mapbmptiles					; <<<<---- THIS WILL NEED TO BE CHANGED IF USING THE TILEMAP MODULE <<<<----
 			jsr		RAPTOR_HWinit				; Setup Jaguar hardware / install RAPTOR library
 
@@ -123,7 +118,17 @@ LIST_display					equ				0										; the first display list - plasma
 
 			
 ;; we're using Joystick input, so we now need U235 Sound Engine running
+                if player=1
 			jsr		RAPTOR_U235init														; init the U235 Sound Engine
+.extern Audio_Play
+.extern Input_Read
+Audio_Play:
+Input_Read:
+                        
+                else
+			bsr             Audio_Init
+                endif
+
 						
 ;; get something on the screen
 	
@@ -152,6 +157,9 @@ LIST_display					equ				0										; the first display list - plasma
 			
 			
 			jmp __Z9basicmainv
+                    if player=0
+                        include "zero_audio.s"
+                    endif
 			
 			;		"0123456789012345678901234567890123456789"
 init_txt:	dc.b	"shootbang!                              ",raptor_t_lf,raptor_t_font_siz,0
@@ -185,7 +193,9 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
 			rts
 						
 							include 	"RAPINIT.S"									; RAPTOR object user data
+                                                    if player=1
 							include 	"RAPU235.S"									; RAPTOR u235se user data
+                                                    endif
 	
 ;; 
 ;; Convert List
@@ -224,6 +234,7 @@ RAPTOR_particle_palette:	incbin	"ASSETS/PARTIPAL.BMP"							; User defined palet
 							.bss
 top_of_bss:
 
+							.dphrase
 RAPTOR_MTtrash:				.ds.b	16384																		; Workspace for MemoryTrack routines
 
 							.dphrase
