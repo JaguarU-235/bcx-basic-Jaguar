@@ -9,7 +9,7 @@
 ;--------------------------------
 
 ; The name of the installer
-Name "Raptor Basic+ v1.1"
+Name "Raptor Basic+ v1.2"
 
 ; The file to write
 OutFile "rb+_install.exe"
@@ -106,6 +106,10 @@ Section "Base files (required)" BaseFiles
   File "..\bin\makearom.Exe"
   File "..\bin\msys-1.0.dll"
   File "..\bin\pack2e.exe"
+  File "..\bin\inpout32.dll"
+  File "..\bin\jcp.exe"
+  File "..\bin\lo_inp.exe"
+  File "..\bin\lo_inp.txt"
   File "rbplus.ico"
   File "..\bin\rln.exe"
   File "..\bin\rmac.exe"
@@ -114,6 +118,17 @@ Section "Base files (required)" BaseFiles
   File "..\bin\virtualjaguar.exe"
   File "..\bin\zlib1.dll"
   SetOutPath $INSTDIR\Include
+  File "..\include\zero_audio.s"
+  File "..\include\zero_audioequ.s"
+  File "..\include\zero_audiotbl.s"
+  File "..\include\zero_inpt68k.s"
+  File "..\include\zero_inpt68ki.s"
+  File "..\include\zero_inptequs.s"
+  File "..\include\zero_inptinit.s"
+  File "..\include\zero_inptint.s"
+  File "..\include\zero_inptmain.s"
+  File "..\include\zero_inptvars.s"
+  File "..\include\externs.inc"
   File "..\include\alloca.h"
   File "..\include\basic_functions.o"
   File "..\include\compiler.h"
