@@ -74,6 +74,7 @@ short hiscore_check(int score, char *name) asm("hiscore_check");
 extern void ZEROPAD() asm("ZEROPAD");
 extern void Input_Read asm("Input_Read");
 extern void powarset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powarset");
+extern void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powadiff");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -104,6 +105,28 @@ long zero_rotary_delta asm("zero_rotary_delta")=0;
 // And now, teh c0d3!!!111
 //
 
+// -----------------------------------------------------------------------------
+void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values)
+{
+	__asm__ ("\tmovem.l d0/d1/d2/d3/a0/a1,-(sp)\n\t"
+            "movem.l 8(a6),d0/d1/d2/a0\n\t"
+			"move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
+			"add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
+			"add.l %d0,%d3\n\t"
+			"lsl.l #4,%d3\n\t"
+			"sub.l %d0,%d3\n\t"
+			"add.l %d3,%d3\n\t"
+			"add.l %d3,%d3\n\t"
+			"add.l d1,d3\n\t"
+			"lea raptor_liststart,a1\n\t"
+			"lea (a1,d3.l),a1\n\t"
+			"subq.l #1,d2 |no of iterations-1 for dbra\n"
+			"powaloop2:\t move.l (a0)+,d3 \n\t"
+			"add.l d3,(a1) \n\t"
+			"lea 188(a1),a1\n\t"
+			"dbra d2,powaloop2\n\t"
+            "movem.l (sp)+,d0/d1/d2/d3/a0/a1\n\t");
+}
 // -----------------------------------------------------------------------------
 void powarset(int spr_index, int offset, int no_of_times, void *array_of_values)
 {
