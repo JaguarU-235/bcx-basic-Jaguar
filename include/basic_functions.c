@@ -73,7 +73,7 @@ void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_d
 short hiscore_check(int score, char *name) asm("hiscore_check");
 extern void ZEROPAD() asm("ZEROPAD");
 extern void Input_Read asm("Input_Read");
-extern void powarset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powarset");
+extern void powaset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powaset");
 extern void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powadiff");
 
 unsigned char plot_colour=0;
@@ -128,7 +128,7 @@ void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values)
             "movem.l (sp)+,d0/d1/d2/d3/a0/a1\n\t");
 }
 // -----------------------------------------------------------------------------
-void powarset(int spr_index, int offset, int no_of_times, void *array_of_values)
+void powaset(int spr_index, int offset, int no_of_times, void *array_of_values)
 {
 	__asm__ ("\tmovem.l d0/d1/d2/d3/a0/a1,-(sp)\n\t"
             "movem.l 8(a6),d0/d1/d2/a0\n\t"

@@ -135,7 +135,7 @@ extern void Input_SetAtariMouseMode() asm("Input_SetAtariMouseMode");
 extern void Input_SetAmigaMouseMode() asm("Input_SetAmigaMouseMode");
 extern void RBRA(long object_number, long branch_type, long ypos, long object_to_branch_if_taken) asm("RBRA");
 extern void bin2asc(long number, long no_digits, char *string) asm("bin2asc");
-extern void powarset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powarset");
+extern void powaset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powaset");
 extern void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powadiff");
 
 /* Construct binary constants at compile time
