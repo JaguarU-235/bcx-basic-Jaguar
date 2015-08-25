@@ -140,7 +140,7 @@ void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values)
 	"move.l 16(a6),d1\n\t"
 	"subq.w #1,d1\n\t"
 	"powaloop2:\tmove.l (a1)+,d3\n\t"
-	"add.l d3,(a1)\n\t"
+	"add.l d3,(a0)\n\t"
 	"lea 188(a0),a0\n\t"
 	"dbra d1,powaloop2\n\t"
             "movem.l (sp)+,d0/d1/d2/d3/a0/a1\n\t");
