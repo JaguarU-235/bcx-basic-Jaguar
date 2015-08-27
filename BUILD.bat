@@ -1,5 +1,11 @@
 @echo off
 
+echo   ___           _             ___          _      _   
+echo  ^| _ \__ _ _ __^| ^|_ ___ _ _  ^| _ ) __ _ __(_)__ _^| ^|_ 
+echo  ^|   / _` ^| '_ \  _/ _ \ '_^| ^| _ \/ _` (_-^< / _^|_   _^|
+echo  ^|_^|_\__,_^| .__/\__\___/_^|   ^|___/\__,_/__/_\__^| ^|_^|  
+echo           ^|_^|                                         
+
 rem -------------------------------------------------------------
 rem Remove the .rbplus extension from the parameter if found
 rem and pathname
@@ -218,3 +224,6 @@ set CURRENTPATH=
 set CURRENTPATHFULL=
 set TEMPDIR=
 set PROJECTNAME=
+
+goto :eof
+
