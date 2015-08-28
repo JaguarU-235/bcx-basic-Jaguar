@@ -137,6 +137,7 @@ extern void RBRA(long object_number, long branch_type, long ypos, long object_to
 extern void bin2asc(long number, long no_digits, char *string) asm("bin2asc");
 extern void powaset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powaset");
 extern void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powadiff");
+void powazap(int spr_index, int offset, int no_of_times, int value) asm("powazap");
 
 /* Construct binary constants at compile time
    Code by Tom Torfs */
