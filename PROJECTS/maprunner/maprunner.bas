@@ -1,6 +1,5 @@
 ' Random Map builder - Sporadic 08/2015
 ' Set the SEED variable to change the map before compiling.
-' see http://www.vlambeer.com/2013/04/02/random-level-generation-in-wasteland-kings/
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 CONST SEED% = 50
 
