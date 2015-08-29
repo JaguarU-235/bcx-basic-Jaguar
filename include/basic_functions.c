@@ -75,7 +75,10 @@ extern void ZEROPAD() asm("ZEROPAD");
 extern void Input_Read asm("Input_Read");
 extern void powaset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powaset");
 extern void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powadiff");
-void powazap(int spr_index, int offset, int no_of_times, int value) asm("powazap");
+extern void powazap(int spr_index, int offset, int no_of_times, int value) asm("powazap");
+extern void powabset(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset) asm("powabset");
+extern void powabdiff(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset) asm("powabdiff");
+extern void powabzap(int spr_index, int offset, int no_of_times, int value, int skip_offset) asm("powabzap");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -107,10 +110,135 @@ long zero_rotary_delta asm("zero_rotary_delta")=0;
 //
 
 // -----------------------------------------------------------------------------
+void powabzap(int spr_index, int offset, int no_of_times, int value, int skip_offset)
+{
+	__asm__ ("\tmovem.l d0/d1/a0,-(sp)\n\t"
+            "|movem.l 8(a6),d0/d1/d2/a0\n\t"
+			"|move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
+			"|add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
+			"|add.l %d0,%d3\n\t"
+			"|lsl.l #4,%d3\n\t"
+			"|sub.l %d0,%d3\n\t"
+			"|add.l %d3,%d3\n\t"
+			"|add.l %d3,%d3\n\t"
+			"|add.l d1,d3\n\t"
+			"|lea raptor_liststart,a1\n\t"
+			"|lea (a1,d3.l),a1\n\t"
+			"|subq.l #1,d2 |no of iterations-1 for dbra\n"
+			"|powaloop2:\t move.l (a0)+,d3 \n\t"
+			"|add.l d3,(a1) \n\t"
+			"|lea 188(a1),a1\n\t"
+			"|dbra d2,powaloop2\n\t"
+	"move.l 8(%fp),%a0\n\t"
+	"move.l %a0,%d0\n\t"
+	"add.l %a0,%d0\n\t"
+	"add.l %a0,%d0\n\t"
+	"lsl.l #4,%d0\n\t"
+	"sub.l %a0,%d0\n\t"
+	"add.l %d0,%d0\n\t"
+	"add.l %d0,%d0\n\t"
+	"add.l 12(%fp),%d0\n\t"
+	"move.l raptor_liststart,%a0\n\t"
+	"lea (a0,d0.l),a0\n\t"
+	"move.l 20(a6),d0\n\t"
+	"move.l 16(a6),d1\n\t"
+	"subq.w #1,d1\n\t"
+        "move.l 24(a6),d2\n\t"
+	"powaloop6:\n\t"
+	"move.l d0,(a0)\n\t"
+	"add.l d2,a0\n\t"
+	"dbra d1,powaloop6\n\t"
+            "movem.l (sp)+,d0/d1/a0\n\t");
+}
+// -----------------------------------------------------------------------------
+void powabdiff(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset)
+{
+	__asm__ ("\tmovem.l d0/d1/d2/a0/a1,-(sp)\n\t"
+            "|movem.l 8(a6),d0/d1/d2/a0\n\t"
+			"|move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
+			"|add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
+			"|add.l %d0,%d3\n\t"
+			"|lsl.l #4,%d3\n\t"
+			"|sub.l %d0,%d3\n\t"
+			"|add.l %d3,%d3\n\t"
+			"|add.l %d3,%d3\n\t"
+			"|add.l d1,d3\n\t"
+			"|lea raptor_liststart,a1\n\t"
+			"|lea (a1,d3.l),a1\n\t"
+			"|subq.l #1,d2 |no of iterations-1 for dbra\n"
+			"|powaloop2:\t move.l (a0)+,d3 \n\t"
+			"|add.l d3,(a1) \n\t"
+			"|lea 188(a1),a1\n\t"
+			"|dbra d2,powaloop2\n\t"
+	"move.l 8(%fp),%a0\n\t"
+	"move.l %a0,%d0\n\t"
+	"add.l %a0,%d0\n\t"
+	"add.l %a0,%d0\n\t"
+	"lsl.l #4,%d0\n\t"
+	"sub.l %a0,%d0\n\t"
+	"add.l %d0,%d0\n\t"
+	"add.l %d0,%d0\n\t"
+	"add.l 12(%fp),%d0\n\t"
+	"move.l raptor_liststart,%a0\n\t"
+	"lea (a0,d0.l),a0\n\t"
+	"move.l 20(a6),a1\n\t"
+	"move.l 16(a6),d1\n\t"
+	"subq.w #1,d1\n\t"
+        "move.l 24(a6),d0\n\t"
+	"powaloop5:\tmove.l (a1)+,d2\n\t"
+	"add.l d2,(a0)\n\t"
+	"add.l d0,a0\n\t"
+	"dbra d1,powaloop5\n\t"
+            "movem.l (sp)+,d0/d1/d2/a0/a1\n\t");
+}
+// -----------------------------------------------------------------------------
+void powabset(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset)
+{
+	__asm__ ("\tmovem.l d0/d1/a0/a1,-(sp)\n\t"
+            "|movem.l 8(a6),d0/d1/d2/a0\n\t"
+			"||move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
+			"||add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
+			"||add.l %d0,%d3\n\t"
+			"||lsl.l #4,%d3\n\t"
+			"||sub.l %d0,%d3\n\t"
+			"||add.l %d3,%d3\n\t"
+			"||add.l %d3,%d3\n\t"
+			"|mulu #188,d0\n\t"
+			"|add.l d1,d0\n\t"
+			"|lea raptor_liststart,a1\n\t"
+			"|lea (a1,d0.l),a1\n\t"
+			"||subq.l #1,d2 |no of iterations-1 for dbra\n"
+			"||powaloop:\t move.l (a0)+,(a1) \n\t"
+			"||lea 188(a1),a1\n\t"
+			"||dbra d2,powaloop\n\t"
+			"|move.l (a0),(a1)\n\t"
+	"move.l 8(%fp),%a0\n\t"
+	"move.l %a0,%d0\n\t"
+	"add.l %a0,%d0\n\t"
+	"add.l %a0,%d0\n\t"
+	"lsl.l #4,%d0\n\t"
+	"sub.l %a0,%d0\n\t"
+	"add.l %d0,%d0\n\t"
+	"add.l %d0,%d0\n\t"
+	"add.l 12(%fp),%d0\n\t"
+	"move.l raptor_liststart,%a0\n\t"
+	"add.l d0,a0\n\t"
+	"move.l 20(a6),a1\n\t"
+	"move.l 16(a6),d1\n\t"
+	"subq.w #1,d1\n\t"
+        "move.l 24(a6),d0\n\t"
+	"|move.l (a1),(%a0,%d0.l)\n\t"
+	"powaloop4:\tmove.l (a1)+,(a0)\n\t"
+	"add.l d0,a0\n\t"
+	"dbra d1,powaloop4\n\t"
+
+            "movem.l (sp)+,d0/d1/a0/a1\n\t");
+}
+// -----------------------------------------------------------------------------
 void powazap(int spr_index, int offset, int no_of_times, int value)
 {
 	__asm__ ("\tmovem.l d0/d1/a0,-(sp)\n\t"
-            "movem.l 8(a6),d0/d1/d2/a0\n\t"
+            "|movem.l 8(a6),d0/d1/d2/a0\n\t"
 			"|move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
 			"|add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
 			"|add.l %d0,%d3\n\t"
@@ -150,7 +278,7 @@ void powazap(int spr_index, int offset, int no_of_times, int value)
 void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values)
 {
 	__asm__ ("\tmovem.l d0/d1/d2/d3/a0/a1,-(sp)\n\t"
-            "movem.l 8(a6),d0/d1/d2/a0\n\t"
+            "|movem.l 8(a6),d0/d1/d2/a0\n\t"
 			"|move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
 			"|add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
 			"|add.l %d0,%d3\n\t"
@@ -190,7 +318,7 @@ void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values)
 void powaset(int spr_index, int offset, int no_of_times, void *array_of_values)
 {
 	__asm__ ("\tmovem.l d0/d1/d2/d3/a0/a1,-(sp)\n\t"
-            "movem.l 8(a6),d0/d1/d2/a0\n\t"
+            "|movem.l 8(a6),d0/d1/d2/a0\n\t"
 			"||move.l %d0,%d3 |multiply by 188, courtesy of gcc\n\t"
 			"||add.l %d3,%d3  |(nope, not checking if there's a faster way, suck it up :P\n\t"
 			"||add.l %d0,%d3\n\t"
