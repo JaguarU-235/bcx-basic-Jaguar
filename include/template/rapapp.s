@@ -8,7 +8,7 @@
 
 ; THE NEXT LINE CONTROLS WHICH PLAYER WILL BE USED
 
-player equ 0      ;0=Zerosquare's player, 1=U-235 player
+player equ 1      ;0=Zerosquare's player, 1=U-235 player
 
 ;; DO NOT MODIFY THE FOLLOWING LINES
 			include				"externs.inc"
