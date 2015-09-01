@@ -242,16 +242,22 @@ Section "Example projects (optional)" ExamFiles
   ; Set output path to the installation directory.
   !insertmacro copyexamples 2lists
   !insertmacro copyexamples Changer
+  !insertmacro copyexamples CRYtest
   !insertmacro copyexamples DOGEr
   !insertmacro copyexamples Invaders
+  !insertmacro copyexamples lolvalamp
+  !insertmacro copyexamples maprunner
   !insertmacro copyexamples NYANDodge
   !insertmacro copyexamples Particles
   !insertmacro copyexamples Print
   !insertmacro copyexamples Psemu
+  !insertmacro copyexamples raycaster
   !insertmacro copyexamples Scores
+  !insertmacro copyexamples scroller
   !insertmacro copyexamples ShootBang
   !insertmacro copyexamples Spiral
   !insertmacro copyexamples Tilemap
+  !insertmacro copyexamples starfield
   
 SectionEnd
 
