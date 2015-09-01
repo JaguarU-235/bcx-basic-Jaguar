@@ -144,6 +144,7 @@ if not exist %TEMPDIR%\%PROJECTNAME%.bin goto :builderror
 
 rem -------------------------------------------------------------
 rem Let's build a ROM
+:buildrom
 echo. >> %TEMPDIR%\build.log
 echo Making ROM... >> %TEMPDIR%\build.log
 makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom
@@ -171,7 +172,19 @@ echo Linking things... >> %TEMPDIR%\build.log
 rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\BASIC.O "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
 
 rem -------------------------------------------------------------
+rem Check file size to see if we passed the 2mb barrier
+rem If yes, switch to ROM building
+set file="%BUILDPATH%\%PROJECTNAME%.abs"
+FOR /F "usebackq" %%A IN ('%file%') DO set size=%%~zA
+echo File size=%size% bytes
+if %size% lss 1900544 goto :runabs
+echo ...which is waaay too big for .abs - aborting!
+echo File too big for .abs - aborting build
+goto :veryend
+
+rem -------------------------------------------------------------
 rem Don't run vj if no .abs file was produced
+:runabs
 if not exist %BUILDPATH%\%PROJECTNAME%.abs goto :builderror
 echo. >> %TEMPDIR%\build.log
 echo Build successful! >> %TEMPDIR%\build.log

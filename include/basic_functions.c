@@ -405,8 +405,8 @@ __asm(""
 int fadesingle(short clut_index,short target_col)
 {
 	__asm__ ("\tmove.l d1,-(a7)\n\t"
-	"move.l 10(a6),d1\n\t"
-	"move.l 8(a6),d0\n\t"
+	"move.w 10(a6),d1\n\t"
+	"move.w 8(a6),d0\n\t"
 	"jsr RAPTOR_fade_clutindex\n\t"
 	"move.l (a7)+,d1");	
 }

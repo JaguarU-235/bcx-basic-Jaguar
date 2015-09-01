@@ -21,11 +21,13 @@
 ' For conversion to CRY mode use "gfx_cry".
 ' For audio files you can use "sfx_rawXXXXX" to convert any audio file (for example .wav, .mp3, .ogg, etc) into raw format.
 ' You can optionally set XXXXX to be the desired sample rate, otherwise 8000Hz is used by default.
-' If you want the audio files to be compressed using u-law then use "sfx_mlawXXXX" instead (note - this requires Zerosquare's player!)
 ' Rmotion scripts should be placed here - field C then should be "rmotion".
 '
 ' That's all, have fun!
 '
+
+ABS,SPR_LINEB1,gfx_clut16,ASSETS\GFX\vertblue.bmp
+ABS,SPR_LINEB2,gfx_clut16,ASSETS\GFX\vertbluedark.bmp
 
 ' End of file.
 
