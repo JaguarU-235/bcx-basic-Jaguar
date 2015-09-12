@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>raptor BASIC + tutorial 3.1 :: video mode, object type,
+lolvalamp</title>
+
+  
+</head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+      <td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="contact.html">contact<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="links.html">links<br>
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;">rB+
+tutorials :: 3.1 playing with video mode, object type and finding a
+lolvalamp<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;">
+      <div style="text-align: center;"><br>
+      <img style="width: 324px; height: 225px;" alt="lolvalamp" src="images/lolvalamp.png"><br>
+      <span style="text-decoration: underline;"></span><br>
+First off - download the <a href="bin/lolvalamp.zip">project files</a>
+to accompany the lolvalamp tutorial<span style="font-weight: bold;"><br>
+      <br>
+***</span><br>
+      <br>
+      </div>
+      <br>
+Topics touched on in this "tutorial":<br>
+      <br>
+Stuff:<br>
+Changing video mode - <span style="font-weight: bold;">DPOKE VMODE</span><br>
+Mixing up object types, video modes and other fun stuff - <span style="font-weight: bold;"><span style="font-family: monospace;">is_cry</span></span><br>
+Overloading the Object Processor - <span style="font-weight: bold;">lolol</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; <span style="font-weight: bold;">***</span><br>
+      <span style="font-weight: bold;">LOLVALAMP project</span><br>
+      <br>
+Extract the ZIP file to your PROJECTS folder and you'll get the
+"lolvalamp"
+project. In this micro tutorial, we're simply going to mix and match
+video modes, object types and "stuff". There's really nothing more to
+it, but you might just find the tiny amount of "code" to be a bit of an
+eye-opener.<br>
+      <br>
+We're using the "lolvalamp" screen from the Cloudy With a Chance of
+Metaballs rB+ demo in order to highlight the kind of fun you can have
+when doing things that maybe you're not meant to. There isn't really
+any code required to have the Jaguar produce the lolvalamp effect, it's
+all Raptor and the OP doing their thing - the only real work on our end
+is creating suitable assets (the blobs in this case) and setting up the
+video mode and object definitions a certain way, then letting raptor
+take things from there.<br>
+      <br>
+Here is an example of one of the blobs:<br>
+      <br>
+      <div style="text-align: center;"><img style="width: 128px; height: 128px;" alt="128x128 blob" src="images/blob128.png"><br>
+      </div>
+      <br>
+It's a 16-bit RGB (RBG for Jaguar), boring, grey, murky 128x128 shaded
+circle and quite a blurry one at that. The brightest pixel used here is
+55,55,55, or #373737 if you're that way inclined. The RGB source gfx
+were converted to CRY format using ZeroSquare's nodither tool. The
+object to make use of it had this as part of its declaration:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; dc.l&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;"><span style="font-family: monospace;">is_cry</span></span>
+&nbsp;&nbsp; &nbsp; <span style="font-family: monospace;">;
+(CRY/RGB)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ; bitmap </span><span style="font-style: italic;"><span style="font-family: monospace;">GFX
+type</span></span><br>
+&nbsp;&nbsp;&nbsp; dc.l&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">is_trans</span>&nbsp;&nbsp;&nbsp; ;
+(TRANSPARENCY)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ; bitmap TRANS flag<br>
+      <br>
+Nothing too interesting there. We have our CRY object, but we're not
+going to use a matching video mode. Where the fun comes in and we get
+the free <span style="font-style: italic;">metaball-ish</span>
+effect (not
+really, but whatevs) is when use an RGB video mode, CRY objects and
+carefully set a background colour allowing the weird to happen.<br>
+      <br>
+Before you first build the project, head to line 21 and change the
+video mode to "cry_voff" instead of "rgb_voff". Build that and you'll
+see the kind of thing
+that was being played around with initially -
+hoping to have them interact and saturate out to the top end as more
+piled on, it's a bit meh but it was only an experiment (see the clouds
+in the Reboot game "Kobayashi Maru" for an example). there's still some
+fun you could play with there with a few object types, some sort of
+fake DOF effect for distant lights or something. Anyway, once you're
+done and have viewed that, change it back to "rgb_voff", build the
+project once more, and you'll see
+something more like the CWaCoM screen.<br>
+      <br>
+So there's an
+array of blobs floating around aimlessly, melting into one another
+as they pass by. There are around 12 or 13 128x128x16bit rmw
+objects(!), 6 64x64x16bit animated objects and just a couple of the
+small
+32x32x16bit animated objects. Animation of the 128x128s was removed for
+this demo as it clashed with BG changes (the frames are still there if
+you wish to reactivate them in rapinit.s, read on for info on BG
+changes).<br>
+      <br>
+You might notice the Object Processor grind a little if you leave it
+running long enough - nothing here is scripted or planned, it's let
+loose on rapinit object presets for the purposes of the demonstration.
+So if you notice tearing
+when lots of stuff is sat on the same scanline, you've now been blessed
+with a taste of what an overloaded OP looks like.<br>
+      <br>
+What's
+fun here in this RGB video mode vs the
+CRY one, is instead of the colours saturating at the high end, they
+look to clip
+and appear to loop back around, and that effect looks sort of
+psychedelic and interesting. The other interesting thing is the objects
+appear to melt into each other in their "halo" regions as long as the
+background colour allows for it. There's also the result of brighter
+spots looping again and creating a kind of topography effect, all quite
+fun and "free" in hardware.<br>
+      <br>
+You'll notice in the demo that the background
+colour changes from bright yellow to deep red and back over time, this
+is merely to help demonstrate how inter-object interactivity alters
+within the larger range. When the background is bright yellow, you'll
+see the objects saturate out to deep red at the edges and brighter
+orange in the centre. When the backdrop is deep red, the objects appear
+as small red blobs with huge yellow halos. At both extremes, the range
+of the halo region inter-object melting is reduced and can produce some
+odd artifacting, but it can also offer some weirder-in-a-good-way
+results -
+try using some static values instead of allowing cola to be used to
+alter the value every 5 frames. You could also try altering the BG in a
+more sensible way than just adding and subtracting 1 to it as that's
+just daft when you think what you're actually doing outside the safety
+of the range of greens you are affecting, lol.<br>
+      <br>
+Now try changing line 38 to have a larger range of values - 254:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; IF cola=59646 OR cola=59392 THEN<br>
+      <br>
+Some more odd stuff occurs out in the further reaches where everything
+saturates out to yellow as more blue is added, it appears as a kind of
+mixture of clipping then saturating... someone good with numbers could
+explain that and make some better use of it, but
+quite what use this kind of stuff could be beyond demo-ish
+screens is any body's guess. But regardless, have a play around, pile
+them high and move
+your objects in more regular and scripted ways, the results can be
+really fun! Try all kinds of source graphics with different ranges of
+shading and mix them in with others, see how they interact. If you want
+to get really trip-o-tronic, switch varmod on (change vmode to cry_von)
+and add the 128x128 animation back in (set maxframe on each to 5 in
+rapinit). Play around with that range of background values... there's
+likely much more potential for demo-ish/game effects using these
+properties of the Jaguar. [SPOILER] Full disclosure, the seed of an
+idea has been planted to try to produce a stylish (lol?) shmupish type
+thing somehow taking advantage of the free eye-torture psychedelia. 60
+frames, brixxels and lolvalamp fx just seems rude to ignore but
+frightening to explore. Either
+that or some oddball physics game... or maybe a Tactical RoleBlobbing
+Blob or... blobby blobby blobblob... [/SPOILER]<br>
+      <br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="tutorials.html">&gt;&gt; back to rB+
+tutorials &gt;&gt;</a><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br style="font-family: monospace;">
+
+<br>
+
+</body></html>

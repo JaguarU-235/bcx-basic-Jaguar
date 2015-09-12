@@ -4,6 +4,8 @@
 
 
 
+
+
   
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + tutorial 1.1</title></head><body style="width: 100%;">
 <table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
@@ -78,8 +80,8 @@ little game, what better way to see how easy it can be than getting the
 basics of one up and running.<br>
       <br>
 When creating our list, the order in which we place the sprite
-definitions is important. The higher up the list, the further back the
-sprite will be on screen, behind sprites that are further on in the
+definitions is important. The higher up the list, the deeper back the
+sprite will be on screen, behind sprites that are lower down in the
 list. For example - if we have a backdrop space scene image and a space
 ship sprite that flies around over it, we'd want to make sure the
 background sprite is defined before the rocket ship, otherwise we'd
@@ -146,7 +148,7 @@ automatically in x?&nbsp;&nbsp; &nbsp; ;&nbsp;&nbsp; R_sprite_xadd<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 ; How many pixels will this sprite move
-automatically in x?&nbsp;&nbsp; &nbsp; ;&nbsp;&nbsp; R_sprite_xadd<br>
+automatically in y?&nbsp;&nbsp; &nbsp; ;&nbsp;&nbsp; R_sprite_yadd<br>
 &nbsp;&nbsp; &nbsp;dc.l&nbsp;&nbsp; &nbsp;352&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; &nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -662,8 +664,8 @@ automatically in x?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; How many
 pixels will this sprite move
-automatically in x?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-;&nbsp;&nbsp; R_sprite_xadd<br>
+automatically in y?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+;&nbsp;&nbsp; R_sprite_yadd<br>
 &nbsp;&nbsp; &nbsp;dc.l&nbsp;&nbsp; &nbsp;64&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ; &nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -1147,8 +1149,8 @@ automatically in x?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ; How many pixels will this
 sprite move
-automatically in x?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-;&nbsp;&nbsp; R_sprite_xadd<br>
+automatically in y?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+;&nbsp;&nbsp; R_sprite_yadd<br>
 &nbsp;&nbsp; &nbsp;dc.l&nbsp;&nbsp; &nbsp;32&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ; &nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -1633,8 +1635,8 @@ automatically in x?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ; How many pixels will this
 sprite move
-automatically in x?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-;&nbsp;&nbsp; R_sprite_xadd<br>
+automatically in y?&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+;&nbsp;&nbsp; R_sprite_yadd<br>
 &nbsp;&nbsp; &nbsp;dc.l&nbsp;&nbsp; &nbsp;32&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ; &nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;

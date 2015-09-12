@@ -2,6 +2,9 @@
 <html><head>
 
 
+
+
+
   
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + tutorial 1.2</title></head><body style="width: 100%;">
 <table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
@@ -298,22 +301,12 @@ simple.<br>
       <br>
 For the pure novice new to all of this, you'll want to know how to
 actually get your program to build and take a look at it in VJ or on
-the Jaguar. To build the program and send to VJ, open the command
-prompt and navigate to the the rB+ root directory, or use the
-functionality of notepad++. You need to...<br>
-      <br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">BUILD
-DOGER</span><br>
-      <br>
-or, if you wish to send to the Jaguar via the skunkboard, do this
-instead:<br>
-      <br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">BUILD
-DOGER SENDY</span><br>
-      <br>
-"SENDY" is my personal choice of phrase, you might find it a little
-silly, so feel free to edit <span style="font-weight: bold;">BUILD.BAT</span>
-to suit your more sensible needs.<br>
+the Jaguar. If you have notepad++ set up to build your projects, you
+know how to do this, if not and you wish to - see the DOCS folder of
+your rB+ install for instructions. Alternatively, navigate to your rB+
+directory and double click doger.rbplus to build the project in Virtual
+Jaguar or right click and choose to send it to your skunk board when
+built.<br>
       <br>
 If you do either of these now, you will build the tutorial game in its
 final state. If you're reading through to get more of an understanding
@@ -846,7 +839,7 @@ blink<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; graphics
 width
-in bytes (has to be correctly aligned in memory)</small><br>
+in bytes</small><br>
       <br>
 You
 should be able to quite easily marry those up with the sprite
@@ -858,7 +851,8 @@ regard - over to the far right.<br>
 Now to the "<span style="font-weight: bold;">&lt;&lt;16</span>" when
 passing x and y values to the sprite
 definition. Remember the 0,0 or 100,0 - we had whole number parts and
-fractional parts, but did not enter anything for the fractional ones. <span style="font-weight: bold;">16.16 sub-pixel accuracy</span>: 16-bits to
+fractional parts, but did not enter anything for the fractional ones. <span style="font-weight: bold;">16.16 sub-pixel accuracy</span>:
+16-bits to
 describe the whole number and
 16-bits to describe the fraction of 1 pixel width. When passing whole
 numbers
@@ -872,9 +866,20 @@ x- or y-value in here will result in only WTFs as nothing seems to be
 happening. If you want to pass a
 fractional part, remember it is always a positive value, whereas the
 whole part can obviously be negative. So if you need to describe say a
-negative drift of half a pixel, you have to first set the fractional
-part to a half, (65535/2= 32768), then set the whole part to -1,
-(-1&lt;&lt;16), with the net effect of -1 + 1/2 giving -1/2. Once you
+negative drift of half a pixel, you have to think of it as first
+setting the fractional
+part to a half, (65535/2= 32768, or 1&lt;&lt;15) and the whole part to
+-1,
+(-1&lt;&lt;16), with the net effect of -1 + 1/2 giving -1/2. Here's an
+example to help illustrate this better than these mangled words:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">RSETOBJ(object_number,R_sprite_xadd,(-1&lt;&lt;16)+(</span><span style="color: rgb(0, 0, 0); font-family: monospace; font-size: medium; font-style: normal; font-variant: normal; font-weight: bold; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; display: inline ! important; float: none;">65535/2)</span><span style="font-weight: bold;">)</span><br>
+      <br>
+which can be written more sensibly(?) as:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">RSETOBJ(object_number,R_sprite_xadd,(-1&lt;&lt;16)+(1&lt;&lt;15))</span><br>
+      <br>
+Once you
 get this into your head it becomes second nature, it can just seem a
 little awkward at first.<br>
       <br>
@@ -983,7 +988,11 @@ Jaguar-targeted version of BCX help.<br>
 tutorials :: 1.1 the rB+ game application forms &lt;&lt;</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="tutorial1-3.html">&gt;&gt;rB+
 tutorials :: 1.3 conclusion&gt;&gt;</a>
       </td>
+    </tr><tr>
+      <td style="vertical-align: top;"><br>
+      </td>
     </tr>
+
   </tbody>
 </table>
 

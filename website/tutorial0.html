@@ -1,6 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
 
+
+
+
+
   
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>raptor BASIC + getting started</title></head><body style="width: 100%;">
 <table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
@@ -47,14 +51,12 @@ with rB+<br>
 beginner</span> </td>
     </tr>
     <tr>
-      <td style="vertical-align: top; text-align: left;"><br>
-      <small>&nbsp;&nbsp; </small><span style="font-family: monospace;">This
+      <td style="vertical-align: top; text-align: justify;"><br><small></small><span style="font-family: monospace;">This
 text and the following tutorial
 documents are intended to help guide anyone interested in the
 possibilities of rB+. This first one will to give a brief, simplified
 and friendly picture of what the Jaguar is and how rB+ might allow you
-to get creative and productive with your console. Rather than a
-tutorial discussing how to program in BASIC, subsequent parts will
+to get creative and productive with your console. Rather than tutorials covering how to program in BASIC, subsequent parts will
 cover more of the raptor-specific side of rB+, the general flow and
 organisation of a project, and a simple background to how it all comes
 together as software on your Jaguar or Virtual Jaguar.<br>
@@ -78,14 +80,32 @@ came before, we're now at the point where anyone and everyone gets to
 give it a go... where creativity and flair are given the chance to
 one-up past efforts as a broader spectrum of designers, tinkerers and
 curious kids with a few spare hours finally get to participate without
-having to do all the homework.<br>
+having to do masses of homework.<br>
       <br>
 At least, that would be the case in an ideal world. As things stand
 there's a rather large barrier preventing much of this - documentation.
-That's something I plan to address with this website and a series of
-tutorials and mini features. What you are reading now is part zero.
+That's something this site and these tutorials plan to address. What you are reading now is part zero.
 This is where we get things correctly aligned in our heads before we
 type a single line of code or define our first sprite.<br>
+      <br>
+</span>raptorBAISC+ is a compiled BASIC, not an interpreted one,
+powered by BCX the BASIC to C translation tool. There's no IDE - just
+use notepad, n++ or which ever text editor you prefer. Edit a few text
+files on your PC, run a batch file and your BASIC code is translated to
+C which gets compiled, linked and hooks its claws into raptor, spitting out GPU-powered software you can share as
+BJL-style binaries or ROMs.<br>
+      <br>
+The text files are:<br>
+      <br>
+      <div style="margin-left: 40px;">project.bas : your BASIC program<br>
+assets.txt&nbsp; : where you tell rB+ which graphics, music and sounds to include<br>
+rapinit&nbsp;&nbsp;&nbsp;&nbsp; : where you define
+the sprites based on those graphics<br>
+rapu235&nbsp;&nbsp;&nbsp;&nbsp; : where you define the sound effects
+based on the samples<br>
+      </div>
+
+      <span style="font-family: monospace;">
       <br>
 So that's rB+ - what actually is raptor?<br>
       <br>
@@ -93,28 +113,27 @@ raptor is CJ's hardware-abstracting package designed to take much of
 the grind out of game development on Jaguar, to keep developers busy
 with more of the fun aspects of making games rather than lost in
 technicalities and reinventing the wheel each time a new project is
-undertaken. rB+ is the vehicle for placing this power into the hands of
-a broader user-base: raptor for all.<br>
+undertaken.<br>
       <br>
-If you're new to Jaguar or, like myself, have only a passing knowledge
+rB+ is the vehicle for placing this power into the hands of
+a broader user-base: <span style="font-style: italic;">raptor for all</span>.<br>
+      <br>
+If you're new to Jaguar or have only a passing knowledge
 of the hardware specifics, this text will hopefully prove helpful in
 getting you thinking the "Jaguar way" and similarly the "raptor way"
 and remove any lingering fears after downloading the package and being
-presented with all those scary .S files and only the fairly technical
+presented with a whole load of files and only the fairly technical
 raptor manual for company (designed for assembler coders, not BASIC
 programmers). This is where we get past all that and break down any
 misconceptions we might have and build a clear and simple picture of
 the framework we'll work within.<br>
-      <br>
-I'm hopefully assuming nothing here. You may be familiar with creating
-games on other platforms, in BASIC or more low-level languages, if so
-you likely have a greater understanding of game creation than myself.
+      <br>Hopefully we're assuming nothing here. You may be familiar with creating
+games on other platforms, in BASIC or more low-level languages.
 OTOH, you could just be an avid Jaguar fan who has never even
 considered how to make a game but have spied the potential opportunity
 to dip a toe into Jaguar programming, something you might never have
-expected. Wherever you sit along that line, hopefully you'll shortly be
-in a better position and feel confident to give it a go. A few minutes
-from now you'll be able to begin thinking how rB+ can allow you to
+expected. Wherever you sit along that line, hopefully you'll shortly feel confident enough to give it a go. A few minutes
+from now you should be able to begin thinking how rB+ could allow you to
 explore your creative ideas and realise them as software running on the
 machine.</span><small><br>
       </small><span style="font-family: monospace;"><br>
@@ -128,10 +147,10 @@ directly program, it basically just digests a listed description of
 what we want to see on screen and constructs it. You could think of it
 as reading blueprint of what we want to see, seeing a list of the
 building blocks and where to find them, and then going off to build it
-for us. The blueprint is the Object List; the building blocks are
-objects or, as we'll be referring to them because it's friendlier,
-sprites, and the display on screen is nothing more than a collage of
-these sprites. Oddly, that collage is not something that actually ever
+for us. The blueprint is the Object List (which we'll mostly be referring to as the sprite list); the building blocks are
+objects (similarly, we'll be referring to these as
+sprites), and the display on screen is nothing more than a collage of
+these sprites. But oddly, that collage is not something that actually ever
 exists as a whole...<br>
       <br>
 Instead of having dedicated video memory, somewhere we copy all these
@@ -154,18 +173,18 @@ of. You could have a single sprite or 50 sprites over an empty
 background, all based on the same block of graphics in RAM, both
 effectively being equal in terms of memory usage - just one sprite's
 worth. If you're worriedly considering how the OP might handle all 50
-of these objects on one line at a time, your concern is noted. However,
+of these sprites on one line at a time, your concern is noted. However,
 Jaguar is powerful and you'll come to get a feel for what is and what
 is not possible as your experience grows. Half the fun is finding out
 the limits of what you can get away with and tricks to get around the
 problems.<br>
       <br>
-Jaguar's object handling allows for a little code and some simple list
+Jaguar's sprite handling allows for a little code and some simple list
 scripting to be translated into often quite complex scenes and
-movements on screen, that's all thanks to the OP. raptor has it's own
-lists that mirror these OP lists and manages them in the background.
-rB+ allows simple but powerful manipulation of these raptor lists that
-describe the objects we see. There's nothing particularly difficult
+movements on screen, that's mostly thanks to the OP. raptor has it's own
+lists that align with these OP lists and manages them in the background.
+rB+ allows simple but powerful manipulation of the raptor lists that
+describe the sprites we see. There's nothing particularly difficult
 about setting up the lists, in fact it's just like filling in a form.
 Each list is made up of a series of standard sprite definitions. These
 definitions are nothing more than a series of properties that combine
@@ -178,35 +197,34 @@ by defining or re-defining a sprite's properties. It's simple but
 powerful stuff.<br>
       <br>
 Now we're getting a feel for how the Jaguar does its 2D magic, it's
-maybe time to take a look at a single raptor/rB+ sprite definition and
-examine the majority of the properties. I had considered not touching
-on any of this stuff just yet, but I think it would help give more of a
-flavour of the possibilities and demystify things further if we do this
+maybe time to consider at a single sprite definition and
+examine the majority of the properties - it should help give more of a
+flavour of the possibilities and</span><span style="font-family: monospace;"> further</span><span style="font-family: monospace;"> demystify things if we take a look
 now. A raptor list is nothing more than a series of these sprite
 definitions with a few markers here and there to allow raptor to manage
 them appropriately. The most potentially troublesome thing, and I
 believe this is why some people instantly baulked at the idea of rB+ as
-"requires assembler knowledge" (absolutely, categorically untrue) is
+"requires assembler knowledge" (which is absolutely, categorically untrue) is
 that the list itself is contained in a hideously terrifying .S file.<br>
-      </span><span style="font-family: monospace;"><br>
-An .S file!<br>
+      </span><span style="font-family: monospace;"><br><span style="font-weight: bold; font-style: italic;">
+An .S file!</span><br>
       <br>
 Oh no! That must mean it's difficult, right? Well... in all fairness,
 it can and does look a little daunting the first time you come face to
-face with it. But there is really nothing to fear, as I said, it's just
+face with it. But there is really nothing to fear, it's just
 a blank form that is hungry for our numbers. Let's take a look at a
-pseudo-entry converted to slightly friendlier English. Everything here
+slightly friendlier English version of a sprite definition. Everything here
 is directly comparable to an actual sprite definition.<br>
       <br>
       </span><span style="font-family: monospace;">Simplified sprite
-definition </span><br>
+definition:</span><br>
       <br>
-      <table style="text-align: left; width: 840px; margin-left: 0px; margin-right: auto; height: 1384px;" border="1" cellpadding="2" cellspacing="2">
+      <table style="text-align: left; width: 840px; margin-left: auto; margin-right: auto; height: 1384px;" border="1" cellpadding="2" cellspacing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;"><span style="font-family: monospace;">Sprite property</span></td>
-            <td style="vertical-align: top;"><span style="font-family: monospace;">Sprite property value</span></td>
-            <td style="vertical-align: top;"><span style="font-family: monospace;">Description</span></td>
+            <td style="vertical-align: top; text-align: center;"><span style="font-family: monospace;">Sprite property</span></td>
+            <td style="vertical-align: top; text-align: center;"><span style="font-family: monospace;">Sprite property value</span></td>
+            <td style="vertical-align: top; text-align: center;"><span style="font-family: monospace;">Description</span></td>
           </tr>
           
           <tr>
@@ -274,7 +292,7 @@ so displays regularly.</span> </td>
 sprite</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">These 4 values are used for collision
 detection - so
-you can set up an object that is able to be checked against others to
+you can set up a sprite</span><span style="font-family: monospace;"> that is able to be checked against others to
 see if they collided - for instance an
 enemy and your bullets or your bullet and many enemies or many bullets
 vs many enemies.</span> </td>
@@ -306,7 +324,7 @@ regular Red/Green/Blue.</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">Yes&nbsp;</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">Do you want the background colour of
 the sprite to
-paint over the objects beneath it or do you want that colour to be
+paint over the sprites beneath it or do you want that colour to be
 transparent and
 let the other colour beneath show through?</span> </td>
           </tr>
@@ -402,7 +420,7 @@ flagged at start.</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">N/A</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">For 1, 2, 4 and 8-bit graphics, we can
 specify which
-table of colours this object uses. Our object is 16-bit and
+table of colours this sprite uses. Our sprite is 16-bit and
 therefore does not need a colour table, every pixel is described
 directly by the image, rather than as
 an index to a list of colour values.</span> </td>
@@ -410,7 +428,7 @@ an index to a list of colour values.</span> </td>
           <tr>
             <td style="vertical-align: top;"><span style="font-family: monospace;">Can this one be hit?</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">No</span> </td>
-            <td style="vertical-align: top;"><span style="font-family: monospace;">This object is
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This sprite is
 not going to be used for collision checking.</span> </td>
           </tr>
           <tr>
@@ -437,13 +455,12 @@ hit before it is removed</span> </td>
           <tr>
             <td style="vertical-align: top;"><span style="font-family: monospace;">How hard does it hit?</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;">N/A</span> </td>
-            <td style="vertical-align: top;"><span style="font-family: monospace;">This tells raptor how hard this
-objects hurts another.</span> </td>
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This tells raptor how hard this sprites hurts another when colliding.</span> </td>
           </tr>
           <tr>
             <td style="vertical-align: top;"><span style="font-family: monospace;">Special width info</span> </td>
             <td style="vertical-align: top;"><span style="font-family: monospace;"> N/A</span> </td>
-            <td style="vertical-align: top;"><span style="font-family: monospace;">This helps us handle objects that are
+            <td style="vertical-align: top;"><span style="font-family: monospace;">This helps us handle sprites that are
 windows into a
 larger graphic areas.</span> </td>
           </tr>
@@ -454,7 +471,7 @@ larger graphic areas.</span> </td>
 there is to it. A raptor list essentially
 just consists of a number of entries like the one above. Most entries
 in there can be directly tinkered with from within rB+ once your
-program is up and running, and this is how the game creation begins. In
+program is up and running, and this is how game creation begins. In
 reality it's slightly more involved and requires a little more
 understanding of different types of numbers and how they are used, but
 nothing that a little experimentation won't easily put to bed. It'll
@@ -462,8 +479,16 @@ all make even more sense in the next part when we put this into
 practise and actually begin making things happen on screen. Until then,
 read through the sprite definition a couple more times and familiarise
 yourself with the properties and consider how you might modify those
-properties to make wonderful things happen on screen :0)</span><br>
-      <small style="font-weight: bold;">&nbsp; </small><br>
+properties to make wonderful things happen on screen.</span><br>
+<br>
+      <small style="font-weight: bold;">&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </small><a href="tutorial0-1.html">&gt;&gt; rB+
+tutorials :: 0.1 getting set up and ready to build &gt;&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;&nbsp; <a href="tutorial1-1.html">&gt;&gt; rB+
+tutorials :: 1.1 the rB+ game application forms &gt;&gt;</a><br>
+
       </td>
     </tr>
   </tbody>

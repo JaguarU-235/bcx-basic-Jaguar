@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>simplified sprite DIMensioning</title></head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+      <td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="contact.html">contact<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="links.html">links<br>
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;">rB+
+:: simplified sprite/object DIMensioning by Sporadic<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><br>
+      <small>&nbsp; Here's a TopTip from rB+ programmer Sporadic, posted to AtariAge rB+ forum:<br>
+      <br>
+      <br>
+      <span style="font-style: italic;">I've changed the way I declare my sprite constants in my code.</span><br style="font-style: italic;">
+      <span style="font-style: italic;">&nbsp;</span><br style="font-style: italic;">
+      <span style="font-style: italic;">Instead of DIMensioning as per the examples</span>:<br>
+' particle/text
+layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; 0<br>
+DIM background% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:background=&nbsp; 1<br>
+DIM water% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp; :water=&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 2<br>
+DIM
+poulpe1%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe1=&nbsp;&nbsp; &nbsp; 3<br>
+DIM poulpe2% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+:poulpe2=&nbsp;&nbsp; &nbsp; 4<br>
+DIM poulpe3% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+:poulpe3=&nbsp;&nbsp; &nbsp; 5<br>
+DIM poulpe4% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+:poulpe4=&nbsp;&nbsp; &nbsp; 6<br>
+&nbsp;<br>
+&nbsp;<br>
+      <span style="font-style: italic;">Do this</span>:<br>
+' particle/text
+layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; 0<br>
+DIM background% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+:background=&nbsp; 1<br>
+DIM
+water%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:water=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">background+1</span><br>
+DIM
+poulpe1%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe1=&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">water+1</span><br>
+DIM poulpe2% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+:poulpe2=&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">poulpe1+1</span><br>
+DIM
+poulpe3%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe3=&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">poulpe2+1</span><br>
+DIM
+poulpe4%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe4=&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">poulpe3+1</span><br>
+      <br>
+      <br>
+      <span style="font-style: italic;">The outcome of doing it the
+second way, is if you need to add a sprite in the middle of your list,
+you don't have to adjust all the following variables.&nbsp; You just
+have to put your sprite declaration in the middle and +1 from the one
+before it.&nbsp; Then adjust the one after it to +1 from your new
+variable</span>. <span style="font-style: italic;">Once you have lots of sprites, this really helps speed things up. It's also less error prone.</span><br>
+&nbsp;<br>
+&nbsp;<br>
+Example after inserting a new sprite;<br>
+' particle/text
+layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; 0<br>
+DIM
+background%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:background=&nbsp; 1<br>
+DIM
+water%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:water=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; background+1<br>
+DIM poulpe1% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+:poulpe1=&nbsp;&nbsp;&nbsp;&nbsp; water+1<br>
+      <span style="font-weight: bold;">DIM
+NEWSPRITE%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:NEWSPRITE=&nbsp;&nbsp; poulpe1+1</span><br>
+DIM
+poulpe2%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe2=&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">NEWSPRITE+1</span><br>
+DIM
+poulpe3%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe3=&nbsp;&nbsp;&nbsp;&nbsp; poulpe2+1<br>
+DIM
+poulpe4%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:poulpe4=&nbsp;&nbsp;&nbsp;&nbsp; poulpe3+1</small><small><br>
+      <br>
+      </small><br>
+      <span style="font-style: italic;">It also helps if you have multiple sprites defined for 1 sprite in the object list.</span><br style="font-style: italic;">
+      <span style="font-style: italic;">&nbsp;</span><br style="font-style: italic;">
+      <span style="font-style: italic;">Then in code for the following sprite declaration you can do something like <span style="font-weight: bold;">NEWSPRITE+16</span> and so on. Or <span style="font-weight: bold;">NEWSPRITE+NUMBEROFBADDIESCONST</span> where&nbsp;<span style="font-weight: bold;">NUMBEROFBADDIESCONST=16</span></span><br>
+      <br>
+      <small style="font-weight: bold;"><br>
+      <a href="workingwith.html">&lt;&lt; </a></small><a href="workingwith.html">working
+with rB+ &lt;&lt;</a><small style="font-weight: bold;"> </small> </td>
+    </tr><tr>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<br style="font-family: monospace;">
+
+<br>
+
+</body></html>

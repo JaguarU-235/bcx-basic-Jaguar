@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>raptor BASIC + tutorial 3.1 :: particle system starfield, resizing particle buffer and altering particle count</title>
+
+  
+</head><body style="width: 100%;">
+<table style="text-align: left; width: 900px; height: 223px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 180px; width: 275px;"><img style="width: 273px; height: 174px;" alt="raptor BASIC plus logo" src="images/rbpluslogo.png"></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; height: 30px; text-align: center;"><a href="index.html">raptorBASIC+</a></td>
+      <td style="vertical-align: top;"><a href="basic_functions.html">rB+
+commands</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="tutorials.html">rB+
+tutorials</a><br>
+      </td>
+      <td style="vertical-align: top;"><a href="workingwith.html">working
+with rB+<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="contact.html">contact<br>
+      </a></td>
+      <td style="vertical-align: top;"><a href="links.html">links<br>
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<table style="text-align: left; width: 900px; margin-left: auto; margin-right: auto; font-family: monospace;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; height: 30px; width: 275px;">rB+
+tutorials :: 3.2 particle system starfield, resizing particle buffer
+and
+altering particle count<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;">
+      <div style="text-align: center;"><br>
+      <img style="width: 650px; height: 320px;" alt="my god... it's full of arse" src="images/starfield.png"><br>
+      <span style="text-decoration: underline;"></span><br>
+First off - download the <a href="bin/starfield.zip">project files</a>
+to accompany the starfield tutorial<span style="font-weight: bold;"><br>
+      <br>
+***</span><br>
+      <br>
+      </div>
+      <br>
+Topics touched on in this tutorial:<br>
+      <br>
+Creation of a starfield effect using particle system - <span style="font-weight: bold;">RPARTI</span><br>
+Altering particle buffer dimensions and particle count - in <span style="font-weight: bold;"><span style="font-family: monospace;">RAPAPP.S</span></span><br>
+Multiple copies of the particle buffer - <span style="font-weight: bold;">cheeky</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; <span style="font-weight: bold;">***</span><br>
+      <br>
+      <span style="font-weight: bold;">Word of warning</span> - if you
+intend making use of the particle system, be sure to test directly on
+Jaguar hardware rather than under emulation, unless you really want to
+get carried away seeing 1,500 tracked stars and the horror of a 20 or
+30 fps result on the Jaguar at a later time... not that happen to any
+of us while making this tutorial, of course, oh no, we're far more
+experienced and used to these things that that... ahem.<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; <span style="font-weight: bold;">***</span><br>
+      <span style="font-weight: bold;">STARFIELD project</span><br>
+      <br>
+Extract the ZIP file to your PROJECTS folder and you'll get the
+"starfield"
+project. In this tutorial we're setting up a few arrays for use with
+the particle system (16 in this example). We're altering the default
+dimensions of the particle buffer in RAPAPP.S and amending the particle
+count (how many particles Raptor tracks with the GPU) and cheekily
+using multiple copies of the particle buffer to gain an increased star
+count for our effect.<br>
+      <br>
+If you haven't used the particle system before it's worth a look as it
+offers a bit more than just swirly patterns, plotting dots and
+displaying text, it's also more flexible than it first appears.<br>
+      <br>
+First off, we should note that as of now it's not quite perfect - it
+could really do with double buffering. If you push the particle system
+to its limits, you'll soon see the result of this as you begin racing
+the beam and watch on as your particles fail to materialise towards the
+top of the screen. prod CJ if you could make use of a more robust
+particle system!<br>
+      <br>
+It's not all bad news, in the demo here we've got a maximum of 768
+stars all plotting as required (actually 256 * 3 layers - more of that
+later) with 16 levels of z-depth to an area of our screen the full
+width in x by a height of 152 positioned centrally.<br>
+      <br>
+To create the starfield it's a simple process. There are 16 arrays
+filled with some constants and some RND variables, each of which
+describes the path of 16 particles, in total 256 individual star paths:<br>
+      <br>
+Here is an example of one of these arrays dimensioned and loaded with
+starfunk:<br>
+      <br>
+&nbsp;&nbsp;&nbsp; DIM particles%[17,6]<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[0,3]=x&lt;&lt;16&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' x start<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[0,4]=y&lt;&lt;16&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' y start<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; particles[0,5]=16&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' particle count<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; FOR i=1 TO 16<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[i,0]=(RND*511)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' angle<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[i,1]=(RND*speed)+4&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' speed<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[i,2]=angular&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' angular speed<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[i,3]=15&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' initial colour<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[i,4]=decay&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ' colour decay (per frame)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+particles[i,5]=(RND*life)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ' pixel life
+(in frames)<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; NEXT&nbsp;&nbsp;&nbsp; i<br>
+      <br>
+      <span style="font-weight: bold;">x start</span> and <span style="font-weight: bold;">y start</span> are obvious enough - this is
+the offset to our starting position within the particle buffer. <span style="font-weight: bold;">angle</span> is the angle at which the star
+will track over the screen, between 0 and 512 (covering a full circle).
+      <span style="font-weight: bold;">speed</span> should be obvious
+enough. <span style="font-weight: bold;">angular speed</span> we don't
+use here, if you were to have anything other than zero you'd also have
+twisting stars (this is where the fun with spiral patterns comes in). <span style="font-weight: bold;">initial colour</span> is a value 0-15 for
+the star to begin fading down from - 15 being the 16th colour in the 16
+colour palette. <span style="font-weight: bold;">decay</span> is the
+time in frames taken to change from one colour to the next and <span style="font-weight: bold;">pixel life</span> is the number of frames
+the star will stay on screen.<br>
+      <br>
+There are 15 more such arrays declared in a similar fashion.<br>
+      <br>
+Each of these is passed to the rB+ function <span style="font-weight: bold;">RPARTI</span> at interval, umm, "<span style="font-weight: bold;">interval</span>". When passed, the 16 stars
+described begin their journey. A simple counter handles this and the
+huge messy series of IFs decide the fate of the stars.<br>
+      <br>
+All simple stuff.<br>
+      <br>
+In order to maximise our starfield's looks, we've altered some values
+in <span style="font-weight: bold;">RAPAPP.S</span>:<br>
+      <br>
+;; PARTICLE MODULE SETUP EQUATES<br>
+      <br>
+raptor_particle_buffer_width&nbsp;&nbsp;&nbsp; equ&nbsp; <span style="font-weight: bold;">192</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; tell RAPTOR the Particle / Text Buffer is 368 pixels wide<br>
+raptor_particle_buffer_height&nbsp;&nbsp; equ&nbsp; <span style="font-weight: bold;">152</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; tell RAPTOR the Particle / Text Buffer is 240 pixels high<br>
+raptor_particle_pixels&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+equ&nbsp; <span style="font-weight: bold;">256</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; tell RAPTOR the maximum number of particles<br>
+raptor_particle_drift_x&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+equ&nbsp; 0&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; tell
+RAPTOR the Particle Drift Factor (x)<br>
+raptor_particle_drift_y&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+equ&nbsp; 0&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; tell
+RAPTOR the Particle Drift Factor (y)<br>
+      <br>
+The defaults for these when rB+ first shipped were, I believe,
+320x200x200 particles. We're cutting down the real estate the Jaguar's
+GPU has to track these particles over and boosting the particle count
+slightly. You shouldn't have to alter anything in <span style="font-weight: bold;">RAPINIT.S</span> as that should use the
+same labels see above directly.<br>
+      <br>
+You can resize the particle buffer to suit your needs, within the
+guidelines for the Jaguar's OP requirements for 16-colour objects -
+just keep the x-value sensible and all will be well.<br>
+      <br>
+The other thing we've done here to increase the star count 3-fold is to
+produce 2 copies of the particle buffer object. One of these is the
+original flipped horizontally and the second is simply the original
+scaled horizontally to double width. The first instance requires little
+in the way of positioning adjustment, the second requires a little more
+thought or simply trial and error. Each of these copies can make use of
+its own 16-colour section of the CLUT. Careful positioning, scaling and
+palette setting can allow you to set up some interesting trailing
+effects on each individual tracked pixel - it's worth some
+experimentation.<br>
+      <br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="tutorials.html">&gt;&gt; back to rB+
+tutorials &gt;&gt;</a><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br style="font-family: monospace;">
+
+<br>
+
+</body></html>
