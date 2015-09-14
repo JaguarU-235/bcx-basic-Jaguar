@@ -1,13 +1,18 @@
     .extern RAPTOR_particle_gfx
     .extern RAPTOR_sprite_table
-    .extern	RAPTOR_module_list
-    .extern	listing
-    .extern	RUPDALL_FLAG
-    .extern	pixel_list
+    .extern RAPTOR_module_list
+    .extern listing
+    .extern RUPDALL_FLAG
+    .extern pixel_list
     .extern Audio_Play
     .extern Input_ReadPads
-	.extern RAPTOR_HEXtoDEC
+    .extern RAPTOR_HEXtoDEC
     .extern RAPTOR_particle_gfx
     .extern RAPTOR_sprite_table
     .extern RAPTOR_module_list
-
+    .extern Input_SetJoyPort1
+    .extern Input_SetJoyPort2
+    .extern Input_SetNormalPadMode
+    .extern Input_SetRotaryMode
+    .extern Input_SetAtariMouseMode
+    .extern Input_SetAmigaMouseMode
