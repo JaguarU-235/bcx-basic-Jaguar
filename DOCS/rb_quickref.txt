@@ -1,0 +1,149 @@
+  ___           _             ___          _      _
+ | _ \__ _ _ __| |_ ___ _ _  | _ ) __ _ __(_)__ _| |_
+ |   / _` | '_ \  _/ _ \ '_| | _ \/ _` (_-< / _|_   _|
+ |_|_\__,_| .__/\__\___/_|   |___/\__,_/__/_\__| |_|
+          |_|
+
+
+
+                 Quick reference guide
+
+
+
+General
+-------
+Binary bitfields in basic - Just use B8(binary byte) for bytes, B16(binary byte,binary byte) words and B32(binary byte,binary byte,binary byte,binary byte) for longwords. Example: B8(11110000) is 240 in decimal.
+raptor_ntsc_flag          - is non-zero if machine is ntsc.
+
+
+Pixel
+-----
+colour x  - set plot colour (0 - 15)
+plot(x,y) - plot pixel in coordinates x,y with the colour set using "colour"
+cls       - clears the pixel/print text buffer
+
+Sync
+----
+RUPDALL  - 
+VSYNC    - waits till the next vertical blank
+DELAY(x) - waits for x vertical blanks.
+
+Memory
+------
+poke x,y  - writes byte y to address x
+peek(x)   - reads byte from address x
+dpoke x,y - writes word y to address x
+dpeek(x)  - reads byte from address x
+lpoke x,y - writes longword y to address x
+lpeek(x)  - reads byte from address x
+
+Building
+--------
+build.bat <projectname> new   - creates a new project folder from "template".
+build.bat                     - automatically switchs to ROM building if there is even one ROM asset in assets.txt. You can still use build PROJECT ROM though.
+build.bat <project> sendy bjl - uploads built binary using bjl transfer (note: you might need to edit the upload settings)
+
+assets.txt
+----------
+RMOTION - can be enabled with RSETOBJ and RMOTION scripts can now be added to assets.txt for parsing.
+
+Packing
+-------
+powaunpack(source_address,destination_address) - unpacks data from source_address to destination_address. Note that it's your responsibility to reserve enough RAM for unpacking. Also, no checking to see if a packed asset exists at the source address - again it's your responsibility!
+- Assets can be packed. Suffix field C with "_pack" in assets.txt
+
+Object manipluation
+-------------------
+rsetlist                                                                - 
+RSETOBJ                                                                 - 
+RGETOBJ                                                                 - 
+rhit                                                                    - 
+powaset(spr_index, offset, no_of_times, array_of_values)                - will write longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with index "spr_index".
+powadiff(spr_index, offset, no_of_times, array_of_values)               - will add longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with index "spr_index".
+powazap(spr_index, offset, no_of_times, value)                          - will write longword value "value" "no_of_times" times in raptor table offset "offset", starting with index "spr_index".
+powabset(spr_index, offset, no_of_times, array_of_values, skip_offset)  - Exactly the same as powaset but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)
+powabdiff(spr_index, offset, no_of_times, array_of_values, skip_offset) - Exactly the same as powadiff but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)
+powabzap(spr_index, offset, no_of_times, value, skip_offset)            - Exactly the same as powazap but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)
+
+
+Particles
+---------
+RPARTI                             - 
+RAPTOR_particles_GPU_erase         - 
+RAPTOR_particles_GPU_plot          - 
+RPARTI(address_of_particle_struct) - a 6 column by user definable rows table of longwords. First row must have (0,0,0,x,y,no_particles) and the other the particle definitions (angle, speed, angular speed, initial colour, colour decay (per frame), pixel life (in frames))
+
+Map module
+----------
+RSETMAP -
+
+Colours
+-------
+loadclut palette_address,target_clut_number_of_indices - takes the palette values at address "palette_address" and copies them to CLUT "target_clut_number" (0 to 15). "clut_number_of_indices" tells the routine how many to copy. So this routine can be used to set up anything from 2 to 256 palette indices at once.
+fadepal(int clut_no,int fade_cols,int *palette)        - (fade_cols should be decreased by 1, so to fade 16 cols pass 15)
+fadesingle(index_to_fade,desired_colour_in_16_bit_BBG) - 
+raptor_fade_delay                                      - delay (in function calls) between steps (.word)
+
+Strings
+-------
+print                            - 
+RPRINTINT                        - 
+bin2asc(number, digits, string$) - converts number with (digits+1) digits very fast and render it to string$. Note that the number has to be an integer. Quick example: bin2asc(987,2,out$) will convert number 987 to string using 3 digits and place it into out$. If we used 3 instead of 2 we'd get "0987"
+RPRINT                           - 
+RLOCATE                          - 
+basic_r_indx                     - 
+basic_r_size                     - 
+
+
+
+Scores
+------
+raptor_used_particles     - 
+raptor_free_particles     - 
+raptor_mt_present         - negative if no Memory Track is present
+raptor_highscores_hex     - points to the highscore table (10 entries, one longword each)
+raptor_highscores_nam     - points to the highscore names table (10 entries, 8 characters each, not null terminated)
+hiscore_check(score,name) - checks if score is a high score. name, like above, is 8 characters.
+RAPTOR_resort_score_table - re-sorts the highscores as well as the names.
+RAPTOR_mt_save            - saves the highscore table. Use it in combination with present.
+raptor_user_savedata      - points to 512 bytes for user data which will be appended to the MT save
+
+Sound/input engines
+-------------------
+Either U-235 or Zerosquare (selectable at rapapp.s via equate "player", 0=Zerosquare's player, 1=U-235 player)
+
+U-235
+-----
+MODPLAY(mod_address)   - to play a mod and MODPLAY(0) to stop it
+GETPAD(x)              - 
+SNDPLAYFREQ(voice,x,y) - triggers sample x from module into channel "voice" at y frequency in Hz
+MODVOL(x)              - set mod music volume (x in range 0 - 63)
+SNDVOL(x)              - set global sfx volume (x in range 0 - 63)
+SNDKILL(x)             - x is channel number
+SNDVOLRESET(x)         - resets volume of current sample on channel x
+SNDFREQRESET(x)        - resets frequency of current sample on channel x
+SNDKILL(x)             - stop sample x
+SNDPLAYFREQ(x,y)       - play sample x with freq y (from 0 to 65535)
+SNDDELTA(x,y)          - set or adjust the volume on channel x to y (0 to 63)
+SNDFREQ(x,y)           - sets frequency of channel x to y (0 to 65535)
+rotary_mode1           - +1 = rotary, - 1 = jagpad (Port 1) (.l)
+rotary_mode2           - +1 = rotary, - 1 = jagpad (Port 2) (.l)
+turn_direction1        - rotary value (bigger is faster) - +=left / 0=nothing / - =right (Port 1) (.l)
+turn_direction2        - rotary value (bigger is faster) - +=left / 0=nothing / - =right (Port 2) (.l)
+rotary_interval1       - trim value for rotary (Port 1) (.l)
+rotary_interval2       - trim value for rotary (Port 2) (.l)
+spin_delta1            - value to add to turn_direction per increment (Port 1) (.l)
+spin_delta2            - value to add to turn_direction per increment (Port 2) (.l)
+Direction pad masks    - PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGHT, PAD_R, PAD_HASH, PAD_9, PAD_6, PAD_3, PAD_PAUSE, PAD_A, PAD_OPTION, PAD_STAR, PAD_7, PAD_4, PAD_1, PAD_0, PAD_8, PAD_5, PAD_2, PAD_B, PAD_C (Example: "if x band (PAD_U bor PAD_L) then" will'check for up+left)
+
+Zerosquare
+----------
+ZEROPAD()                                               - reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad, zero_mousex_delta, zero_mousey_delta and zero_rotary_delta. By default the engine is configured to assume 2 joypads connected.
+Input_SetNormalPadMode                                  - sets up the engine to read two pads (enabled by default). zero_left_pad and zero_right_pad can be read using these constants: Input_Pad_Pause, Input_Pad_A, Input_Pad_Up, Input_Pad_Down, Input_Pad_Left, Input_Pad_Right, Input_Pad_C1, Input_Pad_B, Input_Pad_Star, Input_Pad_7, Input_Pad_4, Input_Pad_1, Input_Pad_C2, Input_Pad_C, Input_Pad_0, Input_Pad_8, Input_Pad_5, Input_Pad_2, Input_Pad_C3, Input_Pad_Option, Input_Pad_Sharp, Input_Pad_9, Input_Pad_6, Input_Pad_3. (example: "if zero_left_pad band Input_Pad_Star" will check left pad for star button press).
+Input_SetJoyPort1                                       - selects the joypad port 1 to use for rotary/mouse input. This doesn't enable rotary/mouse mode if it isn't already. zero_rotary_delta will give the number of rotary ticks since the last read command.
+Input_SetJoyPort2                                       - selects the joypad port 2 to use for rotary/mouse input. This doesn't enable rotary/mouse mode if it isn't already.
+Input_SetRotaryMode                                     - selects the rotary mode.
+Input_SetAtariMouseMode                                 - selects the Atari mouse mode. Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses and zero_mousex_delta, zero_mousey_delta the number of mouse ticks in x and y axis since the last read command.
+Input_SetAmigaMouseMode                                 - selects the Amiga mouse mode.
+SNDZEROPLAY chan, start_address, len, frequency, params - plays a sample starting from start_address with length len to channel chan with speed frequency and with flags params. Channel should be from 1 to 4. start_address should be aligned to 4 bytes. len should be a multiple of 4. frequency should be an integer that divides the base frequency of 46168Hz. So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a sample at 23084Hz etc. Available flags are Zero_Audio_8bit_Signed (plays an 8-bit signed sample), Zero_Audio_8bit_Unsigned (plays an 8 - bit unsigned sample), Zero_Audio_8bit_muLaw (plays a 8 - bit compressed ÏLaw sample) and Zero_Audio_Looping (enables sample loop).
+
