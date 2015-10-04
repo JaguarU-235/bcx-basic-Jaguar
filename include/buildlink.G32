@@ -35,6 +35,7 @@ Dim ass_adr% = base_adr%
 Dim tempbuf(4 * 1024 * 1024) As Byte
 Dim tempadr As Int = V:tempbuf(0)
 Dim fullnameslash$
+Dim packext$
 
 Print # 10; "Buildlink starting"
 Dim romabs$, varname$, type$, assetfile$
@@ -85,6 +86,8 @@ While Not EOF(# 1)
 
   If Not Exist(fullname$)
     Print # 10; "Buildlink aborting - Couldn't find file " + fullname$
+    Close # 2
+    DeleteFile Silent, Yes basedir$ + "\build\linkfile.bin"
     'Message "Aborting - Couldn't find file " + fullname$
     Quit 2
   EndIf
@@ -97,11 +100,13 @@ While Not EOF(# 1)
     bpp = Val(SubStr(type$, 9))
     Print # 10; "        Converting BMP internally into gfxdata/clut..."
     convertbmp(fullname$, True)
+    packext$ = packfile$(basedir$ + "\build\" + plainfile$ + ".gfxdata")
     If Upper$(romabs$) = "ROM"
+      Print # 10; "        Adding to the linkfile as ROM..."
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      Open basedir$ + "\build\" + plainfile$ + ".gfxdata" for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".gfxdata" + packext$ for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -123,7 +128,8 @@ While Not EOF(# 1)
         Add ass_adr%, size
       EndIf
     Else
-      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + """"
+      Print # 10; "        Adding in RAM..."
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + packext$ + """"
       Print # 6; varname$; "_end:"
       If bpp < 16
         Print # 6; varname$; "_clut: incbin ""build/" + plainfile$ + ".clut" + """"
@@ -143,12 +149,13 @@ While Not EOF(# 1)
     bpp = Val(SubStr(type$, 11))
     Print # 10; "        Converting BMP internally into gfxdata..."
     convertbmp(fullname$, False)
+    packext$ = packfile$(basedir$ + "\build\" + plainfile$ + ".gfxdata")
     If Upper$(romabs$) = "ROM"
+      Print # 10; "        Adding to the linkfile as ROM..."
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      'Print basedir$ + "\build\" + plainfile$ + ".gfxdata"
-      Open basedir$ + "\build\" + plainfile$ + ".gfxdata" for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".gfxdata" + packext$ for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -157,7 +164,8 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + """"
+      Print # 10; "        Adding in RAM..."
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".gfxdata" + packext$ + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
@@ -169,11 +177,13 @@ While Not EOF(# 1)
     Print # 10; "        Converting bmp into CRY (using bmp_cry_nodither)..."
     Print # 10; "        Command run: bmp_cry_nodither.exe  """ + fullname$ + """ " + basedir$ + "\build\" + plainfile$ + ".cry"
     System "bmp_cry_nodither.exe """ + fullname$ + """  " + basedir$ + "\build\" + plainfile$ + ".cry""", Wait, Show SW_HIDE
+    packext$ = packfile$(basedir$ + "\build\" + plainfile$ + ".cry")
     If Upper$(romabs$) = "ROM"
+      Print # 10; "        Adding to the linkfile as ROM..."
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      Open basedir$ + "\build\" + plainfile$ for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".cry" + packext$ for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -182,7 +192,8 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".cry"""
+      Print # 10; "        Adding in RAM..."
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".cry" + packext$ + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
@@ -203,12 +214,13 @@ While Not EOF(# 1)
     Else
       Print # 10; "        Destination file " + basedir$ + "\build\" + plainfile$ + ".raw already exists and is newer than the source file - skipping"
     EndIf
-
+    packext$ = packfile$(basedir$ + "\build\" + plainfile$ + ".raw")
     If Upper$(romabs$) = "ROM"
+      Print # 10; "        Adding to the linkfile as ROM..."
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      Open basedir$ + "\build\" + plainfile$ + ".raw" for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".raw" + packext$ for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -217,8 +229,8 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-'##E#
-      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".raw"""
+      Print # 10; "        Adding in RAM..."
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".raw" + packext$ + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
@@ -240,12 +252,14 @@ While Not EOF(# 1)
       Print # 10; "        Destination file "; basedir$ + "\build\" + plainfile$ + ".ul already exists and is newer than the source file - skipping"
     EndIf
 
+    packext$ = packfile$(basedir$ + "\build\" + plainfile$ + ".ul")
 
     If Upper$(romabs$) = "ROM"
+      Print # 10; "        Adding to the linkfile as ROM..."
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
-      Open basedir$ + "\build\" + plainfile$ + ".ul" for Input As # 5
+      Open basedir$ + "\build\" + plainfile$ + ".ul" + packext$ for Input As # 5
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
@@ -254,7 +268,8 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".ul"""
+      Print # 10; "        Adding in RAM..."
+      Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".ul" + packext$ + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
@@ -265,6 +280,7 @@ While Not EOF(# 1)
   ElseIf Lower$(Left$(type$, 7)) = "rmotion"
     Print # 10; "        Executing command: rmotion.exe " + fullname$ + " " + basedir$ + "\build\" + plainfile$ + ".s"
     System "rmotion.exe " + fullname$ + " " + basedir$ + "\build\" + plainfile$ + ".s", Wait, Show SW_HIDE
+    Print # 10; "        Adding in RAM..."
     Print # 6; " include ""build/" + fullnameslash$  + ".s"""
     Open fullname$ for Input As # 5
     Open basedir$ + "\build\" + plainfile$ + ".s" for Append As # 7
@@ -280,6 +296,7 @@ While Not EOF(# 1)
     Close # 7
   Else
     If Upper$(romabs$) = "ROM"
+      Print # 10; "        Adding " + fullname$ + " to the linkfile as ROM..."
       any_rom_asset = True
       Print # 3; varname$; " EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; " 0x"; Hex$(ass_adr%)
@@ -292,6 +309,7 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
+      Print # 10; "        Adding " + fullname$ + " in RAM..."
       Print # 6; varname$; ": incbin """ + fullnameslash$ + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
@@ -328,7 +346,7 @@ Quit 0
 ' convbmp <input filename> <output filename> <colour bit depth> <width in bytes> <height in scanlines>
 ' It will output <filename>.jag
 '
-Procedure convertbmp(file$, dumpclut As Bool)
+>Procedure convertbmp(file$, dumpclut As Bool)
   Dim infile$, outfile$
   Dim depth, width, height, l, i, x As Int
   Dim sourceaddr, xBGR As Int
@@ -400,10 +418,8 @@ Procedure convertbmp(file$, dumpclut As Bool)
     Close # 5
 
   Case 1                          '***************** 1-bit
-    Global hBmp As Long
     Dim y As Int ', x As Int
     Dim b$
-    hBmp = LoadImage(0, file$, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE)
     Dim z As Picture
     Set z = LoadPicture(file$)
     Dim w As Int = Round(z.Width / 26.46)
@@ -421,9 +437,15 @@ Procedure convertbmp(file$, dumpclut As Bool)
       Open outfile$ + ".gfxdata" for Output As # 5
 
       screenstart = 62
-      For i = height - 1 DownTo 0
-        BPut # 5, V:sourcebmp(screenstart + i * (width / 8)), width / 8
-      Next i
+      If width >= 32
+        For i = height - 1 DownTo 0
+          BPut # 5, V:sourcebmp(screenstart + i * (width / 8)), width / 8
+        Next i
+      Else
+        For i = height - 1 DownTo 0
+          BPut # 5, V:sourcebmp(screenstart + i * 4), width / 8
+        Next i
+      EndIf
       Close # 5
     Else
       'Print  "        Destination file already exists and is newer than the source file - skipping"
@@ -534,6 +556,22 @@ Procedure convertbmp(file$, dumpclut As Bool)
   EndSelect
 Return
 
+Function packfile$(file$)
+  If Right$(Lower$(type$), 5) = "_pack"
+    If checkdate(file$, file$ + ".pack")
+      Print # 10; "        Will attempt to pack " + file$
+      Print # 10; "        Command run: pack2e.exe """ + file$ + """ """ + file$ + ".pack"""
+      System "pack2e.exe """ + file$ + """ """ + file$ + ".pack""", Wait, Show SW_HIDE
+      Return ".pack"
+    Else
+      Print # 10; "        Destination file " + file$ + ".pack already exists and is newer than the source file - skipping"
+'##E#
+      Return ".pack"
+    EndIf
+  Else
+    Return ""
+  EndIf
+EndFunction
 >Function checkdate(a$, b$)
   If Not Exist(b$)
     Return True
