@@ -170,6 +170,7 @@ echo Building ABS...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
 rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\BASIC.O "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
+if not exist %TEMPDIR%\%PROJECTNAME%.bin goto :builderror
 
 rem -------------------------------------------------------------
 rem Check file size to see if we passed the 2mb barrier
@@ -216,7 +217,7 @@ rem Error handler
 :builderror
 echo Build error!
 if exist %TEMPDIR%\build.log echo Build error! >> %TEMPDIR%\build.log
-if exist %TEMPDIR%\build.log notepad %TEMPDIR%\build.log
+if exist %TEMPDIR%\build.log type %TEMPDIR%\build.log
 goto :veryend
 
 rem -------------------------------------------------------------
