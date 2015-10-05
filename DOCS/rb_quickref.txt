@@ -10,9 +10,19 @@
 
 
 
+Note: this is not a compehensive guide - it only covers
+the commands, functions and variables introduced in
+Raptor Basic+. It does not cover bcx functions, commands
+and syntax. For that you are kindly referred to read the
+bcx help file, "BCXHelp.chm"
+
+
 General
 -------
-Binary bitfields in basic - Just use B8(binary byte) for bytes, B16(binary byte,binary byte) words and B32(binary byte,binary byte,binary byte,binary byte) for longwords. Example: B8(11110000) is 240 in decimal.
+Binary bitfields in basic - Just use B8(binary byte) for bytes,
+                                     B16(binary byte,binary byte) words and
+                                     B32(binary byte,binary byte,binary byte,binary byte) for longwords.
+                            Example: B8(11110000) is 240 in decimal.
 raptor_ntsc_flag          - is non-zero if machine is ntsc.
 
 
@@ -31,11 +41,11 @@ DELAY(x) - waits for x vertical blanks.
 Memory
 ------
 poke x,y  - writes byte y to address x
-peek(x)   - reads byte from address x
+peek(x)   - returns byte from address x
 dpoke x,y - writes word y to address x
-dpeek(x)  - reads byte from address x
+dpeek(x)  - returns byte from address x
 lpoke x,y - writes longword y to address x
-lpeek(x)  - reads byte from address x
+lpeek(x)  - returns byte from address x
 
 Building
 --------
@@ -46,11 +56,14 @@ build.bat <project> sendy bjl - uploads built binary using bjl transfer (note: y
 assets.txt
 ----------
 RMOTION - can be enabled with RSETOBJ and RMOTION scripts can now be added to assets.txt for parsing.
+Assets can be packed. Suffix field C with "_pack" in assets.txt
 
 Packing
 -------
-powaunpack(source_address,destination_address) - unpacks data from source_address to destination_address. Note that it's your responsibility to reserve enough RAM for unpacking. Also, no checking to see if a packed asset exists at the source address - again it's your responsibility!
-- Assets can be packed. Suffix field C with "_pack" in assets.txt
+powaunpack(source_address,destination_address) - unpacks data from source_address to destination_address.
+                                                 Note that it's your responsibility to reserve enough RAM 
+                                                 for unpacking. Also, no checking to see if a packed asset
+                                                 exists at the source address - again it's your responsibility!
 
 Object manipluation
 -------------------
@@ -71,7 +84,12 @@ Particles
 RPARTI                             - 
 RAPTOR_particles_GPU_erase         - 
 RAPTOR_particles_GPU_plot          - 
-RPARTI(address_of_particle_struct) - a 6 column by user definable rows table of longwords. First row must have (0,0,0,x,y,no_particles) and the other the particle definitions (angle, speed, angular speed, initial colour, colour decay (per frame), pixel life (in frames))
+RPARTI(address_of_particle_struct) - "address_of_particle_struct" points to a 6 column by user definable rows
+                                     table of longwords. First row must have (0,0,0,x,y,no_particles) and the other
+                                     the particle definitions
+                                     (angle, speed, angular speed, initial colour, colour decay (per frame), pixel life (in frames))
+raptor_used_particles              - 
+raptor_free_particles              - 
 
 Map module
 ----------
@@ -79,27 +97,37 @@ RSETMAP -
 
 Colours
 -------
-loadclut palette_address,target_clut_number_of_indices - takes the palette values at address "palette_address" and copies them to CLUT "target_clut_number" (0 to 15). "clut_number_of_indices" tells the routine how many to copy. So this routine can be used to set up anything from 2 to 256 palette indices at once.
-fadepal(int clut_no,int fade_cols,int *palette)        - (fade_cols should be decreased by 1, so to fade 16 cols pass 15)
-fadesingle(index_to_fade,desired_colour_in_16_bit_BBG) - 
+loadclut palette_address,target_clut_number_of_indices - takes the palette values at address "palette_address" and
+                                                         copies them to CLUT "target_clut_number" (0 to 15).
+                                                         "clut_number_of_indices" tells the routine how many to copy.
+                                                         This routine can be used to set up anything from 2 to 256 palette indices at once.
+fadepal(int clut_no,int fade_cols,int *palette)        - fades CLUT "clut_no" (0-15) to CLUT values address "palette".
+                                                         "fade_cols" is the number of CLUT entries to process.
+                                                         Note that fade_cols is 0 based, so to fade 16 cols pass 15.
+fadesingle(index_to_fade,desired_colour_in_16_bit_BBG) - fades CLUT index "index_to_fade" to "desired_colour_in_16_bit_BBG".
 raptor_fade_delay                                      - delay (in function calls) between steps (.word)
 
 Strings
 -------
 print                            - 
 RPRINTINT                        - 
-bin2asc(number, digits, string$) - converts number with (digits+1) digits very fast and render it to string$. Note that the number has to be an integer. Quick example: bin2asc(987,2,out$) will convert number 987 to string using 3 digits and place it into out$. If we used 3 instead of 2 we'd get "0987"
-RPRINT                           - 
-RLOCATE                          - 
-basic_r_indx                     - 
+bin2asc(number, digits, string$) - converts number with (digits+1) digits very fast and render it to string$.
+                                   Note that the number has to be an integer.
+                                   Example: bin2asc(987,2,out$) will convert number 987 to string using 3 digits
+                                   and place it into out$. If we used 3 instead of 2 we'd get "0987"
+RPRINT string                    - prints a static string to screen at coordinates set by RLOCATE.
+                                   No fancy formatting allowed (i.e. it'll only work with something like
+                                   RPRINT "hello". RPRINT "hello"&"world" will fail). Font is set via
+                                   basic_r_indx and size from basic_r_size.
+RLOCATE x,y                      - Locates the cursor at coordinates x,y. Notice that those are pixel coordinates,
+                                   not cursor coordinates.Font is set via basic_r_indx and size from basic_r_size.
+basic_r_indx                     -
 basic_r_size                     - 
 
 
 
 Scores
 ------
-raptor_used_particles     - 
-raptor_free_particles     - 
 raptor_mt_present         - negative if no Memory Track is present
 raptor_highscores_hex     - points to the highscore table (10 entries, one longword each)
 raptor_highscores_nam     - points to the highscore names table (10 entries, 8 characters each, not null terminated)
@@ -114,16 +142,16 @@ Either U-235 or Zerosquare (selectable at rapapp.s via equate "player", 0=Zerosq
 
 U-235
 -----
-MODPLAY(mod_address)   - to play a mod and MODPLAY(0) to stop it
-GETPAD(x)              - 
+MODPLAY(mod_address)   - plays a .mod file at address "mod_address"
+MODPLAY(0)             - stops .mod playing
+GETPAD(x)              - returns values from either pad 1 or 2.
+                         Can be replaced by reading U235SE_pad1 and U235SE_pad2 directly.
 SNDPLAYFREQ(voice,x,y) - triggers sample x from module into channel "voice" at y frequency in Hz
-MODVOL(x)              - set mod music volume (x in range 0 - 63)
-SNDVOL(x)              - set global sfx volume (x in range 0 - 63)
-SNDKILL(x)             - x is channel number
+MODVOL(x)              - sets mod music volume (x in range 0 - 63)
+SNDVOL(x)              - sets global sfx volume (x in range 0 - 63)
+SNDKILL(x)             - stops playing sample at channel number x
 SNDVOLRESET(x)         - resets volume of current sample on channel x
 SNDFREQRESET(x)        - resets frequency of current sample on channel x
-SNDKILL(x)             - stop sample x
-SNDPLAYFREQ(x,y)       - play sample x with freq y (from 0 to 65535)
 SNDDELTA(x,y)          - set or adjust the volume on channel x to y (0 to 63)
 SNDFREQ(x,y)           - sets frequency of channel x to y (0 to 65535)
 rotary_mode1           - +1 = rotary, - 1 = jagpad (Port 1) (.l)
@@ -134,16 +162,41 @@ rotary_interval1       - trim value for rotary (Port 1) (.l)
 rotary_interval2       - trim value for rotary (Port 2) (.l)
 spin_delta1            - value to add to turn_direction per increment (Port 1) (.l)
 spin_delta2            - value to add to turn_direction per increment (Port 2) (.l)
-Direction pad masks    - PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGHT, PAD_R, PAD_HASH, PAD_9, PAD_6, PAD_3, PAD_PAUSE, PAD_A, PAD_OPTION, PAD_STAR, PAD_7, PAD_4, PAD_1, PAD_0, PAD_8, PAD_5, PAD_2, PAD_B, PAD_C (Example: "if x band (PAD_U bor PAD_L) then" will'check for up+left)
+Direction pad masks    - PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGHT, PAD_R, PAD_HASH, PAD_9,
+                         PAD_6, PAD_3, PAD_PAUSE, PAD_A, PAD_OPTION, PAD_STAR, PAD_7, PAD_4, PAD_1, PAD_0, PAD_8,
+                         PAD_5, PAD_2, PAD_B, PAD_C.
+                         Example: "if x band (PAD_U bor PAD_L) then" will'check for up+left
 
 Zerosquare
 ----------
-ZEROPAD()                                               - reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad, zero_mousex_delta, zero_mousey_delta and zero_rotary_delta. By default the engine is configured to assume 2 joypads connected.
-Input_SetNormalPadMode                                  - sets up the engine to read two pads (enabled by default). zero_left_pad and zero_right_pad can be read using these constants: Input_Pad_Pause, Input_Pad_A, Input_Pad_Up, Input_Pad_Down, Input_Pad_Left, Input_Pad_Right, Input_Pad_C1, Input_Pad_B, Input_Pad_Star, Input_Pad_7, Input_Pad_4, Input_Pad_1, Input_Pad_C2, Input_Pad_C, Input_Pad_0, Input_Pad_8, Input_Pad_5, Input_Pad_2, Input_Pad_C3, Input_Pad_Option, Input_Pad_Sharp, Input_Pad_9, Input_Pad_6, Input_Pad_3. (example: "if zero_left_pad band Input_Pad_Star" will check left pad for star button press).
-Input_SetJoyPort1                                       - selects the joypad port 1 to use for rotary/mouse input. This doesn't enable rotary/mouse mode if it isn't already. zero_rotary_delta will give the number of rotary ticks since the last read command.
-Input_SetJoyPort2                                       - selects the joypad port 2 to use for rotary/mouse input. This doesn't enable rotary/mouse mode if it isn't already.
-Input_SetRotaryMode                                     - selects the rotary mode.
-Input_SetAtariMouseMode                                 - selects the Atari mouse mode. Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses and zero_mousex_delta, zero_mousey_delta the number of mouse ticks in x and y axis since the last read command.
-Input_SetAmigaMouseMode                                 - selects the Amiga mouse mode.
-SNDZEROPLAY chan, start_address, len, frequency, params - plays a sample starting from start_address with length len to channel chan with speed frequency and with flags params. Channel should be from 1 to 4. start_address should be aligned to 4 bytes. len should be a multiple of 4. frequency should be an integer that divides the base frequency of 46168Hz. So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a sample at 23084Hz etc. Available flags are Zero_Audio_8bit_Signed (plays an 8-bit signed sample), Zero_Audio_8bit_Unsigned (plays an 8 - bit unsigned sample), Zero_Audio_8bit_muLaw (plays a 8 - bit compressed ÏLaw sample) and Zero_Audio_Looping (enables sample loop).
+ZEROPAD()                                               - reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad,
+                                                          zero_mousex_delta, zero_mousey_delta and zero_rotary_delta.
+                                                          By default the engine is configured to assume 2 joypads connected.
+Input_SetNormalPadMode                                  - sets up the engine to read two pads (enabled by default).
+                                                          zero_left_pad and zero_right_pad can be read using these constants: Input_Pad_Pause, Input_Pad_A,
+                                                          Input_Pad_Up, Input_Pad_Down, Input_Pad_Left, Input_Pad_Right, Input_Pad_C1, Input_Pad_B,
+                                                          Input_Pad_Star, Input_Pad_7, Input_Pad_4, Input_Pad_1, Input_Pad_C2, Input_Pad_C, Input_Pad_0,
+                                                          Input_Pad_8, Input_Pad_5, Input_Pad_2, Input_Pad_C3, Input_Pad_Option, Input_Pad_Sharp, Input_Pad_9,
+                                                          Input_Pad_6, Input_Pad_3.
+                                                          example: "if zero_left_pad band Input_Pad_Star" will check left pad for star button press.
+Input_SetJoyPort1                                       - enables joypad port 1 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode.
+                                                          zero_rotary_delta will give the number of rotary ticks since the last read command.
+Input_SetJoyPort2                                       - enables joypad port 2 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode.
+                                                          zero_rotary_delta will give the number of rotary ticks since the last read command.
+Input_SetRotaryMode                                     - enables rotary mode.
+Input_SetAtariMouseMode                                 - enables Atari mouse mode.
+                                                          Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses
+                                                          zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.
+Input_SetAmigaMouseMode                                 - enables Amiga mouse mode.
+                                                          Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses
+                                                          zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.
+SNDZEROPLAY chan, start_address, len, frequency, params - plays a sample starting from start_address with length len to channel chan with speed frequency and with flags params.
+                                                          Channel should be from 1 to 4. start_address should be aligned to 4 bytes.
+                                                          len should be a multiple of 4.
+                                                          frequency should be an integer that divides the base frequency of 46168Hz.
+                                                          So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a sample at 23084Hz etc.
+                                                          Available flags are: Zero_Audio_8bit_Signed (plays an 8-bit signed sample)
+                                                                               Zero_Audio_8bit_Unsigned (plays an 8 - bit unsigned sample)
+                                                                               Zero_Audio_8bit_muLaw (plays a 8 - bit compressed ÏLaw sample)
+                                                                               Zero_Audio_Looping (enables sample loop).
 
