@@ -68,11 +68,11 @@ extern void *RAPTOR_U235playsample() asm ("RAPTOR_U235playsample");
 extern void *RAPTOR_U235stopmodule() asm ("RAPTOR_U235stopmodule");
 extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
-extern void Audio_Play asm ("Audio_Play");
+extern void Audio_Play() asm ("Audio_Play");
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
 short hiscore_check(int score, char *name) asm("hiscore_check");
 extern void ZEROPAD() asm("ZEROPAD");
-extern void Input_Read asm("Input_Read");
+extern void Input_Read() asm("Input_Read");
 extern void powaset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powaset");
 extern void powadiff(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powadiff");
 extern void powazap(int spr_index, int offset, int no_of_times, int value) asm("powazap");
@@ -80,6 +80,7 @@ extern void powabset(int spr_index, int offset, int no_of_times, void *array_of_
 extern void powabdiff(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset) asm("powabdiff");
 extern void powabzap(int spr_index, int offset, int no_of_times, int value, int skip_offset) asm("powabzap");
 extern void powaunpack(int source, int destination) asm("powaunpack");
+extern void rbsort(void *base,size_t nmemb) asm("rbsort");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -109,6 +110,114 @@ long zero_rotary_delta asm("zero_rotary_delta")=0;
 //
 // And now, teh c0d3!!!111
 //
+// -----------------------------------------------------------------------------
+// Code obtained from https://code.google.com/p/propgcc/source/browse/lib/stdlib/qsort.c
+// Butchered by ggn as usual
+
+/*
+ * from the libnix library for the Amiga, written by
+ * Matthias Fleischer and Gunther Nikl and placed in the public
+ * domain
+ */
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/* sample compar function: int cmp(void *a,void *b){ return *(int *)a-*(int *)b; } */
+//ggn: Well, don't mind if I do then, hehe
+static inline int cmp(void *a,void *b){ return *(int *)a-*(int *)b; }
+
+
+/* This qsort function does a little trick:
+ * To reduce stackspace it iterates the larger interval instead of doing
+ * the recursion on both intervals. 
+ * So stackspace is limited to 32*stack_for_1_iteration = 
+ * 32*4*(4 arguments+1 returnaddress+11 stored registers) = 2048 Bytes,
+ * which is small enough for everybodys use.
+ * (And this is the worst case if you own 4GB and sort an array of chars.)
+ * Sparing the function calling overhead does improve performance, too.
+ */
+
+
+void rbsort(void *base,size_t nmemb)
+{ static short size=4; //will sort longwords only
+  char *base2=(char *)base;
+  size_t i,a,b,c;
+  while(nmemb>1)
+  { a=0;
+    b=nmemb-1;
+    c=(a+b)/2; /* Middle element */
+    for(;;)
+    { while(cmp(&base2[size*c],&base2[size*a])>0) 
+        a++; /* Look for one >= middle */
+      while(cmp(&base2[size*c],&base2[size*b])<0) 
+        b--; /* Look for one <= middle */
+      if(a>=b)
+        break; /* We found no pair */
+      for(i=0;i<size;i++) /* swap them */
+      { char tmp=base2[size*a+i];
+        base2[size*a+i]=base2[size*b+i];
+        base2[size*b+i]=tmp; }
+      if(c==a) /* Keep track of middle element */
+        c=b;
+      else if(c==b)
+        c=a;
+      a++; /* These two are already sorted */
+      b--;
+    } /* a points to first element of right intervall now (b to last of left) */
+    b++;
+    if(b<nmemb-b) /* do recursion on smaller intervall and iteration on larger one */
+    { rbsort(base2,b);
+      base2=&base2[size*b];
+      nmemb=nmemb-b; }
+    else
+    { rbsort(&base2[size*b],nmemb-b);
+      nmemb=b; }
+  }
+}
+
+//Original function for posterity:
+
+//void qsort
+//(void *base,size_t nmemb,size_t size,int (*compar)(const void *,const void *))
+//{ char *base2=(char *)base;
+//  size_t i,a,b,c;
+//  while(nmemb>1)
+//  { a=0;
+//    b=nmemb-1;
+//    c=(a+b)/2; /* Middle element */
+//    for(;;)
+//    { while((*compar)(&base2[size*c],&base2[size*a])>0) 
+//        a++; /* Look for one >= middle */
+//      while((*compar)(&base2[size*c],&base2[size*b])<0) 
+//        b--; /* Look for one <= middle */
+//      if(a>=b)
+//        break; /* We found no pair */
+//      for(i=0;i<size;i++) /* swap them */
+//      { char tmp=base2[size*a+i];
+//        base2[size*a+i]=base2[size*b+i];
+//        base2[size*b+i]=tmp; }
+//      if(c==a) /* Keep track of middle element */
+//        c=b;
+//      else if(c==b)
+//        c=a;
+//      a++; /* These two are already sorted */
+//      b--;
+//    } /* a points to first element of right intervall now (b to last of left) */
+//    b++;
+//    if(b<nmemb-b) /* do recursion on smaller intervall and iteration on larger one */
+//    { qsort(base2,b,size,compar);
+//      base2=&base2[size*b];
+//      nmemb=nmemb-b; }
+//    else
+//    { qsort(&base2[size*b],nmemb-b,size,compar);
+//      nmemb=b; }
+//  }
+//}
+
+
+
+// -----------------------------------------------------------------------------
 void powaunpack(int source, int destination)
 {
 	__asm__ ("\tmovem.l d0-d7/a0-a6,-(sp)                                             \n\t"

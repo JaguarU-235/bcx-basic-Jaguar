@@ -13392,7 +13392,7 @@ SUB EmitProlog
   FPRINT Outfile,"#include "+DQ$+"raptor.h"+DQ$+""
   FPRINT Outfile,"#include "+DQ$+"romassets.h"+DQ$+""
   FPRINT Outfile,""
-  FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"#define UINT unsigned int"
   FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
   FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
   FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"

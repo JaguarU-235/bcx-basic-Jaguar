@@ -43,6 +43,7 @@ extern unsigned long zero_rotary_delta asm("zero_rotary_delta");
 extern short raptor_ntsc_flag asm("raptor_ntsc_flag");
 extern long raptor_vbl_time_remain asm("raptor_vbl_time_remain");
 extern long raptor_user_savedata asm("raptor_user_savedata");
+extern void rbsort(void *base,size_t nmemb) asm("rbsort");
 
 //Zerosquare player equates
 #define Zero_Chan_Format_Shift      30
