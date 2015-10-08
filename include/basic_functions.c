@@ -90,8 +90,8 @@ char *basic_r_buffer=(char *)0;
 struct exception xcpt={0,0,0,0,0}; //needed by some libc/libm functions
 volatile int basic_r_xpos=0;
 volatile int basic_r_ypos=0;
-int basic_r_indx=0;
 int basic_r_size=0;
+int basic_r_indx=0;
 extern unsigned int *U235SE_sfxplaylist_ptr asm ("U235SE_sfxplaylist_ptr");
 static unsigned int U235_commands[2]={0,0};
 extern long raptor_partbuf_x asm("raptor_partbuf_x");
