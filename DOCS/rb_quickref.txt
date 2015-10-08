@@ -19,12 +19,13 @@ bcx help file, "BCXHelp.chm"
 
 General
 -------
-Binary bitfields in basic - Just use B8(binary byte) for bytes,
-                                     B16(binary byte,binary byte) words and
-                                     B32(binary byte,binary byte,binary byte,binary byte) for longwords.
+Binary bitfields in basic   - Just use B8(binary byte) for bytes,
+                                       B16(binary byte,binary byte) words and
+                                       B32(binary byte,binary byte,binary byte,binary byte) for longwords.
                             Example: B8(11110000) is 240 in decimal.
-raptor_ntsc_flag          - is non-zero if machine is ntsc.
-
+raptor_ntsc_flag            - is non-zero if machine is ntsc.
+rbsort(table,no_of_indices) - sorts an array of longwords from smallest to largest.
+                              Only longwords (4 byte integers) for now.
 
 Pixel
 -----
