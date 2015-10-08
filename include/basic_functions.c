@@ -100,11 +100,12 @@ extern void RBRA(long object_number, long branch_type, long ypos, long object_to
 extern void bin2asc(long number, long no_digits, char *string) asm("bin2asc");
 
 //Warning: do NOT change the order of these 5 variables!
-unsigned long zero_left_pad asm("zero_left_pad")=0;
-unsigned long zero_right_pad asm("zero_right_pad")=0;
-long zero_mousex_delta asm("zero_mousex_delta")=0;
-long zero_mousey_delta asm("zero_mousey_delta")=0;
+//(when compiling with -O0, variables start at zero_left_pad and go downwards, with -O2 the opposite. GO FIGURE)
 long zero_rotary_delta asm("zero_rotary_delta")=0;
+long zero_mousey_delta asm("zero_mousey_delta")=0;
+long zero_mousex_delta asm("zero_mousex_delta")=0;
+unsigned long zero_right_pad asm("zero_right_pad")=0;
+unsigned long zero_left_pad asm("zero_left_pad")=0;
 
 
 //
