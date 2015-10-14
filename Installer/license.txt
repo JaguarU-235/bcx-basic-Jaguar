@@ -7,7 +7,9 @@ Uses portions from:
 - pack2e: UCL data compression library (v1.03, Jul 20 2004). Copyright (C) 1996-2004 Markus Franz Xaver Johannes Oberhumer (http://www.oberhumer.com/opensource/ucl/)
 - SoX - Sound eXchange (http://sox.sourceforge.net/)
 - U-235 Sound engine (http://www.u-235.co.uk/developer/sound-engine/about/)
-- NSIS installer (http://nsis.sourceforge.net/Main_Page)
+- Audio player by Zerosquare of Jagware
 - Binary bitfield macros by Tom Torfs.
-- Some example programs by Rik Day.
-
+- Some example programs by Rik Day, with permission.
+- ee_printf Copyright (C) 2002 Michael Ringgaard
+- qsort implementation by Matthias Fleischer and Gunther Nikl, placed in the public domain
+- NSIS installer (http://nsis.sourceforge.net/Main_Page)
