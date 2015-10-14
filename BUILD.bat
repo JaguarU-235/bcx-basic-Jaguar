@@ -46,6 +46,7 @@ echo Usage: BUILD.bat projectname
 echo        BUILD.bat projectname sendy
 echo        BUILD.bat projectname ROM
 echo        BUILD.bat projectname ROM sendy
+echo        BUILD.bat projectname bjl
 echo        BUILD.bat projectname new
 echo.
 echo Folder "projectname" must exist inside folder "projects"
@@ -62,6 +63,10 @@ echo.
 echo if you specify "sendy" the project, upon succesful compilation
 echo will be sent to Skunkboard (caution - when using ROM, bank
 echo #1 will be erased without any warning!)
+echo.
+echo "bjl" will upload the binary to Jaguar via BJL. Note that
+echo you might need to edit the command line parameters to the uploader
+echo in this file (just search for "lo_inp.exe")
 echo.
 echo Current projects:
 if exist projects (

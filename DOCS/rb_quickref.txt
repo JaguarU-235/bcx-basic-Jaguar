@@ -50,9 +50,16 @@ lpeek(x)  - returns byte from address x
 
 Building
 --------
-build.bat <projectname> new   - creates a new project folder from "template".
-build.bat                     - automatically switchs to ROM building if there is even one ROM asset in assets.txt. You can still use build PROJECT ROM though.
-build.bat <project> sendy bjl - uploads built binary using bjl transfer (note: you might need to edit the upload settings)
+General notes about build.bat:
+- automatically switches to ROM building if there is even one ROM asset in assets.txt. You can still use build PROJECT ROM though.
+- will abort build to RAM if the resulting binary is too large.
+- when building a ROM, it will be padded up to 1, 2, 4, 6 or 8mb depending on size. Note that 8mb is only available for skunkboard. A normal ROM file cannot be larger than 6mb. Also note that only the first 4mb will be visible to the system at boot time, to expose the last 4mb the programmer will have to employ the skunkboard's bank switching scheme. Read the skunkboard documentation on how to do this.
+build.bat (no parameters)     - lists all projects in "projects" folder
+build.bat <project> new       - creates a new project folder from "template".
+build.bat <project> sendy     - builds project and uploads it to skunkboard
+build.bat <project> ROM       - builds project as a ROM file. Assets in RAM are packed with the program code and depacked into RAM during boot. Assets in ROM simply are mapped inside ROM space.
+build.bat <project> ROM sendy - builds project as a ROM fiel and uploads it to skunkboard. NOTE: THIS WILL OVERWRITE ANY ROM YOU HAVE ON BANK 1 OF YOUR SKUNKBOARD WITHOUT WARNING!
+build.bat <project> sendy bjl - uploads built binary using bjl transfer (note: you might need to edit the upload settings). Will not work for ROM builds.
 
 assets.txt
 ----------

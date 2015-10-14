@@ -8,6 +8,7 @@ Uses portions from:
 - SoX - Sound eXchange (http://sox.sourceforge.net/)
 - U-235 Sound engine (http://www.u-235.co.uk/developer/sound-engine/about/)
 - Audio player by Zerosquare of Jagware
+- CRY converter by Zerosquare of Jagware
 - Binary bitfield macros by Tom Torfs.
 - Some example programs by Rik Day, with permission.
 - ee_printf Copyright (C) 2002 Michael Ringgaard
