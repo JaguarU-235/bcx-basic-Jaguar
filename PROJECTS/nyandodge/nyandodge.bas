@@ -14,6 +14,7 @@ countr=0
 dim sfxcount as short
 
 RLOCATE 10,10
+rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)
 
 'loadclut(strptr(BMP_PLAYER_clut),1,16)
 loadclut(strptr(BMP_ENEMY_clut),2,16)
@@ -33,7 +34,8 @@ do
 	IF (STICK BAND PAD_DOWN AND PY<200) THEN
 		PY=PY+2
 	endif
-	RSETOBJ(1,R_sprite_y,PY<<16)
+'	RSETOBJ(1,R_sprite_y,PY<<16)
+	rlist[1].y=PY<<16
 	IF RHIT(1,1,2,22)<>-1 THEN
 		sfxcount=sfxcount+1
 		if sfxcount=10 then		
@@ -74,12 +76,22 @@ loop
 
 REM NEW ENEMY
 sub newenemy
-	RSETOBJ(2+CURRENT,R_sprite_x,352<<16)
-	RSETOBJ(2+CURRENT,R_sprite_y,INT((integer)(RND*200)<<16))
-	RSETOBJ(2+CURRENT,R_sprite_was_hit,R_cant_hit)
-	RSETOBJ(2+CURRENT,R_sprite_hitpoint,1)
-	RSETOBJ(2+CURRENT,R_sprite_xadd,-2<<16)
-	RSETOBJ(2+CURRENT,R_sprite_active,1)
+	rlist[2+CURRENT].x=352<<16
+	rlist[2+CURRENT].y=INT((integer)(RND*200)<<16)
+	rlist[2+CURRENT].was_hit=R_cant_hit
+	rlist[2+CURRENT].hitpoint=1
+	rlist[2+CURRENT].xadd=-2<<16
+	rlist[2+CURRENT].active=1
+
+	'The commented lines below are functionally equivalent to
+	'those above. However they are slower
+
+	'RSETOBJ(2+CURRENT,R_sprite_x,352<<16)
+	'RSETOBJ(2+CURRENT,R_sprite_y,INT((integer)(RND*200)<<16))
+	'RSETOBJ(2+CURRENT,R_sprite_was_hit,R_cant_hit)
+	'RSETOBJ(2+CURRENT,R_sprite_hitpoint,1)
+	'RSETOBJ(2+CURRENT,R_sprite_xadd,-2<<16)
+	'RSETOBJ(2+CURRENT,R_sprite_active,1)
 	CURRENT=CURRENT+1
 	IF CURRENT=20 THEN
 		CURRENT=0

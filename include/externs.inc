@@ -8,7 +8,6 @@
     .extern Input_ReadPads
     .extern RAPTOR_HEXtoDEC
     .extern RAPTOR_particle_gfx
-    .extern RAPTOR_sprite_table
     .extern RAPTOR_module_list
     .extern Input_SetJoyPort1
     .extern Input_SetJoyPort2

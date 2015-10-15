@@ -50,6 +50,58 @@ enum
 	R_sprite_userdat6			=180,
 	R_sprite_userdat7			=184
 };
+typedef struct _RAPTOR_LIST
+{
+  int     obj;
+  int     active;
+  int     x;
+  int     y;
+  int     xadd;
+  int     yadd;
+  int     flip;
+  int     width;
+  int     height;
+  int     vbox;
+  int     hbox;
+  int     gfxbase;
+  int     framesz;
+  int     framedel;
+  int     curframe;
+  int     maxframe;
+  int     animloop;
+  int     wrap;
+  int     timer;
+  int     track;
+  int     colchk;
+  int     scaled;
+  int     scale_x;
+  int     scale_y;
+  int     CLUT;
+  int     animspd;
+  int     bytewid;
+  int     tracktop;
+  int     was_hit;
+  int     coffx;
+  int     coffy;
+  int     remhit;
+  int     bboxlink;
+  int     hitpoint;
+  int     damage;
+  int     flash;
+  int     gwidth;
+  int     rmotion;
+  int     rmcurfrm;
+  int     rmfrm;
+  int     userdat1;
+  int     userdat2;
+  int     userdat3;
+  int     userdat4;
+  int     userdat5;
+  int     userdat6;
+  int     userdat7;
+}RAPTOR_LIST;
+RAPTOR_LIST *rlist;
+extern RAPTOR_LIST *rlist asm("rlist");
 
 /*
 particle_tabwidth		equ				44								; bytewidth of a single particle entry in particle database (below)
