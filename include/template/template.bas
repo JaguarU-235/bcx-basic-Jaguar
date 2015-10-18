@@ -6,7 +6,7 @@ rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)
 basic_r_indx=1
 basic_r_size=1
 RLOCATE 0,202
-RPRINT "       RAPTOR BASIC+ v0.1 - REBOOT      "
+RPRINT "          RAPTOR BASIC+ - REBOOT        "
 basic_r_size=0
 basic_r_indx=0
 RLOCATE 0,218
