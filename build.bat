@@ -42,12 +42,12 @@ set ROM_MODE=
 
 rem -------------------------------------------------------------
 if [%PROJECTNAME%] neq [] goto :dobuild
-echo Usage: BUILD.bat projectname
-echo        BUILD.bat projectname sendy
-echo        BUILD.bat projectname ROM
-echo        BUILD.bat projectname ROM sendy
-echo        BUILD.bat projectname bjl
-echo        BUILD.bat projectname new
+echo Usage: build.bat projectname
+echo        build.bat projectname sendy
+echo        build.bat projectname ROM
+echo        build.bat projectname ROM sendy
+echo        build.bat projectname bjl
+echo        build.bat projectname new
 echo.
 echo Folder "projectname" must exist inside folder "projects"
 echo and have a file called "projectname.bas" inside.
@@ -70,7 +70,7 @@ echo in this file (just search for "lo_inp.exe")
 echo.
 echo Current projects:
 if exist projects (
-dir /AD /B PROJECTS
+dir /AD /B projects
 ) else (
 dir /AD /B
 )
@@ -87,7 +87,7 @@ rem -------------------------------------------------------------
 rem delete residual files from previous builds
 if exist %BUILDPATH%\%PROJECTNAME%.abs del %BUILDPATH%\%PROJECTNAME%.abs
 if exist %TEMPDIR%\basic.o del %TEMPDIR%\basic.o
-if exist %TEMPDIR%\%PROJECTNAME%.C del %TEMPDIR%\%PROJECTNAME%.C
+if exist %TEMPDIR%\%PROJECTNAME%.c del %TEMPDIR%\%PROJECTNAME%.c
 if exist %TEMPDIR%\%PROJECTNAME%.o del %TEMPDIR%\%PROJECTNAME%.o
 
 rem -------------------------------------------------------------
@@ -117,7 +117,7 @@ rem assemble raptor skeleton
 echo. >> %TEMPDIR%\build.log
 echo Assembling raptor skeleton... >> %TEMPDIR%\build.log
 cd %BUILDPATH%
-rmac -fb -u -i"%RBTOOLS%\include" -o build\BASIC.O RAPAPP.s >> %TEMPDIR%\build.log 2>&1
+rmac -fb -u -i"%RBTOOLS%\include" -o build\basic.o rapapp.s >> %TEMPDIR%\build.log 2>&1
 cd %CURRENTPATH_FULL%
 if NOT EXIST %TEMPDIR%\basic.o goto :builderror
 
@@ -127,16 +127,16 @@ echo. >> %TEMPDIR%\build.log
 echo Translating .bas file to C... >> %TEMPDIR%\build.log
 bc %BUILDPATH%\%PROJECTNAME%.bas -q >> %TEMPDIR%\build.log
 if %ERRORLEVEL% NEQ 0 goto :builderror
-move /Y %BUILDPATH%\%PROJECTNAME%.C %TEMPDIR% >NUL
+move /Y %BUILDPATH%\%PROJECTNAME%.c %TEMPDIR% >NUL
 
 rem -------------------------------------------------------------
 rem Compile C code
 echo. >> %TEMPDIR%\build.log
 echo Compiling C code... >> %TEMPDIR%\build.log
-m68k-atari-mint-gcc -O2 -I"%RBTOOLS%\include" -I%BUILDPATH%\ -c %TEMPDIR%\%PROJECTNAME%.C -o %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log 2>&1
+m68k-atari-mint-gcc -O2 -I"%RBTOOLS%\include" -I%BUILDPATH%\ -c %TEMPDIR%\%PROJECTNAME%.c -o %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log 2>&1
 if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %TEMPDIR%\%PROJECTNAME%.o goto :builderror
-m68k-atari-mint-gcc -O2 -I"%RBTOOLS%\include" -I%BUILDPATH%\ %TEMPDIR%\%PROJECTNAME%.C -S -o %TEMPDIR%\%PROJECTNAME%.s >> %TEMPDIR%\build.log 2>&1
+m68k-atari-mint-gcc -O2 -I"%RBTOOLS%\include" -I%BUILDPATH%\ %TEMPDIR%\%PROJECTNAME%.c -S -o %TEMPDIR%\%PROJECTNAME%.s >> %TEMPDIR%\build.log 2>&1
 if "%2" neq "ROM" (if "%ROM_MODE%"=="" goto :norom)
 
 rem -------------------------------------------------------------
@@ -144,7 +144,7 @@ rem Link binaries
 echo Building ROM file...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -z -rq -o %TEMPDIR%\%PROJECTNAME%.bin -n -a 4000 x x %TEMPDIR%\BASIC.O "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
+rln -z -rq -o %TEMPDIR%\%PROJECTNAME%.bin -n -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
 if not exist %TEMPDIR%\%PROJECTNAME%.bin goto :builderror
 
 rem -------------------------------------------------------------
@@ -174,7 +174,7 @@ rem Link binaries
 echo Building ABS...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\BASIC.O "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
+rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
 if not exist %BUILDPATH%\%PROJECTNAME%.abs goto :builderror
 
 rem -------------------------------------------------------------
