@@ -14,7 +14,7 @@ set PROJECTNAME=%~n1
 rem -------------------------------------------------------------
 rem set build tools path
 if "%RBTOOLS%" neq "" goto :set_from_environment
-rem if not found then assume rbtools directory is the current
+rem if not found then assume rbtools directory is the current.
 rem Dangerous but compatible with old style build system
 rem (new versions will have this set from the installer)
 if "%RBTOOLS%" == "" for %%f in ("%cd%") do set RBTOOLS=%%~sf
@@ -125,9 +125,8 @@ rem -------------------------------------------------------------
 rem translate .bas file to C
 echo. >> %TEMPDIR%\build.log
 echo Translating .bas file to C... >> %TEMPDIR%\build.log
-bc %BUILDPATH%\%PROJECTNAME%.bas -q >> %TEMPDIR%\build.log
+bc %BUILDPATH%\%PROJECTNAME%.bas  -f:%TEMPDIR%\%PROJECTNAME%.c >> %TEMPDIR%\build.log
 if %ERRORLEVEL% NEQ 0 goto :builderror
-move /Y %BUILDPATH%\%PROJECTNAME%.c %TEMPDIR% >NUL
 
 rem -------------------------------------------------------------
 rem Compile C code
@@ -164,7 +163,7 @@ start virtualjaguar %BUILDPATH%\%PROJECTNAME%.rom --alpine
 goto :veryend
 :sendrom
 jcp -r
-ping localhost
+ping localhost >NUL
 jcp -f %BUILDPATH%\%PROJECTNAME%.rom
 goto :veryend
 
@@ -178,8 +177,8 @@ rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\basic.o "%R
 if not exist %BUILDPATH%\%PROJECTNAME%.abs goto :builderror
 
 rem -------------------------------------------------------------
-rem Check file size to see if we passed the 2mb barrier
-rem If yes, switch to ROM building
+rem Check file size to see if we passed the 2mb barrier.
+rem If yes, abort.
 set file="%BUILDPATH%\%PROJECTNAME%.abs"
 FOR /F "usebackq" %%A IN ('%file%') DO set size=%%~zA
 echo File size=%size% bytes
@@ -209,7 +208,7 @@ echo Sending to skunkboard...
 echo. >> %TEMPDIR%\build.log
 echo Sending to skunkboard... >> %TEMPDIR%\build.log
 jcp -r
-ping localhost
+ping localhost >NUL
 jcp %BUILDPATH%\%PROJECTNAME%.abs
 goto :veryend
 :sendbjl
