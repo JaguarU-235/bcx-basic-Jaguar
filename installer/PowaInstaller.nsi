@@ -92,6 +92,7 @@ Section "Base files (required)" BaseFiles
   File "..\bin\bmp2jag.Exe"
   File "..\bin\Buildlink.exe"
   File "..\bin\cc1plus.exe"
+  File "..\bin\cc1.exe"
   File "..\bin\GfaWin23.Ocx"
   File "..\bin\libgcc_s_dw2-1.dll"
   File "..\bin\libgmp-10.dll"
