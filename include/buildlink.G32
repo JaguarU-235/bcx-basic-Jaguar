@@ -295,6 +295,7 @@ While Not EOF(# 1)
     Close # 5
     Close # 7
   Else
+'##E#
     If Upper$(romabs$) = "ROM"
       Print # 10; "        Adding " + fullname$ + " to the linkfile as ROM..."
       any_rom_asset = True
@@ -313,6 +314,7 @@ While Not EOF(# 1)
       Print # 6; varname$; ": incbin """ + fullnameslash$ + """"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
+      Print # 6; ".extern " + varname$ + "_end"
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
     EndIf
@@ -565,7 +567,6 @@ Function packfile$(file$)
       Return ".pack"
     Else
       Print # 10; "        Destination file " + file$ + ".pack already exists and is newer than the source file - skipping"
-'##E#
       Return ".pack"
     EndIf
   Else
