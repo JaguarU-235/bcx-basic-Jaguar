@@ -295,7 +295,6 @@ While Not EOF(# 1)
     Close # 5
     Close # 7
   Else
-'##E#
     If Upper$(romabs$) = "ROM"
       Print # 10; "        Adding " + fullname$ + " to the linkfile as ROM..."
       any_rom_asset = True
@@ -315,6 +314,7 @@ While Not EOF(# 1)
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
+'##E#
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
     EndIf
