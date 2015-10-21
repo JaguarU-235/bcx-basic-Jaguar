@@ -314,9 +314,10 @@ While Not EOF(# 1)
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
-'##E#
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
+'##E#
+      Print # 4; "extern void *" + varname$ + "_end asm(""" + varname$ + "_end"");"
     EndIf
   EndIf
   skipline:
