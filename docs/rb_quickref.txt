@@ -10,7 +10,7 @@
 
 
 
-Note: this is not a compehensive guide - it only covers
+Note: this is not a comprehensive guide - it only covers
 the commands, functions and variables introduced in
 Raptor Basic+. It does not cover bcx functions, commands
 and syntax. For that you are kindly referred to read the
@@ -75,7 +75,7 @@ powaunpack(source_address,destination_address) - unpacks data from source_addres
                                                  for unpacking. Also, no checking to see if a packed asset
                                                  exists at the source address - again it's your responsibility!
 
-Object manipluation
+Object manipulation
 -------------------
 rsetlist                                                                    - 
 RSETOBJ spr_index,offset,value                                              - sets the attribute at offset "offset" of object "spr_index" to value "value".

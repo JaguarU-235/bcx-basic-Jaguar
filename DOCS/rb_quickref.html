@@ -1,0 +1,1609 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="Docutils 0.12: http://docutils.sourceforge.net/">
+<title></title>
+<style type="text/css">
+
+/*
+ * basic.css
+ * ~~~~~~~~~
+ *
+ * Sphinx stylesheet -- basic theme.
+ *
+ * :copyright: Copyright 2007-2010 by the Sphinx team, see AUTHORS.
+ * :license: BSD, see LICENSE for details.
+ *
+ */
+
+/* -- main layout ----------------------------------------------------------- */
+
+div.clearer {
+    clear: both;
+}
+
+/* -- relbar ---------------------------------------------------------------- */
+
+div.related {
+    width: 100%;
+    font-size: 90%;
+}
+
+div.related h3 {
+    display: none;
+}
+
+div.related ul {
+    margin: 0;
+    padding: 0 0 0 10px;
+    list-style: none;
+}
+
+div.related li {
+    display: inline;
+}
+
+div.related li.right {
+    float: right;
+    margin-right: 5px;
+}
+
+/* -- sidebar --------------------------------------------------------------- */
+
+div.sphinxsidebarwrapper {
+    padding: 10px 5px 0 10px;
+}
+
+div.sphinxsidebar {
+    float: left;
+    width: 230px;
+    margin-left: -100%;
+    font-size: 90%;
+}
+
+div.sphinxsidebar ul {
+    list-style: none;
+}
+
+div.sphinxsidebar ul ul,
+div.sphinxsidebar ul.want-points {
+    margin-left: 20px;
+    list-style: square;
+}
+
+div.sphinxsidebar ul ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+div.sphinxsidebar form {
+    margin-top: 10px;
+}
+
+div.sphinxsidebar input {
+    border: 1px solid #98dbcc;
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+img {
+    border: 0;
+}
+
+/* -- search page ----------------------------------------------------------- */
+
+ul.search {
+    margin: 10px 0 0 20px;
+    padding: 0;
+}
+
+ul.search li {
+    padding: 5px 0 5px 20px;
+    background-image: url(file.png);
+    background-repeat: no-repeat;
+    background-position: 0 7px;
+}
+
+ul.search li a {
+    font-weight: bold;
+}
+
+ul.search li div.context {
+    color: #888;
+    margin: 2px 0 0 30px;
+    text-align: left;
+}
+
+ul.keywordmatches li.goodmatch a {
+    font-weight: bold;
+}
+
+/* -- index page ------------------------------------------------------------ */
+
+table.contentstable {
+    width: 90%;
+}
+
+table.contentstable p.biglink {
+    line-height: 150%;
+}
+
+a.biglink {
+    font-size: 1.3em;
+}
+
+span.linkdescr {
+    font-style: italic;
+    padding-top: 5px;
+    font-size: 90%;
+}
+
+/* -- general index --------------------------------------------------------- */
+
+table.indextable {
+    width: 100%;
+}
+
+table.indextable td {
+    text-align: left;
+    vertical-align: top;
+}
+
+table.indextable dl, table.indextable dd {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+table.indextable tr.pcap {
+    height: 10px;
+}
+
+table.indextable tr.cap {
+    margin-top: 10px;
+    background-color: #f2f2f2;
+}
+
+img.toggler {
+    margin-right: 3px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+div.modindex-jumpbox {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 1em 0 1em 0;
+    padding: 0.4em;
+}
+
+div.genindex-jumpbox {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 1em 0 1em 0;
+    padding: 0.4em;
+}
+
+/* -- general body styles --------------------------------------------------- */
+
+a.headerlink {
+    visibility: hidden;
+}
+
+h1:hover > a.headerlink,
+h2:hover > a.headerlink,
+h3:hover > a.headerlink,
+h4:hover > a.headerlink,
+h5:hover > a.headerlink,
+h6:hover > a.headerlink,
+dt:hover > a.headerlink {
+    visibility: visible;
+}
+
+div.body p.caption {
+    text-align: inherit;
+}
+
+div.body td {
+    text-align: left;
+}
+
+.field-list ul {
+    padding-left: 1em;
+}
+
+.first {
+    margin-top: 0 !important;
+}
+
+p.rubric {
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    clear: both;
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+/* -- sidebars -------------------------------------------------------------- */
+
+div.sidebar {
+    margin: 0 0 0.5em 1em;
+    border: 1px solid #ddb;
+    padding: 7px 7px 0 7px;
+    background-color: #ffe;
+    width: 40%;
+    float: right;
+}
+
+p.sidebar-title {
+    font-weight: bold;
+}
+
+/* -- topics ---------------------------------------------------------------- */
+
+div.topic {
+    border: 1px solid #ccc;
+    padding: 7px 7px 0 7px;
+    margin: 10px 0 10px 0;
+}
+
+p.topic-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* -- admonitions ----------------------------------------------------------- */
+
+div.admonition {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 7px;
+}
+
+div.admonition dt {
+    font-weight: bold;
+}
+
+div.admonition dl {
+    margin-bottom: 0;
+}
+
+p.admonition-title {
+    margin: 0px 10px 5px 0px;
+    font-weight: bold;
+}
+
+div.body p.centered {
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* -- tables ---------------------------------------------------------------- */
+
+table.docutils {
+    border: 0;
+    border-collapse: collapse;
+}
+
+table.docutils td, table.docutils th {
+    padding: 1px 8px 1px 5px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #aaa;
+}
+
+table.field-list td, table.field-list th {
+    border: 0 !important;
+}
+
+table.footnote td, table.footnote th {
+    border: 0 !important;
+}
+
+th {
+    text-align: left;
+    padding-right: 5px;
+}
+
+table.citation {
+    border-left: solid 1px gray;
+    margin-left: 1px;
+}
+
+table.citation td {
+    border-bottom: none;
+}
+
+/* -- other body styles ----------------------------------------------------- */
+
+ol.arabic {
+    list-style: decimal;
+}
+
+ol.loweralpha {
+    list-style: lower-alpha;
+}
+
+ol.upperalpha {
+    list-style: upper-alpha;
+}
+
+ol.lowerroman {
+    list-style: lower-roman;
+}
+
+ol.upperroman {
+    list-style: upper-roman;
+}
+
+dl {
+    margin-bottom: 15px;
+}
+
+dd p {
+    margin-top: 0px;
+}
+
+dd ul, dd table {
+    margin-bottom: 10px;
+}
+
+dd {
+    margin-top: 3px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+
+dt:target, .highlighted {
+    background-color: #fbe54e;
+}
+
+dl.glossary dt {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.field-list ul {
+    margin: 0;
+    padding-left: 1em;
+}
+
+.field-list p {
+    margin: 0;
+}
+
+.refcount {
+    color: #060;
+}
+
+.optional {
+    font-size: 1.3em;
+}
+
+.versionmodified {
+    font-style: italic;
+}
+
+.system-message {
+    background-color: #fda;
+    padding: 5px;
+    border: 3px solid red;
+}
+
+.footnote:target  {
+    background-color: #ffa
+}
+
+.line-block {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.line-block .line-block {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 1.5em;
+}
+
+.guilabel, .menuselection {
+    font-family: sans-serif;
+}
+
+.accelerator {
+    text-decoration: underline;
+}
+
+.classifier {
+    font-style: oblique;
+}
+
+/* -- code displays --------------------------------------------------------- */
+
+pre {
+    overflow: auto;
+}
+
+td.linenos pre {
+    padding: 5px 0px;
+    border: 0;
+    background-color: transparent;
+    color: #aaa;
+}
+
+table.highlighttable {
+    margin-left: 0.5em;
+}
+
+table.highlighttable td {
+    padding: 0 0.5em 0 0.5em;
+}
+
+tt.descname {
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+tt.descclassname {
+    background-color: transparent;
+}
+
+tt.xref, a tt {
+    background-color: transparent;
+    font-weight: bold;
+}
+
+h1 tt, h2 tt, h3 tt, h4 tt, h5 tt, h6 tt {
+    background-color: transparent;
+}
+
+.viewcode-link {
+    float: right;
+}
+
+.viewcode-back {
+    float: right;
+    font-family: sans-serif;
+}
+
+div.viewcode-block:target {
+    margin: -1px -10px;
+    padding: 0 10px;
+}
+
+/* -- math display ---------------------------------------------------------- */
+
+img.math {
+    vertical-align: middle;
+}
+
+div.body div.math p {
+    text-align: center;
+}
+
+span.eqno {
+    float: right;
+}
+
+/* -- printout stylesheet --------------------------------------------------- */
+
+@media print {
+    div.document,
+    div.documentwrapper,
+    div.bodywrapper {
+        margin: 0 !important;
+        width: 100%;
+    }
+
+    div.sphinxsidebar,
+    div.related,
+    div.footer,
+    #top-link {
+        display: none;
+    }
+}
+
+</style>
+<style type="text/css">
+
+/*
+ * nature.css_t
+ * ~~~~~~~~~~~~
+ *
+ * Sphinx stylesheet -- nature theme.
+ *
+ * :copyright: Copyright 2007-2010 by the Sphinx team, see AUTHORS.
+ * :license: BSD, see LICENSE for details.
+ *
+ */
+ 
+/* -- page layout ----------------------------------------------------------- */
+ 
+body {
+    font-family: Arial, sans-serif;
+    font-size: 100%;
+    /*background-color: #111;*/
+    color: #555;
+    margin: 0;
+    padding: 0;
+}
+
+div.documentwrapper {
+    float: left;
+    width: 100%;
+}
+
+div.bodywrapper {
+    margin: 0 0 0 230px;
+}
+
+hr {
+    border: 1px solid #B1B4B6;
+}
+ 
+div.document {
+    background-color: #eee;
+}
+ 
+div.body {
+    background-color: #ffffff;
+    color: #3E4349;
+    padding: 0 30px 30px 30px;
+    font-size: 0.9em;
+}
+ 
+div.footer {
+    color: #555;
+    width: 100%;
+    padding: 13px 0;
+    text-align: center;
+    font-size: 75%;
+}
+ 
+div.footer a {
+    color: #444;
+    text-decoration: underline;
+}
+ 
+div.related {
+    background-color: #6BA81E;
+    line-height: 32px;
+    color: #fff;
+    text-shadow: 0px 1px 0 #444;
+    font-size: 0.9em;
+}
+ 
+div.related a {
+    color: #E2F3CC;
+}
+ 
+div.sphinxsidebar {
+    font-size: 0.75em;
+    line-height: 1.5em;
+}
+
+div.sphinxsidebarwrapper{
+    padding: 20px 0;
+}
+ 
+div.sphinxsidebar h3,
+div.sphinxsidebar h4 {
+    font-family: Arial, sans-serif;
+    color: #222;
+    font-size: 1.2em;
+    font-weight: normal;
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #ddd;
+    text-shadow: 1px 1px 0 white
+}
+
+div.sphinxsidebar h4{
+    font-size: 1.1em;
+}
+ 
+div.sphinxsidebar h3 a {
+    color: #444;
+}
+ 
+ 
+div.sphinxsidebar p {
+    color: #888;
+    padding: 5px 20px;
+}
+ 
+div.sphinxsidebar p.topless {
+}
+ 
+div.sphinxsidebar ul {
+    margin: 10px 20px;
+    padding: 0;
+    color: #000;
+}
+ 
+div.sphinxsidebar a {
+    color: #444;
+}
+ 
+div.sphinxsidebar input {
+    border: 1px solid #ccc;
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+div.sphinxsidebar input[type=text]{
+    margin-left: 20px;
+}
+ 
+/* -- body styles ----------------------------------------------------------- */
+ 
+a {
+    color: #005B81;
+    text-decoration: none;
+}
+ 
+a:hover {
+    color: #E32E00;
+    text-decoration: underline;
+}
+ 
+div.body h1,
+div.body h2,
+div.body h3,
+div.body h4,
+div.body h5,
+div.body h6 {
+    font-family: Arial, sans-serif;
+    background-color: #BED4EB;
+    font-weight: normal;
+    color: #212224;
+    margin: 30px 0px 10px 0px;
+    padding: 5px 0 5px 10px;
+    text-shadow: 0px 1px 0 white
+}
+ 
+div.body h1 { border-top: 20px solid white; margin-top: 0; font-size: 200%; }
+div.body h2 { font-size: 150%; background-color: #C8D5E3; }
+div.body h3 { font-size: 120%; background-color: #D8DEE3; }
+div.body h4 { font-size: 110%; background-color: #D8DEE3; }
+div.body h5 { font-size: 100%; background-color: #D8DEE3; }
+div.body h6 { font-size: 100%; background-color: #D8DEE3; }
+ 
+a.headerlink {
+    color: #c60f0f;
+    font-size: 0.8em;
+    padding: 0 4px 0 4px;
+    text-decoration: none;
+}
+ 
+a.headerlink:hover {
+    background-color: #c60f0f;
+    color: white;
+}
+ 
+div.body p, div.body dd, div.body li {
+    line-height: 1.5em;
+}
+ 
+div.admonition p.admonition-title + p {
+    display: inline;
+}
+
+div.highlight{
+    background-color: white;
+}
+
+div.note {
+    background-color: #eee;
+    border: 1px solid #ccc;
+}
+ 
+div.seealso {
+    background-color: #ffc;
+    border: 1px solid #ff6;
+}
+ 
+div.topic {
+    background-color: #eee;
+}
+ 
+div.warning {
+    background-color: #ffe4e4;
+    border: 1px solid #f66;
+}
+ 
+p.admonition-title {
+    display: inline;
+}
+ 
+p.admonition-title:after {
+    content: ":";
+}
+ 
+pre {
+    padding: 10px;
+    background-color: White;
+    color: #222;
+    line-height: 1.2em;
+    border: 1px solid #C6C9CB;
+    font-size: 1.1em;
+    margin: 1.5em 0 1.5em 0;
+    -webkit-box-shadow: 1px 1px 1px #d8d8d8;
+    -moz-box-shadow: 1px 1px 1px #d8d8d8;
+}
+ 
+tt {
+    background-color: #ecf0f3;
+    color: #222;
+    /* padding: 1px 2px; */
+    font-size: 1.1em;
+    font-family: monospace;
+}
+
+.viewcode-back {
+    font-family: Arial, sans-serif;
+}
+
+div.viewcode-block:target {
+    background-color: #f4debf;
+    border-top: 1px solid #ac9;
+    border-bottom: 1px solid #ac9;
+}
+
+p {
+	margin: 0;
+}
+
+ul li dd {
+	margin-top: 0;
+}
+
+ul li dl {
+	margin-bottom: 0;
+}
+
+li dl dd {
+	margin-bottom: 0;
+}
+
+dd ul {
+	padding-left: 0;
+}
+
+li dd ul {
+	margin-bottom: 0;
+}
+
+</style>
+</head>
+<body>
+<div class="document">
+ <div class="body">
+
+
+
+<pre class="literal-block"> ___           _             ___          _      _
+| _ \__ _ _ __| |_ ___ _ _  | _ ) __ _ __(_)__ _| |_
+|   / _` | '_ \  _/ _ \ '_| | _ \/ _` (_-&lt; / _|_   _|
+|_|_\__,_| .__/\__\___/_|   |___/\__,_/__/_\__| |_|
+         |_|
+</pre>
+<p>Quick reference guide</p>
+<p>Note: this is not a comprehensive guide - it only covers
+the commands, functions and variables introduced in
+Raptor Basic+. It does not cover bcx functions, commands
+and syntax. For that you are kindly referred to read the
+bcx help file, "BCXHelp.chm".</p>
+<div class="section" id="general">
+<h1>General</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%">
+<col width="74%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Binary bitfields in basic</td>
+<td><dl class="first docutils">
+<dt>Just use</dt>
+<dd><ul class="first last simple">
+<li>B8(binary byte) for bytes,</li>
+<li>B16(binary byte,binary byte) words and</li>
+<li>B32(binary byte,binary byte,binary byte,binary byte) for longwords.</li>
+</ul>
+</dd>
+</dl>
+<p class="last">Example: B8(11110000) is 240 in decimal.</p>
+</td>
+</tr>
+<tr><td>raptor_ntsc_flag</td>
+<td>is non-zero if machine is ntsc.</td>
+</tr>
+<tr><td>rbsort(table,no_of_indices)</td>
+<td><p class="first">sorts an array of longwords from smallest to largest.</p>
+<p class="last">Only longwords (4 byte integers) for now.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pixel">
+<h1>Pixel</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%">
+<col width="88%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>colour x</td>
+<td>set plot colour (0 - 15)</td>
+</tr>
+<tr><td>plot(x,y)</td>
+<td>plot pixel in coordinates x,y with the colour set using "colour"</td>
+</tr>
+<tr><td>cls</td>
+<td>clears the pixel/print text buffer</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sync">
+<h1>Sync</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%">
+<col width="88%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>RUPDALL</td>
+<td>--</td>
+</tr>
+<tr><td>VSYNC</td>
+<td>waits till the next vertical blank</td>
+</tr>
+<tr><td>DELAY(x)</td>
+<td>waits for x vertical blanks.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="memory">
+<h1>Memory</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%">
+<col width="88%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>poke x,y</td>
+<td>writes byte y to address x</td>
+</tr>
+<tr><td>peek(x)</td>
+<td>returns byte from address x</td>
+</tr>
+<tr><td>dpoke x,y</td>
+<td>writes word y to address x</td>
+</tr>
+<tr><td>dpeek(x)</td>
+<td>returns byte from address x</td>
+</tr>
+<tr><td>lpoke x,y</td>
+<td>writes longword y to address x</td>
+</tr>
+<tr><td>lpeek(x)</td>
+<td>returns byte from address x</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="building">
+<h1>Building</h1>
+<p>General notes about build.bat:</p>
+<ul class="simple">
+<li>automatically switches to ROM building if there is even one ROM asset in assets.txt. You can still use build PROJECT ROM though.</li>
+<li>will abort build to RAM if the resulting binary is too large.</li>
+<li>when building a ROM, it will be padded up to 1, 2, 4, 6 or 8mb depending on size. Note that 8mb is only available for skunkboard. A normal ROM file cannot be larger than 6mb. Also note that only the first 4mb will be visible to the system at boot time, to expose the last 4mb the programmer will have to employ the skunkboard's bank switching scheme. Read the skunkboard documentation on how to do this.</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%">
+<col width="73%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>build.bat (no parameters)</td>
+<td>lists all projects in "projects" folder</td>
+</tr>
+<tr><td>build.bat &lt;project&gt; new</td>
+<td>creates a new project folder from "template".</td>
+</tr>
+<tr><td>build.bat &lt;project&gt; sendy</td>
+<td>builds project and uploads it to skunkboard</td>
+</tr>
+<tr><td>build.bat &lt;project&gt; ROM</td>
+<td>builds project as a ROM file. Assets in RAM are packed with the program code and
+depacked into RAM during boot. Assets in ROM simply are mapped inside ROM space.</td>
+</tr>
+<tr><td>build.bat &lt;project&gt; ROM sendy</td>
+<td>builds project as a ROM fiel and uploads it to skunkboard. NOTE: THIS WILL
+OVERWRITE ANY ROM YOU HAVE ON BANK 1 OF YOUR SKUNKBOARD WITHOUT WARNING!</td>
+</tr>
+<tr><td>build.bat &lt;project&gt; sendy bjl</td>
+<td>uploads built binary using bjl transfer (note: you might need to edit the upload
+settings). Will not work for ROM builds.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="assets-txt">
+<h1>assets.txt</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%">
+<col width="73%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>RMOTION</td>
+<td>can be enabled with RSETOBJ and RMOTION scripts can now be added to assets.txt
+for parsing.</td>
+</tr>
+</tbody>
+</table>
+<p>Assets can be packed. Suffix field C with "_pack" in assets.txt</p>
+<p>TODO: expand this section</p>
+</div>
+<div class="section" id="packing">
+<h1>Packing</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%">
+<col width="57%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>powaunpack(source_address,destination_address)</td>
+<td>unpacks data from source_address to destination_address.
+Note that it's your responsibility to reserve enough RAM
+for unpacking. Also, no checking to see if a packed asset
+exists at the source address - again it's your responsibility!</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="object-manipulation">
+<h1>Object manipulation</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%">
+<col width="61%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>rsetlist</td>
+<td>--</td>
+</tr>
+<tr><td>RSETOBJ spr_index,offset,value</td>
+<td><p class="first">sets the attribute at offset
+<em>offset</em> of object <em>spr_index</em> to value <em>value</em>.</p>
+<p>See table A for offsets, their descriptions and user friendly names.</p>
+<p class="last">Example: RSETOBJ 1,R_sprite_x,10&lt;&lt;16</p>
+</td>
+</tr>
+<tr><td>variable=RGETOBJ(spr_index,offset)</td>
+<td><p class="first">gets the attribute at offset "offset" of object "spr_index" and saves it to "variable".</p>
+<p>See table A for offsets, their descriptions and user friendly names.</p>
+<p class="last">Example: player_x=RGETOBJ(spr_index,offset)</p>
+</td>
+</tr>
+<tr><td>rhit (&lt;source first object&gt;, &lt;source last object&gt;, &lt;target first object&gt;, &lt;target last object&gt;)</td>
+<td>will return 1 (hit has occurred) if anything within the specified range has collided.
+this is only a general indication of a collision and
+further interrogation via the 'was_hit' variable will let you know which object has actually collided with any of the source
+objects.
+The values of damage variables of the source objects is deducted from the target objects.  raptor can be set to automatically
+kill an object when its
+hitpoint variable
+reaches -1 (dead) by setting the object variable 'remhit' to 'cd_remove' (1)
+The collision check will only work on objects that have their 'colchk' variable set to 'can_hit' (1), objects that are set to 'cant_hit' (-1) will be
+skipped.</td>
+</tr>
+<tr><td>powaset(spr_index, offset, no_of_times, array_of_values)</td>
+<td>will write longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with
+index "spr_index".</td>
+</tr>
+<tr><td>powadiff(spr_index, offset, no_of_times, array_of_values)</td>
+<td>will add longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with
+index "spr_index".</td>
+</tr>
+<tr><td>powazap(spr_index, offset, no_of_times, value)</td>
+<td>will write longword value "value" "no_of_times" times in raptor table offset "offset", starting with index "spr_index".</td>
+</tr>
+<tr><td>powabset(spr_index, offset, no_of_times, array_of_values, skip_offset)</td>
+<td>Exactly the same as powaset but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)</td>
+</tr>
+<tr><td>powabdiff(spr_index, offset, no_of_times, array_of_values, skip_offset)</td>
+<td>Exactly the same as powadiff but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)</td>
+</tr>
+<tr><td>powabzap(spr_index, offset, no_of_times, value, skip_offset)</td>
+<td>Exactly the same as powazap but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)</td>
+</tr>
+<tr><td>rlist [object list number].&lt;raptor object list variable name&gt; {= new value}</td>
+<td><p class="first">a faster version of RGETOBJ and RSETOBJ, to 'SET' an objects list variable use RLIST [object list number].
+&lt;raptor objest list variable name&gt;
+= &lt;new value&gt;
+to 'GET' an objects list variable use RLIST [object list number].&lt;raptor objest list variable name&gt;
+this command can be used in both forms 'SET' and 'GET' in a single command line without issues, example: RLIST [enemy_object_number].x = RLIST
+[player_object_number].x</p>
+<p class="last">supported raptor object list variables: active, x, y, xadd, yadd, flip, width, height, vbox, hbox, gfxbase, framesz, framedel, curframe, maxframe,
+animloop, wrap, timer,
+track, colchk, scaled, scale_x, scale_y, CLUT, animspd, bytewid, tracktop, was_hit, coffx, coffy, remhit, bboxlink, hitpoint, damage, flash, gwidth,
+rmotion, rmcurfrm,
+rmfrm, userdat1, userdat2, userdat3, userdat4, userdat5, userdat6, userdat7. See table A for descriptions.
+don't forget to add the dependency 'rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)' to the top of your code before using this command</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="particles">
+<h1>Particles</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%">
+<col width="74%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>RPARTI</td>
+<td>--</td>
+</tr>
+<tr><td>RAPTOR_particles_GPU_erase</td>
+<td>--</td>
+</tr>
+<tr><td>RAPTOR_particles_GPU_plot</td>
+<td>--</td>
+</tr>
+<tr><td>RPARTI(address_of_particle_struct)</td>
+<td><em>address_of_particle_struct</em> points to a 6 column by user definable rows
+table of longwords. First row must have (0,0,0,x,y,no_particles) and the other
+the particle definitions
+(angle, speed, angular speed, initial colour, colour decay (per frame), pixel life (in frames))</td>
+</tr>
+<tr><td>raptor_used_particles</td>
+<td>--</td>
+</tr>
+<tr><td>raptor_free_particles</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="map-module">
+<h1>Map module</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="76%">
+<col width="24%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>RSETMAP</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="colours">
+<h1>Colours</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%">
+<col width="60%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>loadclut palette_address,target_clut_number_of_indices</td>
+<td>takes the palette values at address "palette_address" and
+copies them to CLUT "target_clut_number" (0 to 15).
+<em>clut_number_of_indices</em> tells the routine how many to copy.
+This routine can be used to set up anything from 2 to 256 palette indices at once.</td>
+</tr>
+<tr><td>fadepal(int clut_no,int fade_cols,int *palette)</td>
+<td>fades CLUT <em>clut_no</em> (0-15) to CLUT values address <em>palette</em>.
+<em>fade_cols</em> is the number of CLUT entries to process.
+Note that fade_cols is 0 based, so to fade 16 cols pass 15.</td>
+</tr>
+<tr><td>fadesingle(index_to_fade,desired_colour_in_16_bit_BBG)</td>
+<td>fades CLUT index <em>index_to_fade</em> to <em>desired_colour_in_16_bit_BBG</em>.</td>
+</tr>
+<tr><td>raptor_fade_delay</td>
+<td>delay (in function calls) between steps (.word)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="strings">
+<h1>Strings</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%">
+<col width="71%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>print</td>
+<td>--</td>
+</tr>
+<tr><td>RPRINTINT</td>
+<td>--</td>
+</tr>
+<tr><td>bin2asc(number, digits, string$)</td>
+<td><p class="first">converts number with (digits+1) digits very fast
+and render it to string$.</p>
+<p>Note that the number has to be an integer.</p>
+<p class="last">Example: bin2asc(987,2,out$) will convert number 987 to string using 3 digits
+and place it into out$. If we used 3 instead of 2 we'd get "0987"</p>
+</td>
+</tr>
+<tr><td>RPRINT string</td>
+<td>prints a static string to screen at coordinates set by RLOCATE.
+No fancy formatting allowed (i.e. it'll only work with something like
+RPRINT "hello". RPRINT "hello"&amp;"world" will fail). Font is set via
+basic_r_indx and size from basic_r_size.</td>
+</tr>
+<tr><td>RLOCATE x,y</td>
+<td>Locates the cursor at coordinates x,y. Notice that those are pixel coordinates,
+not cursor coordinates.Font is set via basic_r_indx and size from basic_r_size.</td>
+</tr>
+<tr><td>basic_r_indx</td>
+<td>--</td>
+</tr>
+<tr><td>basic_r_size</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="scores">
+<h1>Scores</h1>
+<p>raptor_mt_present         - negative if no Memory Track is present
+raptor_highscores_hex     - points to the highscore table (10 entries, one longword each)
+raptor_highscores_nam     - points to the highscore names table (10 entries, 8 characters each, not null terminated)
+hiscore_check(score,name) - checks if score is a high score. name, like above, is 8 characters.
+RAPTOR_resort_score_table - re-sorts the highscores as well as the names.
+RAPTOR_mt_save            - saves the highscore table. Use it in combination with present.
+raptor_user_savedata      - points to 512 bytes for user data which will be appended to the MT save</p>
+</div>
+<div class="section" id="sound-input-engines">
+<h1>Sound/input engines</h1>
+<p>Either U-235 or Zerosquare (selectable at rapapp.s via equate "player", 0=Zerosquare's player, 1=U-235 player)</p>
+<div class="section" id="u-235">
+<h2>U-235</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%">
+<col width="80%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>MODPLAY(mod_address)</td>
+<td>plays a .mod file at address "mod_address"</td>
+</tr>
+<tr><td>MODPLAY(0)</td>
+<td>stops .mod playing</td>
+</tr>
+<tr><td>GETPAD(x)</td>
+<td><p class="first">returns values from either pad 1 or 2.</p>
+<p class="last">Can be replaced by reading U235SE_pad1 and U235SE_pad2 directly.</p>
+</td>
+</tr>
+<tr><td>SNDPLAYFREQ(voice,x,y)</td>
+<td>triggers sample x from module into channel "voice" at y frequency in Hz</td>
+</tr>
+<tr><td>MODVOL(x)</td>
+<td>sets mod music volume (x in range 0 - 63)</td>
+</tr>
+<tr><td>SNDVOL(x)</td>
+<td>sets global sfx volume (x in range 0 - 63)</td>
+</tr>
+<tr><td>SNDKILL(x)</td>
+<td>stops playing sample at channel number x</td>
+</tr>
+<tr><td>SNDVOLRESET(x)</td>
+<td>resets volume of current sample on channel x</td>
+</tr>
+<tr><td>SNDFREQRESET(x)</td>
+<td>resets frequency of current sample on channel x</td>
+</tr>
+<tr><td>SNDDELTA(x,y)</td>
+<td>set or adjust the volume on channel x to y (0 to 63)</td>
+</tr>
+<tr><td>SNDFREQ(x,y)</td>
+<td>sets frequency of channel x to y (0 to 65535)</td>
+</tr>
+<tr><td>rotary_mode1</td>
+<td>+1 = rotary, - 1 = jagpad (Port 1) (.l)</td>
+</tr>
+<tr><td>rotary_mode2</td>
+<td>+1 = rotary, - 1 = jagpad (Port 2) (.l)</td>
+</tr>
+<tr><td>turn_direction1</td>
+<td>rotary value (bigger is faster) - +=left / 0=nothing / - =right (Port 1) (.l)</td>
+</tr>
+<tr><td>turn_direction2</td>
+<td>rotary value (bigger is faster) - +=left / 0=nothing / - =right (Port 2) (.l)</td>
+</tr>
+<tr><td>rotary_interval1</td>
+<td>trim value for rotary (Port 1) (.l)</td>
+</tr>
+<tr><td>rotary_interval2</td>
+<td>trim value for rotary (Port 2) (.l)</td>
+</tr>
+<tr><td>spin_delta1</td>
+<td>value to add to turn_direction per increment (Port 1) (.l)</td>
+</tr>
+<tr><td>spin_delta2</td>
+<td>value to add to turn_direction per increment (Port 2) (.l)</td>
+</tr>
+<tr><td>Direction pad masks</td>
+<td><p class="first">PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGHT, PAD_R, PAD_HASH, PAD_9,
+PAD_6, PAD_3, PAD_PAUSE, PAD_A, PAD_OPTION, PAD_STAR, PAD_7, PAD_4, PAD_1, PAD_0, PAD_8,
+PAD_5, PAD_2, PAD_B, PAD_C.</p>
+<p class="last">Example: "if x band (PAD_U bor PAD_L) then" will'check for up+left</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zerosquare">
+<h2>Zerosquare</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%">
+<col width="69%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>ZEROPAD()</td>
+<td>reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad,
+zero_mousex_delta, zero_mousey_delta and zero_rotary_delta.
+By default the engine is configured to assume 2 joypads connected.
+This command needs to be used in capitals.
+example projects: chessboard, print</td>
+</tr>
+<tr><td>Input_SetNormalPadMode</td>
+<td>sets up the engine to read two pads (enabled by default).
+zero_left_pad and zero_right_pad can be read using these constants: Input_Pad_Pause, Input_Pad_A,
+Input_Pad_Up, Input_Pad_Down, Input_Pad_Left, Input_Pad_Right, Input_Pad_C1, Input_Pad_B,
+Input_Pad_Star, Input_Pad_7, Input_Pad_4, Input_Pad_1, Input_Pad_C2, Input_Pad_C, Input_Pad_0,
+Input_Pad_8, Input_Pad_5, Input_Pad_2, Input_Pad_C3, Input_Pad_Option, Input_Pad_Sharp, Input_Pad_9,
+Input_Pad_6, Input_Pad_3.
+example: "if zero_left_pad band Input_Pad_Star" will check left pad for star button press.</td>
+</tr>
+<tr><td>Input_SetJoyPort1</td>
+<td>enables joypad port 1 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode.
+zero_rotary_delta will give the number of rotary ticks since the last read command.</td>
+</tr>
+<tr><td>Input_SetJoyPort2</td>
+<td>enables joypad port 2 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode.
+zero_rotary_delta will give the number of rotary ticks since the last read command.</td>
+</tr>
+<tr><td>Input_SetRotaryMode</td>
+<td>enables rotary mode.</td>
+</tr>
+<tr><td>Input_SetAtariMouseMode</td>
+<td>enables Atari mouse mode.
+Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses
+zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.</td>
+</tr>
+<tr><td>Input_SetAmigaMouseMode</td>
+<td>enables Amiga mouse mode.
+Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses
+zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.</td>
+</tr>
+<tr><td>SNDZEROPLAY chan, start_address, len, frequency, params</td>
+<td><p class="first">plays a sample starting from start_address with length len to channel chan with speed frequency and with flags params.
+Channel should be from 1 to 4. start_address should be aligned to 4 bytes.
+len should be a multiple of 4.
+frequency should be an integer that divides the base frequency of 46168Hz.
+So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a sample at 23084Hz etc.</p>
+<dl class="last docutils">
+<dt>Available flags are:</dt>
+<dd><ul class="first last simple">
+<li>Zero_Audio_8bit_Signed (plays an 8-bit signed sample)</li>
+<li>Zero_Audio_8bit_Unsigned (plays an 8 - bit unsigned sample)</li>
+<li>Zero_Audio_8bit_muLaw (plays a 8 - bit compressed μLaw sample)</li>
+<li>Zero_Audio_Looping (enables sample loop).</li>
+</ul>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="table-a">
+<h1>Table A</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%">
+<col width="7%">
+<col width="67%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Offset's friendly name</th>
+<th class="head">Offset</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>R_sprite_obj</td>
+<td>0</td>
+<td>pointer to object in OL</td>
+</tr>
+<tr><td>R_sprite_active</td>
+<td>4</td>
+<td>active flag (-1 = inactive)</td>
+</tr>
+<tr><td>R_sprite_x</td>
+<td>8</td>
+<td>x position in 16.16</td>
+</tr>
+<tr><td>R_sprite_y</td>
+<td>12</td>
+<td>y position in 16.16</td>
+</tr>
+<tr><td>R_sprite_xadd</td>
+<td>16</td>
+<td>x velocity to add in 16.16</td>
+</tr>
+<tr><td>R_sprite_yadd</td>
+<td>20</td>
+<td>y velocity to add in 16.16</td>
+</tr>
+<tr><td>R_sprite_flip</td>
+<td>24</td>
+<td>if set, add _width to X and set mirror</td>
+</tr>
+<tr><td>R_sprite_width</td>
+<td>28</td>
+<td>width of sprite</td>
+</tr>
+<tr><td>R_sprite_height</td>
+<td>32</td>
+<td>height of sprite</td>
+</tr>
+<tr><td>R_sprite_vbox</td>
+<td>36</td>
+<td>vertical distance from midpoint for collision clipping</td>
+</tr>
+<tr><td>R_sprite_hbox</td>
+<td>40</td>
+<td>horizontal distance from midpoint for collision clipping</td>
+</tr>
+<tr><td>R_sprite_gfxbase</td>
+<td>44</td>
+<td>pointer to phrase aligned sprite bitmap data</td>
+</tr>
+<tr><td>R_sprite_framesz</td>
+<td>48</td>
+<td>size of sprite frame in bytes (offset to next frame)</td>
+</tr>
+<tr><td>R_sprite_framedel</td>
+<td>52</td>
+<td>vblanks till next sprite animation frame</td>
+</tr>
+<tr><td>R_sprite_curframe</td>
+<td>56</td>
+<td>current frame number (or 0 for no frames)</td>
+</tr>
+<tr><td>R_sprite_maxframe</td>
+<td>60</td>
+<td>maximum frame for sprite</td>
+</tr>
+<tr><td>R_sprite_animloop</td>
+<td>64</td>
+<td>-1 = loop animation, 1=terminate on loop</td>
+</tr>
+<tr><td>R_sprite_wrap</td>
+<td>68</td>
+<td>flag for wrap or disable on leaving screen</td>
+</tr>
+<tr><td>R_sprite_timer</td>
+<td>72</td>
+<td>frames to stay alive, or -2 for infinite</td>
+</tr>
+<tr><td>R_sprite_track</td>
+<td>76</td>
+<td>-1 = use fract update, else pointer to x.y co-ords</td>
+</tr>
+<tr><td>R_sprite_colchk</td>
+<td>80</td>
+<td>-1 = no collision detection</td>
+</tr>
+<tr><td>R_sprite_scaled</td>
+<td>84</td>
+<td>-1 = unscaled, 1 = scaled</td>
+</tr>
+<tr><td>R_sprite_scale_x</td>
+<td>88</td>
+<td>x-scaler</td>
+</tr>
+<tr><td>R_sprite_scale_y</td>
+<td>92</td>
+<td>y-scaler</td>
+</tr>
+<tr><td>R_sprite_CLUT</td>
+<td>96</td>
+<td>-1 for no change, else CLUT to use for sprite if &lt;16bit</td>
+</tr>
+<tr><td>R_sprite_animspd</td>
+<td>100</td>
+<td>animation speed</td>
+</tr>
+<tr><td>R_sprite_bytewid</td>
+<td>104</td>
+<td>width of one scanline of sprite in bytes</td>
+</tr>
+<tr><td>R_sprite_tracktop</td>
+<td>108</td>
+<td>loop point for tracking, or -1 for exit</td>
+</tr>
+<tr><td>R_sprite_was_hit</td>
+<td>112</td>
+<td>set to +ve if by the collision routine if sprite hit</td>
+</tr>
+<tr><td>R_sprite_coffx</td>
+<td>116</td>
+<td>offset from center for bounding box (hbox)</td>
+</tr>
+<tr><td>R_sprite_coffy</td>
+<td>120</td>
+<td>offset from center for bounding box (vbox)</td>
+</tr>
+<tr><td>R_sprite_remhit</td>
+<td>124</td>
+<td>1 = remove if hit, else leave onscreen</td>
+</tr>
+<tr><td>R_sprite_bboxlink</td>
+<td>128</td>
+<td>-1, or pointer to bounding box link data</td>
+</tr>
+<tr><td>R_sprite_hitpoint</td>
+<td>132</td>
+<td>hitpoints of damage to take before removal</td>
+</tr>
+<tr><td>R_sprite_damage</td>
+<td>136</td>
+<td>damage to deal</td>
+</tr>
+<tr><td>R_sprite_flash</td>
+<td>140</td>
+<td>make sprite blink</td>
+</tr>
+<tr><td>R_sprite_gwidth</td>
+<td>144</td>
+<td>graphics width</td>
+</tr>
+<tr><td>R_sprite_rmotion</td>
+<td>148</td>
+<td>pointer to RMotion animation</td>
+</tr>
+<tr><td>R_sprite_rmcurfrm</td>
+<td>152</td>
+<td>RMotion internal</td>
+</tr>
+<tr><td>R_sprite_rmfrm</td>
+<td>156</td>
+<td>RMotion internal</td>
+</tr>
+<tr><td>R_sprite_userdat1</td>
+<td>160</td>
+<td>Reserved for future expansion</td>
+</tr>
+<tr><td>R_sprite_userdat2</td>
+<td>164</td>
+<td>Reserved for future expansion</td>
+</tr>
+<tr><td>R_sprite_userdat3</td>
+<td>168</td>
+<td>Reserved for future expansion</td>
+</tr>
+<tr><td>R_sprite_userdat4</td>
+<td>172</td>
+<td>Reserved for future expansion</td>
+</tr>
+<tr><td>R_sprite_userdat5</td>
+<td>176</td>
+<td>Reserved for future expansion</td>
+</tr>
+<tr><td>R_sprite_userdat6</td>
+<td>180</td>
+<td>Reserved for future expansion</td>
+</tr>
+<tr><td>R_sprite_userdat7</td>
+<td>184</td>
+<td>Reserved for future expansion</td>
+</tr>
+</tbody>
+</table>
+</div>
+ </div>
+
+</div>
+
+
+
+</body></html>
