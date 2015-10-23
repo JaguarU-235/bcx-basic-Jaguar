@@ -951,8 +951,8 @@ void RPRINT()
   	__asm__ ("movem.l	d0-d7/a0-a6,-(a7)\n\t"
 		  "move.l	_basic_r_xpos,d0\n\t"
 		  "move.l	_basic_r_ypos,d1\n\t"
-		  "move.l	_basic_r_indx,d2\n\t"
-		  "move.l	_basic_r_size,d3\n\t"
+		  "move.l	_basic_r_size,d2\n\t"
+		  "move.l	_basic_r_indx,d3\n\t"
 		  "move.l	_basic_r_buffer,a0\n\t"
 		  "jsr		RAPTOR_print\n\t"
 		  "movem.l	(a7)+,d0-d7/a0-a6\n\t");
