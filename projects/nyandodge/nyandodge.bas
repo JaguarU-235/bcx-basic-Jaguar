@@ -45,7 +45,7 @@ do
 		col=PY<<10
 		dpoke BG,col
 		col=DPEEK(VI)
-	'PRINT "LOLOL"
+	RPRINT "LOLOL"
 	ELSE
 		dpoke BG,PY
 	endif

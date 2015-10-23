@@ -3,11 +3,6 @@ DIM frcount: frcount=0
 basic_r_indx=0
 basic_r_size=0
 
-'rlocate 0,0
-'print "bello?"
-'do
-'	loop
-
 loadclut(strptr(BMP_PLAYER_clut),1,16)
 loadclut(strptr(BMP_ENEMY_clut),2,16)
 

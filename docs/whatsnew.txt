@@ -1,3 +1,4 @@
+- Fixed a long standing bug in RPRINT: essentially basic_r_size and basic_r_indx were swapped. Many thanks to OMF for the fix!
 - Fixed a small bug when importing generic assets ("_end" label was not exported).
 - Introduced an alternative to rsetobj/rgetobj: users can now do rlist[object].index=value instead of rsetobj and myval=rlist[object].index which is faster in execution too.
   Updated nyandodge to demonstrate the new feature.
