@@ -79,7 +79,7 @@ extern void powazap(int spr_index, int offset, int no_of_times, int value) asm("
 extern void powabset(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset) asm("powabset");
 extern void powabdiff(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset) asm("powabdiff");
 extern void powabzap(int spr_index, int offset, int no_of_times, int value, int skip_offset) asm("powabzap");
-extern void powaunpack(void *source, void *destination) asm("powaunpack");
+extern void powaunpack(int source, int destination) asm("powaunpack");
 extern void rbsort(void *base,size_t nmemb) asm("rbsort");
 
 unsigned char plot_colour=0;
@@ -219,7 +219,7 @@ void rbsort(void *base,size_t nmemb)
 
 
 // -----------------------------------------------------------------------------
-void powaunpack(void *source, void *destination)
+void powaunpack(int source, int destination)
 {
 	__asm__ ("\tmovem.l d0-d7/a0-a6,-(sp)                                             \n\t"
 	"move.l 8(a6),a0                                                                  \n\t"
