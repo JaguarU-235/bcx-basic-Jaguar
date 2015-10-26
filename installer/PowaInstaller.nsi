@@ -250,6 +250,7 @@ Section "Example projects (optional)" ExamFiles
   !insertmacro copyexamples LOLvalamp
   !insertmacro copyexamples Maprunner
   !insertmacro copyexamples NYANDodge
+  !insertmacro copyexamples Pack
   !insertmacro copyexamples Particles
   !insertmacro copyexamples Print
   !insertmacro copyexamples PSemu
