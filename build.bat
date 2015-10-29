@@ -227,9 +227,9 @@ goto :veryend
 rem -------------------------------------------------------------
 rem Create a new project
 :newproject
-if exist PROJECTS\%PROJECTNAME%\%PROJECTNAME%.bas goto :veryend
-xcopy /e "%RBTOOLS%\include\template" PROJECTS\%PROJECTNAME%\
-rename PROJECTS\%PROJECTNAME%\template.bas %PROJECTNAME%.bas
+if exist projects\%PROJECTNAME%\%PROJECTNAME%.bas goto :veryend
+xcopy /e "%RBTOOLS%\include\template" projects\%PROJECTNAME%\
+rename projects\%PROJECTNAME%\template.bas %PROJECTNAME%.bas
 echo Project: %PROJECTNAME% >projects\%PROJECTNAME%.rbplus
 echo Creator: >>projects\%PROJECTNAME%.rbplus
 echo Date of creation: %DATE% >>projects\%PROJECTNAME%.rbplus
