@@ -28,7 +28,7 @@ fontstart=(int)strptr(font)
 ' First letter
 '
 rsetobj(1,R_sprite_x,352<<16)                                                                     ' set letter's initial x
-if text[0]<>32 then                                                                         ' anything but space?
+if text[0]<>32 then                                                                               ' anything but space?
     rsetobj(1,R_sprite_gfxbase,fontstart+(text[0]-65)*32*32*2)                                    ' set letter gfx
 else
     rsetobj(1,R_sprite_gfxbase,fontstart+26*32*32*2)                                              ' set space

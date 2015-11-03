@@ -18,7 +18,7 @@ rprint a$
 RLOCATE 10,120
 
 do
-'	paddy=getpad(1)
+'   paddy=getpad(1)
         ZEROPAD()
         paddy=zero_left_pad
         a$=""
@@ -42,7 +42,7 @@ do
             a$=a$+"Roit "
         endif
         if paddy band Input_Pad_C1 then
-            a$=a$+"Chinny "
+            a$=a$+"C1 "
         endif
         if paddy band Input_Pad_B then
             a$=a$+"B "
@@ -60,7 +60,7 @@ do
             a$=a$+"1 "
         endif
         if paddy band Input_Pad_C2 then
-            a$=a$+"Tiddly "
+            a$=a$+"C2 "
         endif
         if paddy band Input_Pad_C then
             a$=a$+"C "
@@ -78,7 +78,7 @@ do
             a$=a$+"2 "
         endif
         if paddy band Input_Pad_C3 then
-            a$=a$+"Likey "
+            a$=a$+"C3 "
         endif
         if paddy band Input_Pad_Option then
             a$=a$+"Opt "
@@ -96,7 +96,7 @@ do
             a$=a$+"3 "
         endif
         a$=a$+space$(39-len(a$))
-	PRINT a$
-	rupdall(0)
+    PRINT a$
+    rupdall(0)
 loop
 

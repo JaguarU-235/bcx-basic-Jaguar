@@ -1,3 +1,5 @@
+- Converted all tabs to spaces in .bas files so they can be compiled under wine on linux (and other platforms). For some reason the rb+ compiler was mangling tabs. Thanks to Christos for reporting this fix!
+- Added new project pack that demonstrates how packing and unpacking resources works. Thanks to OMF for this.
 - Added WORD, BYTE, UWORD, UBYTE types (use caps to access them for now)
 - Fixed a long standing bug in RPRINT: essentially basic_r_size and basic_r_indx were swapped. Many thanks to OMF for the fix!
 - Fixed a small bug when importing generic assets ("_end" label was not exported).
