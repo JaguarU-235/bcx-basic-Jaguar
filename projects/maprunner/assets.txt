@@ -10,6 +10,7 @@
 ' | | | +-- Filename of the asset, relative to the project folder (i.e. assets\gfx\background.bmp)
 ' | | +---- Tells the build process if the file should just be imported as is or some conversion is needed beforehand. See below for details.
 ' | +------ Name asset which is exposed to rb+. Actually two variables are exposed to rb+: name and name_end which holds the start and end addresses of the asset.
+' |         Names may start with an uppercase or lowercase letter (A-Z a-z), an underscore (_), a question mark (?) or a period (.).
 ' +-------- This should either be ABS or ROM. This tells the build process if you want the asset to be included in RAM or ROM.
 '
 ' Parameter C explained further:
