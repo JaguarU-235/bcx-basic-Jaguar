@@ -39,6 +39,29 @@ Dim packext$
 
 Print # 10; "Buildlink starting"
 Dim romabs$, varname$, type$, assetfile$
+
+Print # 10
+Print # 10; "Checking if assets.txt is newer than any of the build folder files...."
+
+assetfile$ = Dir(basedir$ + "\build\*.*")
+While assetfile$ <> ""
+  assetfile$ = basedir$ + "\build\" + assetfile$
+'##E#
+  If (Right$(assetfile$, 8) = ".gfxdata" Or Right$(assetfile$, 6) = ".clut" Or _
+    Right$(assetfile$, 4) = ".raw" Or Right$(assetfile$, 4) = ".cry" Or _
+    Right$(assetfile$, 4) = ".ul") And FileDateTime(assetfile$) < FileDateTime(__argv(1))
+    Print # 10; "Asset file " + assetfile$ + " is older than assets.txt - zapping the whole build folder"
+    Print # 10
+    If Exist(basedir$ + "\build\*.gfxdata") DeleteFile Silent, Yes, Files basedir$ + "\build\*.gfxdata"
+    If Exist(basedir$ + "\build\*.clut") DeleteFile Silent, Yes, Files basedir$ + "\build\*.clut"
+    If Exist(basedir$ + "\build\*.cry") DeleteFile Silent, Yes, Files basedir$ + "\build\*.cry"
+    If Exist(basedir$ + "\build\*.raw") DeleteFile Silent, Yes, Files basedir$ + "\build\*.raw"
+    If Exist(basedir$ + "\build\*.ul") DeleteFile Silent, Yes, Files basedir$ + "\build\*.ul"
+    Exit Do
+  EndIf
+  assetfile$ = Dir
+Wend
+
 Print # 10; "    Opening - " + __argv(1) + "..."
 Open __argv(1) for Input As # 1
 Print # 10; "    Opening - " + basedir$ + "\build\linkfile.bin" + "..."
@@ -316,7 +339,6 @@ While Not EOF(# 1)
       Print # 6; ".extern " + varname$ + "_end"
       Print # 6; ".dphrase"
       Print # 4; "extern void *" + varname$ + " asm(""" + varname$ + """);"
-'##E#
       Print # 4; "extern void *" + varname$ + "_end asm(""" + varname$ + "_end"");"
     EndIf
   EndIf
@@ -559,7 +581,7 @@ Quit 0
   EndSelect
 Return
 
-Function packfile$(file$)
+>Function packfile$(file$)
   If Right$(Lower$(type$), 5) = "_pack"
     If checkdate(file$, file$ + ".pack")
       Print # 10; "        Will attempt to pack " + file$

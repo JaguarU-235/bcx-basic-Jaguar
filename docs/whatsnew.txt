@@ -1,3 +1,4 @@
+- Buildlink will now delete the cached files in the build folder if assets.txt is newer than any single generated file. Hopefully this will take care of old or wrongly produced cached files.
 - Converted all tabs to spaces in .bas files so they can be compiled under wine on linux (and other platforms). For some reason the rb+ compiler was mangling tabs. Thanks to Christos for reporting this fix!
 - Added new project pack that demonstrates how packing and unpacking resources works. Thanks to OMF for this.
 - Added WORD, BYTE, UWORD, UBYTE types (use caps to access them for now)
