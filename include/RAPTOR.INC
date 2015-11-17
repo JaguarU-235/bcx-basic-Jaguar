@@ -77,6 +77,7 @@ is_flipped				equ 			-1								; Object is flipped Horizontally
 ani_rept				equ				-1								; Object will play animation chain looped
 ani_once				equ 			1								; Object will play animation chain once, then terminate itself
 edge_wrap				equ				1								; Object will wrap when moving off the edge of the screen
+edge_ignore				equ				0								; Object will not be removed or wrap when moving off edge of screen
 edge_kill				equ				-1								; Object will terminate itself when moving off the edge of the screen
 spr_inf					equ 			-2								; Object will stay active until another condition to remove it is met
 spr_linear				equ 			-1								; Object will use standard co-ordinates (else points to x/y table)
