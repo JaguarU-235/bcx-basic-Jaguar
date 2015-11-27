@@ -1,0 +1,6 @@
+ABS,BMP_CUBE,gfx_clut,ASSETS\GFX\cube.bmp
+ABS,BMP_BLUE,gfx_clut,ASSETS\GFX\blue.bmp
+ABS,BMP_R,gfx_clut,ASSETS\GFX\r.bmp
+ABS,BMP_REBOOT,gfx_clut,ASSETS\GFX\reboot.bmp
+'abs,rsw,sfx_mlaw11542,ASSETS\SFX\rsw.wav
+' End of file.
