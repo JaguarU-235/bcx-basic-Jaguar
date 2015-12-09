@@ -1,7 +1,7 @@
 
 ; just do a simple bitmap loop for the player
 RMA_player_animation:
-	rspeed(3)				; update every 3 frames
+	rspeed(9)				; update every 3 frames
 	userdat1(4) 			; put 5-1 -- 4 pictures
 	gfx(BMP_PLAYER,WAIT) 	; put first picture and wait next VBL
 .lp1:

@@ -1,3 +1,4 @@
+- New raptor variable exposed: raptor_blitter_use controls blitter usage in raptor (internally). 0=auto, 1=force blitter, 2=blitter disable
 - Added new project pack that demonstrates rotary control with Zerosquare's player. Thanks to OMF for this.
 - Buildlink will now delete the cached files in the build folder if assets.txt is newer than any single generated file. Hopefully this will take care of old or wrongly produced cached files.
 - Converted all tabs to spaces in .bas files so they can be compiled under wine on linux (and other platforms). For some reason the rb+ compiler was mangling tabs. Thanks to Christos for reporting this fix!
