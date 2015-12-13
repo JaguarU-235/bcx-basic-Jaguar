@@ -81,6 +81,8 @@ extern void powabdiff(int spr_index, int offset, int no_of_times, void *array_of
 extern void powabzap(int spr_index, int offset, int no_of_times, int value, int skip_offset) asm("powabzap");
 extern void powaunpack(int source, int destination) asm("powaunpack");
 extern void rbsort(void *base,size_t nmemb) asm("rbsort");
+extern void RAPTOR_blitter() asm("RAPTOR_blitter");
+extern void powablitlist(void *blitlist) asm("powablitlist");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -111,6 +113,18 @@ unsigned long zero_left_pad asm("zero_left_pad")=0;
 //
 // And now, teh c0d3!!!111
 //
+// -----------------------------------------------------------------------------
+void powablitlist(void *blitlist)
+{
+	__asm(""
+	"movem.l d0-a5,-(sp)                               \n\t"
+	"move.l 8(a6),a0                                   \n\t"
+	"move.l RUPDALL_FLAG,-(sp)	|save update flag      \n\t"
+	"move.l #0,RUPDALL_FLAG		|disable auto update   \n\t"
+	"jsr RAPTOR_blitter                                \n\t"
+	"move.l (sp)+,RUPDALL_FLAG	|restore update flag   \n\t"
+	"movem.l (sp)+,d0-a5                               \n\t");
+}
 // -----------------------------------------------------------------------------
 // Code obtained from https://code.google.com/p/propgcc/source/browse/lib/stdlib/qsort.c
 // Butchered by ggn as usual

@@ -1,3 +1,4 @@
+- New command powablitlist(pointer_to_blitlist). pointer_to_blitlist contains an array of ints that have a1_base,a1_flags,a1_pixel,a2_base,a2_pixel,a2_flags,b_count,b_patd,b_cmd.
 - New raptor variable exposed: raptor_blitter_use controls blitter usage in raptor (internally). 0=auto, 1=force blitter, 2=blitter disable
 - Added new project pack that demonstrates rotary control with Zerosquare's player. Thanks to OMF for this.
 - Buildlink will now delete the cached files in the build folder if assets.txt is newer than any single generated file. Hopefully this will take care of old or wrongly produced cached files.

@@ -285,5 +285,8 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		raptor_vbl_time_remain
 	.extern		raptor_user_savedata
 	.extern		raptor_blitter_use		
+	.extern		RAPTOR_blitter
+	.extern		raptor_blitlist_ptr
+
 ;END OF FILE.
 

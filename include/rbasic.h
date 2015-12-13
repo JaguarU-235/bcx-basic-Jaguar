@@ -144,6 +144,7 @@ extern void powabset(int spr_index, int offset, int no_of_times, void *array_of_
 extern void powabdiff(int spr_index, int offset, int no_of_times, void *array_of_values, int skip_offset) asm("powabdiff");
 extern void powabzap(int spr_index, int offset, int no_of_times, int value, int skip_offset) asm("powabzap");
 extern void powaunpack(int source, int destination) asm("powaunpack");
+extern void powablitlist(void *blitlist) asm("powablitlist");
 
 /* Construct binary constants at compile time
    Code by Tom Torfs */
