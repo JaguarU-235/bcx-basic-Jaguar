@@ -63,7 +63,7 @@ typedef struct _RAPTOR_LIST
   int     height;
   int     vbox;
   int     hbox;
-  void *  gfxbase;
+  int     gfxbase;
   int     framesz;
   int     framedel;
   int     curframe;
