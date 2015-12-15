@@ -800,28 +800,28 @@ li dd ul {
          |_|
 </pre>
 <p>Quick reference guide</p>
-<p>Note: this is not a comprehensive guide - it only covers
-the commands, functions and variables introduced in
-Raptor Basic+. It does not cover bcx functions, commands
-and syntax. For that you are kindly referred to read the
-bcx help file, "BCXHelp.chm".</p>
+<p>Note: this is not a comprehensive guide - it only covers the commands, functions and variables introduced in Raptor Basic+. It does not cover bcx functions, commands and syntax. For that you are kindly referred to read the bcx help file, "BCXHelp.chm".</p>
 <div class="section" id="general">
 <h1>General</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="26%">
-<col width="74%">
+<col width="26%"/>
+<col width="74%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>Binary bitfields in basic</td>
-<td><dl class="first docutils">
+<tr>
+<td>Binary bitfields in basic</td>
+<td>
+<dl class="first docutils">
 <dt>Just use</dt>
-<dd><ul class="first last simple">
+<dd>
+<ul class="first last simple">
 <li>B8(binary byte) for bytes,</li>
 <li>B16(binary byte,binary byte) words and</li>
 <li>B32(binary byte,binary byte,binary byte,binary byte) for longwords.</li>
@@ -831,11 +831,14 @@ bcx help file, "BCXHelp.chm".</p>
 <p class="last">Example: B8(11110000) is 240 in decimal.</p>
 </td>
 </tr>
-<tr><td>raptor_ntsc_flag</td>
+<tr>
+<td>raptor_ntsc_flag</td>
 <td>is non-zero if machine is ntsc.</td>
 </tr>
-<tr><td>rbsort(table,no_of_indices)</td>
-<td><p class="first">sorts an array of longwords from smallest to largest.</p>
+<tr>
+<td>rbsort(table,no_of_indices)</td>
+<td>
+<p class="first">sorts an array of longwords from smallest to largest.</p>
 <p class="last">Only longwords (4 byte integers) for now.</p>
 </td>
 </tr>
@@ -846,22 +849,26 @@ bcx help file, "BCXHelp.chm".</p>
 <h1>Pixel</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%">
-<col width="88%">
+<col width="12%"/>
+<col width="88%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>colour x</td>
+<tr>
+<td>colour x</td>
 <td>set plot colour (0 - 15)</td>
 </tr>
-<tr><td>plot(x,y)</td>
+<tr>
+<td>plot(x,y)</td>
 <td>plot pixel in coordinates x,y with the colour set using "colour"</td>
 </tr>
-<tr><td>cls</td>
+<tr>
+<td>cls</td>
 <td>clears the pixel/print text buffer</td>
 </tr>
 </tbody>
@@ -871,22 +878,26 @@ bcx help file, "BCXHelp.chm".</p>
 <h1>Sync</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%">
-<col width="88%">
+<col width="12%"/>
+<col width="88%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>RUPDALL</td>
+<tr>
+<td>RUPDALL</td>
 <td>--</td>
 </tr>
-<tr><td>VSYNC</td>
+<tr>
+<td>VSYNC</td>
 <td>waits till the next vertical blank</td>
 </tr>
-<tr><td>DELAY(x)</td>
+<tr>
+<td>DELAY(x)</td>
 <td>waits for x vertical blanks.</td>
 </tr>
 </tbody>
@@ -896,31 +907,38 @@ bcx help file, "BCXHelp.chm".</p>
 <h1>Memory</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%">
-<col width="88%">
+<col width="12%"/>
+<col width="88%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>poke x,y</td>
+<tr>
+<td>poke x,y</td>
 <td>writes byte y to address x</td>
 </tr>
-<tr><td>peek(x)</td>
+<tr>
+<td>peek(x)</td>
 <td>returns byte from address x</td>
 </tr>
-<tr><td>dpoke x,y</td>
+<tr>
+<td>dpoke x,y</td>
 <td>writes word y to address x</td>
 </tr>
-<tr><td>dpeek(x)</td>
+<tr>
+<td>dpeek(x)</td>
 <td>returns byte from address x</td>
 </tr>
-<tr><td>lpoke x,y</td>
+<tr>
+<td>lpoke x,y</td>
 <td>writes longword y to address x</td>
 </tr>
-<tr><td>lpeek(x)</td>
+<tr>
+<td>lpeek(x)</td>
 <td>returns byte from address x</td>
 </tr>
 </tbody>
@@ -936,35 +954,39 @@ bcx help file, "BCXHelp.chm".</p>
 </ul>
 <table border="1" class="docutils">
 <colgroup>
-<col width="27%">
-<col width="73%">
+<col width="27%"/>
+<col width="73%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>build.bat (no parameters)</td>
+<tr>
+<td>build.bat (no parameters)</td>
 <td>lists all projects in "projects" folder</td>
 </tr>
-<tr><td>build.bat &lt;project&gt; new</td>
+<tr>
+<td>build.bat <project> new</td>
 <td>creates a new project folder from "template".</td>
 </tr>
-<tr><td>build.bat &lt;project&gt; sendy</td>
+<tr>
+<td>build.bat <project> sendy</td>
 <td>builds project and uploads it to skunkboard</td>
 </tr>
-<tr><td>build.bat &lt;project&gt; ROM</td>
-<td>builds project as a ROM file. Assets in RAM are packed with the program code and
-depacked into RAM during boot. Assets in ROM simply are mapped inside ROM space.</td>
+<tr>
+<td>build.bat <project> ROM</td>
+<td>builds project as a ROM file. Assets in RAM are packed with the program code and depacked into RAM during boot. Assets in ROM simply are mapped inside ROM space.</td>
 </tr>
-<tr><td>build.bat &lt;project&gt; ROM sendy</td>
-<td>builds project as a ROM fiel and uploads it to skunkboard. NOTE: THIS WILL
-OVERWRITE ANY ROM YOU HAVE ON BANK 1 OF YOUR SKUNKBOARD WITHOUT WARNING!</td>
+<tr>
+<td>build.bat <project> ROM sendy</td>
+<td>builds project as a ROM fiel and uploads it to skunkboard. NOTE: THIS WILL OVERWRITE ANY ROM YOU HAVE ON BANK 1 OF YOUR SKUNKBOARD WITHOUT WARNING!</td>
 </tr>
-<tr><td>build.bat &lt;project&gt; sendy bjl</td>
-<td>uploads built binary using bjl transfer (note: you might need to edit the upload
-settings). Will not work for ROM builds.</td>
+<tr>
+<td>build.bat <project> sendy bjl</td>
+<td>uploads built binary using bjl transfer (note: you might need to edit the upload settings). Will not work for ROM builds.</td>
 </tr>
 </tbody>
 </table>
@@ -973,18 +995,19 @@ settings). Will not work for ROM builds.</td>
 <h1>assets.txt</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="27%">
-<col width="73%">
+<col width="27%"/>
+<col width="73%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>RMOTION</td>
-<td>can be enabled with RSETOBJ and RMOTION scripts can now be added to assets.txt
-for parsing.</td>
+<tr>
+<td>RMOTION</td>
+<td>can be enabled with RSETOBJ and RMOTION scripts can now be added to assets.txt for parsing.</td>
 </tr>
 </tbody>
 </table>
@@ -995,20 +1018,43 @@ for parsing.</td>
 <h1>Packing</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="43%">
-<col width="57%">
+<col width="43%"/>
+<col width="57%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>powaunpack(source_address,destination_address)</td>
-<td>unpacks data from source_address to destination_address.
-Note that it's your responsibility to reserve enough RAM
-for unpacking. Also, no checking to see if a packed asset
-exists at the source address - again it's your responsibility!</td>
+<tr>
+<td>powaunpack(source_address,destination_address)</td>
+<td>unpacks data from source_address to destination_address. Note that it's your responsibility to reserve enough RAM for unpacking. Also, no checking to see if a packed asset exists at the source address - again it's your responsibility!</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="blitter">
+<h1>Blitter</h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%"/>
+<col width="63%"/>
+</colgroup>
+<thead valign="bottom">
+<tr>
+<th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr>
+<td>powablitlist(pointer_to_blitlist).</td>
+<td>
+<p class="first">Passes a list of blitting commands to raptor so they can be processed fast. pointer_to_blitlist contains an array of ints that have a1_base, a1_flags, a1_pixel, a2_base, a2_pixel, a2_flags, b_count, b_patd, b_cmd. End the list with -1.</p>
+<p class="last">Example projects: blitline</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1017,76 +1063,87 @@ exists at the source address - again it's your responsibility!</td>
 <h1>Object manipulation</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="39%">
-<col width="61%">
+<col width="39%"/>
+<col width="61%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>rsetlist</td>
+<tr>
+<td>rsetlist</td>
 <td>--</td>
 </tr>
-<tr><td>RSETOBJ spr_index,offset,value</td>
-<td><p class="first">sets the attribute at offset
-<em>offset</em> of object <em>spr_index</em> to value <em>value</em>.</p>
-<p>See table A for offsets, their descriptions and user friendly names.</p>
-<p class="last">Example: RSETOBJ 1,R_sprite_x,10&lt;&lt;16</p>
+<tr>
+<td>RSETOBJ spr_index,offset,value</td>
+<td>
+<p class="first">
+sets the attribute at offset 
+<em>offset</em>
+ of object 
+<em>spr_index</em>
+ to value 
+<em>value</em>
+.
+</p>
+<p>
+See 
+<a class="reference internal" href="#table-a">Table A</a>
+ for offsets, their descriptions and user friendly names.
+</p>
+<p class="last">Example: RSETOBJ 1,R_sprite_x,10<<16</p>
 </td>
 </tr>
-<tr><td>variable=RGETOBJ(spr_index,offset)</td>
-<td><p class="first">gets the attribute at offset "offset" of object "spr_index" and saves it to "variable".</p>
-<p>See table A for offsets, their descriptions and user friendly names.</p>
+<tr>
+<td>variable=RGETOBJ(spr_index,offset)</td>
+<td>
+<p class="first">gets the attribute at offset "offset" of object "spr_index" and saves it to "variable".</p>
+<p>
+See 
+<a class="reference internal" href="#table-a">Table A</a>
+ for offsets, their descriptions and user friendly names.
+</p>
 <p class="last">Example: player_x=RGETOBJ(spr_index,offset)</p>
 </td>
 </tr>
-<tr><td>rhit (&lt;source first object&gt;, &lt;source last object&gt;, &lt;target first object&gt;, &lt;target last object&gt;)</td>
-<td>will return 1 (hit has occurred) if anything within the specified range has collided.
-this is only a general indication of a collision and
-further interrogation via the 'was_hit' variable will let you know which object has actually collided with any of the source
-objects.
-The values of damage variables of the source objects is deducted from the target objects.  raptor can be set to automatically
-kill an object when its
-hitpoint variable
-reaches -1 (dead) by setting the object variable 'remhit' to 'cd_remove' (1)
-The collision check will only work on objects that have their 'colchk' variable set to 'can_hit' (1), objects that are set to 'cant_hit' (-1) will be
-skipped.</td>
+<tr>
+<td>rhit (<source first object>, <source last object>, <target first object>, <target last object>)</td>
+<td>will return 1 (hit has occurred) if anything within the specified range has collided. This is only a general indication of a collision and further interrogation via the 'was_hit' variable will let you know which object has actually collided with any of the source objects. The values of damage variables of the source objects is deducted from the target objects. raptor can be set to automatically kill an object when its hitpoint variable reaches -1 (dead) by setting the object variable 'remhit' to 'cd_remove' (1) The collision check will only work on objects that have their 'colchk' variable set to 'can_hit' (1), objects that are set to 'cant_hit' (-1) will be skipped.</td>
 </tr>
-<tr><td>powaset(spr_index, offset, no_of_times, array_of_values)</td>
-<td>will write longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with
-index "spr_index".</td>
+<tr>
+<td>powaset(spr_index, offset, no_of_times, array_of_values)</td>
+<td>will write longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with index "spr_index".</td>
 </tr>
-<tr><td>powadiff(spr_index, offset, no_of_times, array_of_values)</td>
-<td>will add longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with
-index "spr_index".</td>
+<tr>
+<td>powadiff(spr_index, offset, no_of_times, array_of_values)</td>
+<td>will add longword values from address "array_of_values" no_of_times times in raptor table offset "offset", starting with index "spr_index".</td>
 </tr>
-<tr><td>powazap(spr_index, offset, no_of_times, value)</td>
+<tr>
+<td>powazap(spr_index, offset, no_of_times, value)</td>
 <td>will write longword value "value" "no_of_times" times in raptor table offset "offset", starting with index "spr_index".</td>
 </tr>
-<tr><td>powabset(spr_index, offset, no_of_times, array_of_values, skip_offset)</td>
+<tr>
+<td>powabset(spr_index, offset, no_of_times, array_of_values, skip_offset)</td>
 <td>Exactly the same as powaset but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)</td>
 </tr>
-<tr><td>powabdiff(spr_index, offset, no_of_times, array_of_values, skip_offset)</td>
+<tr>
+<td>powabdiff(spr_index, offset, no_of_times, array_of_values, skip_offset)</td>
 <td>Exactly the same as powadiff but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)</td>
 </tr>
-<tr><td>powabzap(spr_index, offset, no_of_times, value, skip_offset)</td>
+<tr>
+<td>powabzap(spr_index, offset, no_of_times, value, skip_offset)</td>
 <td>Exactly the same as powazap but you can control the offset to skip to the next object (it's hardcoded to 188 for the other)</td>
 </tr>
-<tr><td>rlist [object list number].&lt;raptor object list variable name&gt; {= new value}</td>
-<td><p class="first">a faster version of RGETOBJ and RSETOBJ, to 'SET' an objects list variable use RLIST [object list number].
-&lt;raptor objest list variable name&gt;
-= &lt;new value&gt;
-to 'GET' an objects list variable use RLIST [object list number].&lt;raptor objest list variable name&gt;
-this command can be used in both forms 'SET' and 'GET' in a single command line without issues, example: RLIST [enemy_object_number].x = RLIST
-[player_object_number].x</p>
-<p class="last">supported raptor object list variables: active, x, y, xadd, yadd, flip, width, height, vbox, hbox, gfxbase, framesz, framedel, curframe, maxframe,
-animloop, wrap, timer,
-track, colchk, scaled, scale_x, scale_y, CLUT, animspd, bytewid, tracktop, was_hit, coffx, coffy, remhit, bboxlink, hitpoint, damage, flash, gwidth,
-rmotion, rmcurfrm,
-rmfrm, userdat1, userdat2, userdat3, userdat4, userdat5, userdat6, userdat7. See table A for descriptions.
-don't forget to add the dependency 'rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)' to the top of your code before using this command</p>
+<tr>
+<td>rlist [object list number].<raptor object list variable name> {= new value}</td>
+<td>
+<p class="first">a faster version of RGETOBJ and RSETOBJ, to 'SET' an objects list variable use RLIST [object list number]. <raptor objest list variable name> = <new value> to 'GET' an objects list variable use RLIST [object list number].<raptor objest list variable name> this command can be used in both forms 'SET' and 'GET' in a single command line without issues, example: RLIST [enemy_object_number].x = RLIST [player_object_number].x</p>
+<p>supported raptor object list variables: active, x, y, xadd, yadd, flip, width, height, vbox, hbox, gfxbase, framesz, framedel, curframe, maxframe, animloop, wrap, timer, track, colchk, scaled, scale_x, scale_y, CLUT, animspd, bytewid, tracktop, was_hit, coffx, coffy, remhit, bboxlink, hitpoint, damage, flash, gwidth, rmotion, rmcurfrm, rmfrm, userdat1, userdat2, userdat3, userdat4, userdat5, userdat6, userdat7.</p>
+<p>See table A for descriptions.</p>
+<p class="last">Don't forget to add the dependency 'rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)' to the top of your code before using this command</p>
 </td>
 </tr>
 </tbody>
@@ -1096,34 +1153,41 @@ don't forget to add the dependency 'rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_ta
 <h1>Particles</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="26%">
-<col width="74%">
+<col width="26%"/>
+<col width="74%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>RPARTI</td>
+<tr>
+<td>RPARTI</td>
 <td>--</td>
 </tr>
-<tr><td>RAPTOR_particles_GPU_erase</td>
+<tr>
+<td>RAPTOR_particles_GPU_erase</td>
 <td>--</td>
 </tr>
-<tr><td>RAPTOR_particles_GPU_plot</td>
+<tr>
+<td>RAPTOR_particles_GPU_plot</td>
 <td>--</td>
 </tr>
-<tr><td>RPARTI(address_of_particle_struct)</td>
-<td><em>address_of_particle_struct</em> points to a 6 column by user definable rows
-table of longwords. First row must have (0,0,0,x,y,no_particles) and the other
-the particle definitions
-(angle, speed, angular speed, initial colour, colour decay (per frame), pixel life (in frames))</td>
+<tr>
+<td>RPARTI(address_of_particle_struct)</td>
+<td>
+<em>address_of_particle_struct</em>
+ points to a 6 column by user definable rows table of longwords. First row must have (0,0,0,x,y,no_particles) and the other the particle definitions (angle, speed, angular speed, initial colour, colour decay (per frame), pixel life (in frames))
+</td>
 </tr>
-<tr><td>raptor_used_particles</td>
+<tr>
+<td>raptor_used_particles</td>
 <td>--</td>
 </tr>
-<tr><td>raptor_free_particles</td>
+<tr>
+<td>raptor_free_particles</td>
 <td>--</td>
 </tr>
 </tbody>
@@ -1133,16 +1197,18 @@ the particle definitions
 <h1>Map module</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="76%">
-<col width="24%">
+<col width="76%"/>
+<col width="24%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>RSETMAP</td>
+<tr>
+<td>RSETMAP</td>
 <td>--</td>
 </tr>
 </tbody>
@@ -1152,30 +1218,48 @@ the particle definitions
 <h1>Colours</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="40%">
-<col width="60%">
+<col width="40%"/>
+<col width="60%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>loadclut palette_address,target_clut_number_of_indices</td>
-<td>takes the palette values at address "palette_address" and
-copies them to CLUT "target_clut_number" (0 to 15).
-<em>clut_number_of_indices</em> tells the routine how many to copy.
-This routine can be used to set up anything from 2 to 256 palette indices at once.</td>
+<tr>
+<td>loadclut palette_address,target_clut_number_of_indices</td>
+<td>
+takes the palette values at address "palette_address" and copies them to CLUT "target_clut_number" (0 to 15). 
+<em>clut_number_of_indices</em>
+ tells the routine how many to copy. This routine can be used to set up anything from 2 to 256 palette indices at once.
+</td>
 </tr>
-<tr><td>fadepal(int clut_no,int fade_cols,int *palette)</td>
-<td>fades CLUT <em>clut_no</em> (0-15) to CLUT values address <em>palette</em>.
-<em>fade_cols</em> is the number of CLUT entries to process.
-Note that fade_cols is 0 based, so to fade 16 cols pass 15.</td>
+<tr>
+<td>fadepal(int clut_no,int fade_cols,int *palette)</td>
+<td>
+fades CLUT 
+<em>clut_no</em>
+ (0-15) to CLUT values address 
+<em>palette</em>
+. 
+<em>fade_cols</em>
+ is the number of CLUT entries to process. Note that fade_cols is 0 based, so to fade 16 cols pass 15.
+</td>
 </tr>
-<tr><td>fadesingle(index_to_fade,desired_colour_in_16_bit_BBG)</td>
-<td>fades CLUT index <em>index_to_fade</em> to <em>desired_colour_in_16_bit_BBG</em>.</td>
+<tr>
+<td>fadesingle(index_to_fade,desired_colour_in_16_bit_BBG)</td>
+<td>
+fades CLUT index 
+<em>index_to_fade</em>
+ to 
+<em>desired_colour_in_16_bit_BBG</em>
+.
+</td>
 </tr>
-<tr><td>raptor_fade_delay</td>
+<tr>
+<td>raptor_fade_delay</td>
 <td>delay (in function calls) between steps (.word)</td>
 </tr>
 </tbody>
@@ -1185,43 +1269,46 @@ Note that fade_cols is 0 based, so to fade 16 cols pass 15.</td>
 <h1>Strings</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="29%">
-<col width="71%">
+<col width="29%"/>
+<col width="71%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>print</td>
+<tr>
+<td>print</td>
 <td>--</td>
 </tr>
-<tr><td>RPRINTINT</td>
+<tr>
+<td>RPRINTINT</td>
 <td>--</td>
 </tr>
-<tr><td>bin2asc(number, digits, string$)</td>
-<td><p class="first">converts number with (digits+1) digits very fast
-and render it to string$.</p>
+<tr>
+<td>bin2asc(number, digits, string$)</td>
+<td>
+<p class="first">converts number with (digits+1) digits very fast and render it to string$.</p>
 <p>Note that the number has to be an integer.</p>
-<p class="last">Example: bin2asc(987,2,out$) will convert number 987 to string using 3 digits
-and place it into out$. If we used 3 instead of 2 we'd get "0987"</p>
+<p class="last">Example: bin2asc(987,2,out$) will convert number 987 to string using 3 digits and place it into out$. If we used 3 instead of 2 we'd get "0987"</p>
 </td>
 </tr>
-<tr><td>RPRINT string</td>
-<td>prints a static string to screen at coordinates set by RLOCATE.
-No fancy formatting allowed (i.e. it'll only work with something like
-RPRINT "hello". RPRINT "hello"&amp;"world" will fail). Font is set via
-basic_r_indx and size from basic_r_size.</td>
+<tr>
+<td>RPRINT string</td>
+<td>prints a static string to screen at coordinates set by RLOCATE. No fancy formatting allowed (i.e. it'll only work with something like RPRINT "hello". RPRINT "hello"&"world" will fail). Font is set via basic_r_indx and size from basic_r_size.</td>
 </tr>
-<tr><td>RLOCATE x,y</td>
-<td>Locates the cursor at coordinates x,y. Notice that those are pixel coordinates,
-not cursor coordinates.Font is set via basic_r_indx and size from basic_r_size.</td>
+<tr>
+<td>RLOCATE x,y</td>
+<td>Locates the cursor at coordinates x,y. Notice that those are pixel coordinates, not cursor coordinates.Font is set via basic_r_indx and size from basic_r_size.</td>
 </tr>
-<tr><td>basic_r_indx</td>
+<tr>
+<td>basic_r_indx</td>
 <td>--</td>
 </tr>
-<tr><td>basic_r_size</td>
+<tr>
+<td>basic_r_size</td>
 <td>--</td>
 </tr>
 </tbody>
@@ -1229,13 +1316,48 @@ not cursor coordinates.Font is set via basic_r_indx and size from basic_r_size.<
 </div>
 <div class="section" id="scores">
 <h1>Scores</h1>
-<p>raptor_mt_present         - negative if no Memory Track is present
-raptor_highscores_hex     - points to the highscore table (10 entries, one longword each)
-raptor_highscores_nam     - points to the highscore names table (10 entries, 8 characters each, not null terminated)
-hiscore_check(score,name) - checks if score is a high score. name, like above, is 8 characters.
-RAPTOR_resort_score_table - re-sorts the highscores as well as the names.
-RAPTOR_mt_save            - saves the highscore table. Use it in combination with present.
-raptor_user_savedata      - points to 512 bytes for user data which will be appended to the MT save</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%"/>
+<col width="78%"/>
+</colgroup>
+<thead valign="bottom">
+<tr>
+<th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr>
+<td>raptor_mt_present</td>
+<td>negative if no Memory Track is present</td>
+</tr>
+<tr>
+<td>raptor_highscores_hex</td>
+<td>points to the highscore table (10 entries, one longword each)</td>
+</tr>
+<tr>
+<td>raptor_highscores_nam</td>
+<td>points to the highscore names table (10 entries, 8 characters each, not null terminated)</td>
+</tr>
+<tr>
+<td>hiscore_check(score,name)</td>
+<td>checks if score is a high score. name, like above, is 8 characters.</td>
+</tr>
+<tr>
+<td>RAPTOR_resort_score_table</td>
+<td>re-sorts the highscores as well as the names.</td>
+</tr>
+<tr>
+<td>RAPTOR_mt_save</td>
+<td>saves the highscore table. Use it in combination with present.</td>
+</tr>
+<tr>
+<td>raptor_user_savedata</td>
+<td>points to 512 bytes for user data which will be appended to the MT save</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="sound-input-engines">
 <h1>Sound/input engines</h1>
@@ -1244,79 +1366,100 @@ raptor_user_savedata      - points to 512 bytes for user data which will be appe
 <h2>U-235</h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="20%">
-<col width="80%">
+<col width="20%"/>
+<col width="80%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>MODPLAY(mod_address)</td>
+<tr>
+<td>MODPLAY(mod_address)</td>
 <td>plays a .mod file at address "mod_address"</td>
 </tr>
-<tr><td>MODPLAY(0)</td>
+<tr>
+<td>MODPLAY(0)</td>
 <td>stops .mod playing</td>
 </tr>
-<tr><td>GETPAD(x)</td>
-<td><p class="first">returns values from either pad 1 or 2.</p>
+<tr>
+<td>GETPAD(x)</td>
+<td>
+<p class="first">returns values from either pad 1 or 2.</p>
 <p class="last">Can be replaced by reading U235SE_pad1 and U235SE_pad2 directly.</p>
 </td>
 </tr>
-<tr><td>SNDPLAYFREQ(voice,x,y)</td>
+<tr>
+<td>SNDPLAYFREQ(voice,x,y)</td>
 <td>triggers sample x from module into channel "voice" at y frequency in Hz</td>
 </tr>
-<tr><td>MODVOL(x)</td>
+<tr>
+<td>MODVOL(x)</td>
 <td>sets mod music volume (x in range 0 - 63)</td>
 </tr>
-<tr><td>SNDVOL(x)</td>
+<tr>
+<td>SNDVOL(x)</td>
 <td>sets global sfx volume (x in range 0 - 63)</td>
 </tr>
-<tr><td>SNDKILL(x)</td>
+<tr>
+<td>SNDKILL(x)</td>
 <td>stops playing sample at channel number x</td>
 </tr>
-<tr><td>SNDVOLRESET(x)</td>
+<tr>
+<td>SNDVOLRESET(x)</td>
 <td>resets volume of current sample on channel x</td>
 </tr>
-<tr><td>SNDFREQRESET(x)</td>
+<tr>
+<td>SNDFREQRESET(x)</td>
 <td>resets frequency of current sample on channel x</td>
 </tr>
-<tr><td>SNDDELTA(x,y)</td>
+<tr>
+<td>SNDDELTA(x,y)</td>
 <td>set or adjust the volume on channel x to y (0 to 63)</td>
 </tr>
-<tr><td>SNDFREQ(x,y)</td>
+<tr>
+<td>SNDFREQ(x,y)</td>
 <td>sets frequency of channel x to y (0 to 65535)</td>
 </tr>
-<tr><td>rotary_mode1</td>
+<tr>
+<td>rotary_mode1</td>
 <td>+1 = rotary, - 1 = jagpad (Port 1) (.l)</td>
 </tr>
-<tr><td>rotary_mode2</td>
+<tr>
+<td>rotary_mode2</td>
 <td>+1 = rotary, - 1 = jagpad (Port 2) (.l)</td>
 </tr>
-<tr><td>turn_direction1</td>
+<tr>
+<td>turn_direction1</td>
 <td>rotary value (bigger is faster) - +=left / 0=nothing / - =right (Port 1) (.l)</td>
 </tr>
-<tr><td>turn_direction2</td>
+<tr>
+<td>turn_direction2</td>
 <td>rotary value (bigger is faster) - +=left / 0=nothing / - =right (Port 2) (.l)</td>
 </tr>
-<tr><td>rotary_interval1</td>
+<tr>
+<td>rotary_interval1</td>
 <td>trim value for rotary (Port 1) (.l)</td>
 </tr>
-<tr><td>rotary_interval2</td>
+<tr>
+<td>rotary_interval2</td>
 <td>trim value for rotary (Port 2) (.l)</td>
 </tr>
-<tr><td>spin_delta1</td>
+<tr>
+<td>spin_delta1</td>
 <td>value to add to turn_direction per increment (Port 1) (.l)</td>
 </tr>
-<tr><td>spin_delta2</td>
+<tr>
+<td>spin_delta2</td>
 <td>value to add to turn_direction per increment (Port 2) (.l)</td>
 </tr>
-<tr><td>Direction pad masks</td>
-<td><p class="first">PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGHT, PAD_R, PAD_HASH, PAD_9,
-PAD_6, PAD_3, PAD_PAUSE, PAD_A, PAD_OPTION, PAD_STAR, PAD_7, PAD_4, PAD_1, PAD_0, PAD_8,
-PAD_5, PAD_2, PAD_B, PAD_C.</p>
-<p class="last">Example: "if x band (PAD_U bor PAD_L) then" will'check for up+left</p>
+<tr>
+<td>Direction pad masks</td>
+<td>
+<p class="first">PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGHT, PAD_R, PAD_HASH, PAD_9, PAD_6, PAD_3, PAD_PAUSE, PAD_A, PAD_OPTION, PAD_STAR, PAD_7, PAD_4, PAD_1, PAD_0, PAD_8, PAD_5, PAD_2, PAD_B, PAD_C.</p>
+<p class="last">Example: "if x band (PAD_U bor PAD_L) then" will check for up+left</p>
 </td>
 </tr>
 </tbody>
@@ -1326,64 +1469,59 @@ PAD_5, PAD_2, PAD_B, PAD_C.</p>
 <h2>Zerosquare</h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="31%">
-<col width="69%">
+<col width="31%"/>
+<col width="69%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Command</th>
+<tr>
+<th class="head">Command</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>ZEROPAD()</td>
-<td>reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad,
-zero_mousex_delta, zero_mousey_delta and zero_rotary_delta.
-By default the engine is configured to assume 2 joypads connected.
-This command needs to be used in capitals.
-example projects: chessboard, print</td>
+<tr>
+<td>ZEROPAD()</td>
+<td>reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad, zero_mousex_delta, zero_mousey_delta and zero_rotary_delta. By default the engine is configured to assume 2 joypads connected. This command needs to be used in capitals. example projects: chessboard, print</td>
 </tr>
-<tr><td>Input_SetNormalPadMode</td>
-<td>sets up the engine to read two pads (enabled by default).
-zero_left_pad and zero_right_pad can be read using these constants: Input_Pad_Pause, Input_Pad_A,
-Input_Pad_Up, Input_Pad_Down, Input_Pad_Left, Input_Pad_Right, Input_Pad_C1, Input_Pad_B,
-Input_Pad_Star, Input_Pad_7, Input_Pad_4, Input_Pad_1, Input_Pad_C2, Input_Pad_C, Input_Pad_0,
-Input_Pad_8, Input_Pad_5, Input_Pad_2, Input_Pad_C3, Input_Pad_Option, Input_Pad_Sharp, Input_Pad_9,
-Input_Pad_6, Input_Pad_3.
-example: "if zero_left_pad band Input_Pad_Star" will check left pad for star button press.</td>
+<tr>
+<td>Input_SetNormalPadMode</td>
+<td>sets up the engine to read two pads (enabled by default). zero_left_pad and zero_right_pad can be read using these constants: Input_Pad_Pause, Input_Pad_A, Input_Pad_Up, Input_Pad_Down, Input_Pad_Left, Input_Pad_Right, Input_Pad_C1, Input_Pad_B, Input_Pad_Star, Input_Pad_7, Input_Pad_4, Input_Pad_1, Input_Pad_C2, Input_Pad_C, Input_Pad_0, Input_Pad_8, Input_Pad_5, Input_Pad_2, Input_Pad_C3, Input_Pad_Option, Input_Pad_Sharp, Input_Pad_9, Input_Pad_6, Input_Pad_3. example: "if zero_left_pad band Input_Pad_Star" will check left pad for star button press.</td>
 </tr>
-<tr><td>Input_SetJoyPort1</td>
-<td>enables joypad port 1 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode.
-zero_rotary_delta will give the number of rotary ticks since the last read command.</td>
+<tr>
+<td>Input_SetJoyPort1</td>
+<td>enables joypad port 1 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode. zero_rotary_delta will give the number of rotary ticks since the last read command.</td>
 </tr>
-<tr><td>Input_SetJoyPort2</td>
-<td>enables joypad port 2 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode.
-zero_rotary_delta will give the number of rotary ticks since the last read command.</td>
+<tr>
+<td>Input_SetJoyPort2</td>
+<td>enables joypad port 2 to be used for rotary/mouse input. This doesn't enable rotary/mouse mode. zero_rotary_delta will give the number of rotary ticks since the last read command.</td>
 </tr>
-<tr><td>Input_SetRotaryMode</td>
+<tr>
+<td>Input_SetRotaryMode</td>
 <td>enables rotary mode.</td>
 </tr>
-<tr><td>Input_SetAtariMouseMode</td>
-<td>enables Atari mouse mode.
-Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses
-zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.</td>
+<tr>
+<td>Input_SetAtariMouseMode</td>
+<td>enables Atari mouse mode. Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.</td>
 </tr>
-<tr><td>Input_SetAmigaMouseMode</td>
-<td>enables Amiga mouse mode.
-Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses
-zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.</td>
+<tr>
+<td>Input_SetAmigaMouseMode</td>
+<td>enables Amiga mouse mode. Input_Mouse_Left and Input_Mouse_Right are the masks to check for button presses zero_mousex_delta, zero_mousey_delta are the number of mouse ticks in x and y axis since the last read command.</td>
 </tr>
-<tr><td>SNDZEROPLAY chan, start_address, len, frequency, params</td>
-<td><p class="first">plays a sample starting from start_address with length len to channel chan with speed frequency and with flags params.
-Channel should be from 1 to 4. start_address should be aligned to 4 bytes.
-len should be a multiple of 4.
-frequency should be an integer that divides the base frequency of 46168Hz.
-So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a sample at 23084Hz etc.</p>
+<tr>
+<td>SNDZEROPLAY chan, start_address, len, frequency, params</td>
+<td>
+<p class="first">
+plays a sample starting from start_address with length len to channel chan with speed frequency and with flags params. 
+<em>Channel</em>
+ should be from 1 to 4. start_address should be aligned to 4 bytes. len should be a multiple of 4. frequency should be an integer that divides the base frequency of 46168Hz. So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a sample at 23084Hz etc.
+</p>
 <dl class="last docutils">
 <dt>Available flags are:</dt>
-<dd><ul class="first last simple">
+<dd>
+<ul class="first last simple">
 <li>Zero_Audio_8bit_Signed (plays an 8-bit signed sample)</li>
 <li>Zero_Audio_8bit_Unsigned (plays an 8 - bit unsigned sample)</li>
-<li>Zero_Audio_8bit_muLaw (plays a 8 - bit compressed μLaw sample)</li>
+<li>Zero_Audio_8bit_muLaw (plays a 8 - bit compressed ?w sample)</li>
 <li>Zero_Audio_Looping (enables sample loop).</li>
 </ul>
 </dd>
@@ -1395,215 +1533,263 @@ So for example if it's set to 1, it'll play a sample at 46168Hz, a 2 will play a
 </div>
 </div>
 <div class="section" id="table-a">
-<h1>Table A</h1>
+<h1>
+<a class="reference internal" href="#table-a">Table A</a>
+</h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="26%">
-<col width="7%">
-<col width="67%">
+<col width="26%"/>
+<col width="7%"/>
+<col width="67%"/>
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">Offset's friendly name</th>
+<tr>
+<th class="head">Offset's friendly name</th>
 <th class="head">Offset</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>R_sprite_obj</td>
+<tr>
+<td>R_sprite_obj</td>
 <td>0</td>
 <td>pointer to object in OL</td>
 </tr>
-<tr><td>R_sprite_active</td>
+<tr>
+<td>R_sprite_active</td>
 <td>4</td>
 <td>active flag (-1 = inactive)</td>
 </tr>
-<tr><td>R_sprite_x</td>
+<tr>
+<td>R_sprite_x</td>
 <td>8</td>
 <td>x position in 16.16</td>
 </tr>
-<tr><td>R_sprite_y</td>
+<tr>
+<td>R_sprite_y</td>
 <td>12</td>
 <td>y position in 16.16</td>
 </tr>
-<tr><td>R_sprite_xadd</td>
+<tr>
+<td>R_sprite_xadd</td>
 <td>16</td>
 <td>x velocity to add in 16.16</td>
 </tr>
-<tr><td>R_sprite_yadd</td>
+<tr>
+<td>R_sprite_yadd</td>
 <td>20</td>
 <td>y velocity to add in 16.16</td>
 </tr>
-<tr><td>R_sprite_flip</td>
+<tr>
+<td>R_sprite_flip</td>
 <td>24</td>
 <td>if set, add _width to X and set mirror</td>
 </tr>
-<tr><td>R_sprite_width</td>
+<tr>
+<td>R_sprite_width</td>
 <td>28</td>
 <td>width of sprite</td>
 </tr>
-<tr><td>R_sprite_height</td>
+<tr>
+<td>R_sprite_height</td>
 <td>32</td>
 <td>height of sprite</td>
 </tr>
-<tr><td>R_sprite_vbox</td>
+<tr>
+<td>R_sprite_vbox</td>
 <td>36</td>
 <td>vertical distance from midpoint for collision clipping</td>
 </tr>
-<tr><td>R_sprite_hbox</td>
+<tr>
+<td>R_sprite_hbox</td>
 <td>40</td>
 <td>horizontal distance from midpoint for collision clipping</td>
 </tr>
-<tr><td>R_sprite_gfxbase</td>
+<tr>
+<td>R_sprite_gfxbase</td>
 <td>44</td>
 <td>pointer to phrase aligned sprite bitmap data</td>
 </tr>
-<tr><td>R_sprite_framesz</td>
+<tr>
+<td>R_sprite_framesz</td>
 <td>48</td>
 <td>size of sprite frame in bytes (offset to next frame)</td>
 </tr>
-<tr><td>R_sprite_framedel</td>
+<tr>
+<td>R_sprite_framedel</td>
 <td>52</td>
 <td>vblanks till next sprite animation frame</td>
 </tr>
-<tr><td>R_sprite_curframe</td>
+<tr>
+<td>R_sprite_curframe</td>
 <td>56</td>
 <td>current frame number (or 0 for no frames)</td>
 </tr>
-<tr><td>R_sprite_maxframe</td>
+<tr>
+<td>R_sprite_maxframe</td>
 <td>60</td>
 <td>maximum frame for sprite</td>
 </tr>
-<tr><td>R_sprite_animloop</td>
+<tr>
+<td>R_sprite_animloop</td>
 <td>64</td>
 <td>-1 = loop animation, 1=terminate on loop</td>
 </tr>
-<tr><td>R_sprite_wrap</td>
+<tr>
+<td>R_sprite_wrap</td>
 <td>68</td>
 <td>flag for wrap or disable on leaving screen</td>
 </tr>
-<tr><td>R_sprite_timer</td>
+<tr>
+<td>R_sprite_timer</td>
 <td>72</td>
 <td>frames to stay alive, or -2 for infinite</td>
 </tr>
-<tr><td>R_sprite_track</td>
+<tr>
+<td>R_sprite_track</td>
 <td>76</td>
 <td>-1 = use fract update, else pointer to x.y co-ords</td>
 </tr>
-<tr><td>R_sprite_colchk</td>
+<tr>
+<td>R_sprite_colchk</td>
 <td>80</td>
 <td>-1 = no collision detection</td>
 </tr>
-<tr><td>R_sprite_scaled</td>
+<tr>
+<td>R_sprite_scaled</td>
 <td>84</td>
 <td>-1 = unscaled, 1 = scaled</td>
 </tr>
-<tr><td>R_sprite_scale_x</td>
+<tr>
+<td>R_sprite_scale_x</td>
 <td>88</td>
 <td>x-scaler</td>
 </tr>
-<tr><td>R_sprite_scale_y</td>
+<tr>
+<td>R_sprite_scale_y</td>
 <td>92</td>
 <td>y-scaler</td>
 </tr>
-<tr><td>R_sprite_CLUT</td>
+<tr>
+<td>R_sprite_CLUT</td>
 <td>96</td>
-<td>-1 for no change, else CLUT to use for sprite if &lt;16bit</td>
+<td>-1 for no change, else CLUT to use for sprite if <16bit</td>
 </tr>
-<tr><td>R_sprite_animspd</td>
+<tr>
+<td>R_sprite_animspd</td>
 <td>100</td>
 <td>animation speed</td>
 </tr>
-<tr><td>R_sprite_bytewid</td>
+<tr>
+<td>R_sprite_bytewid</td>
 <td>104</td>
 <td>width of one scanline of sprite in bytes</td>
 </tr>
-<tr><td>R_sprite_tracktop</td>
+<tr>
+<td>R_sprite_tracktop</td>
 <td>108</td>
 <td>loop point for tracking, or -1 for exit</td>
 </tr>
-<tr><td>R_sprite_was_hit</td>
+<tr>
+<td>R_sprite_was_hit</td>
 <td>112</td>
 <td>set to +ve if by the collision routine if sprite hit</td>
 </tr>
-<tr><td>R_sprite_coffx</td>
+<tr>
+<td>R_sprite_coffx</td>
 <td>116</td>
 <td>offset from center for bounding box (hbox)</td>
 </tr>
-<tr><td>R_sprite_coffy</td>
+<tr>
+<td>R_sprite_coffy</td>
 <td>120</td>
 <td>offset from center for bounding box (vbox)</td>
 </tr>
-<tr><td>R_sprite_remhit</td>
+<tr>
+<td>R_sprite_remhit</td>
 <td>124</td>
 <td>1 = remove if hit, else leave onscreen</td>
 </tr>
-<tr><td>R_sprite_bboxlink</td>
+<tr>
+<td>R_sprite_bboxlink</td>
 <td>128</td>
 <td>-1, or pointer to bounding box link data</td>
 </tr>
-<tr><td>R_sprite_hitpoint</td>
+<tr>
+<td>R_sprite_hitpoint</td>
 <td>132</td>
 <td>hitpoints of damage to take before removal</td>
 </tr>
-<tr><td>R_sprite_damage</td>
+<tr>
+<td>R_sprite_damage</td>
 <td>136</td>
 <td>damage to deal</td>
 </tr>
-<tr><td>R_sprite_flash</td>
+<tr>
+<td>R_sprite_flash</td>
 <td>140</td>
 <td>make sprite blink</td>
 </tr>
-<tr><td>R_sprite_gwidth</td>
+<tr>
+<td>R_sprite_gwidth</td>
 <td>144</td>
 <td>graphics width</td>
 </tr>
-<tr><td>R_sprite_rmotion</td>
+<tr>
+<td>R_sprite_rmotion</td>
 <td>148</td>
 <td>pointer to RMotion animation</td>
 </tr>
-<tr><td>R_sprite_rmcurfrm</td>
+<tr>
+<td>R_sprite_rmcurfrm</td>
 <td>152</td>
 <td>RMotion internal</td>
 </tr>
-<tr><td>R_sprite_rmfrm</td>
+<tr>
+<td>R_sprite_rmfrm</td>
 <td>156</td>
 <td>RMotion internal</td>
 </tr>
-<tr><td>R_sprite_userdat1</td>
+<tr>
+<td>R_sprite_userdat1</td>
 <td>160</td>
 <td>Reserved for future expansion</td>
 </tr>
-<tr><td>R_sprite_userdat2</td>
+<tr>
+<td>R_sprite_userdat2</td>
 <td>164</td>
 <td>Reserved for future expansion</td>
 </tr>
-<tr><td>R_sprite_userdat3</td>
+<tr>
+<td>R_sprite_userdat3</td>
 <td>168</td>
 <td>Reserved for future expansion</td>
 </tr>
-<tr><td>R_sprite_userdat4</td>
+<tr>
+<td>R_sprite_userdat4</td>
 <td>172</td>
 <td>Reserved for future expansion</td>
 </tr>
-<tr><td>R_sprite_userdat5</td>
+<tr>
+<td>R_sprite_userdat5</td>
 <td>176</td>
 <td>Reserved for future expansion</td>
 </tr>
-<tr><td>R_sprite_userdat6</td>
+<tr>
+<td>R_sprite_userdat6</td>
 <td>180</td>
 <td>Reserved for future expansion</td>
 </tr>
-<tr><td>R_sprite_userdat7</td>
+<tr>
+<td>R_sprite_userdat7</td>
 <td>184</td>
 <td>Reserved for future expansion</td>
 </tr>
 </tbody>
 </table>
 </div>
- </div>
-
 </div>
-
+</div>
 
 
 </body></html>

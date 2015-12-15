@@ -119,6 +119,22 @@ powaunpack(source_address,destination_address) unpacks data from source_address 
                                                exists at the source address - again it's your responsibility!
 ============================================== ===========
 
+
+Blitter
+-------
+================================== ===========================================================
+Command                            Description
+================================== ===========================================================
+powablitlist(pointer_to_blitlist). Passes a list of blitting commands to raptor so they can be
+                                   processed fast. pointer_to_blitlist contains an array of
+                                   ints that have a1_base, a1_flags, a1_pixel, a2_base,
+                                   a2_pixel, a2_flags, b_count, b_patd, b_cmd.
+                                   End the list with -1.
+
+                                   Example projects: blitline
+================================== ===========================================================
+
+
  
 Object manipulation
 -------------------
@@ -129,14 +145,14 @@ rsetlist                                                                        
 RSETOBJ spr_index,offset,value                                                                  sets the attribute at offset 
                                                                                                 *offset* of object *spr_index* to value *value*.
                                                                                                 
-                                                                                                See table A for offsets, their descriptions and user friendly names.
+                                                                                                See `Table A`_ for offsets, their descriptions and user friendly names.
                                                                                                 
                                                                                                 Example: RSETOBJ 1,R_sprite_x,10<<16
                                                                                                 
                                                                                                 
 variable=RGETOBJ(spr_index,offset)                                                              gets the attribute at offset "offset" of object "spr_index" and saves it to "variable".
                                                                                                 
-                                                                                                See table A for offsets, their descriptions and user friendly names.
+                                                                                                See `Table A`_ for offsets, their descriptions and user friendly names.
 																			                    
                                                                                                 Example: player_x=RGETOBJ(spr_index,offset)
 																			
@@ -336,8 +352,8 @@ SNDZEROPLAY chan, start_address, len, frequency, params plays a sample starting 
                                                                              - Zero_Audio_Looping (enables sample loop).
 ======================================================= =============================================================================================================================
  
-Table A
--------
+`Table A`_
+----------
 ====================== ====== ===========
 Offset's friendly name Offset Description   
 ====================== ====== ===========
@@ -389,3 +405,4 @@ R_sprite_userdat5      176    Reserved for future expansion
 R_sprite_userdat6      180    Reserved for future expansion
 R_sprite_userdat7      184    Reserved for future expansion
 ====================== ====== ===========
+
