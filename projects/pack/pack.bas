@@ -21,7 +21,7 @@ powaunpack ((int)strptr(source_image),(int)(int *)buffer)               'decompr
                                                                         'so we use (int) to convert the strptr(source_image) return value into integer.
 
 
-rlist [0].gfxbase = buffer                                              'change the pre defined object list object start of bitmap data address of the newly decompressed image. we just need the start address of the variable so we just use the variable name
+rlist [0].gfxbase = (int)buffer                                         'change the pre defined object list object start of bitmap data address of the newly decompressed image. we just need the start address of the variable so we just use the variable name
 rlist [0].active = R_is_active                                          'activate the object            
 
 do                                                                      'start never ending loop
