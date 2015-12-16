@@ -10,7 +10,7 @@ Uses portions from:
 - Audio player by Zerosquare of Jagware
 - CRY converter by Zerosquare of Jagware
 - Binary bitfield macros by Tom Torfs.
-- Some example programs by Rik Day, with permission.
+- Example programs by Rik Day and OMF, used with permission.
 - ee_printf Copyright (C) 2002 Michael Ringgaard
-- qsort implementation by Matthias Fleischer and Gunther Nikl, placed in the public domain
+- qsort implementation by Matthias Fleischer and Gunther Nikl, placed in the public domain (but hey, credit when credit is due!)
 - NSIS installer (http://nsis.sourceforge.net/Main_Page)

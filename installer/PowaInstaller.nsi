@@ -271,7 +271,8 @@ Section "Start Menu Shortcuts"
   CreateDirectory "$SMPROGRAMS\Raptor Basic+"
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+.lnk" "$INSTDIR\build.bat" "rbplus.ico"
-  CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+ tutorial.lnk" "$INSTDIR\docs\index.html" ""
+  CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+ quick reference.lnk" "$INSTDIR\docs\rb_quickref.html.html" ""
+  CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+ tutorial.lnk" "$INSTDIR\website\index.html" ""
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\BCX documentation.lnk" "$INSTDIR\docs\BCXHelp.chm" ""
   
 SectionEnd
