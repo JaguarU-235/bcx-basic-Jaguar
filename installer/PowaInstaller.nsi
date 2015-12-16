@@ -9,7 +9,7 @@
 ;--------------------------------
 
 ; The name of the installer
-Name "Raptor Basic+ v1.2"
+Name "Raptor Basic+ v1.3"
 
 ; The file to write
 OutFile "rb+_install.exe"
