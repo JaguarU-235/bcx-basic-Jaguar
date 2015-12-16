@@ -242,6 +242,7 @@ Section "Example projects (optional)" ExamFiles
   
   ; Set output path to the installation directory.
   !insertmacro copyexamples 2lists
+  !insertmacro copyexamples Blitline
   !insertmacro copyexamples Changer
   !insertmacro copyexamples Chessboard
   !insertmacro copyexamples CRYtest
