@@ -90,6 +90,7 @@ Section "Base files (required)" BaseFiles
   File "..\bin\as.exe"
   File "..\bin\bc.exe"
   File "..\bin\bmp2jag.Exe"
+  File "..\bin\bmp_cry_nodither.exe"
   File "..\bin\Buildlink.exe"
   File "..\bin\cc1plus.exe"
   File "..\bin\cc1.exe"
@@ -175,6 +176,7 @@ Section "Base files (required)" BaseFiles
   File "..\U235se\licence.txt"
   SetOutPath $INSTDIR\Docs
   File /r "..\docs\*.*"
+  SetOutPath $INSTDIR\Website
   File /r "..\website\*.*"
 
   ; Write the installation path into the registry
@@ -271,7 +273,7 @@ Section "Start Menu Shortcuts"
   CreateDirectory "$SMPROGRAMS\Raptor Basic+"
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+.lnk" "$INSTDIR\build.bat" "rbplus.ico"
-  CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+ quick reference.lnk" "$INSTDIR\docs\rb_quickref.html.html" ""
+  CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+ quick reference.lnk" "$INSTDIR\docs\rb_quickref.html" ""
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\Raptor Basic+ tutorial.lnk" "$INSTDIR\website\index.html" ""
   CreateShortcut "$SMPROGRAMS\Raptor Basic+\BCX documentation.lnk" "$INSTDIR\docs\BCXHelp.chm" ""
   
@@ -293,6 +295,18 @@ Section "Uninstall"
   Delete $INSTDIR\include\bits\*.*
   Delete $INSTDIR\include\sys\*.*
   Delete $INSTDIR\include\template\*.*
+  Delete $INSTDIR\include\template\assets\fonts\*.*
+  Delete $INSTDIR\include\template\assets\gfx\*.*
+  Delete $INSTDIR\include\template\assets\maps\*.*
+  Delete $INSTDIR\include\template\assets\sfx\*.*
+  Delete $INSTDIR\include\template\assets\*.*
+  Delete $INSTDIR\docs\images\*.*
+  Delete $INSTDIR\docs\bin\*.*
+  Delete $INSTDIR\website\images\*.*
+  Delete $INSTDIR\website\bin\*.*
+  Delete $INSTDIR\website\*.*
+  Delete "$INSTDIR\docs\Notepad++ NPPExec presets\*.*"
+  Delete $INSTDIR\docs\*.*
   Delete $INSTDIR\raptor\*.*
   Delete $INSTDIR\U235se\*.*
   Delete $INSTDIR\*.*
@@ -303,6 +317,17 @@ Section "Uninstall"
 
   ; Remove directories used
   RMDir $INSTDIR\bin
+  RMDir "$INSTDIR\docs\Notepad++ NPPExec presets"
+  RMDir $INSTDIR\website\images
+  RMDir $INSTDIR\website\bin
+  RMDir $INSTDIR\website
+  RMDir $INSTDIR\docs
+  RMDir $INSTDIR\include\template\assets\fonts
+  RMDir $INSTDIR\include\template\assets\gfx
+  RMDir $INSTDIR\include\template\assets\maps
+  RMDir $INSTDIR\include\template\assets\sfx
+  RMDir $INSTDIR\include\template\assets
+  RMDir $INSTDIR\include\template\build
   RMDir $INSTDIR\include\template
   RMDir $INSTDIR\include\bits
   RMDir $INSTDIR\include\sys
