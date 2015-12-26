@@ -46,7 +46,6 @@ Print # 10; "Checking if assets.txt is newer than any of the build folder files.
 assetfile$ = Dir(basedir$ + "\build\*.*")
 While assetfile$ <> ""
   assetfile$ = basedir$ + "\build\" + assetfile$
-'##E#
   If (Right$(assetfile$, 8) = ".gfxdata" Or Right$(assetfile$, 6) = ".clut" Or _
     Right$(assetfile$, 4) = ".raw" Or Right$(assetfile$, 4) = ".cry" Or _
     Right$(assetfile$, 4) = ".ul") And FileDateTime(assetfile$) < FileDateTime(__argv(1))
@@ -332,6 +331,7 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
+'##E#
       Print # 10; "        Adding " + fullname$ + " in RAM..."
       Print # 6; varname$; ": incbin """ + fullnameslash$ + """"
       Print # 6; varname$; "_end:"
@@ -383,7 +383,7 @@ Quit 0
   '
   ' Read in source file
   '
-  Open file$ for Binary As # 5
+  Open file$ for Input As # 5
   l = LOF(# 5)
   Dim sourcebmp(l) As Byte
   sourceaddr = V:sourcebmp(0)
