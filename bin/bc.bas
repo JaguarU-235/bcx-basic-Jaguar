@@ -1491,6 +1491,7 @@ FUNCTION main(ARGC AS INTEGER, ARGV AS PCHAR PTR)
   TestState              =  FALSE
   CmdLineConst$          = ""
   Project_List$          = ""
+  SrcFlag                = TRUE
 
   D1$  = VCHR$(8,34,37,32,46,49,53,71,34)
   D2$  = VCHR$(9,34,37,32,46,49,57,76,71,34)
