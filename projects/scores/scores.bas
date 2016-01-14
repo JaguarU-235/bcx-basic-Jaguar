@@ -23,7 +23,21 @@ if raptor_mt_present<0 then     'no MT?
 else
     RLOCATE 160,0
     RPRINT "MT detected!"
+
+	'
+	' raptor_highscores_hex indices 31 to 127 inclusive can be used to store user data.
+	'
+	rlocate 0,25*8
+	basic_r_indx=1
+	print "Saved value:",raptor_highscores_hex[31]
+
+	'
+	' Set a user value to be read next time (provided scores will be saved to MT)
+	'
+	raptor_highscores_hex[31]=123456789
+
 endif
+
 
 '
 ' Print initial scores
@@ -68,7 +82,7 @@ next i
 ' Save scores to MT if present
 '
 basic_r_indx=1
-RLOCATE 0,8*10+8+8+8+10*8+8+8
+RLOCATE 0,8*10+8+8+8+10*8+8
 if raptor_mt_present<0 then     'no MT?
     RPRINT "No MT detected, so no scores saved!"
 else

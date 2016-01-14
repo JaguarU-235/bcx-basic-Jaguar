@@ -33,7 +33,7 @@ extern int raptor_used_particles asm("raptor_used_particles");
 extern int raptor_free_particles asm("raptor_free_particles");
 extern void *RAPTOR_particle_gfx asm("RAPTOR_particle_gfx");
 extern int raptor_mt_present asm("raptor_mt_present");
-extern int raptor_highscores_hex[10] asm("raptor_highscores_hex");
+extern int raptor_highscores_hex[128] asm("raptor_highscores_hex");
 extern char raptor_highscores_nam[10][8] asm("raptor_highscores_nam");
 extern unsigned long zero_left_pad asm("zero_left_pad");
 extern unsigned long zero_right_pad asm("zero_right_pad");
