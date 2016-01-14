@@ -46,7 +46,7 @@ echo Usage: build.bat projectname
 echo        build.bat projectname sendy
 echo        build.bat projectname ROM
 echo        build.bat projectname ROM sendy
-echo        build.bat projectname bjl
+echo        build.bat projectname sendy bjl
 echo        build.bat projectname new
 echo.
 echo Folder "projectname" must exist inside folder "projects"
