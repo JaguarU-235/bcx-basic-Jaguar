@@ -45,6 +45,7 @@ extern long raptor_vbl_time_remain asm("raptor_vbl_time_remain");
 extern long raptor_user_savedata asm("raptor_user_savedata");
 extern void rbsort(void *base,size_t nmemb) asm("rbsort");
 extern int raptor_blitter_use(int command) asm("raptor_blitter_use");
+extern int powaeeprom(int readwrite, void *buffer) asm ("powaeeprom");
 
 //Zerosquare player equates
 #define Zero_Chan_Format_Shift      30
