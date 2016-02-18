@@ -149,6 +149,8 @@ RAPTOR_POST_Object_List:																; No unmanaged Objects after the list
                                                     if player=1
 							include 	"RAPU235.S"									; RAPTOR u235se user data
                                                     endif
+
+	include "eeprom.s"
 	
 ;;
 ;; Graphics
