@@ -8,18 +8,60 @@ dim j as short
 dim name$
 dim srcname%,dstname%
 basic_r_size=0
+dim eeprom_present%=0
 
 '
 ' If MT is present then check if scores were loaded.
-' Otherwise populate the table with default values
+' Otherwise check for EEPROM and if that fails
+' populate the table with default values
 '
 basic_r_indx=1
 if raptor_mt_present<0 then     'no MT?
-    RLOCATE 160,0
-    RPRINT "No MT detected!"
-    for i=0 to 9
-        raptor_highscores_hex[i]=(9-i)*100
-    next i
+
+	'
+	' Check for EEPROM 
+	' 
+	eeprom_present=powaeeprom(1,raptor_highscores_hex)
+	if eeprom_present=1 then
+		'Checksum error, let's write something
+    	for i=0 to 9
+        	raptor_highscores_hex[i]=(9-i)*100
+    	next i
+		'write it
+		powaeeprom(0,raptor_highscores_hex)
+		'read it back
+		eeprom_present=powaeeprom(1,raptor_highscores_hex)
+	endif
+
+	if eeprom_present<>0 then
+		'
+		' Read error, use default values
+		'
+		RLOCATE 160,0
+   		RPRINT "No MT detected!"
+    	for i=0 to 9
+        	raptor_highscores_hex[i]=(9-i)*100
+    	next i
+	else
+		'
+		' Read ok, print saved
+		'
+	    RLOCATE 160,0
+	    RPRINT "EEPROM detected!"
+	
+		'eeread_valid
+		' raptor_highscores_hex indices 31 to 127 inclusive can be used to store user data.
+		'
+		rlocate 0,25*8
+		basic_r_indx=1
+		print "Saved value:",raptor_highscores_hex[31]
+	
+		'
+		' Set a user value to be read next time (provided scores will be saved to MT)
+		'
+		raptor_highscores_hex[31]=123456789
+		eeprom_present=1
+	endif
 else
     RLOCATE 160,0
     RPRINT "MT detected!"
@@ -84,7 +126,15 @@ next i
 basic_r_indx=1
 RLOCATE 0,8*10+8+8+8+10*8+8
 if raptor_mt_present<0 then     'no MT?
-    RPRINT "No MT detected, so no scores saved!"
+	if eeprom_present=0 then
+    	RPRINT "No MT detected, so no scores saved!"
+	else
+		if powaeeprom(0,raptor_highscores_hex)=0 then
+			RPRINT "EEPROM detected, scores saved!"
+		else
+			RPRINT "EEPROM detected, save fail!"
+		endif
+	endif
 else
     call RAPTOR_mt_save
     RPRINT "Memory Track detected, scores saved!"
