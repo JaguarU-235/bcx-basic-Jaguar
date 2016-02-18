@@ -143,7 +143,7 @@ rem Link binaries
 echo Building ROM file...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -z -rq -o %TEMPDIR%\%PROJECTNAME%.bin -n -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
+rln -z -rq -o %TEMPDIR%\%PROJECTNAME%.bin -n -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" "%RBTOOLS%\include\eeprom.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
 if not exist %TEMPDIR%\%PROJECTNAME%.bin goto :builderror
 
 rem -------------------------------------------------------------
@@ -173,7 +173,7 @@ rem Link binaries
 echo Building ABS...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
-rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
+rln -e -z -rq -o %BUILDPATH%\%PROJECTNAME%.abs -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" "%RBTOOLS%\include\eeprom.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
 if not exist %BUILDPATH%\%PROJECTNAME%.abs goto :builderror
 
 rem -------------------------------------------------------------

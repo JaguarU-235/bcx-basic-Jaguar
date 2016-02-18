@@ -23,13 +23,13 @@ if raptor_mt_present<0 then     'no MT?
 	' 
 	eeprom_present=powaeeprom(1,raptor_highscores_hex)
 	if eeprom_present=1 then
-		'Checksum error, let's write something
+		'Checksum error, let's write some default values to EEPROM
     	for i=0 to 9
         	raptor_highscores_hex[i]=(9-i)*100
     	next i
-		'write it
+		'write them
 		powaeeprom(0,raptor_highscores_hex)
-		'read it back
+		'read them back
 		eeprom_present=powaeeprom(1,raptor_highscores_hex)
 	endif
 
@@ -38,7 +38,7 @@ if raptor_mt_present<0 then     'no MT?
 		' Read error, use default values
 		'
 		RLOCATE 160,0
-   		RPRINT "No MT detected!"
+   		RPRINT "No MT/EE detected!"
     	for i=0 to 9
         	raptor_highscores_hex[i]=(9-i)*100
     	next i
@@ -49,18 +49,9 @@ if raptor_mt_present<0 then     'no MT?
 	    RLOCATE 160,0
 	    RPRINT "EEPROM detected!"
 	
-		'eeread_valid
-		' raptor_highscores_hex indices 31 to 127 inclusive can be used to store user data.
-		'
 		rlocate 0,25*8
 		basic_r_indx=1
-		print "Saved value:",raptor_highscores_hex[31]
-	
-		'
-		' Set a user value to be read next time (provided scores will be saved to MT)
-		'
-		raptor_highscores_hex[31]=123456789
-		eeprom_present=1
+
 	endif
 else
     RLOCATE 160,0
@@ -126,10 +117,11 @@ next i
 basic_r_indx=1
 RLOCATE 0,8*10+8+8+8+10*8+8
 if raptor_mt_present<0 then     'no MT?
-	if eeprom_present=0 then
-    	RPRINT "No MT detected, so no scores saved!"
+	if eeprom_present<>0 then
+    	RPRINT "No MT/EE detected, so no scores saved!"
 	else
-		if powaeeprom(0,raptor_highscores_hex)=0 then
+		eeprom_present=powaeeprom(0,raptor_highscores_hex)
+		if eeprom_present=0 then
 			RPRINT "EEPROM detected, scores saved!"
 		else
 			RPRINT "EEPROM detected, save fail!"

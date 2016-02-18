@@ -19,7 +19,7 @@
 ;       22-Sep-95 -  MF: Added Library identification header string
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;		.include "jaguar.inc"	
+		.include "jaguar.inc"	
 
 ;;;;;;;;;;;;;;;;;;;
 ;;; Global Symbols
