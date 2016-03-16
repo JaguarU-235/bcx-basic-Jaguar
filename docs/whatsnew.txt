@@ -1,3 +1,4 @@
+- New example project imagescroller demonstrates a scrolling background.
 - New function: powaeeprom(readwrite, buffer) will read from the EEPROM to the address that buffer points if readwrite is 1 and will write to the EEPROM if readwrite is 0. 
 - Extended definition of raptor_highscores_hex to include user saved data (indices 31 to 127). Project scores updated to demonstrate this.
 - Fix build.bat usage information text.
