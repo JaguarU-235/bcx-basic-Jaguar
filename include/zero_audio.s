@@ -12,6 +12,8 @@
 Audio_Init:
     movem.l     d0/a0-a1, -(sp)
 
+	clr.b		Audio_Ready	
+	
 ; DSP code & data copy
     move.l      #Audio_DSP_Begin, a0
     move.l      #D_RAM, a1
@@ -35,6 +37,20 @@ Audio_Init_WaitReady:
     rts
                      
 
+; Waits until the audio engine is ready to process a request
+; Internal function, do not use in application code.
+; Input registers  : none
+; Output registers : none
+Audio_WaitReadyForRequest:
+	move.l		a0, -(sp)
+    move.l      #Chan_Upd_Parms, a0
+Audio_WaitReadyForRequest_Loop:
+    tst.l       (a0)
+    bne.s       Audio_WaitReadyForRequest_Loop
+	move.l   	(sp)+, a0
+	rts
+                     
+
 ; Plays a sound on an audio channel
 ; Input registers  : d0.l : audio channel (1 ~ 4)
 ;                    a0.l : pointer to the sound data
@@ -56,9 +72,7 @@ Audio_Play:
 
     move.l      #Chan_Upd_Parms, a1
 
-Audio_Play_Wait:
-    tst.l       (a1)
-    bne.s       Audio_Play_Wait
+	jsr			Audio_WaitReadyForRequest
 
     tst.l       d1
     bne.s       Audio_Play_NotSilence 
@@ -82,17 +96,64 @@ Audio_Play_NotSilence:
     move.l      (a0,d3.w), 20(a1)
 
 Audio_Play_End:         
+	add.l		#Audio_WriteRequestBase, d0
     move.l      d0, (a1)
 
     movem.l     (sp)+, a0-a1/d0-d3
     rts
 
 
-.data
-Audio_Ready:  .dc.b 0   ; Flag to indicate that the audio initialization
+; Checks if an audio channel is in use (there is currently something playing on it) 	
+; Input registers  : d0.l : audio channel (1 ~ 4)
+; Output registers : d0.l : 1 if audio channel is in use, 0 if audio channel is idle
+Audio_IsChannelInUse:
+    movem.l    	a0/d1, -(sp)
+    move.l      #Chan_Upd_Parms, a0
+
+	jsr			Audio_WaitReadyForRequest
+
+	addq.l		#Audio_ReadRequestBase, d0
+	move.l      d0, (a0)
+
+	jsr			Audio_WaitReadyForRequest
+
+	clr.l		d0
+	move.l   	4(a0), d1
+	btst.l		#Chan_Enabled_Shift, d1
+	beq.s		Audio_IsChannelInUse_ChanIdle
+	moveq.l		#1, d0
+Audio_IsChannelInUse_ChanIdle:
+
+    movem.l    (sp)+, a0/d1
+	rts
+
+	
+; Disables the looping for an audio channel. 
+; If the channel is currently playing a looped sound, the sound will continue to play until the end, 
+; then stop (even if it has looped one or more times before).
+; Otherwise there is no effect.
+; Input registers  : d0.l : audio channel (1 ~ 4)
+; Output registers : none
+Audio_DisableLooping:
+    movem.l    	a0/d0, -(sp)
+    move.l      #Chan_Upd_Parms, a0
+
+	jsr			Audio_WaitReadyForRequest
+	
+	addq.l		#Audio_DisableLoopingBase, d0
+	move.l      d0, (a0)
+
+    movem.l    (sp)+, a0/d0
+	rts
+
+	
+
+.bss
+Audio_Ready:  .ds.b 1   ; Flag to indicate that the audio initialization
                         ; is done
+.even
 
-
+.text
 .include "zero_inpt68k.s"
 
 
@@ -216,7 +277,7 @@ Chan_Update_SampleDone\~:
     imult       Int_Tmp1, Chan\{Chan_Num}_Int_Diff
     sharq       #14, Chan\{Chan_Num}_Int_Diff
 Chan_Update_Done\~:
-    jr          t, Chan_Update_Done2\~
+    jr          t, Chan_Update_HandleRequests\~
     nop
 
 Chan_Update_DisableChannel\~:
@@ -224,11 +285,12 @@ Chan_Update_DisableChannel\~:
     moveta      Int_Tmp1, Chan\{Chan_Num}_MiscParms
     moveq       #0, Chan\{Chan_Num}_Int_Diff      
 
-Chan_Update_Done2\~:
+Chan_Update_HandleRequests\~:
     movei       #Chan_Upd_Parms, Int_Tmp3
-    movei       #Update_Done\~, Int_Tmp1
-    load        (Int_Tmp3), Int_Tmp2
-    cmpq        #\{Chan_Num}, Int_Tmp2
+	load        (Int_Tmp3), Int_Tmp2
+ 	
+	movei       #Chan_Update_NoWriteRequest\~, Int_Tmp1
+    cmpq        #\{Chan_Num} + Audio_WriteRequestBase, Int_Tmp2
     jump        ne, (Int_Tmp1)
     nop
     moveq       #0, Chan\{Chan_Num}_Int_Out
@@ -247,10 +309,40 @@ Chan_Update_Done2\~:
     moveta      Int_Tmp1, Chan\{Chan_Num}_Src_Buf
     moveq       #1, Int_Tmp1
     moveta      Int_Tmp1, Chan\{Chan_Num}_Src_BufCount
+	movei		#Chan_Update_EndRequest\~, Int_Tmp1  
+	jump		t, (Int_Tmp1)
+	nop
+Chan_Update_NoWriteRequest\~:    
+
+    cmpq        #\{Chan_Num} + Audio_ReadRequestBase, Int_Tmp2
+	jr			ne, Chan_Update_NoReadRequest\~
+	nop
+	movefa      Chan\{Chan_Num}_MiscParms, Int_Tmp1  
+ 	store       Int_Tmp1, (Int_Tmp3+1)	
+	movei		#Chan_Update_EndRequest\~, Int_Tmp1  
+	jump		t, (Int_Tmp1)
+	nop
+Chan_Update_NoReadRequest\~:
+
+    cmpq        #\{Chan_Num} + Audio_DisableLoopingBase, Int_Tmp2
+	jr			ne, Chan_Update_NoDisableLooping\~
+	nop
+	movefa      Chan\{Chan_Num}_MiscParms, Int_Tmp1  
+	bclr        #Chan_Looping_Shift, Int_Tmp1
+	moveta      Int_Tmp1, Chan\{Chan_Num}_MiscParms
+	movei		#Chan_Update_EndRequest\~, Int_Tmp1  
+	jump		t, (Int_Tmp1)
+	nop
+Chan_Update_NoDisableLooping\~:
+
+	jr			t, Chan_Update_End\~
+	nop
+
+Chan_Update_EndRequest\~:
     moveq       #0, Int_Tmp1
     store       Int_Tmp1, (Int_Tmp3)
 
-Update_Done\~:  
+Chan_Update_End\~:  
 .endm
 
 
