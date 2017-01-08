@@ -1,3 +1,4 @@
+- Fixed plot() yet again.
 - Updated Zerosquare's audio engine to version 19-Sep-2016.
 - New example project imagescroller demonstrates a scrolling background.
 - New function: powaeeprom(readwrite, buffer) will read from the EEPROM to the address that buffer points if readwrite is 1 and will write to the EEPROM if readwrite is 0. 
