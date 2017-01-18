@@ -4,6 +4,7 @@
 ' Argument 1: compiled .bin file from rln
 ' Argument 2: path+filename linkfile
 ' Argument 3: destination .rom file
+' Argument 4: if it's equal to "unpacked" then it will not pack the rom
 '
 Mode StrSpace 0 'fucking VB :P
 
@@ -15,6 +16,12 @@ ConvertCMDLine()
 'If Exist(__argv(2))
 'DeleteFile Yes, __argv(2)
 'EndIf
+
+Dim packed As Bool = True
+Dim rblen%
+If __argv(4) = "unpacked"
+  packed = False
+EndIf
 
 Open __argv(3) for Output As # 1
 
@@ -62,7 +69,14 @@ EndIf
 
 lpoke_endian(b% + $e, $800000 + 8192 + linkcopyrom% + linklen%) '(rb+ binary address = rom start + universal header + copy routine + linkfile's length)
 lpoke_endian(b% + $14, $4000) 'run address
-'lpoke_endian(b% + $1c, rblen%) 'length of rb+ program + data
+If !packed
+  Open __argv(1) for Input As # 5
+  rblen% = LOF(# 5)
+'##E#
+  lpoke_endian(b% + $1e, rblen%) 'length of rb+ program + data
+  DPoke b% + $1a, $714e         ' Skip unpacking
+EndIf
+
 BPut # 1, b%, linkcopyrom%
 Add romlen%, linkcopyrom%
 
@@ -78,25 +92,30 @@ If linklen% > 0
   Close # 3
   Add romlen%, linklen%
 Else
-'##E#
   Print # 10; "    Linkfile not found - assuming no assets in ROM..."
 EndIf
 
-'
-' Pack RB+ file
-'
-Print # 10; "    Packing basic binary..."
-System "pack2e.exe " + __argv(1) + " " + __argv(1) + ".pak", Wait, Show SW_HIDE
-'
-' Now dump packed RB+ file
-'
-Print # 10; "    Dumping packed file..."
-Open __argv(1) + ".pak" for Input As # 2
-Dim rblen% = LOF(# 2)
+If packed
+  '
+  ' Pack RB+ file
+  '
+  Print # 10; "    Packing basic binary..."
+  System "pack2e.exe " + __argv(1) + " " + __argv(1) + ".pak", Wait, Show SW_HIDE
+  '
+  ' Now dump packed RB+ file
+  '
+  Print # 10; "    Dumping packed file..."
+  Open __argv(1) + ".pak" for Input As # 2
+  rblen% = LOF(# 2)
 
-BGet # 2, b%, rblen%
-BPut # 1, b%, rblen%
-Add romlen%, rblen%
+  BGet # 2, b%, rblen%
+  BPut # 1, b%, rblen%
+  Add romlen%, rblen%
+Else
+  BGet # 5, b%, rblen%
+  BPut # 1, b%, rblen%
+  Add romlen, rblen%
+EndIf
 
 '
 ' Finally, pad the ROM
@@ -104,7 +123,7 @@ Add romlen%, rblen%
 
 Print # 10; "    Padding ROM..."
 Dim pad$
-pad$ = String$(8 * 1024 * 1024 / 24, "RB+ (C) Reboot 2014-2015")
+pad$ = String$(8 * 1024 * 1024 / 24, "RB+ (C) Reboot 2014-2017 ")
 
 'CopyFile __argv(1) To __argv(2)
 'Print romlen%
@@ -260,11 +279,14 @@ CJ8JKOlnitgEOOtX29wKd2WjoQEo0GrIo2JLBAJBr2AYpA21JJAJeCRHmzBWJzPFXK5IeQn3j86p
 2utU4ptXsZxa2cBvB8naVdafADW/QJHeiRR/Gc/DeIIz7vgYGgXHAuQVumcJhVGibPiDNsf27E0M
 Fi8nhxbyXISKOFkyl+037B/tDT6kyK/5NtjRhIS2Q9pL/tyoSHKJoR+vo8/B+HOdHcABEQABAAII
 AAAAAAw/H4/+zDAA
-:COPYROM 182, 196
-yCAUDtWMqCAxAUKA//PAHojR8fCAzw/f/DA8A4UQ5HkUTV0Q5b0TPtELJFmAOZNfwmuT+Bge/DHg
-gJgEYDNAkhgZ4DBGRDQZyLXA0BA0AYGBR0QATHkEYAgFSghAQMVQXEBAHwgacDGYXFUZWEeiSghR
-BKegkhRFXUQ1CBGMiUQFJMQZoLlQWYAAcfRHAABWCIvZGExCHYBZqTlQqEwRxjBASaY1HJx2SsdU
-K/P/gBw/s5UdAAA=
+:COPYROM 202, 216
+GDAUDtWM+CA2AkLA//PAHokR8fCAzw/f/DA8A4UQ5HkUTV0Q5b0TPtELJBmDgwjUCtSISg9UA6m+
+OZdYC4k18Bb6O5HA69PcACmASgN0AQGCmhPEYENAlJvcBQHAQDgZEERDBMdQSgBAWIBGCAxUBdRE
+AcADqxNYgdVQlZR4JKBGGFo4BSGGVcRBVLEYwISBVkwAlhuUCZhBAw9FdAAEYJg8mZQELcgGkpOV
+CpSAHFPGAIphVfkEbLx2Rp8/8DGA/zmT1BAAAAAAAA==
+:{frm1 65
+EAAAAAAAAAAAAAAAWWEAAEWRvAQFmJXbxAgElCAAE00UgMFalxGbgQEbnBAAAAACAAAgPAAAACAA
+AEAAHAAgAAA=
 $ExeName = ..\BIN\makearom.Exe
 $FileDescription = Description
 $Comments = Author: Not registered   

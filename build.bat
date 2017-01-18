@@ -45,16 +45,21 @@ if [%PROJECTNAME%] neq [] goto :dobuild
 echo Usage: build.bat projectname
 echo        build.bat projectname sendy
 echo        build.bat projectname ROM
+echo        build.bat projectname ROM UNPACKED
 echo        build.bat projectname ROM sendy
+echo        build.bat projectname ROM UNPACKED sendy
 echo        build.bat projectname sendy bjl
 echo        build.bat projectname new
 echo.
 echo Folder "projectname" must exist inside folder "projects"
 echo and have a file called "projectname.bas" inside.
 echo.
-echo when building a ROM it is assumed that there will exist
+echo When building a ROM it is assumed that there will exist
 echo a file called assets.txt inside the project folder
-echo and will contain all assets to be included in ROM (if any)
+echo and will contain all assets to be included in ROM (if any).
+echo By default the rb+ main program is packed into the ROM
+echo and depacked during boot. This can be avoided by passing
+echo the UNPACKED switch.
 echo.
 echo if you specify "new" then a new project will be created
 echo from the "include\template" folder. No project will be
@@ -140,7 +145,11 @@ if "%2" neq "ROM" (if "%ROM_MODE%"=="" goto :norom)
 
 rem -------------------------------------------------------------
 rem Link binaries
-echo Building ROM file...
+set PACKROM=packed
+if "%2" == "UNPACKED" goto :packedrom
+set PACKROM=unpacked
+:packedrom
+echo Building %PACKROM% ROM file...
 echo. >> %TEMPDIR%\build.log
 echo Linking things... >> %TEMPDIR%\build.log
 rln -z -rq -o %TEMPDIR%\%PROJECTNAME%.bin -n -a 4000 x x %TEMPDIR%\basic.o "%RBTOOLS%\RAPTOR\RAPTOR.O" "%RBTOOLS%\U235SE\DSP.OBJ" "%RBTOOLS%\include\libm.a" "%RBTOOLS%\include\libc.a" "%RBTOOLS%\include\libgcc.a" "%RBTOOLS%\include\basic_functions.o" "%RBTOOLS%\include\ee_printf.o" "%RBTOOLS%\include\eeprom.o" %TEMPDIR%\%PROJECTNAME%.o >> %TEMPDIR%\build.log
@@ -150,11 +159,13 @@ rem -------------------------------------------------------------
 rem Let's build a ROM
 :buildrom
 echo. >> %TEMPDIR%\build.log
-echo Making ROM... >> %TEMPDIR%\build.log
-makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom
+echo Making %PACKROM% ROM... >> %TEMPDIR%\build.log
+makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom %PACKROM%
+echo makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom %PACKROM%
 if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %BUILDPATH%\%PROJECTNAME%.rom goto :builderror
 
+if "%4"=="sendy" goto :sendrom
 if "%3"=="sendy" goto :sendrom
 if "%2"=="sendy" goto :sendrom
 echo. >> %TEMPDIR%\build.log

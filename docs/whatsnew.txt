@@ -1,3 +1,4 @@
+- Added UNPACKED switch when building a ROM, which skips packing of the rb+ bianry.
 - Fixed plot() yet again.
 - Updated Zerosquare's audio engine to version 19-Sep-2016.
 - New example project imagescroller demonstrates a scrolling background.

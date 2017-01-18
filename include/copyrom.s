@@ -3,11 +3,14 @@
                 lea     'ARSE',A0       ;address of RB+ binary in ROM
                 lea     'FOOK',A1       ;run address
                 movea.l A1,A6
-;       move.l #'RB+!',d0       ;length of binary in byte
-;copyloop:
-;       move.b (a0)+,(a1)+
-;       subq.l #1,d0
-;       bgt.s copyloop
+                bra.s depack
+       move.l #'RB+!',d0       ;length of binary in byte
+copyloop:
+       move.b (a0)+,(a1)+
+       subq.l #1,d0
+       bgt.s copyloop
+        jmp (a6)
+depack:
                 bsr.s   depack2e
                 jmp     (A6)
 
