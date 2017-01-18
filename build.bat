@@ -146,7 +146,7 @@ if "%2" neq "ROM" (if "%ROM_MODE%"=="" goto :norom)
 rem -------------------------------------------------------------
 rem Link binaries
 set PACKROM=packed
-if "%2" == "UNPACKED" goto :packedrom
+if "%3" neq "UNPACKED" goto :packedrom
 set PACKROM=unpacked
 :packedrom
 echo Building %PACKROM% ROM file...
@@ -161,7 +161,6 @@ rem Let's build a ROM
 echo. >> %TEMPDIR%\build.log
 echo Making %PACKROM% ROM... >> %TEMPDIR%\build.log
 makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom %PACKROM%
-echo makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom %PACKROM%
 if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %BUILDPATH%\%PROJECTNAME%.rom goto :builderror
 
