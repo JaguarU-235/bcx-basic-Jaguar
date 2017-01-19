@@ -45,8 +45,8 @@ if [%PROJECTNAME%] neq [] goto :dobuild
 echo Usage: build.bat projectname
 echo        build.bat projectname sendy
 echo        build.bat projectname ROM
-echo        build.bat projectname ROM UNPACKED
 echo        build.bat projectname ROM sendy
+echo        build.bat projectname ROM UNPACKED
 echo        build.bat projectname ROM UNPACKED sendy
 echo        build.bat projectname sendy bjl
 echo        build.bat projectname new
@@ -64,6 +64,11 @@ echo.
 echo if you specify "new" then a new project will be created
 echo from the "include\template" folder. No project will be
 echo created if folder exists.
+echo .
+echo If one of the parameters is BOSSMODE then virtualjaguar is not run.
+echo.
+echo If one of the parameters is CLEAN, the build folder will be wiped.
+echo Otherwise, an incremental build is preformed
 echo.
 echo if you specify "sendy" the project, upon succesful compilation
 echo will be sent to Skunkboard (caution - when using ROM, bank
@@ -87,6 +92,22 @@ if "%2" == "new" goto :newproject
 echo ------------------------------------------------------------
 echo Building RAPTOR Basic+ Application
 echo.
+
+rem -------------------------------------------------------------
+rem If user specified CLEAN, zap the whole build folder
+if "%2"=="CLEAN" goto :clean
+if "%3"=="CLEAN" goto :clean
+if "%4"=="CLEAN" goto :clean
+if "%5"=="CLEAN" goto :clean
+if "%6"=="CLEAN" goto :clean
+goto :noclean
+
+:clean
+call rmdir /s /q %TEMPDIR%
+mkdir %TEMPDIR%
+
+:noclean
+
 
 rem -------------------------------------------------------------
 rem delete residual files from previous builds
@@ -168,6 +189,10 @@ if "%4"=="sendy" goto :sendrom
 if "%3"=="sendy" goto :sendrom
 if "%2"=="sendy" goto :sendrom
 echo. >> %TEMPDIR%\build.log
+if "%2"=="BOSSMODE" goto :veryend
+if "%3"=="BOSSMODE" goto :veryend
+if "%4"=="BOSSMODE" goto :veryend
+if "%5"=="BOSSMODE" goto :veryend
 echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%PROJECTNAME%.rom --alpine
 goto :veryend
@@ -208,6 +233,10 @@ rem -------------------------------------------------------------
 rem Run vj or send binary to skunk
 if "%2"=="sendy" goto :sendabs
 echo. >> %TEMPDIR%\build.log
+if "%2"=="BOSSMODE" goto :veryend
+if "%3"=="BOSSMODE" goto :veryend
+if "%4"=="BOSSMODE" goto :veryend
+if "%5"=="BOSSMODE" goto :veryend
 echo Starting vj
 echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%PROJECTNAME%.abs --alpine
