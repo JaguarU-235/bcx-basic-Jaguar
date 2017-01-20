@@ -72,8 +72,8 @@ lpoke_endian(b% + $14, $4000) 'run address
 If !packed
   Open __argv(1) for Input As # 5
   rblen% = LOF(# 5)
+  lpoke_endian(b% + $1e, ((rblen% / 4) + 3) And $fffffffc) 'length of rb+ program + data in longwords, rounded up
 '##E#
-  lpoke_endian(b% + $1e, rblen%) 'length of rb+ program + data
   DPoke b% + $1a, $714e         ' Skip unpacking
 EndIf
 
@@ -280,7 +280,7 @@ CJ8JKOlnitgEOOtX29wKd2WjoQEo0GrIo2JLBAJBr2AYpA21JJAJeCRHmzBWJzPFXK5IeQn3j86p
 Fi8nhxbyXISKOFkyl+037B/tDT6kyK/5NtjRhIS2Q9pL/tyoSHKJoR+vo8/B+HOdHcABEQABAAII
 AAAAAAw/H4/+zDAA
 :COPYROM 202, 216
-GDAUDtWM+CA2AkLA//PAHokR8fCAzw/f/DA8A4UQ5HkUTV0Q5b0TPtELJBmDgwjUCtSISg9UA6m+
+GDAUDtWM+CA2AkLA//PAHokR8fCAzw/f/DA8A4UQ5HkUTV0Q5b0TPtELJBmDgwjUCtSIig9UA6m+
 OZdYC4k18Bb6O5HA69PcACmASgN0AQGCmhPEYENAlJvcBQHAQDgZEERDBMdQSgBAWIBGCAxUBdRE
 AcADqxNYgdVQlZR4JKBGGFo4BSGGVcRBVLEYwISBVkwAlhuUCZhBAw9FdAAEYJg8mZQELcgGkpOV
 CpSAHFPGAIphVfkEbLx2Rp8/8DGA/zmT1BAAAAAAAA==

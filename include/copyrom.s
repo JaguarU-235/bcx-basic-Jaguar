@@ -4,12 +4,12 @@
                 lea     'FOOK',A1       ;run address
                 movea.l A1,A6
                 bra.s depack
-       move.l #'RB+!',d0       ;length of binary in byte
+                move.l #'RB+!',d0       ;length of binary in byte
 copyloop:
-       move.b (a0)+,(a1)+
-       subq.l #1,d0
-       bgt.s copyloop
-        jmp (a6)
+                move.l (a0)+,(a1)+
+                subq.l #1,d0
+                bgt.s copyloop
+                jmp (a6)
 depack:
                 bsr.s   depack2e
                 jmp     (A6)
