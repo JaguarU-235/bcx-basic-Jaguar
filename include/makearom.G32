@@ -58,6 +58,8 @@ Dim linkcopyrom%
 Open ":copyrom" for Input As # 3
 linkcopyrom% = LOF(# 3)
 BGet # 3, b%, linkcopyrom%
+'##E#
+linkcopyrom% = (linkcopyrom% + 15) And $fffffff0 'round size up to multiples of 16
 Close # 3
 
 If Exist(__argv(2))
@@ -73,7 +75,6 @@ If !packed
   Open __argv(1) for Input As # 5
   rblen% = LOF(# 5)
   lpoke_endian(b% + $1e, ((rblen% / 4) + 3) And $fffffffc) 'length of rb+ program + data in longwords, rounded up
-'##E#
   DPoke b% + $1a, $714e         ' Skip unpacking
 EndIf
 
