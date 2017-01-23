@@ -9,6 +9,7 @@
 Mode StrSpace 0
 
 Global Const __argmax = 50
+'##E#
 Global __argc As Int
 Global __argv() As String
 ConvertCMDLine
@@ -30,7 +31,7 @@ If Not Exist(__argv(1))
 EndIf
 
 Dim any_rom_asset As Bool = False
-Dim base_adr% = $802000 + 196 'rom base address + header + copy routine size (hardcoded for now)
+Dim base_adr% = $802000 + 224 'rom base address + header + copy routine size (hardcoded for now)
 Dim ass_adr% = base_adr%
 Dim tempbuf(4 * 1024 * 1024) As Byte
 Dim tempadr As Int = V:tempbuf(0)
@@ -331,7 +332,6 @@ While Not EOF(# 1)
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
-'##E#
       Print # 10; "        Adding " + fullname$ + " in RAM..."
       Print # 6; varname$; ": incbin """ + fullnameslash$ + """"
       Print # 6; varname$; "_end:"

@@ -5,6 +5,8 @@
 ' Argument 2: path+filename linkfile
 ' Argument 3: destination .rom file
 ' Argument 4: if it's equal to "unpacked" then it will not pack the rom
+'##E#
+' NOTE: when changing loader bin size also change hardcoded size in buildlink.g32
 '
 Mode StrSpace 0 'fucking VB :P
 
@@ -58,7 +60,6 @@ Dim linkcopyrom%
 Open ":copyrom" for Input As # 3
 linkcopyrom% = LOF(# 3)
 BGet # 3, b%, linkcopyrom%
-'##E#
 linkcopyrom% = (linkcopyrom% + 15) And $fffffff0 'round size up to multiples of 16
 Close # 3
 
