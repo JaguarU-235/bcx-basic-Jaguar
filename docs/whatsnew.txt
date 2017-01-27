@@ -1,3 +1,4 @@
+- Added symbol map output in the build log file.
 - Fixed command bcx's SPLIT command.
 - Added CLEAN (deletes build folder) and BOSSMODE (skips running VJ at the end of the build) for build.bat.
 - Added UNPACKED switch when building a ROM, which skips packing of the rb+ binary.
