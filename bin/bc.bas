@@ -16083,6 +16083,7 @@ SUB RunTimeFunctions
 
   IF UseLCaseTbl THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: MakeLCaseTbl"
+    FPRINT Outfile,"static inline char CharLowerA(char *x) { return *x|0x20; }"
     FPRINT Outfile,"char  *MakeLCaseTbl (void)"
     FPRINT Outfile,"{"
     FPRINT Outfile,"  static char tbl[256];"
