@@ -88,18 +88,18 @@ goto :veryend
 
 rem -------------------------------------------------------------
 :dobuild
-if "%2" == "new" goto :newproject
+if /i "%2" == "new" goto :newproject
 echo ------------------------------------------------------------
 echo Building RAPTOR Basic+ Application
 echo.
 
 rem -------------------------------------------------------------
 rem If user specified CLEAN, zap the whole build folder
-if "%2"=="CLEAN" goto :clean
-if "%3"=="CLEAN" goto :clean
-if "%4"=="CLEAN" goto :clean
-if "%5"=="CLEAN" goto :clean
-if "%6"=="CLEAN" goto :clean
+if /i "%2"=="CLEAN" goto :clean
+if /i "%3"=="CLEAN" goto :clean
+if /i "%4"=="CLEAN" goto :clean
+if /i "%5"=="CLEAN" goto :clean
+if /i "%6"=="CLEAN" goto :clean
 goto :noclean
 
 :clean
@@ -162,12 +162,15 @@ m68k-atari-mint-gcc -O2 -I"%RBTOOLS%\include" -I%BUILDPATH%\ -c %TEMPDIR%\%PROJE
 if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %TEMPDIR%\%PROJECTNAME%.o goto :builderror
 m68k-atari-mint-gcc -O2 -I"%RBTOOLS%\include" -I%BUILDPATH%\ %TEMPDIR%\%PROJECTNAME%.c -S -o %TEMPDIR%\%PROJECTNAME%.s >> %TEMPDIR%\build.log 2>&1
-if "%2" neq "ROM" (if "%ROM_MODE%"=="" goto :norom)
+if /i "%2" neq "ROM" (if "%ROM_MODE%"=="" goto :norom)
 
 rem -------------------------------------------------------------
 rem Link binaries
 set PACKROM=packed
-if "%3" neq "UNPACKED" goto :packedrom
+if /i "%2"=="UNPACKED" goto :unpackedrom
+if /i "%3"=="UNPACKED" goto :unpackedrom
+goto :packedrom
+:unpackedrom
 set PACKROM=unpacked
 :packedrom
 echo Building %PACKROM% ROM file...
@@ -185,14 +188,14 @@ makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECT
 if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %BUILDPATH%\%PROJECTNAME%.rom goto :builderror
 
-if "%4"=="sendy" goto :sendrom
-if "%3"=="sendy" goto :sendrom
-if "%2"=="sendy" goto :sendrom
+if /i "%4"=="sendy" goto :sendrom
+if /i "%3"=="sendy" goto :sendrom
+if /i "%2"=="sendy" goto :sendrom
 echo. >> %TEMPDIR%\build.log
-if "%2"=="BOSSMODE" goto :veryend
-if "%3"=="BOSSMODE" goto :veryend
-if "%4"=="BOSSMODE" goto :veryend
-if "%5"=="BOSSMODE" goto :veryend
+if /i "%2"=="BOSSMODE" goto :veryend
+if /i "%3"=="BOSSMODE" goto :veryend
+if /i "%4"=="BOSSMODE" goto :veryend
+if /i "%5"=="BOSSMODE" goto :veryend
 echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%PROJECTNAME%.rom --alpine
 goto :veryend
@@ -231,18 +234,18 @@ echo Build successful! >> %TEMPDIR%\build.log
 
 rem -------------------------------------------------------------
 rem Run vj or send binary to skunk
-if "%2"=="sendy" goto :sendabs
+if /i "%2"=="sendy" goto :sendabs
 echo. >> %TEMPDIR%\build.log
-if "%2"=="BOSSMODE" goto :veryend
-if "%3"=="BOSSMODE" goto :veryend
-if "%4"=="BOSSMODE" goto :veryend
-if "%5"=="BOSSMODE" goto :veryend
+if /i "%2"=="BOSSMODE" goto :veryend
+if /i "%3"=="BOSSMODE" goto :veryend
+if /i "%4"=="BOSSMODE" goto :veryend
+if /i "%5"=="BOSSMODE" goto :veryend
 echo Starting vj
 echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%PROJECTNAME%.abs --alpine
 goto :veryend
 :sendabs
-if "%3"=="bjl" goto :sendbjl
+if /i "%3"=="bjl" goto :sendbjl
 echo Sending to skunkboard...
 echo. >> %TEMPDIR%\build.log
 echo Sending to skunkboard... >> %TEMPDIR%\build.log
