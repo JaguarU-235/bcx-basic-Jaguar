@@ -313,9 +313,9 @@ Direction pad masks    PAD_UP, PAD_U, PAD_DOWN, PAD_D, PAD_LEFT, PAD_L, PAD_RIGH
  
 Zerosquare
 ==========
-======================================================= =============================================================================================================================
+======================================================= ==========================================================================================================================================================
 Command                                                 Description
-======================================================= =============================================================================================================================
+======================================================= ==========================================================================================================================================================
 ZEROPAD()                                               reads both pad ports and sends results back to variables zero_left_pad, zero_right_pad,
                                                         zero_mousex_delta, zero_mousey_delta and zero_rotary_delta.
                                                         By default the engine is configured to assume 2 joypads connected.
@@ -350,7 +350,12 @@ SNDZEROPLAY chan, start_address, len, frequency, params plays a sample starting 
                                                                              - Zero_Audio_8bit_Unsigned (plays an 8 - bit unsigned sample)
                                                                              - Zero_Audio_8bit_muLaw (plays a 8 - bit compressed ?w sample)
                                                                              - Zero_Audio_Looping (enables sample loop).
-======================================================= =============================================================================================================================
+                                                        
+                                                        Example for playing samples from RAM (ABS):
+                                                            SNDZEROPLAY(1, strptr(sample_start), (strptr(sample_end)-strptr(sample_start)+3) and 0xfffffffc, 46168/9233, Zero_Audio_8bit_muLaw|Zero_Audio_Looping)
+                                                        Example for playing samples from ROM:
+                                                            SNDZEROPLAY(1, (void *)sample_start, (sample_end-sample_start+3) and 0xfffffffc, 46168/9233, Zero_Audio_8bit_muLaw|Zero_Audio_Looping)
+======================================================= ==========================================================================================================================================================
  
 `Table A`_
 ----------
