@@ -84,6 +84,8 @@ extern void rbsort(void *base,size_t nmemb) asm("rbsort");
 extern void RAPTOR_blitter() asm("RAPTOR_blitter");
 extern void powablitlist(void *blitlist) asm("powablitlist");
 extern int powaeeprom(int readwrite, void *buffer) asm ("powaeeprom");
+extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
+extern void RAPTOR_blitter_full() asm("RAPTOR_blitter_full");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -116,6 +118,13 @@ extern void eeWriteBank();
 //
 // And now, teh c0d3!!!111
 //
+// -----------------------------------------------------------------------------
+void fullpowablitlist(void *blitlist)
+{
+	__asm(""
+	"move.l 8(a6),a0                                   \n\t"
+	"jsr RAPTOR_blitter_full                           \n\t");
+}
 // -----------------------------------------------------------------------------
 int powaeeprom(int readwrite, void *buffer)
 {

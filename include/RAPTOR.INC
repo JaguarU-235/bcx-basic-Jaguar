@@ -287,6 +287,7 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		raptor_blitter_use		
 	.extern		RAPTOR_blitter
 	.extern		raptor_blitlist_ptr
+    .extern     RAPTOR_blitter_full
 
 ;END OF FILE.
 
