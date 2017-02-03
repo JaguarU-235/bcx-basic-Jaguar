@@ -122,8 +122,10 @@ extern void eeWriteBank();
 void fullpowablitlist(void *blitlist)
 {
 	__asm(""
+	"movem.l d0-a5,-(sp)                               \n\t"
 	"move.l 8(a6),a0                                   \n\t"
-	"jsr RAPTOR_blitter_full                           \n\t");
+	"jsr RAPTOR_blitter_full                           \n\t"
+	"movem.l (sp)+,d0-a5                               \n\t");
 }
 // -----------------------------------------------------------------------------
 int powaeeprom(int readwrite, void *buffer)
