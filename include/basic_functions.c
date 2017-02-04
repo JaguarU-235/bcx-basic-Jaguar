@@ -125,6 +125,7 @@ void fullpowablitlist(void *blitlist)
 	"movem.l d0-a5,-(sp)                               \n\t"
 	"move.l 8(a6),a0                                   \n\t"
 	"move.l RUPDALL_FLAG,-(sp)	|save update flag      \n\t"
+	"move.l #0,RUPDALL_FLAG		|disable auto update   \n\t"
 	"jsr RAPTOR_blitter_full                           \n\t"
 	"move.l (sp)+,RUPDALL_FLAG	|restore update flag   \n\t"
 	"movem.l (sp)+,d0-a5                               \n\t");
