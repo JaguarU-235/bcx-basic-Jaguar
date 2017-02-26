@@ -54,10 +54,10 @@ typedef struct _RAPTOR_LIST
 {
   int     obj;
   int     active;
-  int     x;
-  int     y;
-  int     xadd;
-  int     yadd;
+  union   {	short x_;	int	x;		};
+  union   {	short y_;	int	y;		};
+  union   {	short xadd_;int	xadd;   };
+  union   {	short yadd_;int	yadd;   };
   int     flip;
   int     width;
   int     height;

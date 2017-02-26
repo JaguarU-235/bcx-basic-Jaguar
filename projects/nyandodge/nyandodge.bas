@@ -35,7 +35,7 @@ do
         PY=PY+2
     endif
 '   RSETOBJ(1,R_sprite_y,PY<<16)
-    rlist[1].y=PY<<16
+    rlist[1].y_=PY
     IF RHIT(1,1,2,22)<>-1 THEN
         sfxcount=sfxcount+1
         if sfxcount=10 then     
@@ -76,11 +76,11 @@ loop
 
 REM NEW ENEMY
 sub newenemy
-    rlist[2+CURRENT].x=352<<16
-    rlist[2+CURRENT].y=INT((integer)(RND*200)<<16)
+    rlist[2+CURRENT].x_=352
+    rlist[2+CURRENT].y_=INT((integer)(RND*200))
     rlist[2+CURRENT].was_hit=R_cant_hit
     rlist[2+CURRENT].hitpoint=1
-    rlist[2+CURRENT].xadd=-2<<16
+    rlist[2+CURRENT].xadd_=-2
     rlist[2+CURRENT].active=1
 
     'The commented lines below are functionally equivalent to

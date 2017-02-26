@@ -1,3 +1,4 @@
+- New rlist members: x_, y_, xadd_, yadd_. These let the programmer access the integer part of the coordinates, so shifting left by 16 is not necessary. Project nyandodge updated to demonstrate this.
 - New command powablitlist(pointer_to_blitlist). pointer_to_blitlist contains an array of ints that have A1_BASE, A1_FLAGS, A1_CLIP, A1_PIXEL, A1_STEP_INT, A1_STEP_FRAC, A1_PIXEL_POINTER, A1_INC_INT, A1_INC_FRACT, A2_BASE, A2_FLAGS, A2_PIXEL, A2_STEP, B_COUNT, B_PATD. Terminate the list with a 32bit zero.
 - Made all build.bat commands case insensitive.
 - Added symbol map output in the build log file.
