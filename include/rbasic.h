@@ -171,3 +171,26 @@ extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
 + ((unsigned long)B8(db3)<<8) \
 + B8(dlsb))
 
+static __attribute__((always_inline)) short xdivs(int divid, short divis)
+{
+ __asm__("divs.w %1,%0;" : "+d"(divid) : "X"(divis) : "cc" );
+ return (short)divid;
+}
+
+static __attribute__((always_inline)) unsigned short xdivu(unsigned int divid, unsigned short divis)
+{
+ __asm__("divu.w %1,%0;" : "+d"(divid) : "X"(divis) : "cc" );
+ return (unsigned short)divid;
+}
+
+static __attribute__((always_inline)) int xmuls(int multid, short mults)
+{
+  __asm__("muls.w %1,%0;" : "+d"(multid) : "X"(mults) : "cc" );
+  return multid;
+}
+
+static __attribute__((always_inline)) unsigned int xmulu(unsigned int multid, unsigned short mults)
+{
+  __asm__("mulu.w %1,%0;" : "+d"(multid) : "X"(mults) : "cc" );
+  return multid;
+}
