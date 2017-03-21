@@ -1,7 +1,7 @@
 REM SIMPLE DODGE GAME
 dim FRCOUNT, CURRENT
 dim PY
-dim STICK
+dim STICK%
 dim col
 dim countr
 
@@ -20,9 +20,12 @@ rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)
 loadclut(strptr(BMP_ENEMY_clut),2,16)
 MODPLAY((int)strptr(Module1))
 
+dim counter as int
+counter=20
+
 REM MAIN LOOP
 do
-    PRINT "     "
+    'PRINT "     "
     FRCOUNT=FRCOUNT+1
     IF FRCOUNT=10 THEN 
         call newenemy 'REM ADD NEW ENEMY
@@ -34,6 +37,40 @@ do
     IF (STICK BAND PAD_DOWN AND PY<200) THEN
         PY=PY+2
     endif
+
+    ' Every 200 frames, change music played
+    counter=counter+1
+    if counter=200 then
+        MODPLAY(0)
+        SNDKILL(0)
+        SNDKILL(1)
+        SNDKILL(2)
+        SNDKILL(3)
+    elseif counter=201 then
+        U235SE_modregdump[0]=0
+        U235SE_modregdump[2]=0
+        U235SE_modregdump[3]=0
+        U235SE_modregdump[4]=0
+        U235SE_modregdump[5]=0
+        'Play module 2
+        MODPLAY((int)strptr(Module2))
+    elseif counter=400 then
+        counter=0
+        MODPLAY(0)
+        SNDKILL(0)
+        SNDKILL(1)
+        SNDKILL(2)
+        SNDKILL(3)
+    elseif counter=1 then
+        U235SE_modregdump[0]=0
+        U235SE_modregdump[2]=0
+        U235SE_modregdump[3]=0
+        U235SE_modregdump[4]=0
+        U235SE_modregdump[5]=0
+        'Play module 1
+        MODPLAY((int)strptr(Module1))
+    endif
+
 '   RSETOBJ(1,R_sprite_y,PY<<16)
     rlist[1].y_=PY
     IF RHIT(1,1,2,22)<>-1 THEN
