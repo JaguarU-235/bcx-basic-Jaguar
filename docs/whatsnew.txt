@@ -1,3 +1,4 @@
+- Added new project "drawmap" that shows how to store maps in rb+ and draw them to a playfield object from a tile map bitmap object.
 - New helper macros xdivs(a,b), xdivu(a,b) will divide a by b (signed or unsigned). Notice that a should be 32bit, b 16bit and the result also 16bit. New helper macros xmuls(a,b), xmulu(a,b) will multiply a with b (signed or unsigned). a and b are 16bit and the result 32bit.
 - New rlist members: x_, y_, xadd_, yadd_. These let the programmer access the integer part of the coordinates, so shifting left by 16 is not necessary. Project nyandodge updated to demonstrate this.
 - New command powablitlist(pointer_to_blitlist). pointer_to_blitlist contains an array of ints that have A1_BASE, A1_FLAGS, A1_CLIP, A1_PIXEL, A1_STEP_INT, A1_STEP_FRAC, A1_PIXEL_POINTER, A1_INC_INT, A1_INC_FRACT, A2_BASE, A2_FLAGS, A2_PIXEL, A2_STEP, B_COUNT, B_PATD. Terminate the list with a 32bit zero.
