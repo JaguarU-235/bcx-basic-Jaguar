@@ -6,12 +6,11 @@ rlist=(RAPTOR_LIST *)strptr(RAPTOR_sprite_table)
 basic_r_indx=1
 basic_r_size=1
 RLOCATE 0,202
-RPRINT "          RAPTOR BASIC+ - REBOOT        "
+RPRINT "        'drawmap' example project"
 basic_r_size=0
 basic_r_indx=0
 RLOCATE 0,218
-RPRINT "        Derived from BCX BASIC v6       "
-
+RPRINT "  50 maps from the ST game 'Lost world'  "
 
 set maps[1000][20] as short
 {0x0A,0x10,0x47,0x83,0x25,0x0A,0x48,0x83,0x82,0x00,0x83,0x85,0x47,0x01,0x01,0x01,0x01,0x01,0x01,0x01},
@@ -1029,16 +1028,35 @@ dim i as int
 DIM pi!: pi=3.1415926535897932384626433832795
 dim ph!
 
-for map=0 to 49
+' The screen to draw the map's width in bytes.
+' Think of this as <width in pixels>*<bits per pixel>/8
+const dest_screen_width_in_bytes=160
+' Our tile's height
+const tile_height=8
+' Our tile's width in bytes.
+' Think of this as <width in pixels>*<bits per pixel>/8
+const tile_width_in_bytes=8
+' The screen to read the tile's width in bytes.
+' Think of this as <width in pixels>*<bits per pixel>/8
+const src_screen_width_in_bytes=160
+' Number of available maps.
+const no_maps=50
+' Map width inside the map array
+const map_width=20
+' Map height inside the map array
+const map_height=20
+
+for map=0 to no_maps-1
     ' Draw map
-    for y=0 to 19
-        for x=0 to 19
-            c=maps[map*20+y][x]
-            tilex=(c % 20)
-            tiley=(c/20)
+    for y=0 to map_height-1
+        for x=0 to map_width-1
+            c=maps[map*map_height+y][x]
+            tilex=(c % map_width)
+            tiley=(c/map_width)
             for i=0 to 7
-                lpoke strptr(scrbuf)+y*(160*8)+x*8+i*160,lpeek(strptr(tiles)+tilex*8+tiley*(160*8)+i*160)
-                lpoke strptr(scrbuf)+y*(160*8)+x*8+i*160+4,lpeek(strptr(tiles)+tilex*8+tiley*(160*8)+i*160+4)
+                ' Our tiles are 16x8 big in 4bpp mode, which means they are 8 bytes wide in RAM. Hence we need 2 LPOKEs per line.
+                 lpoke strptr(scrbuf)+y*(dest_screen_width_in_bytes*tile_height)+x*tile_width_in_bytes+i*dest_screen_width_in_bytes,lpeek(strptr(tiles)+tilex*tile_width_in_bytes+tiley*(src_screen_width_in_bytes*tile_height)+i*src_screen_width_in_bytes)
+                 lpoke strptr(scrbuf)+y*(dest_screen_width_in_bytes*tile_height)+x*tile_width_in_bytes+i*dest_screen_width_in_bytes+4,lpeek(strptr(tiles)+tilex*tile_width_in_bytes+tiley*(src_screen_width_in_bytes*tile_height)+i*src_screen_width_in_bytes+4)
             next i
         next x
     next y
@@ -1059,7 +1077,6 @@ for map=0 to 49
         rlist[1].x=(352-sin(ph)*336)*65536
         vsync
     next i
-
 
 next map
 
