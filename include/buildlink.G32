@@ -81,6 +81,9 @@ Dim i As Int
 Dim filepointer As Int
 Dim rate As Int, bpp As Int
 
+Dim padulaw|(16)
+ArrayFill padulaw|(), $ff
+
 Dim pad$ = "rb+ rb+ rb+ rb+ "
 While Not EOF(# 1)
   Print # 10; "    Reading assets.txt line"
@@ -294,8 +297,8 @@ While Not EOF(# 1)
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
-      BPut # 2, V:pad$, 3       ' pad with zeros (cover corner case)
 '##E#
+      BPut # 2, V:padulaw|(0), 3       ' pad with $ff (cover corner case)
       Close # 5
       Add ass_adr%, size + 3
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
@@ -303,7 +306,7 @@ While Not EOF(# 1)
     Else
       Print # 10; "        Adding in RAM..."
       Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".ul" + packext$ + """"
-      Print # 6; ".dc.b 0,0,0"
+      Print # 6; ".dc.b $ff,$ff,$ff"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
