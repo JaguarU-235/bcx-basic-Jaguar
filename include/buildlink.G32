@@ -9,7 +9,6 @@
 Mode StrSpace 0
 
 Global Const __argmax = 50
-'##E#
 Global __argc As Int
 Global __argv() As String
 ConvertCMDLine
@@ -82,7 +81,7 @@ Dim i As Int
 Dim filepointer As Int
 Dim rate As Int, bpp As Int
 
-Dim pad$ = "PUSH THE BUTTON!"
+Dim pad$ = "rb+ rb+ rb+ rb+ "
 While Not EOF(# 1)
   Print # 10; "    Reading assets.txt line"
   filepointer = Seek(# 1)
@@ -103,6 +102,13 @@ While Not EOF(# 1)
   'Align to 16 bytes, just cause I say so :P
   BPut # 2, V:pad$, (16 - (ass_adr% And $f)) And $f
   ass_adr% = (ass_adr% + 15) And $fffffff0
+
+  'After the first align zero the pad string (we want to pad with zeros)
+  LPoke V:pad$, 0
+  LPoke V:pad$ + 4, 0
+  LPoke V:pad$ + 8, 0
+  LPoke V:pad$ + 12, 0
+
   fullname$ = basedir$ + "\" + assetfile$
   fullnameslash$ = assetfile$
   plainfile$ = SubStr(assetfile$, RInStr(assetfile$, "\") + 1)
@@ -247,13 +253,15 @@ While Not EOF(# 1)
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
+      BPut # 2, V:pad$, 3       ' pad with zeros (cover corner case)
       Close # 5
-      Add ass_adr%, size
+      Add ass_adr%, size + 3
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
       Print # 10; "        Adding in RAM..."
       Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".raw" + packext$ + """"
+      Print # 6; ".dc.b 0,0,0"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
@@ -286,13 +294,16 @@ While Not EOF(# 1)
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
+      BPut # 2, V:pad$, 3       ' pad with zeros (cover corner case)
+'##E#
       Close # 5
-      Add ass_adr%, size
+      Add ass_adr%, size + 3
       Print # 3; varname$; "_end EQU $"; Hex$(ass_adr%)
       Print # 4; "#define "; varname$; "_end 0x"; Hex$(ass_adr%)
     Else
       Print # 10; "        Adding in RAM..."
       Print # 6; varname$; ": incbin ""build/" + plainfile$ + ".ul" + packext$ + """"
+      Print # 6; ".dc.b 0,0,0"
       Print # 6; varname$; "_end:"
       Print # 6; ".extern " + varname$
       Print # 6; ".extern " + varname$ + "_end"
