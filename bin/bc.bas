@@ -942,7 +942,7 @@ GLOBAL  Use_VT
 GLOBAL  O1$    '  "%o"
 GLOBAL  S1$    '  "%s"
 GLOBAL  S2$    '  "%s%s"
-GLOBAL  D1$    '  "% .15G"
+GLOBAL  D1$    '  "%G"
 GLOBAL  D2$    '  "% .19LG"
 GLOBAL  X1$    '  "%X"
 GLOBAL  T0$    '  "%H:%M:%S"
@@ -6442,7 +6442,7 @@ SUB TokenSubstitutions
 		Stk$[Tmp] = "delay"
 		
         CASE "dpeek"
-        Stk$[Tmp] = "*(volatile short *)"
+        Stk$[Tmp] = "dpeek"
 
         CASE "declare"
         CallType$ = "__stdcall "
@@ -6926,7 +6926,7 @@ SUB TokenSubstitutions
       SELECT CASE Keyword$
 
         CASE "lpeek"
-        Stk$[Tmp] = "*(volatile int *)"
+        Stk$[Tmp] = "lpeek"
           
         CASE "loadfile$"
         Stk$[Tmp]= "$$LoadFile$"
@@ -7207,7 +7207,7 @@ SUB TokenSubstitutions
       SELECT CASE Keyword$
 
         CASE "peek"
-        Stk$[Tmp] = "*(volatile char *)"
+        Stk$[Tmp] = "peek"
 
         CASE "plot"
         Stk$[Tmp] = "plot"
@@ -13401,6 +13401,9 @@ SUB EmitProlog
   FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
   FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
   FPRINT Outfile,"//Lines inserted deliberately because of some bcx brokeness - fix at some point!"
+  FPRINT Outfile,"#define peek(x) (*(volatile char *)(x))"
+  FPRINT Outfile,"#define dpeek(x) (*(volatile short *)(x))"
+  FPRINT Outfile,"#define lpeek(x) (*(volatile int *)(x))"
 
   IF Use_Library THEN
     FPRINT Outfile,"// END BCXRTHEADER\n\n"
@@ -14560,11 +14563,11 @@ SUB AddProtos
     END IF
 
     IF Use_Str THEN
-      FPRINT Outfile,"char*   str (double);"
+      FPRINT Outfile,"char*   str (float);"
     END IF
 
     IF Use_Strl THEN
-      FPRINT Outfile,"char*   strl (long double);"
+      FPRINT Outfile,"char*   strl (float);"
     END IF
 
     IF Use_Findfirst THEN
@@ -15687,10 +15690,10 @@ SUB RunTimeFunctions
 
   IF Use_Str THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: str"
-    FPRINT Outfile,"char *str (double d)"
+    FPRINT Outfile,"char *str (float d)"
     FPRINT Outfile,"{"
     FPRINT Outfile,"  register char *strtmp = BCX_TmpStr(16);"
-    FPRINT Outfile,"  sprintf(strtmp,";D1$;",d);"
+    FPRINT Outfile,"  ee_printf(strtmp,";D1$;",d);"
     FPRINT Outfile,"  return strtmp;"
     FPRINT Outfile,"}\n\n"
     IF Use_Library THEN FPRINT Outfile,"// ENDBCXRTLIB "
@@ -15698,7 +15701,7 @@ SUB RunTimeFunctions
 
   IF Use_Strl THEN
     IF Use_Library THEN FPRINT Outfile,"// BCXRTLIB: strl"
-    FPRINT Outfile,"char *strl (long double d)"
+    FPRINT Outfile,"char *strl (float d)"
     FPRINT Outfile,"{"
     FPRINT Outfile,"  register char *strtmp = BCX_TmpStr(27);"
     FPRINT Outfile,"  sprintf(strtmp,";D2$;",d);"
