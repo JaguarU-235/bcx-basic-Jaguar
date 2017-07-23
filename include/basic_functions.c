@@ -86,6 +86,7 @@ extern void powablitlist(void *blitlist) asm("powablitlist");
 extern int powaeeprom(int readwrite, void *buffer) asm ("powaeeprom");
 extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
 extern void RAPTOR_blitter_full() asm("RAPTOR_blitter_full");
+void hiscore_sort(short table_to_sort) asm("hiscore_sort");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -114,10 +115,19 @@ unsigned long zero_left_pad asm("zero_left_pad")=0;
 
 extern void eeReadBank();
 extern void eeWriteBank();
+long position_in_highscore asm("position_in_highscore")=0;
 
 //
 // And now, teh c0d3!!!111
 //
+// -----------------------------------------------------------------------------
+void hiscore_sort(short table_to_sort)
+{
+	__asm__ ("\tmove.l d1,-(a7)\n\t"
+	"move.w 8(a6),d1\n\t"
+	"jsr RAPTOR_resort_score_table\n\t"
+	"move.l (a7)+,d1");	
+}
 // -----------------------------------------------------------------------------
 void fullpowablitlist(void *blitlist)
 {
@@ -754,7 +764,11 @@ short hiscore_check(int score, char *name)
 {
 	__asm__ ("\tmove.l 8(a6),d0\n\t"
 	"move.l 12(a6),a0\n\t"
-	"jsr RAPTOR_chk_highscores\n\t");
+    "movem.l d1/d2/d3/d4/d5/d6/d7/a1/a2/a3/a4/a5,-(sp)\n\t"
+    "move.l 16(a6),d1\n\t"
+	"jsr RAPTOR_chk_highscores\n\t"
+    "move.l d7,position_in_highscore\n\t"
+    "movem.l (sp),d1/d2/d3/d4/d5/d6/d7/a1/a2/a3/a4/a5\n\t");
 }
 // -----------------------------------------------------------------------------
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command)

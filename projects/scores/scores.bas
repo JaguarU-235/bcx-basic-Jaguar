@@ -100,7 +100,7 @@ RPRINT "After a highscore of 432 points:"
 basic_r_indx=0
 name$="I WON!!!"                                        'the name we're going to inject to the table
 if hiscore_check(432,name$)>0 then                      'check for highscore and inject score + name
-    call RAPTOR_resort_score_table                      'if we have a highscore, then sort the table
+    call hiscore_sort(0)                                'if we have a highscore, then sort the table
 endif
 for i=0 to 9                                            'now, display the modified table
     RLOCATE 0,8*10+8+8+8+i*8

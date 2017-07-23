@@ -149,6 +149,8 @@ extern void powaunpack(int source, int destination) asm("powaunpack");
 extern void powablitlist(void *blitlist) asm("powablitlist");
 extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
 extern void RAPTOR_particle_clear() asm ("RAPTOR_particle_clear");
+extern int position_in_highscore asm("position_in_highscore");
+extern void hiscore_sort(short table_to_sort) asm("hiscore_sort");
 
 /* Construct binary constants at compile time
    Code by Tom Torfs */
