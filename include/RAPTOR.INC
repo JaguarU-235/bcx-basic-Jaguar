@@ -271,10 +271,16 @@ raptor_t_right			equ				-7								; Subspace right 2 pixels
 	.extern		raptor_samplebank_ptr
 	.extern		raptor_map_position_x
 	.extern		raptor_map_position_y
-	.extern		raptor_highscores_hex
-	.extern		raptor_highscores_nam
-	.extern		raptor_last_score_hex
-	.extern		raptor_last_score_name
+    .extern     raptor_highscores1_hex
+    .extern     raptor_highscores1_nam
+    .extern     raptor_highscores2_hex
+    .extern     raptor_highscores2_nam
+    .extern     raptor_highscores3_hex
+    .extern     raptor_highscores3_nam
+    .extern     raptor_highscores4_hex
+    .extern     raptor_highscores4_nam
+    .extern     raptor_highscores5_hex
+    .extern     raptor_highscores5_nam
 	.extern		raptor_mt_present
 	.extern		raptor_ticks
 	.extern		raptor_liststart

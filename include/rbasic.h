@@ -33,8 +33,16 @@ extern int raptor_used_particles asm("raptor_used_particles");
 extern int raptor_free_particles asm("raptor_free_particles");
 extern void *RAPTOR_particle_gfx asm("RAPTOR_particle_gfx");
 extern int raptor_mt_present asm("raptor_mt_present");
-extern int raptor_highscores_hex[128] asm("raptor_highscores_hex");
-extern char raptor_highscores_nam[10][8] asm("raptor_highscores_nam");
+extern int raptor_highscores1_hex[128] asm("raptor_highscores1_hex");
+extern char raptor_highscores1_nam[10][8] asm("raptor_highscores1_nam");
+extern int raptor_highscores2_hex[128] asm("raptor_highscores2_hex");
+extern char raptor_highscores2_nam[10][8] asm("raptor_highscores2_nam");
+extern int raptor_highscores3_hex[128] asm("raptor_highscores3_hex");
+extern char raptor_highscores3_nam[10][8] asm("raptor_highscores3_nam");
+extern int raptor_highscores4_hex[128] asm("raptor_highscores4_hex");
+extern char raptor_highscores4_nam[10][8] asm("raptor_highscores4_nam");
+extern int raptor_highscores5_hex[128] asm("raptor_highscores5_hex");
+extern char raptor_highscores5_nam[10][8] asm("raptor_highscores5_nam");
 extern unsigned long zero_left_pad asm("zero_left_pad");
 extern unsigned long zero_right_pad asm("zero_right_pad");
 extern long zero_mousex_delta asm("zero_mousex_delta");
@@ -151,6 +159,10 @@ extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
 extern void RAPTOR_particle_clear() asm ("RAPTOR_particle_clear");
 extern int position_in_highscore asm("position_in_highscore");
 extern void hiscore_sort(short table_to_sort) asm("hiscore_sort");
+
+#define raptor_highscores_hex raptor_highscores1_hex
+#define raptor_highscores_nam raptor_highscores1_nam
+
 
 /* Construct binary constants at compile time
    Code by Tom Torfs */
