@@ -135,7 +135,7 @@ extern int fadesingle(short clut_index,short target_col) asm("fadesingle");
 int fadepal(int clut_no,int fade_cols,int *palette) asm("fadepal");
 extern short raptor_fade_delay asm("raptor_fade_delay");
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
-extern short hiscore_check(int score, char *name) asm("hiscore_check");
+extern short hiscore_check(int score, char *name, int table) asm("hiscore_check");
 extern void RAPTOR_resort_score_table() asm("RAPTOR_resort_score_table");
 extern void RAPTOR_mt_save() asm("RAPTOR_mt_save");
 extern void ZEROPAD() asm("ZEROPAD");

@@ -70,7 +70,7 @@ extern void RAPTOR_wait_frame() asm ("RAPTOR_wait_frame");
 extern int RUPDALL_FLAG asm ("RUPDALL_FLAG");
 extern void Audio_Play() asm ("Audio_Play");
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command) asm("SNDZEROPLAY");
-short hiscore_check(int score, char *name) asm("hiscore_check");
+short hiscore_check(int score, char *name, int table) asm("hiscore_check");
 extern void ZEROPAD() asm("ZEROPAD");
 extern void Input_Read() asm("Input_Read");
 extern void powaset(int spr_index, int offset, int no_of_times, void *array_of_values) asm("powaset");
@@ -760,7 +760,7 @@ void ZEROPAD()
             "movm.l (sp)+,d0-d4\n\t");
 }
 // -----------------------------------------------------------------------------
-short hiscore_check(int score, char *name)
+short hiscore_check(int score, char *name, int table)
 {
 	__asm__ ("\tmove.l 8(a6),d0\n\t"
 	"move.l 12(a6),a0\n\t"
