@@ -158,7 +158,7 @@ extern void powablitlist(void *blitlist) asm("powablitlist");
 extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
 extern void RAPTOR_particle_clear() asm ("RAPTOR_particle_clear");
 extern int position_in_highscore asm("position_in_highscore");
-extern void hiscore_sort(short table_to_sort) asm("hiscore_sort");
+extern void hiscore_sort(int table_to_sort) asm("hiscore_sort");
 
 #define raptor_highscores_hex raptor_highscores1_hex
 #define raptor_highscores_nam raptor_highscores1_nam

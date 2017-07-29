@@ -86,7 +86,7 @@ extern void powablitlist(void *blitlist) asm("powablitlist");
 extern int powaeeprom(int readwrite, void *buffer) asm ("powaeeprom");
 extern void fullpowablitlist(void *blitlist) asm("fullpowablitlist");
 extern void RAPTOR_blitter_full() asm("RAPTOR_blitter_full");
-void hiscore_sort(short table_to_sort) asm("hiscore_sort");
+void hiscore_sort(int table_to_sort) asm("hiscore_sort");
 
 unsigned char plot_colour=0;
 int errno=0; //needed by some libc/libm functions
@@ -121,7 +121,7 @@ long position_in_highscore asm("position_in_highscore")=0;
 // And now, teh c0d3!!!111
 //
 // -----------------------------------------------------------------------------
-void hiscore_sort(short table_to_sort)
+void hiscore_sort(int table_to_sort)
 {
 	__asm__ ("\tmove.l d1,-(a7)\n\t"
 	"move.w 8(a6),d1\n\t"
