@@ -124,7 +124,7 @@ long position_in_highscore asm("position_in_highscore")=0;
 void hiscore_sort(int table_to_sort)
 {
 	__asm__ ("\tmove.l d1,-(a7)\n\t"
-	"move.w 8(a6),d1\n\t"
+	"move.l 8(a6),d1\n\t"
 	"jsr RAPTOR_resort_score_table\n\t"
 	"move.l (a7)+,d1");	
 }
@@ -768,7 +768,7 @@ short hiscore_check(int score, char *name, int table)
     "move.l 16(a6),d1\n\t"
 	"jsr RAPTOR_chk_highscores\n\t"
     "move.l d7,position_in_highscore\n\t"
-    "movem.l (sp),d1/d2/d3/d4/d5/d6/d7/a1/a2/a3/a4/a5\n\t");
+    "movem.l (sp)+,d1/d2/d3/d4/d5/d6/d7/a1/a2/a3/a4/a5\n\t");
 }
 // -----------------------------------------------------------------------------
 void SNDZEROPLAY(int channel, void *sound_address, int sample_size, int sample_divider, int play_command)
