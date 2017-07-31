@@ -1,3 +1,6 @@
+- New command hiscore_sort(table) which sorts tables 0 to 4. Also changed functionality of hiscore_check to hiscore_check(score,name$,table) so it can check tables 0 to 4.
+- Added project scoresadvanced that demonstrates the new multiple hiscore tables functionality.
+- New raptor.o with multiple score tables. 5 scores tables are supported now.
 - Fixed peek() to not issue compiler errors. Also made str$ also compile ok (although it does not function properly)
 - Added new project "drawmap" that shows how to store maps in rb+ and draw them to a playfield object from a tile map bitmap object.
 - New helper macros xdivs(a,b), xdivu(a,b) will divide a by b (signed or unsigned). Notice that a should be 32bit, b 16bit and the result also 16bit. New helper macros xmuls(a,b), xmulu(a,b) will multiply a with b (signed or unsigned). a and b are 16bit and the result 32bit.
