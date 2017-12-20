@@ -297,7 +297,6 @@ While Not EOF(# 1)
       size = LOF(# 5)
       BGet # 5, tempadr, size
       BPut # 2, tempadr, size
-'##E#
       BPut # 2, V:padulaw|(0), 3       ' pad with $ff (cover corner case)
       Close # 5
       Add ass_adr%, size + 3
@@ -385,9 +384,9 @@ Quit 0
 ' convbmp <input filename> <output filename> <colour bit depth> <width in bytes> <height in scanlines>
 ' It will output <filename>.jag
 '
->Procedure convertbmp(file$, dumpclut As Bool)
+Procedure convertbmp(file$, dumpclut As Bool)
   Dim infile$, outfile$
-  Dim depth, width, height, l, i, x As Int
+  Dim depth, realdepth, width, height, l, i, x As Int
   Dim sourceaddr, xBGR As Int
   Dim r As Byte, g As Byte, b As Byte
 
@@ -414,6 +413,7 @@ Quit 0
   width = sourcebmp($15) * $100000 + sourcebmp($14) * $1000 + sourcebmp($13) * $100 + sourcebmp($12)
   height = sourcebmp($19) * $100000 + sourcebmp($18) * $1000 + sourcebmp($17) * $100 + sourcebmp($16)
   depth = sourcebmp($1d) * $100 + sourcebmp($1c)
+  realdepth = depth 'keep a copy for the 16bit output below
   If depth = 24 'special case, user defines bpp. otherwise assume 16
     If bpp = 24
       depth = 24
@@ -548,27 +548,52 @@ Quit 0
     Else
       Print # 10; "        Destination file " + outfile$ + ".gfxdata already exists and is newer than the source file - skipping"
     EndIf
-  Case 16                          '***************** 16-bit raw
-    If checkdate(file$, outfile$ + ".gfxdata")
-      screenstart = 54
-      Dim outbuffer16(width * height) As Word
-      destindex = width * (height - 1)
-      For i = 1 To height
-        For x = 0 To width - 1
-          'Print screenstart
-          r = Shr|(sourcebmp(screenstart + 2), 3)
-          g = Shr|(sourcebmp(screenstart + 1), 2)
-          b = Shr|(sourcebmp(screenstart + 0), 3)
-          outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
-          Add screenstart, 3
-        Next x
-        Sub destindex, width
-      Next i
-      Open outfile$ + ".gfxdata" for Binary As # 5
-      BPut # 5, V:outbuffer16(0), 2 * width * height
-      Close # 5
-    Else
-      Print # 10; "        Destination file " + outfile$ + ".gfxdata already exists and is newer than the source file - skipping"
+  Case 16
+    If realdepth = 24 '***************** input 24-bit, output 16-bit raw
+      If checkdate(file$, outfile$ + ".gfxdata")
+        screenstart = 54
+        Dim outbuffer16(width * height) As Word
+        destindex = width * (height - 1)
+        For i = 1 To height
+          For x = 0 To width - 1
+            'Print screenstart
+            r = Shr|(sourcebmp(screenstart + 2), 3)
+            g = Shr|(sourcebmp(screenstart + 1), 2)
+            b = Shr|(sourcebmp(screenstart + 0), 3)
+            outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
+            Add screenstart, 3
+          Next x
+          Sub destindex, width
+        Next i
+        Open outfile$ + ".gfxdata" for Binary As # 5
+        BPut # 5, V:outbuffer16(0), 2 * width * height
+        Close # 5
+      Else
+        Print # 10; "        Destination file " + outfile$ + ".gfxdata already exists and is newer than the source file - skipping"
+      EndIf
+    ElseIf realdepth = 16 '***************** input 16-bit, output 16-bit raw
+      If checkdate(file$, outfile$ + ".gfxdata")
+'##E#
+        screenstart = sourcebmp($e) + (sourcebmp($f) << 8) + (sourcebmp($10) << 16) + (sourcebmp($11) << 24)
+        Dim outbuffer16(width * height) As Word
+        destindex = width * (height - 1)
+        For i = 1 To height
+          For x = 0 To width - 1
+            'Print screenstart
+            r = Shr|(sourcebmp(screenstart + 1), 3)
+            g = Shr&((sourcebmp(screenstart + 1) << 8) + sourcebmp(screenstart + 0), 5) And $3f
+            b = Shr|(sourcebmp(screenstart + 0), 0) And $1f
+            outbuffer16(destindex + x) = Ror&(Shl&(r, 11) + Shl&(b, 6) + g, 8)
+            Add screenstart, 2
+          Next x
+          Sub destindex, width
+        Next i
+        Open outfile$ + ".gfxdata" for Binary As # 5
+        BPut # 5, V:outbuffer16(0), 2 * width * height
+        Close # 5
+      Else
+        Print # 10; "        Destination file " + outfile$ + ".gfxdata already exists and is newer than the source file - skipping"
+      EndIf
     EndIf
   Case 24                          '***************** 24-bit raw
     If checkdate(file$, outfile$ + ".gfxdata")
