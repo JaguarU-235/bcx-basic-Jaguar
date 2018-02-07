@@ -1,3 +1,4 @@
+- New build switch FASTDEPACK: if passed while building a ROM then the code and data will be depacked using a GPU routine instead of CPU resulting in faster startup times. CONSIDER THIS EXPERIMENTAL FOR NOW - YOU'RE ON YOUR OWN! Buildlink and makerom tools updated to reflect this.
 - Fixed graphics importer for the case of 16bit bmp file. Thanks to Saboteur for bringing this up
 - Added project background that demonstrates transparent text over 4 different backgrounds
 - New command hiscore_sort(table) which sorts tables 0 to 4. Also changed functionality of hiscore_check to hiscore_check(score,name$,table) so it can check tables 0 to 4.

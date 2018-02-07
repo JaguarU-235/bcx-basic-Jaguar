@@ -46,6 +46,8 @@ echo Usage: build.bat projectname
 echo        build.bat projectname sendy
 echo        build.bat projectname ROM
 echo        build.bat projectname ROM sendy
+echo        build.bat projectname ROM FASTDEPACK
+echo        build.bat projectname ROM FASTDEPACK sendy
 echo        build.bat projectname ROM UNPACKED
 echo        build.bat projectname ROM UNPACKED sendy
 echo        build.bat projectname sendy bjl
@@ -60,6 +62,11 @@ echo and will contain all assets to be included in ROM (if any).
 echo By default the rb+ main program is packed into the ROM
 echo and depacked during boot. This can be avoided by passing
 echo the UNPACKED switch.
+echo.
+echo If FASTDEPACK is passed while building a ROM then the
+echo code and data will be depacked using a GPU routine
+echo instead of CPU resulting in faster startup times.
+echo CONSIDER THIS EXPERIMENTAL FOR NOW - YOU'RE ON YOUR OWN!
 echo.
 echo if you specify "new" then a new project will be created
 echo from the "include\template" folder. No project will be
@@ -108,6 +115,21 @@ mkdir %TEMPDIR%
 
 :noclean
 
+rem -------------------------------------------------------------
+rem check if FASTDEPACK was passed
+
+if /i "%2"=="FASTDEPACK" goto :setfast
+if /i "%3"=="FASTDEPACK" goto :setfast
+if /i "%4"=="FASTDEPACK" goto :setfast
+if /i "%5"=="FASTDEPACK" goto :setfast
+if /i "%6"=="FASTDEPACK" goto :setfast
+goto :slowdepack
+
+:setfast
+echo GPU depack selected - helmets on!
+set FASTDEPACK=fastdepack
+
+:slowdepack
 
 rem -------------------------------------------------------------
 rem delete residual files from previous builds
@@ -133,7 +155,7 @@ if exist %BUILDPATH%\romassets.inc del %BUILDPATH%\romassets.inc
 if exist %BUILDPATH%\ramassets.inc del %BUILDPATH%\ramassets.inc
 if exist %TEMPDIR%\linkfile.bin del %TEMPDIR%\linkfile.bin
 echo. >> %TEMPDIR%\build.log
-buildlink %BUILDPATH%\assets.txt %BUILDPATH%
+buildlink %BUILDPATH%\assets.txt %BUILDPATH% %FASTDEPACK%
 if %ERRORLEVEL% == "2" goto :builderror
 if exist %TEMPDIR%\linkfile.bin set ROM_MODE=1
 
@@ -185,10 +207,12 @@ rem Let's build a ROM
 :buildrom
 echo. >> %TEMPDIR%\build.log
 echo Making %PACKROM% ROM... >> %TEMPDIR%\build.log
-makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom %PACKROM%
+makearom %TEMPDIR%\%PROJECTNAME%.bin %TEMPDIR%\linkfile.bin %BUILDPATH%\%PROJECTNAME%.rom %PACKROM% %FASTDEPACK%
 if %ERRORLEVEL% NEQ 0 goto :builderror
 if not exist %BUILDPATH%\%PROJECTNAME%.rom goto :builderror
 
+if /i "%6"=="sendy" goto :sendrom
+if /i "%5"=="sendy" goto :sendrom
 if /i "%4"=="sendy" goto :sendrom
 if /i "%3"=="sendy" goto :sendrom
 if /i "%2"=="sendy" goto :sendrom
@@ -197,6 +221,7 @@ if /i "%2"=="BOSSMODE" goto :veryend
 if /i "%3"=="BOSSMODE" goto :veryend
 if /i "%4"=="BOSSMODE" goto :veryend
 if /i "%5"=="BOSSMODE" goto :veryend
+if /i "%6"=="BOSSMODE" goto :veryend
 echo starting vj >> %TEMPDIR%\build.log
 start virtualjaguar %BUILDPATH%\%PROJECTNAME%.rom --alpine
 goto :veryend
@@ -285,6 +310,7 @@ set CURRENTPATH=
 set CURRENTPATHFULL=
 set TEMPDIR=
 set PROJECTNAME=
+set FASTDEPACK=
 
 goto :eof
 

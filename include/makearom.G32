@@ -5,7 +5,7 @@
 ' Argument 2: path+filename linkfile
 ' Argument 3: destination .rom file
 ' Argument 4: if it's equal to "unpacked" then it will not pack the rom
-'##E#
+' Argument 5: if it's equal to "fastdepack" then the gpu depack code will be used during boot
 ' NOTE: when changing loader bin size also change hardcoded size in buildlink.g32
 '
 Mode StrSpace 0 'fucking VB :P
@@ -20,9 +20,14 @@ ConvertCMDLine()
 'EndIf
 
 Dim packed As Bool = True
+Dim fastdepack As Bool = False
 Dim rblen%
 If __argv(4) = "unpacked"
   packed = False
+EndIf
+
+If __argv(5) = "fastdepack"
+  fastdepack = True
 EndIf
 
 Open __argv(3) for Output As # 1
@@ -57,7 +62,14 @@ Add romlen%, 8192
 '
 Print # 10; "    Dumping startup code..."
 Dim linkcopyrom%
-Open ":copyrom" for Input As # 3
+If fastdepack
+  Print # 10; "    (GPU depacking routine)"
+  Open ":copyrom_gpu" for Input As # 3
+Else
+'##E#
+  Print # 10; "    (CPU depacking routine)"
+  Open ":copyrom" for Input As # 3
+EndIf
 linkcopyrom% = LOF(# 3)
 BGet # 3, b%, linkcopyrom%
 linkcopyrom% = (linkcopyrom% + 15) And $fffffff0 'round size up to multiples of 16
@@ -286,8 +298,19 @@ GDAUDtWM+CA2AkLA//PAHokR8fCAzw/f/DA8A4UQ5HkUTV0Q5b0TPtELJBmDgwjUCtSIig9UA6m+
 OZdYC4k18Bb6O5HA69PcACmASgN0AQGCmhPEYENAlJvcBQHAQDgZEERDBMdQSgBAWIBGCAxUBdRE
 AcADqxNYgdVQlZR4JKBGGFo4BSGGVcRBVLEYwISBVkwAlhuUCZhBAw9FdAAEYJg8mZQELcgGkpOV
 CpSAHFPGAIphVfkEbLx2Rp8/8DGA/zmT1BAAAAAAAA==
+:Copyrom_gpu 524, 664
+IIAUDtWMAIAmCsfAWIgAHC0EvEfivTcISYUEiE54fL//yVBJjgVERMiMhFxEUNvFivE/ZT/WHFfP
+REa8fgDAgAgWwAJGCg7gOAYUxFKxMMQECEbAAAEAjGQiEQABMl0JmvpAS4jx/QPoWLdtgCVwBM0F
+DJIZGHICXKedCKv2iigNq8jOwrm6M/QIECspMeWSLhZ+hUIFYTZa8Jd2jT4hew/LqRE9Q3nfdODh
+DgrC3YC0/8jfQZoF+eSjlWRm+QXoK3hgnZEH6CfnhcoLEFm/UedmMUUTFehZWhecUtd123OWmxco
+Hv+0HG2WHexy2ygA/bOOQG2VjvNYlQatJ8N0RbrCChoI0hLkvMU/8h9QvK5G+hed8G6he1yNeD96
+5NQD96qQFheVzNwC9KC8B+Qv65GwheFC3IM0rY4+M0JI1t06D6D//ES1l////aIE8HIyKHyBGggj
+1JVTukzlJayhdt5AjwkK3BbYVO3dAlDEiEEInLRyfyOHPyhSUCQG4Ns6QQhXLH0c5ZgIt14TqZkM
+PQmD7czBNu3R8GATN5DTqsRz3A2i7gNHWN9kEU8u7PHgJlVw1W4BtcoJad+Zzyqx2lmLwGYuC1y1
+X6q5FmwAn2C2uolDFkzAicsOZbylklEA0IaHYTu49mD1h4YoTIQ6aaDliUudUCEC1jIASCqlwboX
+X2MdQClkwqlIAAA=
 :{frm1 65
-EAAAAAAAAAAAAAAAWWEAAEWRvAQFmJXbxAgElCAAE00UgMFalxGbgQEbnBAAAAACAAAgPAAAACAA
+EAAAAAAAAAAAAAAAWWEAAEWRvAQFmJXbxAgElCAAE20UgMFalxGbgQEbnBAAAAACAAAgPAAAACAA
 AEAAHAAgAAA=
 $ExeName = ..\BIN\makearom.Exe
 $FileDescription = Description

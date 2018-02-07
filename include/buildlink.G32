@@ -3,7 +3,7 @@
 ' (or just convert assets)
 ' 22-Feb-2015 Reboot
 ' Run it like:
-' build link <path+filename of assets file> <base project dir>
+' build link <path+filename of assets file> <base project dir> [fastdepack]
 '
 
 Mode StrSpace 0
@@ -30,7 +30,14 @@ If Not Exist(__argv(1))
 EndIf
 
 Dim any_rom_asset As Bool = False
-Dim base_adr% = $802000 + 224 'rom base address + header + copy routine size (hardcoded for now)
+If __argv(3) = "fastdepack"
+  Print # 10; "Adjusting base address for GPU depack routine"
+  Dim base_adr_gpu% = $802000 + 664 + 8 'rom base address + header + copy routine size (hardcoded for now)
+Else
+'##E#
+  Print # 10; "Adjusting base address for CPU depack routine"
+  Dim base_adr% = $802000 + 224 'rom base address + header + copy routine size (hardcoded for now)
+EndIf
 Dim ass_adr% = base_adr%
 Dim tempbuf(4 * 1024 * 1024) As Byte
 Dim tempadr As Int = V:tempbuf(0)
@@ -573,7 +580,6 @@ Procedure convertbmp(file$, dumpclut As Bool)
       EndIf
     ElseIf realdepth = 16 '***************** input 16-bit, output 16-bit raw
       If checkdate(file$, outfile$ + ".gfxdata")
-'##E#
         screenstart = sourcebmp($e) + (sourcebmp($f) << 8) + (sourcebmp($10) << 16) + (sourcebmp($11) << 24)
         Dim outbuffer16(width * height) As Word
         destindex = width * (height - 1)
