@@ -156,7 +156,7 @@ if exist %BUILDPATH%\ramassets.inc del %BUILDPATH%\ramassets.inc
 if exist %TEMPDIR%\linkfile.bin del %TEMPDIR%\linkfile.bin
 echo. >> %TEMPDIR%\build.log
 buildlink %BUILDPATH%\assets.txt %BUILDPATH% %FASTDEPACK%
-if %ERRORLEVEL% == "2" goto :builderror
+if %ERRORLEVEL% == 2 goto :builderror
 if exist %TEMPDIR%\linkfile.bin set ROM_MODE=1
 
 rem -------------------------------------------------------------
