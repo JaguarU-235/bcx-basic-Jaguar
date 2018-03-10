@@ -102,8 +102,10 @@ extern void MODPLAY(int module) asm ("_MODPLAY");
 extern void SNDPLAY(int sampleno, int channel) asm ("_SNDPLAY");
 extern void RPARTI(int *fx) asm ("_RPARTI");
 extern void RSETLIST(int list_index) asm ("_RSETLIST");
-extern void RSETOBJ(int spr_index, int offset, int value) asm ("_RSETOBJ");
-extern int RGETOBJ(int spr_index, int offset) asm ("_RGETOBJ");
+//extern void RSETOBJ(int spr_index, int offset, int value) asm ("_RSETOBJ");
+//extern int RGETOBJ(int spr_index, int offset) asm ("_RGETOBJ");
+#define RSETOBJ(spr_index,offset,value) ((RAPTOR_LIST *)raptor_liststart)[spr_index].offset=value
+#define RGETOBJ(spr_index,offset) ((RAPTOR_LIST *)raptor_liststart)[spr_index].offset
 extern int RHIT(int r_sl, int r_sh, int r_tl, int r_th) asm ("_RHIT");
 extern void RUPDALL(volatile int update) asm ("_RUPDALL");
 extern void RSETMAP(int x,int y) asm ("_RSETMAP");

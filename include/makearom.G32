@@ -66,7 +66,6 @@ If fastdepack
   Print # 10; "    (GPU depacking routine)"
   Open ":copyrom_gpu" for Input As # 3
 Else
-'##E#
   Print # 10; "    (CPU depacking routine)"
   Open ":copyrom" for Input As # 3
 EndIf
@@ -133,8 +132,9 @@ EndIf
 
 '
 ' Finally, pad the ROM
+'##E#
 '
-
+Print # 10; "    ROM size without padding="; rblen%; " bytes"
 Print # 10; "    Padding ROM..."
 Dim pad$
 pad$ = String$(8 * 1024 * 1024 / 24, "RB+ (C) Reboot 2014-2017 ")
@@ -310,7 +310,7 @@ PQmD7czBNu3R8GATN5DTqsRz3A2i7gNHWN9kEU8u7PHgJlVw1W4BtcoJad+Zzyqx2lmLwGYuC1y1
 X6q5FmwAn2C2uolDFkzAicsOZbylklEA0IaHYTu49mD1h4YoTIQ6aaDliUudUCEC1jIASCqlwboX
 X2MdQClkwqlIAAA=
 :{frm1 65
-EAAAAAAAAAAAAAAAWWEAAEWRvAQFmJXbxAgElCAAE20UgMFalxGbgQEbnBAAAAACAAAgPAAAACAA
+EAAAAAAAAAAAAAAAWWEAAEWRvAQFmJXbxAgElCAAE00UgMFalxGbgQEbnBAAAAACAAAgPAAAACAA
 AEAAHAAgAAA=
 $ExeName = ..\BIN\makearom.Exe
 $FileDescription = Description

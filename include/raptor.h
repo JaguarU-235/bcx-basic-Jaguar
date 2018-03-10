@@ -197,6 +197,58 @@ PAD_B			=		2097152	, // B button
 PAD_C			=		33554432	  // C button
 };
 
+// These defines alias R_sprite_* to * in an attempt to get rid of
+// restobj/rgetobj and replace it with rlist but without people
+// having to change anything in their sources!
+
+#define R_sprite_obj		obj	
+#define R_sprite_active		active
+#define R_sprite_x			x
+#define R_sprite_y			y
+#define R_sprite_xadd		xadd
+#define R_sprite_yadd		yadd
+#define R_sprite_flip		flip
+#define R_sprite_width		width
+#define R_sprite_height		height
+#define R_sprite_vbox		vbox
+#define R_sprite_hbox		hbox
+#define R_sprite_gfxbase	gfxbase
+#define R_sprite_framesz	framesz
+#define R_sprite_framedel	framedel
+#define R_sprite_curframe	curframe
+#define R_sprite_maxframe	maxframe
+#define R_sprite_animloop	animloop
+#define R_sprite_wrap		wrap
+#define R_sprite_timer		timer
+#define R_sprite_track		track
+#define R_sprite_colchk		colchk
+#define R_sprite_scaled		scaled
+#define R_sprite_scale_x	scale_x
+#define R_sprite_scale_y	scale_y
+#define R_sprite_CLUT		CLUT
+#define R_sprite_animspd	animspd
+#define R_sprite_bytewid	bytewid
+#define R_sprite_tracktop	tracktop
+#define R_sprite_was_hit	was_hit
+#define R_sprite_coffx		coffx
+#define R_sprite_coffy		coffy
+#define R_sprite_remhit		remhit
+#define R_sprite_bboxlink	bboxlink
+#define R_sprite_hitpoint	hitpoint
+#define R_sprite_damage		damage
+#define R_sprite_flash		flash
+#define R_sprite_gwidth		gwidth
+#define R_sprite_rmotion	rmotion
+#define R_sprite_rmcurfrm	rmcurfrm
+#define R_sprite_rmfrm		rmfrm
+#define R_sprite_userdat1	userdat1
+#define R_sprite_userdat2	userdat2
+#define R_sprite_userdat3	userdat3
+#define R_sprite_userdat4	userdat4
+#define R_sprite_userdat5	userdat5
+#define R_sprite_userdat6	userdat6
+#define R_sprite_userdat7	userdat7
+
 // Next is the full jaguar.inc, converted into #defines
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

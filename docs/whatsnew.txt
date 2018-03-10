@@ -1,3 +1,5 @@
+- Replaced RSETOBJ and RGETOBJ with rlist counterparts internally.
+- Added ROM size without padding report in build log.
 - New build switch FASTDEPACK: if passed while building a ROM then the code and data will be depacked using a GPU routine instead of CPU resulting in faster startup times. CONSIDER THIS EXPERIMENTAL FOR NOW - YOU'RE ON YOUR OWN! Buildlink and makerom tools updated to reflect this.
 - Fixed graphics importer for the case of 16bit bmp file. Thanks to Saboteur for bringing this up
 - Added project background that demonstrates transparent text over 4 different backgrounds
