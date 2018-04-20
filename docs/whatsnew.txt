@@ -1,3 +1,5 @@
+- Added Barbarian ST source code with the kind permission of their author.
+- Added Barbarian CPC and C64 source code with the kind permission of their author.
 - Replaced RSETOBJ and RGETOBJ with rlist counterparts internally.
 - Added ROM size without padding report in build log.
 - New build switch FASTDEPACK: if passed while building a ROM then the code and data will be depacked using a GPU routine instead of CPU resulting in faster startup times. CONSIDER THIS EXPERIMENTAL FOR NOW - YOU'RE ON YOUR OWN! Buildlink and makerom tools updated to reflect this.
