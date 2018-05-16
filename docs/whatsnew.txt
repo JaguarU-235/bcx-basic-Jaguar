@@ -1,4 +1,5 @@
-- Added Barbarian ST source code with the kind permission of their author.
+- Added Barbarian Amiga source code with the kind permission of its author.
+- Added Barbarian ST source code with the kind permission of its author.
 - Added Barbarian CPC and C64 source code with the kind permission of their author.
 - Replaced RSETOBJ and RGETOBJ with rlist counterparts internally.
 - Added ROM size without padding report in build log.
