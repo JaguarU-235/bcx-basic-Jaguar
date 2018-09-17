@@ -34,7 +34,6 @@ If __argv(3) = "fastdepack"
   Print # 10; "Adjusting base address for GPU depack routine"
   Dim base_adr_gpu% = $802000 + 664 + 8 'rom base address + header + copy routine size (hardcoded for now)
 Else
-'##E#
   Print # 10; "Adjusting base address for CPU depack routine"
   Dim base_adr% = $802000 + 224 'rom base address + header + copy routine size (hardcoded for now)
 EndIf
@@ -434,11 +433,12 @@ Procedure convertbmp(file$, dumpclut As Bool)
   ' Convert palette to jag format
   '
   If depth < 16
-    If sourcebmp($1c) <> 4
-      xBGR = 53
-    Else
-      xBGR = $35
-    EndIf
+    'If sourcebmp($1c) <> 4
+    'xBGR = 53
+    'Else
+    'xBGR = $35
+    'EndIf
+    xBGR = 12 + DPeek(sourceaddr + $e) + 1
     Dim palette(255) As Word
     Dim red, green, blue As Word
     For i = 0 To (2 ^ depth) - 1
@@ -453,8 +453,12 @@ Procedure convertbmp(file$, dumpclut As Bool)
   '
   ' Do the conversion
   '
-  Dim screenstart, destindex As Int
+  Dim screenstart As Int, destindex As Int
   Dim col As Byte
+
+  screenstart = DPeek(sourceaddr + $a)
+'##E#
+
   Select depth
   Case -1                         '***************** just dump the palette & exit
     Open file$ for Binary As # 5
@@ -482,7 +486,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
 
       Open outfile$ + ".gfxdata" for Output As # 5
 
-      screenstart = 62
+      'screenstart = 62
       If width >= 32
         For i = height - 1 DownTo 0
           BPut # 5, V:sourcebmp(screenstart + i * (width / 8)), width / 8
@@ -499,7 +503,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
   Case 4                          '***************** 4-bit
     If checkdate(file$, outfile$ + ".gfxdata")
       width = width / 2
-      screenstart = 54 + 64
+      'screenstart = 54 + 64
       Dim outbuffer(width * height) As Byte
       destindex = width * (height - 1)
       For i = 1 To height
@@ -530,7 +534,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
     EndIf
   Case 8                          '***************** 8-bit
     If checkdate(file$, outfile$ + ".gfxdata")
-      screenstart = 1024 + 54
+      'screenstart = 1024 + 54
       Dim outbuffer(width * height) As Byte
       destindex = width * (height - 1)
       For i = 1 To height
@@ -558,7 +562,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
   Case 16
     If realdepth = 24 '***************** input 24-bit, output 16-bit raw
       If checkdate(file$, outfile$ + ".gfxdata")
-        screenstart = 54
+        'screenstart = 54
         Dim outbuffer16(width * height) As Word
         destindex = width * (height - 1)
         For i = 1 To height
@@ -580,7 +584,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
       EndIf
     ElseIf realdepth = 16 '***************** input 16-bit, output 16-bit raw
       If checkdate(file$, outfile$ + ".gfxdata")
-        screenstart = sourcebmp($e) + (sourcebmp($f) << 8) + (sourcebmp($10) << 16) + (sourcebmp($11) << 24)
+        'screenstart = sourcebmp($e) + (sourcebmp($f) << 8) + (sourcebmp($10) << 16) + (sourcebmp($11) << 24)
         Dim outbuffer16(width * height) As Word
         destindex = width * (height - 1)
         For i = 1 To height
@@ -603,7 +607,7 @@ Procedure convertbmp(file$, dumpclut As Bool)
     EndIf
   Case 24                          '***************** 24-bit raw
     If checkdate(file$, outfile$ + ".gfxdata")
-      screenstart = 54
+      'screenstart = 54
       Dim outbuffer24(width * height * 3) As Byte
       destindex = width * (height - 1) * 3
       For i = 1 To height

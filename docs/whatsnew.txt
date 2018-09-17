@@ -1,3 +1,5 @@
+- Fixed BMP import in a few cases
+- Added Barbarian PC source code with the kind permission of its author.
 - Added Barbarian Amiga source code with the kind permission of its author.
 - Added Barbarian ST source code with the kind permission of its author.
 - Added Barbarian CPC and C64 source code with the kind permission of their author.
